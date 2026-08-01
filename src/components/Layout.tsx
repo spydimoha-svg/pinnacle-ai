@@ -1,4 +1,5 @@
-import { NavLink, Outlet, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import { NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
 import {
   LayoutDashboard,
   MessageCircle,
@@ -53,6 +54,7 @@ const NAV: Record<Role, { to: string; label: string; icon: typeof LayoutDashboar
 
 export default function Layout({ role }: { role: Role }) {
   const navigate = useNavigate();
+  const location = useLocation();
   const user = useStore((s) => s.currentUser);
   const memory = useStore((s) =>
     s.currentUser && s.currentUser.role === "student"
@@ -61,6 +63,13 @@ export default function Layout({ role }: { role: Role }) {
   );
   const logout = useStore((s) => s.logout);
   const items = NAV[role];
+
+  useEffect(() => {
+    const active = [...items]
+      .sort((a, b) => b.to.length - a.to.length)
+      .find((item) => (item.end ? location.pathname === item.to : location.pathname.startsWith(item.to)));
+    document.title = active ? `${active.label} — Pinnacle AI` : "Pinnacle AI — Your CBSE Board Buddy";
+  }, [items, location.pathname]);
 
   const signOut = () => {
     logout();
