@@ -69,6 +69,12 @@ export default function Layout({ role }: { role: Role }) {
 
   return (
     <div className="min-h-screen flex">
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:rounded-md focus:bg-ink focus:px-4 focus:py-2 focus:text-cream"
+      >
+        Skip to content
+      </a>
       {/* Sidebar */}
       <aside className="w-60 shrink-0 border-r border-line bg-pit/60 flex flex-col fixed inset-y-0 left-0 z-40 max-lg:hidden">
         <div className="px-5 py-5">
@@ -144,7 +150,7 @@ export default function Layout({ role }: { role: Role }) {
           </button>
         </header>
 
-        <main className="p-5 lg:p-8 max-w-6xl mx-auto">
+        <main id="main-content" className="p-5 lg:p-8 max-w-6xl mx-auto">
           <Outlet />
         </main>
 
