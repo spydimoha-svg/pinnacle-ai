@@ -1,0 +1,253 @@
+import type { Question } from "../../lib/types";
+
+// CLASS 9 SCIENCE — board-style question bank.
+// Chapter ids copied verbatim from src/data/curriculum/class9.ts (c9-science-01 … c9-science-12).
+// Physics, chemistry and biology of the current NCERT Class 9 syllabus. `year`
+// is omitted; stems are verified NCERT/board staples.
+
+export const C9_SCIENCE_QUESTIONS: Question[] = [
+  // ── CH 1 · MATTER IN OUR SURROUNDINGS ──
+  {
+    id: "q-c9-science-01-1",
+    subjectId: "c9-science",
+    chapterId: "c9-science-01",
+    classLevel: 9,
+    text: "Why does evaporation cause cooling? State two factors that increase the rate of evaporation.",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer:
+      "During evaporation, the faster-moving (higher-energy) particles at the surface of a liquid escape into the air. To do so they absorb the required latent heat of vaporisation from the surroundings and from the liquid itself. As the surroundings lose this heat, their temperature falls — so evaporation produces a cooling effect.\n\nTwo factors that increase the rate of evaporation:\n1. An increase in surface area.\n2. An increase in temperature (also: an increase in wind speed, or a decrease in humidity).",
+    keywords: [
+      "high-energy surface particles escape",
+      "absorb latent heat of vaporisation from surroundings",
+      "surroundings lose heat → cooling",
+      "factors: surface area, temperature, wind speed, humidity",
+    ],
+    examinerTip:
+      "The word 'latent heat' (or 'heat absorbed from the surroundings') is the key value point — 'particles escape' alone is not enough for full marks.",
+  },
+
+  // ── CH 2 · IS MATTER AROUND US PURE? ──
+  {
+    id: "q-c9-science-02-1",
+    subjectId: "c9-science",
+    chapterId: "c9-science-02",
+    classLevel: 9,
+    text: "Give three differences between a mixture and a compound.",
+    marks: 3,
+    type: "sa",
+    source: "pyq",
+    answer:
+      "Mixture vs Compound:\n1. Composition: A mixture has a variable composition; a compound has a fixed composition by mass.\n2. Properties: A mixture shows the properties of its constituents; a compound has entirely new properties, different from its elements.\n3. Separation: The components of a mixture can be separated by physical methods; a compound can be separated only by chemical methods.\n(Also: no energy change on making a mixture; heat/light is usually evolved or absorbed when a compound forms.)",
+    keywords: [
+      "variable vs fixed composition",
+      "shows constituent properties vs new properties",
+      "physical separation vs chemical separation",
+    ],
+    examinerTip:
+      "Present it as a two-column comparison — CBSE awards a mark per correctly paired difference, so pair each point (mixture side AND compound side).",
+  },
+
+  // ── CH 3 · ATOMS AND MOLECULES ──
+  {
+    id: "q-c9-science-03-1",
+    subjectId: "c9-science",
+    chapterId: "c9-science-03",
+    classLevel: 9,
+    text: "Calculate the number of moles and the number of molecules in 22 g of carbon dioxide (CO₂). (Molar mass of CO₂ = 44 g/mol, N_A = 6.022 × 10²³.)",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer:
+      "Number of moles n = given mass / molar mass = 22 / 44 = 0.5 mol.\n\nNumber of molecules = n × N_A = 0.5 × 6.022 × 10²³ = 3.011 × 10²³ molecules.",
+    keywords: [
+      "moles = mass ÷ molar mass = 22/44 = 0.5 mol",
+      "molecules = moles × 6.022 × 10²³",
+      "3.011 × 10²³ molecules",
+    ],
+    examinerTip:
+      "Write the formula (n = m/M) before the numbers — the method line is a mark even if the arithmetic slips.",
+  },
+
+  // ── CH 4 · STRUCTURE OF THE ATOM ──
+  {
+    id: "q-c9-science-04-1",
+    subjectId: "c9-science",
+    chapterId: "c9-science-04",
+    classLevel: 9,
+    text: "Write the distribution of electrons in a sulphur atom (Z = 16) and state its valency.",
+    marks: 2,
+    type: "vsa",
+    source: "important",
+    answer:
+      "Electronic configuration (using the 2n² rule, filling K, L, M shells):\nK = 2, L = 8, M = 6, i.e. 2, 8, 6.\n\nThe outermost shell has 6 electrons; it needs 2 more to complete the octet, so the valency of sulphur is 2.",
+    keywords: [
+      "distribution 2, 8, 6 (K, L, M)",
+      "outermost shell has 6 electrons",
+      "valency = 8 − 6 = 2",
+    ],
+  },
+
+  // ── CH 5 · THE FUNDAMENTAL UNIT OF LIFE ──
+  {
+    id: "q-c9-science-05-1",
+    subjectId: "c9-science",
+    chapterId: "c9-science-05",
+    classLevel: 9,
+    text: "Give three differences between a plant cell and an animal cell.",
+    marks: 3,
+    type: "sa",
+    source: "pyq",
+    answer:
+      "Plant cell vs Animal cell:\n1. Cell wall: A plant cell has a cell wall (of cellulose) outside the membrane; an animal cell has no cell wall.\n2. Plastids: Plant cells contain plastids (e.g. chloroplasts); animal cells generally lack plastids.\n3. Vacuole: A plant cell has a single large central vacuole; animal cells have small, temporary vacuoles (or none).\n(Also: centrioles are present in animal cells but usually absent in plant cells.)",
+    keywords: [
+      "cell wall present vs absent",
+      "plastids/chloroplasts present vs absent",
+      "large central vacuole vs small/no vacuole",
+    ],
+    examinerTip:
+      "Pair each difference (plant side and animal side). A single-sided statement like 'has a cell wall' earns only half the point.",
+  },
+
+  // ── CH 6 · TISSUES ──
+  {
+    id: "q-c9-science-06-1",
+    subjectId: "c9-science",
+    chapterId: "c9-science-06",
+    classLevel: 9,
+    text: "Name the two components of the vascular tissue in plants and state the function of each.",
+    marks: 2,
+    type: "vsa",
+    source: "important",
+    answer:
+      "The two components are xylem and phloem.\nXylem conducts water and dissolved minerals from the roots to the rest of the plant (upward transport).\nPhloem transports food (prepared in the leaves) to all other parts of the plant (transport in both directions).",
+    keywords: [
+      "xylem and phloem",
+      "xylem — conducts water and minerals upward",
+      "phloem — transports food to all parts",
+    ],
+  },
+
+  // ── CH 7 · MOTION ──
+  {
+    id: "q-c9-science-07-1",
+    subjectId: "c9-science",
+    chapterId: "c9-science-07",
+    classLevel: 9,
+    text: "A body starts from rest and moves with uniform acceleration 2 m/s² for 5 s. Find its final velocity and the distance travelled.",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer:
+      "Given u = 0, a = 2 m/s², t = 5 s.\n\nFinal velocity: v = u + at = 0 + 2 × 5 = 10 m/s.\n\nDistance: s = ut + ½at² = 0 + ½ × 2 × 5² = ½ × 2 × 25 = 25 m.",
+    keywords: [
+      "v = u + at = 10 m/s",
+      "s = ut + ½at² = 25 m",
+      "correct units (m/s and m)",
+    ],
+    examinerTip:
+      "List the known quantities (u, a, t) first — that step is marked, and it stops sign/formula errors.",
+  },
+
+  // ── CH 8 · FORCE AND LAWS OF MOTION ──
+  {
+    id: "q-c9-science-08-1",
+    subjectId: "c9-science",
+    chapterId: "c9-science-08",
+    classLevel: 9,
+    text: "State Newton's second law of motion and use it to find the acceleration produced when a force of 20 N acts on a body of mass 4 kg.",
+    marks: 3,
+    type: "sa",
+    source: "pyq",
+    answer:
+      "Newton's second law: The rate of change of momentum of a body is directly proportional to the applied (net) force and takes place in the direction of the force. This gives F = ma.\n\nFor the numerical part:\na = F/m = 20 N / 4 kg = 5 m/s².",
+    keywords: [
+      "rate of change of momentum ∝ applied force",
+      "in the direction of the force",
+      "F = ma",
+      "a = F/m = 5 m/s²",
+    ],
+    examinerTip:
+      "State the law in the momentum form, then reduce to F = ma — quoting only 'F = ma' without the statement loses the statement mark.",
+  },
+
+  // ── CH 9 · GRAVITATION ──
+  {
+    id: "q-c9-science-09-1",
+    subjectId: "c9-science",
+    chapterId: "c9-science-09",
+    classLevel: 9,
+    text: "Differentiate between the mass and the weight of a body. Find the weight of a body of mass 10 kg on the Earth. (g = 9.8 m/s².)",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer:
+      "Mass vs Weight:\n- Mass is the amount of matter in a body; it is constant everywhere and is measured in kilograms (kg).\n- Weight is the force with which the Earth attracts the body (W = mg); it varies with location (with g) and is measured in newtons (N).\n\nWeight on Earth: W = mg = 10 × 9.8 = 98 N.",
+    keywords: [
+      "mass = amount of matter, constant, in kg",
+      "weight = force of gravity W = mg, varies, in N",
+      "W = 10 × 9.8 = 98 N",
+    ],
+    examinerTip:
+      "Give the units in the definitions (kg for mass, N for weight) — that distinction is itself a value point.",
+  },
+
+  // ── CH 10 · WORK AND ENERGY ──
+  {
+    id: "q-c9-science-10-1",
+    subjectId: "c9-science",
+    chapterId: "c9-science-10",
+    classLevel: 9,
+    text: "A body of mass 5 kg is moving with a velocity of 10 m/s. Find its kinetic energy. If it is raised to a height of 4 m, find its potential energy. (g = 9.8 m/s².)",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer:
+      "Kinetic energy: KE = ½mv² = ½ × 5 × 10² = ½ × 5 × 100 = 250 J.\n\nPotential energy: PE = mgh = 5 × 9.8 × 4 = 196 J.",
+    keywords: [
+      "KE = ½mv² = 250 J",
+      "PE = mgh = 196 J",
+      "energy in joules (J)",
+    ],
+  },
+
+  // ── CH 11 · SOUND ──
+  {
+    id: "q-c9-science-11-1",
+    subjectId: "c9-science",
+    chapterId: "c9-science-11",
+    classLevel: 9,
+    text: "The speed of sound in a medium is 340 m/s and the frequency of a wave is 170 Hz. Find its wavelength. State the relation you used.",
+    marks: 2,
+    type: "vsa",
+    source: "important",
+    answer:
+      "Relation: v = f λ, where v is speed, f is frequency and λ is wavelength.\n\nλ = v/f = 340 / 170 = 2 m.",
+    keywords: [
+      "v = f λ",
+      "λ = v/f = 340/170",
+      "wavelength = 2 m",
+    ],
+  },
+
+  // ── CH 12 · IMPROVEMENT IN FOOD RESOURCES ──
+  {
+    id: "q-c9-science-12-1",
+    subjectId: "c9-science",
+    chapterId: "c9-science-12",
+    classLevel: 9,
+    text: "Give two differences between manure and fertiliser.",
+    marks: 2,
+    type: "vsa",
+    source: "important",
+    answer:
+      "1. Nature: Manure is a natural substance made by decomposing animal and plant waste; a fertiliser is a chemical (commercially manufactured) substance.\n2. Nutrients: Manure is relatively poor in specific plant nutrients but adds a lot of humus (organic matter) to the soil; fertilisers are very rich in specific nutrients (N, P, K) but add no humus.",
+    keywords: [
+      "manure = natural/organic; fertiliser = chemical/manufactured",
+      "manure adds humus; fertiliser rich in N, P, K but no humus",
+    ],
+    examinerTip:
+      "The 'humus vs nutrient-rich' contrast is the point examiners look for, not just 'natural vs chemical'.",
+  },
+];

@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Pinnacle Office</title>
+<style>
+  :root{
+    --bg:#07080b; --panel:#0d0f14; --panel2:#12151c; --line:#1b1f28;
+    --text:#e7e9ee; --muted:#7e8695; --dim:#535a68;
+    --gold:#d9b25f; --green:#4ec98a; --red:#e2685f; --blue:#5fa8e2;
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);font:14px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif;height:100vh;overflow:hidden}
+  ::-webkit-scrollbar{width:8px;height:8px}
+  ::-webkit-scrollbar-thumb{background:#232833;border-radius:8px}
+
+  header{display:flex;align-items:center;gap:20px;padding:14px 22px;border-bottom:1px solid var(--line);background:var(--panel)}
+  .brand{display:flex;align-items:baseline;gap:10px}
+  .brand b{font-size:17px;letter-spacing:.14em;font-weight:600}
+  .brand span{color:var(--dim);font-size:11px;letter-spacing:.18em;text-transform:uppercase}
+  .spacer{flex:1}
+
+  .stat{display:flex;flex-direction:column;line-height:1.2}
+  .stat b{font-size:16px;font-variant-numeric:tabular-nums}
+  .stat span{color:var(--dim);font-size:10px;text-transform:uppercase;letter-spacing:.12em}
+
+  button{background:var(--panel2);color:var(--text);border:1px solid var(--line);border-radius:7px;padding:7px 13px;font-size:12.5px;cursor:pointer;font-family:inherit}
+  button:hover{border-color:#2e3543;background:#171b23}
+  button.go{background:var(--gold);color:#141006;border-color:var(--gold);font-weight:600}
+  button.halt{color:var(--red);border-color:#3a2422}
+  select{background:var(--panel2);color:var(--text);border:1px solid var(--line);border-radius:7px;padding:7px 9px;font-size:12.5px}
+
+  main{display:grid;grid-template-columns:1.35fr 1fr;height:calc(100vh - 59px)}
+  .col{overflow-y:auto;padding:18px 20px}
+  .col + .col{border-left:1px solid var(--line)}
+
+  h2{font-size:10.5px;text-transform:uppercase;letter-spacing:.16em;color:var(--dim);margin:0 0 11px;display:flex;align-items:center;gap:9px}
+  h2 em{font-style:normal;color:var(--dim);opacity:.6}
+  section{margin-bottom:26px}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(212px,1fr));gap:9px}
+  .dept{background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:11px 12px;cursor:pointer;transition:border-color .15s}
+  .dept:hover{border-color:#2c3341}
+  .dept.off{opacity:.36}
+  .dept.live{border-color:#43371c;background:linear-gradient(180deg,#14110a,var(--panel))}
+  .dept .top{display:flex;align-items:center;justify-content:space-between;gap:8px}
+  .dept .name{font-weight:600;font-size:13px}
+  .dept .head{color:var(--dim);font-size:10.5px;font-family:var(--mono)}
+  .dept .work{margin-top:7px;font-size:11.5px;color:var(--gold);font-family:var(--mono);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .dept .nums{margin-top:7px;display:flex;gap:11px;font-size:10.5px;color:var(--dim);font-variant-numeric:tabular-nums}
+  .dept .nums b{color:var(--muted);font-weight:600}
+  .pill{font-size:9.5px;text-transform:uppercase;letter-spacing:.1em;padding:2px 6px;border-radius:4px;border:1px solid var(--line);color:var(--dim)}
+
+  .feed{font-family:var(--mono);font-size:11.5px;line-height:1.75}
+  .feed div{display:flex;gap:9px;padding:1px 0;color:var(--muted)}
+  .feed .ts{color:#39404d;flex:none}
+  .feed .who{color:var(--blue);flex:none;min-width:112px}
+  .feed .msg{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .feed .ok .msg{color:var(--green)}
+  .feed .bad .msg{color:var(--red)}
+  .feed .gold .msg{color:var(--gold)}
+
+  .task{border:1px solid var(--line);border-left:2px solid var(--dim);border-radius:0 7px 7px 0;padding:9px 11px;margin-bottom:7px;background:var(--panel);cursor:pointer}
+  .task:hover{background:var(--panel2)}
+  .task.done{border-left-color:var(--green)}
+  .task.running,.task.claimed{border-left-color:var(--gold)}
+  .task.failed,.task.reverted{border-left-color:var(--red)}
+  .task .t{font-size:12.5px;font-weight:500}
+  .task .m{margin-top:3px;font-size:11px;color:var(--dim);font-family:var(--mono)}
+  .task .s{margin-top:5px;font-size:11.5px;color:var(--muted)}
+
+  .rep{display:flex;justify-content:space-between;gap:10px;padding:7px 10px;border:1px solid var(--line);border-radius:7px;margin-bottom:6px;cursor:pointer;font-size:12px;background:var(--panel)}
+  .rep:hover{border-color:#2c3341}
+  .rep span{color:var(--dim);font-family:var(--mono);font-size:10.5px}
+
+  .brief{background:var(--panel);border:1px solid #2f2718;border-radius:10px;padding:16px 18px;white-space:pre-wrap;font-size:13px;line-height:1.65;max-height:340px;overflow:auto}
+  .brief h3{color:var(--gold);font-size:12px;text-transform:uppercase;letter-spacing:.12em;margin:14px 0 6px}
+  .brief h3:first-child{margin-top:0}
+
+  dialog{background:var(--panel);color:var(--text);border:1px solid var(--line);border-radius:12px;padding:0;max-width:780px;width:92vw;max-height:82vh}
+  dialog::backdrop{background:rgba(0,0,0,.72)}
+  dialog .head{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;border-bottom:1px solid var(--line)}
+  dialog .body{padding:16px 18px;overflow:auto;max-height:66vh;white-space:pre-wrap;font-size:13px;line-height:1.6}
+  .roster{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:5px;font-family:var(--mono);font-size:11px}
+  .roster div{padding:5px 7px;border:1px solid var(--line);border-radius:5px;color:var(--muted)}
+  .roster div.working{border-color:var(--gold);color:var(--gold)}
+  .dot{width:6px;height:6px;border-radius:50%;display:inline-block;background:var(--dim)}
+  .dot.on{background:var(--green);box-shadow:0 0 8px var(--green)}
+  .dot.warn{background:var(--gold)}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand"><b>PINNACLE</b><span>Office</span></div>
+  <span class="dot" id="dot"></span><span id="status" style="color:var(--muted);font-size:12px">connecting</span>
+  <div class="spacer"></div>
+  <div class="stat"><b id="awake">0</b><span>awake</span></div>
+  <div class="stat"><b id="staff">0</b><span>staff</span></div>
+  <div class="stat"><b id="done">0</b><span>shipped</span></div>
+  <div class="stat"><b id="failed">0</b><span>rejected</span></div>
+  <select id="mode" title="apply lets agents edit code, propose keeps them read only">
+    <option value="apply">apply mode</option>
+    <option value="propose">propose only</option>
+  </select>
+  <select id="conc" title="agents awake at once">
+    <option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option>
+  </select>
+  <button id="briefBtn">Brief me</button>
+  <button id="run" class="go">Open the office</button>
+</header>
+
+<main>
+  <div class="col">
+    <section>
+      <h2>Departments <em id="deptNote"></em></h2>
+      <div class="grid" id="depts"></div>
+    </section>
+    <section>
+      <h2>Latest briefing</h2>
+      <div class="brief" id="brief">No briefing yet. Pinnacle writes one after every few finished tasks.</div>
+    </section>
+    <section>
+      <h2>Filed reports</h2>
+      <div id="reports"></div>
+    </section>
+  </div>
+
+  <div class="col">
+    <section>
+      <h2>Floor <em>live</em></h2>
+      <div class="feed" id="feed"></div>
+    </section>
+    <section>
+      <h2>Work board</h2>
+      <div id="tasks"></div>
+    </section>
+  </div>
+</main>
+
+<dialog id="modal"><div class="head"><b id="modalTitle"></b><button onclick="modal.close()">close</button></div><div class="body" id="modalBody"></div></dialog>
+
+<script>
+const $ = (id) => document.getElementById(id);
+const post = (action, value) => fetch("/api/control", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ action, value }) });
+const clock = (t) => new Date(t).toTimeString().slice(0, 8);
+const esc = (s) => String(s == null ? "" : s).replace(/[<>&]/g, (c) => ({ "<": "&lt;", ">": "&gt;", "&": "&amp;" }[c]));
+
+let snap = null;
+
+async function refresh() {
+  const r = await fetch("/api/state").then((x) => x.json());
+  snap = r;
+  const running = r.office.running;
+  const cooling = r.office.cooldownUntil > r.now;
+  $("dot").className = "dot " + (cooling ? "warn" : running ? "on" : "");
+  $("status").textContent = cooling
+    ? "cooling down until " + clock(r.office.cooldownUntil)
+    : running ? "office is open" : "office is closed";
+  $("run").textContent = running ? "Close the office" : "Open the office";
+  $("run").className = running ? "halt" : "go";
+  $("awake").textContent = r.awake;
+  $("staff").textContent = r.headcount;
+  $("done").textContent = r.office.stats.completed;
+  $("failed").textContent = r.office.stats.failed;
+  $("mode").value = r.office.mode;
+  $("conc").value = r.office.concurrency;
+
+  const depts = Object.values(r.departments);
+  $("deptNote").textContent = depts.filter((d) => d.enabled).length + " of " + depts.length + " open";
+  $("depts").innerHTML = depts.map((d) => `
+    <div class="dept ${d.enabled ? "" : "off"} ${d.working.length ? "live" : ""}" data-dept="${d.key}">
+      <div class="top">
+        <span class="name">${esc(d.name)}</span>
+        <span class="pill">${d.kind === "code" ? "builds" : "advises"}</span>
+      </div>
+      <div class="head">${d.headcount} staff</div>
+      <div class="work">${d.working.length ? esc(d.working[0].id + " " + (d.working[0].task || "planning")) : "&nbsp;"}</div>
+      <div class="nums"><span>queue <b>${d.queued}</b></span><span>done <b>${d.done}</b></span><span>rejected <b>${d.failed}</b></span></div>
+    </div>`).join("");
+
+  $("tasks").innerHTML = r.tasks.map((t) => `
+    <div class="task ${t.status}" data-task="${t.id}">
+      <div class="t">${esc(t.title)}</div>
+      <div class="m">${t.dept} / ${esc(t.agent || t.plannedBy || "unassigned")} / ${t.status}${t.sha ? " / " + t.sha : ""}</div>
+      ${t.summary || t.reason ? `<div class="s">${esc((t.summary || t.reason).slice(0, 190))}</div>` : ""}
+    </div>`).join("") || `<div style="color:var(--dim);font-size:12px">Nothing filed yet.</div>`;
+
+  $("reports").innerHTML = r.reports.map((f) => `
+    <div class="rep" data-report="${f.path}"><span style="color:var(--text)">${esc(f.path.split("/").pop())}</span><span>${clock(f.mtime)}</span></div>`).join("")
+    || `<div style="color:var(--dim);font-size:12px">No reports filed yet.</div>`;
+
+  const latest = r.reports.find((f) => f.path.includes("briefing-"));
+  if (latest && latest.path !== $("brief").dataset.path) {
+    const doc = await fetch("/api/report?path=" + encodeURIComponent(latest.path)).then((x) => x.json());
+    $("brief").dataset.path = latest.path;
+    $("brief").innerHTML = doc.body.replace(/^## (.+)$/gm, "<h3>$1</h3>").replace(/^- /gm, "• ");
+  }
+}
+
+// Live floor feed.
+const feed = $("feed");
+function line(ev) {
+  const map = {
+    "plan.start": ["gold", ev.title || "planning"],
+    "plan.done": ["gold", `filed ${ev.count} tasks. ${ev.finding || ""}`],
+    "task.start": ["", "picked up: " + (ev.title || "")],
+    "task.done": ["ok", "shipped: " + (ev.title || "") + (ev.changed ? ` (${ev.changed} files)` : "")],
+    "task.reverted": ["bad", `rejected at ${ev.step}: ${ev.title || ""}`],
+    "gate.start": ["", `gate checking ${ev.files} files`],
+    "gate.step": ["", "running " + ev.step],
+    "agent.step": ["", ev.kind === "tool" ? ev.label : ev.text],
+    "agent.error": ["bad", ev.error || "error"],
+    "guard.blocked": ["bad", "blocked from touching " + (ev.files || []).join(", ")],
+    "office.cooldown": ["bad", "rate limited, office sleeping"],
+    "office.start": ["gold", "office opened"],
+    "office.stop": ["gold", "office closed"],
+    "office.repo": ["gold", ev.detail || ""],
+    "office.command": ["gold", ev.detail || ""],
+    "briefing.start": ["gold", "Pinnacle is writing your briefing"],
+    "briefing.done": ["gold", "briefing filed"],
+  };
+  const [cls, msg] = map[ev.type] || ["", ev.type];
+  if (!msg) return;
+  const el = document.createElement("div");
+  el.className = cls;
+  el.innerHTML = `<span class="ts">${clock(ev.t)}</span><span class="who">${esc(ev.agent || ev.dept || "pinnacle")}</span><span class="msg">${esc(msg)}</span>`;
+  feed.prepend(el);
+  while (feed.children.length > 220) feed.lastChild.remove();
+}
+
+fetch("/api/events?n=80").then((r) => r.json()).then((list) => list.forEach(line));
+const stream = new EventSource("/api/stream");
+stream.onmessage = (e) => {
+  const ev = JSON.parse(e.data);
+  if (ev.type === "hello") return;
+  line(ev);
+  if (["task.done", "task.start", "plan.done", "briefing.done", "office.start", "office.stop"].includes(ev.type)) refresh();
+};
+
+// Controls.
+$("run").onclick = async () => { await post(snap?.office.running ? "stop" : "start"); setTimeout(refresh, 400); };
+$("mode").onchange = (e) => post("mode", e.target.value);
+$("conc").onchange = (e) => post("concurrency", e.target.value);
+$("briefBtn").onclick = () => post("brief");
+
+document.addEventListener("click", async (e) => {
+  const dept = e.target.closest("[data-dept]");
+  const task = e.target.closest("[data-task]");
+  const report = e.target.closest("[data-report]");
+
+  if (dept) {
+    if (e.shiftKey) { await post("dept", dept.dataset.dept); return refresh(); }
+    const list = await fetch("/api/agents?dept=" + dept.dataset.dept).then((r) => r.json());
+    $("modalTitle").textContent = dept.dataset.dept + " roster, " + list.length + " staff";
+    $("modalBody").innerHTML = `<div style="color:var(--dim);font-size:12px;margin-bottom:10px">Shift click a department card to close or reopen it.</div>
+      <div class="roster">${list.map((a) => `<div class="${a.status}"><b>${a.id}</b> ${esc(a.specialty)}${a.task ? "<br>" + esc(a.task) : ""}</div>`).join("")}</div>`;
+    modal.showModal();
+  }
+
+  if (task) {
+    const t = await fetch("/api/task?id=" + task.dataset.task).then((r) => r.json());
+    $("modalTitle").textContent = t.title || t.id;
+    $("modalBody").textContent = [
+      "department: " + t.dept, "agent: " + (t.agent || t.plannedBy || ""), "status: " + t.status,
+      t.sha ? "commit: " + t.sha : "", "", "why: " + (t.why || ""), "acceptance: " + (t.acceptance || ""),
+      "", "files: " + (t.files || []).join(", "), "changed: " + (t.changed || []).join(", "),
+      "", "summary: " + (t.summary || ""), "verified: " + (t.verified || ""),
+      t.reason ? "\nrejected: " + t.reason : "", t.detail ? "\n" + t.detail : "",
+    ].filter(Boolean).join("\n");
+    modal.showModal();
+  }
+
+  if (report) {
+    const doc = await fetch("/api/report?path=" + encodeURIComponent(report.dataset.report)).then((r) => r.json());
+    $("modalTitle").textContent = report.dataset.report;
+    $("modalBody").textContent = doc.body || doc.error;
+    modal.showModal();
+  }
+});
+
+refresh();
+setInterval(refresh, 4000);
+</script>
+</body>
+</html>

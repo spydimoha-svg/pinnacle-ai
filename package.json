@@ -1,0 +1,50 @@
+{
+  "name": "pinnacle-ai",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "qa": "node scripts/qa.mjs",
+    "qa:smoke": "node scripts/qa.mjs --smoke",
+    "qa:figures": "node scripts/figures.mjs",
+    "qa:lesson": "node scripts/lesson.mjs",
+    "brain": "node scripts/ollama-dev-server.mjs",
+    "qa:local": "node scripts/qa.mjs --base http://localhost:3002",
+    "qa:engine": "node scripts/lesson.mjs --dry",
+    "qa:video": "node scripts/qa/video.mjs"
+  },
+  "dependencies": {
+    "@paper-design/shaders-react": "^0.0.77",
+    "@react-three/drei": "^10.7.7",
+    "@react-three/fiber": "^9.6.1",
+    "@react-three/postprocessing": "^3.0.4",
+    "@supabase/supabase-js": "^2.47.10",
+    "dompurify": "^3.4.12",
+    "gsap": "^3.15.0",
+    "katex": "^0.17.0",
+    "lenis": "^1.3.25",
+    "lucide-react": "^1.24.0",
+    "marked": "^18.0.6",
+    "marked-katex-extension": "^5.1.10",
+    "mermaid": "^11.16.0",
+    "motion": "^12.42.2",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
+    "react-router-dom": "^7.18.1",
+    "three": "^0.185.1",
+    "zustand": "^5.0.14"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.3.2",
+    "@types/node": "^26.1.1",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.3",
+    "tailwindcss": "^4.3.2",
+    "typescript": "^5.9.3",
+    "vite": "^8.1.4"
+  }
+}

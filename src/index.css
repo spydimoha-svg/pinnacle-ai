@@ -1,0 +1,785 @@
+@import "tailwindcss";
+
+/* ————— Pinnacle design tokens: "summit at night" —————
+   Ink black base, summit-gold accent (merit / medals / toppers),
+   board-paper vernacular for labels.
+
+   These values ARE the landing page's palette. pages/landing.css maps its own
+   --pa-* names onto these tokens rather than restating them, so the front door
+   and the product cannot drift apart: change a colour here and both move. The
+   greys are deliberately neutral rather than the blue-grey they used to be —
+   next to the landing's warm gold, a cool grey read as a different product. */
+@theme {
+  --color-ink: #050505;
+  --color-pit: #000000;
+  --color-surface: #101010;
+  --color-raise: #17171a;
+  --color-line: #1e1e20;
+  --color-gold: #e8c889;
+  --color-gold-bright: #f2dca8;
+  --color-gold-lit: #f0d8a4;
+  --color-gold-deep: #c79e4f;
+  --color-gold-dim: #8a6524;
+  --color-cream: #f0ede6;
+  --color-bone: #e8e4dc;
+  --color-muted: #b3b3b3;
+  --color-dim: #6e6e6e;
+  --color-faint: #4e4e4e;
+  /* The landing's chapter kicker. Its job in the product is the same: the
+     small label that sits above a heading. */
+  --color-crimson: #e0576a;
+  /* Subject coding and status. Muted on purpose — these sit beside the gold as
+     quiet identifiers, and a saturated cyan chip pulls more attention than the
+     primary action next to it. Coral stays clearly more orange than the kicker
+     crimson: a delete button and a section label must not be the same colour. */
+  --color-mint: #6fb98c;
+  --color-coral: #e2564a;
+  --color-sky: #6fa8c9;
+  --color-violet: #a58fd6;
+
+  --font-display: "Hanken Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Hanken Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+}
+
+@layer base {
+  html {
+    color-scheme: dark;
+  }
+  body {
+    @apply bg-ink text-cream font-body antialiased;
+    font-size: 15.5px;
+    line-height: 1.6;
+  }
+  ::selection {
+    background: #a81d2d;
+    color: #fff;
+  }
+  h1, h2, h3, h4 {
+    @apply font-display;
+    /* Matches the landing's headline tracking. Hanken Grotesk is drawn a
+       little wide, and the display sizes need pulling in to look set rather
+       than typed. */
+    letter-spacing: -0.022em;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-gold);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-line);
+    border-radius: 8px;
+    border: 2px solid var(--color-ink);
+  }
+  ::-webkit-scrollbar-thumb:hover { background: var(--color-dim); }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer components {
+  /* Surfaces */
+  .card {
+    @apply bg-surface border border-line rounded-2xl p-5;
+  }
+  .card-hover {
+    @apply transition-colors duration-150 hover:border-gold-dim cursor-pointer;
+  }
+  .card-inset {
+    @apply bg-ink/60 border border-line rounded-xl p-4;
+  }
+
+  /* Board-paper eyebrow — like "SECTION A" on a CBSE paper.
+     Crimson, not gold: this is the same element as the landing's chapter
+     kicker ("CHAPTER 02 · HOW IT TEACHES"), doing the same job above a
+     heading, and it is the strongest single tie between the two. Gold is kept
+     for actions and the wordmark so the two accents stay distinguishable. */
+  .eyebrow {
+    @apply font-mono text-[11px] uppercase text-crimson;
+    letter-spacing: 0.24em;
+  }
+  .eyebrow-dim {
+    @apply font-mono text-[11px] uppercase text-dim;
+    letter-spacing: 0.22em;
+  }
+
+  /* Marks chip — like "[3]" printed beside a board question */
+  .marks {
+    @apply font-mono text-xs text-gold border border-gold-dim/60 rounded px-1.5 py-0.5 whitespace-nowrap;
+  }
+
+  /* Buttons — base styles shared across every variant */
+  .btn,
+  .btn-gold,
+  .btn-ghost,
+  .btn-dark,
+  .btn-danger {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold
+      transition-all duration-150 select-none cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed;
+  }
+  .btn-gold {
+    @apply bg-gold text-ink hover:bg-gold-bright active:translate-y-px;
+  }
+  .btn-ghost {
+    @apply bg-transparent border border-line text-cream hover:border-gold-dim hover:text-gold-bright;
+  }
+  .btn-dark {
+    @apply bg-raise text-cream border border-line hover:border-gold-dim;
+  }
+  .btn-danger {
+    @apply bg-transparent border border-coral/40 text-coral hover:bg-coral/10;
+  }
+
+  /* Chips */
+  .chip {
+    @apply inline-flex items-center gap-1.5 whitespace-nowrap rounded-full border border-line bg-raise px-3 py-1 text-xs text-muted;
+  }
+  .chip-gold {
+    @apply inline-flex items-center gap-1.5 whitespace-nowrap rounded-full border border-gold-dim/50 bg-gold/10 px-3 py-1 text-xs text-gold;
+  }
+  .chip-mint {
+    @apply inline-flex items-center gap-1.5 whitespace-nowrap rounded-full border border-mint/30 bg-mint/10 px-3 py-1 text-xs text-mint;
+  }
+  .chip-coral {
+    @apply inline-flex items-center gap-1.5 whitespace-nowrap rounded-full border border-coral/30 bg-coral/10 px-3 py-1 text-xs text-coral;
+  }
+  .chip-sky {
+    @apply inline-flex items-center gap-1.5 whitespace-nowrap rounded-full border border-sky/30 bg-sky/10 px-3 py-1 text-xs text-sky;
+  }
+
+  /* Forms */
+  .input {
+    @apply w-full rounded-xl bg-ink border border-line px-4 py-2.5 text-sm text-cream placeholder:text-dim
+      focus:border-gold-dim focus:outline-none transition-colors;
+  }
+  .label {
+    @apply block text-xs font-semibold text-muted mb-1.5 uppercase tracking-wider;
+  }
+
+  /* Sidebar nav */
+  .nav-item {
+    @apply flex items-center gap-3 rounded-xl px-3.5 py-2.5 text-sm text-muted transition-colors
+      hover:text-cream hover:bg-raise;
+  }
+  .nav-item.active {
+    @apply text-gold bg-gold/10;
+  }
+
+  /* Prose for tutor chat / rendered markdown */
+  .prose-tutor {
+    @apply text-[15px] leading-relaxed;
+  }
+  .prose-tutor h1, .prose-tutor h2, .prose-tutor h3 {
+    @apply text-cream font-display font-semibold mt-4 mb-2 text-base;
+  }
+  .prose-tutor p { @apply my-2; }
+  .prose-tutor ul { @apply list-disc pl-5 my-2 space-y-1; }
+  .prose-tutor ol { @apply list-decimal pl-5 my-2 space-y-1; }
+  .prose-tutor strong { @apply text-gold-bright font-semibold; }
+  .prose-tutor em { @apply text-cream; }
+  .prose-tutor code {
+    @apply font-mono text-[13px] bg-ink border border-line rounded px-1.5 py-0.5 text-gold-bright;
+  }
+  .prose-tutor pre {
+    @apply bg-ink border border-line rounded-xl p-4 overflow-x-auto my-3;
+  }
+  .prose-tutor pre code { @apply border-0 bg-transparent p-0; }
+  .prose-tutor blockquote {
+    @apply border-l-2 border-gold-dim pl-4 text-muted my-3;
+  }
+  .prose-tutor table { @apply w-full text-sm my-3 border-collapse; }
+  .prose-tutor th { @apply text-left text-muted font-semibold border-b border-line py-1.5 pr-4; }
+  .prose-tutor td { @apply border-b border-line/60 py-1.5 pr-4; }
+  .prose-tutor hr { @apply border-line my-4; }
+  .prose-tutor a { @apply text-sky underline underline-offset-2; }
+
+  /* Tutor-drawn diagrams (mermaid) and graphs (SVG plots) */
+  .tutor-diagram { @apply my-3 overflow-x-auto; }
+  .tutor-diagram svg { max-width: 100%; height: auto; }
+  .tutor-plot { @apply my-3; }
+  .tutor-plot svg { width: 100%; max-width: 360px; height: auto; display: block; }
+  .tutor-plot .ax { stroke: var(--color-line); stroke-width: 1; }
+  .tutor-plot .curve {
+    fill: none; stroke: var(--color-gold); stroke-width: 2;
+    stroke-linejoin: round; stroke-linecap: round;
+  }
+  .tutor-plot .pt { fill: var(--color-gold-bright); }
+  /* Scale, so a value can actually be read off the graph. Faint enough that the
+     curve stays the thing you see first. */
+  .tutor-plot .grid line {
+    stroke: var(--color-line);
+    stroke-width: 1;
+    opacity: 0.55;
+  }
+  .tutor-plot .tick text {
+    fill: var(--color-dim);
+    font-family: var(--font-mono);
+    font-size: 9px;
+  }
+  /* The x-intercepts, marked and named the way a textbook marks them. */
+  .tutor-plot .root circle { fill: var(--color-crimson); }
+  .tutor-plot .root text {
+    fill: var(--color-crimson);
+    font-family: var(--font-mono);
+    font-size: 10px;
+  }
+  /* Axis names. A graph whose axes are not named cannot be read, and a board
+     diagram loses the mark for it. */
+  .tutor-plot .axis-name {
+    fill: var(--color-gold-bright);
+    font-family: var(--font-body);
+    font-size: 12px;
+    font-style: italic;
+  }
+  /* The points the curve was actually plotted through. */
+  .tutor-plot .plotted { fill: var(--color-gold-bright); opacity: 0.9; }
+  /* The table of values behind the curve: the working, shown. */
+  .plot-table {
+    @apply mt-2 text-center;
+    border-collapse: collapse;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    max-width: 380px;
+  }
+  .plot-table th, .plot-table td {
+    border: 1px solid var(--color-line);
+    padding: 2px 7px;
+    color: var(--color-muted);
+  }
+  .plot-table th {
+    color: var(--color-gold-bright);
+    font-style: italic;
+    text-align: center;
+  }
+  .tutor-plot figcaption { @apply text-xs text-muted mt-1 text-center; }
+  .tutor-plot figcaption .katex { font-size: 1em; }
+
+  /* Tutor-drawn geometry (labeled triangles etc.) */
+  .tutor-geom svg { max-width: 340px; }
+  .tutor-geom .geom-angle {
+    fill: var(--color-sky);
+    font-family: var(--font-body);
+    font-size: 11.5px;
+  }
+  .tutor-geom .geom-vertex {
+    fill: var(--color-cream);
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 600;
+  }
+  .tutor-geom .geom-side {
+    fill: var(--color-gold-bright);
+    font-family: var(--font-body);
+    font-size: 12.5px;
+    font-style: italic;
+  }
+
+  /* ── The cast: drawn teachers who actually appear on screen ── */
+  .pnz-toon { display: block; overflow: visible; }
+  .pnz-toon-body { animation: pnz-breathe 3.4s ease-in-out infinite; transform-origin: 0 110px; }
+  .pnz-toon-head { animation: pnz-bob 4.1s ease-in-out infinite; transform-origin: 0 -10px; }
+  .pnz-toon-arm { transform-box: fill-box; transition: transform 420ms cubic-bezier(0.34, 1.56, 0.64, 1); }
+  .pnz-toon-antenna { animation: pnz-antenna 2.6s ease-in-out infinite; transform-origin: 0 -80px; }
+  /* The arrival: the character walks on rather than being there already. */
+  .pnz-toon-enter { animation: pnz-toon-in 760ms cubic-bezier(0.22, 1.3, 0.36, 1) both; }
+
+  @keyframes pnz-breathe {
+    0%, 100% { transform: scaleY(1) translateY(0); }
+    50% { transform: scaleY(1.018) translateY(-2px); }
+  }
+  @keyframes pnz-bob {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-3px) rotate(-1.2deg); }
+  }
+  @keyframes pnz-antenna {
+    0%, 100% { transform: rotate(-6deg); }
+    50% { transform: rotate(7deg); }
+  }
+  @keyframes pnz-toon-in {
+    from { opacity: 0; transform: translateX(-46px) translateY(10px) scale(0.9) rotate(-6deg); }
+    to { opacity: 1; transform: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .pnz-toon-body, .pnz-toon-head, .pnz-toon-antenna, .pnz-toon-enter { animation: none; }
+  }
+
+  /* Where the character stands on the video stage. */
+  .pnz-toon-stage {
+    position: absolute;
+    left: 2%;
+    bottom: 8%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    pointer-events: none;
+  }
+  .pnz-toon-name {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin-top: -6px;
+  }
+  /* The teaching half of the stage, kept clear of the character. */
+  .pnz-scene-body {
+    position: absolute;
+    inset: 0 4% 14% 32%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+  .pnz-scene-figure { margin: 0.5rem auto 0; max-width: 320px; }
+  .pnz-scene-figure .tutor-plot svg { max-width: 300px; margin-inline: auto; }
+  .pnz-scene-figure .plot-table { margin-inline: auto; }
+  @media (max-width: 640px) {
+    .pnz-toon-stage { left: 0; bottom: 4%; transform: scale(0.72); transform-origin: bottom left; }
+    .pnz-scene-body { inset: 8% 3% 18% 26%; }
+  }
+
+  /* A live 3D object inside a lesson scene. */
+  .pnz-stage3d { width: 100%; height: 190px; margin-top: 0.35rem; }
+  .pnz-stage3d canvas { border-radius: 12px; touch-action: none; }
+  .pnz-stage3d-loading {
+    @apply text-xs text-dim;
+    display: grid;
+    place-items: center;
+    height: 100%;
+  }
+  .pnz-3d-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--color-gold-bright);
+    white-space: nowrap;
+    pointer-events: none;
+  }
+
+  /* Choosing your teacher. */
+  .pnz-cast-card {
+    @apply rounded-xl border border-line bg-raise/40 px-2 py-2.5 transition;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    cursor: pointer;
+  }
+  .pnz-cast-card:hover { border-color: var(--color-gold-dim); }
+  .pnz-cast-card.is-active {
+    border-color: var(--color-gold);
+    background: color-mix(in srgb, var(--color-gold) 10%, transparent);
+  }
+  .pnz-cast-name {
+    @apply text-cream text-xs font-semibold;
+  }
+  .pnz-cast-tag {
+    @apply text-dim;
+    font-size: 10px;
+    line-height: 1.25;
+    text-align: center;
+  }
+
+  /* ── Cinematic experience ── */
+  .pnz-experience { background: #050505; }
+  .pnz-canvas { position: absolute; inset: 0; }
+  .pnz-stage-still {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(42% 38% at 50% 46%, rgba(150, 22, 34, 0.16), transparent 68%),
+      radial-gradient(70% 60% at 50% 50%, rgba(16, 16, 22, 0.9), #050505 78%);
+  }
+  .pnz-gold {
+    background: linear-gradient(96deg, #8a6524 0%, #f2dca8 44%, #fff3cf 56%, #e8c889 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  /* The invitation button: depresses before it lifts, per the micro-interaction
+     rule. Transform + opacity only. */
+  .pnz-begin {
+    position: relative;
+    padding: 0.95rem 2.1rem;
+    border-radius: 999px;
+    border: 1px solid rgba(240, 199, 102, 0.32);
+    background: rgba(240, 199, 102, 0.06);
+    color: var(--color-cream);
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    cursor: pointer;
+    transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+                border-color 0.32s ease, background-color 0.32s ease;
+  }
+  .pnz-begin:hover {
+    transform: translate3d(0, -2px, 0);
+    border-color: rgba(240, 199, 102, 0.68);
+    background: rgba(240, 199, 102, 0.12);
+  }
+  .pnz-begin:active { transform: translate3d(0, 1px, 0) scale(0.985); }
+  .pnz-begin::after {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    box-shadow: 0 0 34px -6px rgba(240, 199, 102, 0.55);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.32s ease;
+  }
+  .pnz-begin:hover::after { opacity: 1; }
+
+  /* ── Venom takeover ───────────────────────────────────────────────────
+     Three stacked layers, all pure CSS on their own compositor layers, all
+     transform/opacity only. No JS touches these once mounted. */
+  .pnz-venom { z-index: 1; }
+
+  /* 1. The goo: slow-drifting organic masses in symbiote black-violet. */
+  .pnz-venom-goo {
+    position: absolute;
+    inset: -20%;
+    background:
+      radial-gradient(38% 44% at 18% 26%, rgba(46, 30, 84, 0.55), transparent 62%),
+      radial-gradient(34% 40% at 78% 18%, rgba(18, 40, 46, 0.5), transparent 60%),
+      radial-gradient(46% 50% at 62% 78%, rgba(38, 22, 70, 0.5), transparent 64%),
+      radial-gradient(30% 34% at 30% 86%, rgba(12, 34, 30, 0.45), transparent 60%);
+    filter: blur(46px);
+    will-change: transform;
+    transform: translate3d(0, 0, 0);
+    animation: pnz-goo 34s ease-in-out infinite;
+  }
+  @keyframes pnz-goo {
+    0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+    33%      { transform: translate3d(2.5%, -2%, 0) scale(1.07); }
+    66%      { transform: translate3d(-2%, 2.5%, 0) scale(1.04); }
+  }
+
+  /* 2. Veins: fine symbiote filaments webbing the whole viewport. Repeating
+        gradients rather than an image, so it costs nothing to ship. */
+  .pnz-venom-veins {
+    position: absolute;
+    inset: 0;
+    opacity: 0.5;
+    background-image:
+      repeating-linear-gradient(64deg, transparent 0 22px, rgba(190, 192, 255, 0.045) 22px 23px, transparent 23px 46px),
+      repeating-linear-gradient(-58deg, transparent 0 30px, rgba(150, 210, 190, 0.035) 30px 31px, transparent 31px 62px),
+      repeating-linear-gradient(12deg, transparent 0 54px, rgba(120, 100, 200, 0.03) 54px 55px, transparent 55px 110px);
+    -webkit-mask-image: radial-gradient(ellipse 92% 78% at 50% 46%, black 20%, transparent 78%);
+    mask-image: radial-gradient(ellipse 92% 78% at 50% 46%, black 20%, transparent 78%);
+    will-change: transform;
+    animation: pnz-veins 46s linear infinite;
+  }
+  @keyframes pnz-veins {
+    0%   { transform: translate3d(0, 0, 0); }
+    100% { transform: translate3d(-110px, -62px, 0); }
+  }
+
+  /* 3. Vignette: crushes the edges to black so the goo never reads as a
+        purple wash and the content keeps its contrast. */
+  .pnz-venom-vignette {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 78% 66% at 50% 50%, transparent 34%, rgba(4, 4, 8, 0.82) 100%);
+  }
+
+  /* ── Hero: ascent ── */
+  .pnz-hero {
+    /* Own layer so the mote canvas and the parallaxed headline never force a
+       repaint of the sections below. */
+    contain: paint;
+  }
+  /* SplitText needs each line to clip its own chars for the rise to read. */
+  .pnz-hero .pnz-line {
+    overflow: hidden;
+    display: block;
+    padding-bottom: 0.08em;
+  }
+  .pnz-magnet-zone {
+    /* Padded catch area so the magnetic pull starts before the cursor lands. */
+    padding: 22px;
+    margin: -22px;
+  }
+  .pnz-live-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--color-gold);
+    position: relative;
+    will-change: transform;
+    animation: pnz-live 2.4s ease-in-out infinite;
+  }
+  .pnz-live-dot::after {
+    content: "";
+    position: absolute;
+    inset: -4px;
+    border-radius: 50%;
+    border: 1px solid var(--color-gold);
+    opacity: 0;
+    animation: pnz-live-ring 2.4s ease-out infinite;
+  }
+  @keyframes pnz-live {
+    0%, 100% { transform: scale(1); }
+    50%      { transform: scale(1.35); }
+  }
+  @keyframes pnz-live-ring {
+    0%   { transform: scale(0.6); opacity: 0.9; }
+    70%  { transform: scale(1.9); opacity: 0; }
+    100% { transform: scale(1.9); opacity: 0; }
+  }
+
+  /* ── Futuristic landing (pnz-) ── */
+  .pnz-grid {
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+    background-size: 48px 48px;
+    -webkit-mask-image: radial-gradient(ellipse 75% 55% at 50% 0%, black, transparent 80%);
+    mask-image: radial-gradient(ellipse 75% 55% at 50% 0%, black, transparent 80%);
+  }
+  .pnz-blob {
+    position: absolute;
+    width: 46vw;
+    height: 46vw;
+    max-width: 620px;
+    max-height: 620px;
+    border-radius: 50%;
+    filter: blur(70px);
+    /* Promote to its own compositor layer. Without this the 70px blur is
+       re-rasterised every frame while the blob drifts, which is the single
+       most expensive thing on the landing page. Promoted, the blur is painted
+       once and the layer is merely translated by the compositor. */
+    will-change: transform;
+    transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
+    contain: strict;
+  }
+  /* Drift runs as pure CSS keyframes on the compositor thread, so it costs
+     the main thread nothing and cannot be starved by React renders. */
+  .pnz-blob-a { animation: pnz-drift-a 26s ease-in-out infinite; }
+  .pnz-blob-b { animation: pnz-drift-b 32s ease-in-out infinite; }
+  .pnz-blob-c { animation: pnz-drift-c 29s ease-in-out infinite; }
+  @keyframes pnz-drift-a {
+    0%, 100% { transform: translate3d(0, 0, 0); }
+    50%      { transform: translate3d(40px, 30px, 0); }
+  }
+  @keyframes pnz-drift-b {
+    0%, 100% { transform: translate3d(0, 0, 0); }
+    50%      { transform: translate3d(-50px, 40px, 0); }
+  }
+  @keyframes pnz-drift-c {
+    0%, 100% { transform: translate3d(0, 0, 0); }
+    50%      { transform: translate3d(30px, -30px, 0); }
+  }
+  /* Hero headline shimmer.
+     Fallback path (below): the gradient sits on the element itself and slides
+     via background-position. background-position is a PAINT property, so this
+     repaints the headline glyphs on the main thread every frame, forever. It
+     is kept only for engines that cannot do the composited version. */
+  .pnz-shimmer {
+    background: linear-gradient(100deg, #c79e4f 0%, #e8c889 25%, #fff3cf 50%, #e8c889 75%, #c79e4f 100%);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: pnz-shine-paint 6s linear infinite;
+  }
+  @keyframes pnz-shine-paint {
+    to { background-position: 200% center; }
+  }
+
+  /* Composited path. `background-clip: text` only clips the element's OWN
+     background, so an overlay child is never glyph-shaped — but a *mask*
+     applies to the element's whole subtree, and `mask-clip: text` makes the
+     mask the glyph shapes. So the gradient moves onto an absolutely positioned
+     overlay that animates transform only, and the mask cuts it to the letters.
+     Same pixels, zero repaint: the sweep runs entirely on the compositor.
+
+     Geometry is chosen so the two paths are numerically identical. With W =
+     element width, the fallback paints a 2W-wide gradient tile starting at x=0
+     and slides it to x=-2W over one cycle. Here the overlay is 4W wide starting
+     at -0.5W, its tile is 50% (= 2W) offset 25% (= +0.5W, i.e. x=0), repeated,
+     and it translates -50% (= -2W). Identical tile size, identical start,
+     identical distance, seamless loop — and the box stays over the glyphs for
+     the whole cycle. */
+  @supports (-webkit-mask-clip: text) {
+    .pnz-shimmer {
+      position: relative;
+      background-image: none;
+      animation: none;
+      -webkit-mask-image: linear-gradient(#000, #000);
+      mask-image: linear-gradient(#000, #000);
+      -webkit-mask-clip: text;
+      -webkit-mask-repeat: no-repeat;
+    }
+    .pnz-shimmer::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: -50%;
+      width: 400%;
+      background-image: linear-gradient(100deg, #c79e4f 0%, #e8c889 25%, #fff3cf 50%, #e8c889 75%, #c79e4f 100%);
+      background-size: 50% 100%;
+      background-position: 25% 0;
+      background-repeat: repeat-x;
+      pointer-events: none;
+      will-change: transform;
+      transform: translate3d(0, 0, 0);
+      animation: pnz-shine 6s linear infinite;
+    }
+    @keyframes pnz-shine {
+      to { transform: translate3d(-50%, 0, 0); }
+    }
+  }
+  /* The glow pulses an overlaid pseudo-element's opacity rather than the
+     box-shadow itself. box-shadow is a paint property — animating it repaints
+     the button every frame on the main thread. Opacity is composited. */
+  .pnz-glow {
+    position: relative;
+    box-shadow: 0 6px 24px -6px rgba(240, 199, 102, 0.5);
+  }
+  .pnz-glow::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    box-shadow: 0 6px 34px -4px rgba(240, 199, 102, 0.85);
+    opacity: 0;
+    pointer-events: none;
+    will-change: opacity;
+    animation: pnz-pulse 3s ease-in-out infinite;
+  }
+  @keyframes pnz-pulse {
+    0%, 100% { opacity: 0; }
+    50%      { opacity: 1; }
+  }
+  /* Hover lift: only transform and the overlay's opacity animate, so the
+     card never repaints on hover. */
+  .pnz-card {
+    position: relative;
+    transition: transform 0.28s cubic-bezier(0.2, 0.7, 0.2, 1),
+                border-color 0.28s ease;
+  }
+  .pnz-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    box-shadow: 0 18px 40px -18px rgba(0, 0, 0, 0.7),
+                0 0 24px -8px rgba(240, 199, 102, 0.25);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.28s ease;
+  }
+  .pnz-card:hover {
+    transform: translate3d(0, -3px, 0);
+    border-color: rgba(240, 199, 102, 0.35);
+  }
+  .pnz-card:hover::after { opacity: 1; }
+  /* DNA double helix */
+  .pnz-dna-wrap {
+    position: relative;
+    width: 240px;
+    height: 360px;
+    display: grid;
+    place-items: center;
+  }
+  .pnz-dna-wrap::before {
+    content: "";
+    position: absolute;
+    width: 210px;
+    height: 320px;
+    border-radius: 50%;
+    /* Symbiote sheen: a cold violet-white rim over a darker core, so the
+       helix reads as glossy black rather than as a glowing coloured object. */
+    background:
+      radial-gradient(circle, rgba(198, 200, 255, 0.16), rgba(120, 96, 220, 0.09) 45%, transparent 72%),
+      radial-gradient(circle at 50% 55%, rgba(4, 4, 8, 0.85), transparent 60%);
+    filter: blur(22px);
+  }
+  .pnz-cell {
+    position: absolute;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(240, 199, 102, 0.9), transparent 70%);
+    box-shadow: 0 0 8px rgba(240, 199, 102, 0.5);
+    pointer-events: none;
+  }
+  .pnz-dna-stage {
+    position: relative;
+    perspective: 1000px;
+    height: 320px;
+    width: 190px;
+    display: grid;
+    place-items: center;
+  }
+  .pnz-dna-spin {
+    position: relative;
+    width: 150px;
+    height: 285px;
+    transform-style: preserve-3d;
+    animation: pnz-dna 8s linear infinite;
+  }
+  @keyframes pnz-dna {
+    to { transform: rotateY(360deg); }
+  }
+  .pnz-dna-rung {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 150px;
+    margin-left: -75px;
+    display: flex;
+    align-items: center;
+    transform-style: preserve-3d;
+  }
+  .pnz-dna-node {
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    box-shadow: 0 0 16px currentColor, 0 0 4px currentColor;
+    flex: none;
+  }
+  .pnz-dna-bar {
+    flex: 1;
+    height: 2px;
+    margin: 0 3px;
+    background: linear-gradient(90deg, rgba(240, 199, 102, 0.6), rgba(124, 92, 255, 0.4), rgba(77, 208, 225, 0.6));
+  }
+  /* Every @keyframes in this file must be silenced here, and no rule may leave
+     content invisible once it is.
+       pnz-shine-paint  -> .pnz-shimmer          (background-position fallback)
+       pnz-shine        -> .pnz-shimmer::after   (composited overlay)
+       pnz-pulse        -> .pnz-glow::after
+       pnz-drift-a/b/c  -> .pnz-blob-a/b/c
+       pnz-dna          -> .pnz-dna-spin
+     Stopped, each one rests on its 0% frame, which is the same picture the
+     animated version starts from: the shimmer keeps its gold->cyan gradient,
+     the blobs sit at their authored offsets, and the glow overlay is the one
+     that rests at opacity 0 — the button's own box-shadow still shows. */
+  @media (prefers-reduced-motion: reduce) {
+    .pnz-shimmer, .pnz-shimmer::after, .pnz-glow::after, .pnz-blob, .pnz-dna-spin,
+    .pnz-blob-a, .pnz-blob-b, .pnz-blob-c,
+    .pnz-venom-goo, .pnz-venom-veins, .pnz-live-dot, .pnz-live-dot::after {
+      animation: none !important;
+    }
+    /* Nothing is left mid-transform either. */
+    .pnz-shimmer::after { transform: translate3d(0, 0, 0) !important; }
+    /* Reveals must never leave content invisible when motion is off. */
+    .pnz-reveal { opacity: 1 !important; transform: none !important; }
+  }
+  .pnz-dna-strip { display: flex; justify-content: center; }
+  .pnz-dna-svg { width: 100%; max-width: 640px; height: auto; display: block; }
+
+  /* Thin gold rule with peak, used as a section divider */
+  .ridge-rule {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--color-gold-dim) 20%, var(--color-gold-dim) 80%, transparent);
+  }
+}

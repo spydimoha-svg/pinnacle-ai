@@ -1,0 +1,13 @@
+node_modules
+dist
+.env
+.env.*
+!.env.example
+.vercel
+.netlify
+*.local
+
+.vercel
+pinnacle-office/state
+pinnacle-office/reports
+qa-reports

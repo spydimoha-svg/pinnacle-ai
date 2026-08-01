@@ -1,0 +1,113 @@
+import { Suspense, lazy } from "react";
+import { Routes, Route, Navigate } from "react-router-dom";
+import Layout from "./components/Layout";
+import Protected from "./components/Protected";
+import CloudSync from "./components/CloudSync";
+import { Spinner } from "./components/ui";
+
+const Landing = lazy(() => import("./pages/Landing"));
+// The cinematic narrative. Lazy so the three/R3F bundle stays out of the
+// entry chunk for everyone who never visits it.
+const Experience = lazy(() => import("./experience/Experience"));
+const Pricing = lazy(() => import("./pages/Pricing"));
+const Login = lazy(() => import("./pages/Login"));
+const MasterAccess = lazy(() => import("./pages/MasterAccess"));
+
+const Dashboard = lazy(() => import("./pages/app/Dashboard"));
+const Planner = lazy(() => import("./pages/app/Planner"));
+const Tutor = lazy(() => import("./pages/app/Tutor"));
+const Subjects = lazy(() => import("./pages/app/Subjects"));
+const Chapter = lazy(() => import("./pages/app/Chapter"));
+const Worksheets = lazy(() => import("./pages/app/Worksheets"));
+const Papers = lazy(() => import("./pages/app/Papers"));
+const LibraryPage = lazy(() => import("./pages/app/Library"));
+const Videos = lazy(() => import("./pages/app/Videos"));
+const Entrance = lazy(() => import("./pages/app/Entrance"));
+const Blob = lazy(() => import("./pages/app/Blob"));
+const Profile = lazy(() => import("./pages/app/Profile"));
+
+const AdminDashboard = lazy(() => import("./pages/admin/AdminDashboard"));
+const AdminMaterials = lazy(() => import("./pages/admin/Materials"));
+const AdminStudents = lazy(() => import("./pages/admin/Students"));
+
+const MasterDashboard = lazy(() => import("./pages/master/MasterDashboard"));
+const MasterSchools = lazy(() => import("./pages/master/Schools"));
+const MasterPricing = lazy(() => import("./pages/master/PricingControl"));
+const MasterUpdates = lazy(() => import("./pages/master/Updates"));
+
+function Fallback() {
+  return (
+    <div className="min-h-[50vh] flex items-center justify-center">
+      <Spinner size={28} />
+    </div>
+  );
+}
+
+export default function App() {
+  return (
+    <>
+      <CloudSync />
+      <Suspense fallback={<Fallback />}>
+      <Routes>
+        <Route path="/" element={<Landing />} />
+        <Route path="/experience" element={<Experience />} />
+        <Route path="/pricing" element={<Pricing />} />
+        <Route path="/login" element={<Login />} />
+        {/* Hidden Pinnacle Master access — unlinked from all navigation */}
+        <Route path="/summit" element={<MasterAccess />} />
+
+        <Route
+          path="/app"
+          element={
+            <Protected role="student">
+              <Layout role="student" />
+            </Protected>
+          }
+        >
+          <Route index element={<Dashboard />} />
+          <Route path="planner" element={<Planner />} />
+          <Route path="tutor" element={<Tutor />} />
+          <Route path="subjects" element={<Subjects />} />
+          <Route path="chapter/:chapterId" element={<Chapter />} />
+          <Route path="worksheets" element={<Worksheets />} />
+          <Route path="papers" element={<Papers />} />
+          <Route path="library" element={<LibraryPage />} />
+          <Route path="videos" element={<Videos />} />
+          <Route path="entrance" element={<Entrance />} />
+          <Route path="blob" element={<Blob />} />
+          <Route path="profile" element={<Profile />} />
+        </Route>
+
+        <Route
+          path="/admin"
+          element={
+            <Protected role="admin">
+              <Layout role="admin" />
+            </Protected>
+          }
+        >
+          <Route index element={<AdminDashboard />} />
+          <Route path="materials" element={<AdminMaterials />} />
+          <Route path="students" element={<AdminStudents />} />
+        </Route>
+
+        <Route
+          path="/master"
+          element={
+            <Protected role="master">
+              <Layout role="master" />
+            </Protected>
+          }
+        >
+          <Route index element={<MasterDashboard />} />
+          <Route path="schools" element={<MasterSchools />} />
+          <Route path="pricing" element={<MasterPricing />} />
+          <Route path="updates" element={<MasterUpdates />} />
+        </Route>
+
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+      </Suspense>
+    </>
+  );
+}

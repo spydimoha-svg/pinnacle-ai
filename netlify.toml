@@ -1,0 +1,22 @@
+# Netlify configuration for Pinnacle AI.
+# To deploy on Netlify: connect this repo (or run `netlify deploy --prod`),
+# then set at least one free LLM key (e.g. GROQ_API_KEY) in Site settings →
+# Environment variables. See .env.example for all options.
+
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+
+[[redirects]]
+  from = "/api/chat"
+  to = "/.netlify/functions/chat"
+  status = 200
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

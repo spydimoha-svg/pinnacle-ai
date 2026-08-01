@@ -1,0 +1,405 @@
+import { useEffect, useRef, useState } from "react";
+import { GraduationCap, SendHorizonal, Square, Trash2 } from "lucide-react";
+import { useStore } from "../../lib/store";
+import { buildSystemPrompt, FORMAT_REMINDER, simplifyReminder } from "../../lib/persona";
+import { factualAnswer, groundingFor } from "../../lib/grounding";
+import { generateOnce, offlineTutorReply, streamChat, toWire } from "../../lib/ai";
+import { buildMarkPrompt, gradeAnswer, readMark } from "../../lib/grade";
+import {
+  advance,
+  currentConcept,
+  detectLessonIntent,
+  lessonMap,
+  planTurn,
+  readTags,
+  resolveVerdict,
+  startLesson,
+  type LessonState,
+} from "../../lib/lesson";
+import { hardWordsIn, observeStudent, type LearnerProfile } from "../../lib/learner";
+import { Markdown, Spinner } from "../../components/ui";
+import { LessonRail } from "../../components/LessonRail";
+import { LogoMark } from "../../components/Logo";
+import type { ChatMessage } from "../../lib/types";
+
+const STARTERS = [
+  "I want to learn polynomials from scratch.",
+  "Give me a 3-mark question and grade my answer like a CBSE examiner.",
+  "I have 40 minutes. What's the best use of it today?",
+  "Explain this simply: why do we even use trigonometry?",
+];
+
+/** Quick replies during a lesson: the student should never have to type "yes". */
+const LESSON_REPLIES: Record<string, string[]> = {
+  teach: ["I didn't get that", "Explain it simpler", "Got it, what's next?"],
+  check: ["I didn't get that", "Give me a hint"],
+  reteach: ["That's clearer", "Still confused"],
+  recap: ["Give me more practice"],
+};
+
+/** Stable reference — a fresh [] in the selector would re-render forever. */
+const NO_CHAT: ChatMessage[] = [];
+
+export default function Tutor() {
+  const memory = useStore((s) => (s.currentUser ? s.memories[s.currentUser.id] : null));
+  const chat = useStore((s) => (s.currentUser ? (s.chats[s.currentUser.id] ?? NO_CHAT) : NO_CHAT));
+  const lesson = useStore((s) => (s.currentUser ? (s.lessons[s.currentUser.id] ?? null) : null));
+  const storedProfile = useStore((s) => (s.currentUser ? s.profiles[s.currentUser.id] : null));
+  const pushChat = useStore((s) => s.pushChat);
+  const clearChat = useStore((s) => s.clearChat);
+  const addAltitude = useStore((s) => s.addAltitude);
+  const updateMemory = useStore((s) => s.updateMemory);
+  const setLesson = useStore((s) => s.setLesson);
+  const setProfile = useStore((s) => s.setProfile);
+
+  const profile: LearnerProfile = storedProfile ?? {
+    level: 1,
+    worksWith: [],
+    avoids: [],
+    interests: [],
+    habits: [],
+    language: "English",
+    reteaches: 0,
+    firstTimeWins: 0,
+    updatedAt: Date.now(),
+  };
+
+  const [input, setInput] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [draft, setDraft] = useState("");
+  const abortRef = useRef<AbortController | null>(null);
+  // Bumped whenever a session is reset; an in-flight send() whose token no
+  // longer matches discards its result instead of writing into a cleared chat.
+  const genRef = useRef(0);
+  const bottomRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+  }, [chat.length, draft]);
+
+  useEffect(() => {
+    return () => abortRef.current?.abort();
+  }, []);
+
+  /**
+   * One turn of the conversation.
+   *
+   * Two modes share this path. In free chat the model gets the full persona and
+   * answers the question. Inside a lesson the ENGINE decides what this reply is
+   * for — ask the placement questions, teach step 3, mark an answer, re-explain
+   * — and hands the model one small job with a hard word limit. That is the
+   * whole difference between a tutor and a generator.
+   */
+  async function send(text?: string) {
+    const content = (text ?? input).trim();
+    if (!content || busy) return;
+    setInput("");
+
+    const userMsg: ChatMessage = { role: "user", content, ts: Date.now() };
+    pushChat(userMsg);
+    setBusy(true);
+    setDraft("");
+
+    const myGen = genRef.current;
+    const history = [...chat, userMsg];
+
+    // Some questions are matters of fact the app already holds, and the honest
+    // answer costs nothing to produce and cannot be got wrong. Asking a model
+    // to say "that exercise does not exist" is asking it to be trusted about
+    // something we already know for certain.
+    const known = factualAnswer(content, memory?.classLevel);
+    if (known) {
+      pushChat({ role: "assistant", content: known, ts: Date.now() });
+      setBusy(false);
+      setProfile(observeStudent(profile, content).profile);
+      return;
+    }
+
+    // Read the student before answering them: what they like, what they keep
+    // getting wrong, and whether they just told us they are lost.
+    const observed = observeStudent(profile, content);
+    let nextProfile = observed.profile;
+
+    // Starting a lesson, or continuing one.
+    let active: LessonState | null = lesson;
+    let justStarted = false;
+    if (!active) {
+      const intent = detectLessonIntent(content, memory?.classLevel);
+      if (intent) {
+        active = startLesson(intent.chapterId, memory?.classLevel ?? 10);
+        justStarted = Boolean(active);
+      }
+    } else if (observed.lost || observed.wantsSlower) {
+      // They said it outright, so do not wait for a wrong answer to find out.
+      if (active.phase === "teach" || active.phase === "check") {
+        active = { ...active, phase: "reteach" };
+      }
+    }
+
+    const plan = active ? planTurn(active, nextProfile, memory) : null;
+    const system = plan
+      ? plan.system
+      : buildSystemPrompt(memory, groundingFor(content, memory?.classLevel), nextProfile);
+
+    // Outside a lesson there is no reteach phase, so "I don't get it" has to be
+    // handled here or the next reply comes back harder than the one that just
+    // failed — which is measurably what used to happen.
+    const needsSimpler = !plan && (observed.lost || observed.wantsSlower);
+    const reminder = plan
+      ? plan.reminder
+      : needsSimpler
+        ? `${simplifyReminder(nextProfile.level >= 3 ? 3 : 2, nextProfile.interests, hardWordsIn(chat.filter((m) => m.role === "assistant").slice(-1)[0]?.content ?? "", [content]))}
+
+${FORMAT_REMINDER}`
+        : FORMAT_REMINDER;
+    // Free chat had no ceiling at all, and the local model filled whatever it
+    // was given: 424, 446 and 478-word replies to single doubts. A doubt gets
+    // an answer, not an essay.
+    const budget = plan?.maxTokens ?? (needsSimpler ? (nextProfile.level >= 3 ? 240 : 320) : 620);
+
+    const controller = new AbortController();
+    abortRef.current = controller;
+
+    let full = "";
+    let cancelled = false;
+    try {
+      for await (const chunk of streamChat(
+        toWire(history),
+        system,
+        controller.signal,
+        reminder,
+        budget
+      )) {
+        full += chunk;
+        setDraft(full);
+      }
+    } catch (err) {
+      if ((err as Error)?.name === "AbortError" || controller.signal.aborted) {
+        cancelled = true;
+      } else if (!full) {
+        full = offlineTutorReply(content);
+      }
+    } finally {
+      abortRef.current = null;
+    }
+
+    // A "New session" during the stream invalidates this turn — drop it so the
+    // finishing reply never lands in a cleared chat as an orphan.
+    if (genRef.current !== myGen) return;
+
+    setDraft("");
+    setBusy(false);
+
+    if (full) {
+      // The engine's control tags are read here and stripped: the student sees
+      // a teacher's reply, the app gets a verdict it can act on.
+      // The app marks the check answer itself against the stored correct one,
+      // and only falls back to the model's own verdict line when the answer
+      // cannot be judged mechanically. Without this the lesson stalls on any
+      // model that does not emit the control line — every local one, so far.
+      let verdict = plan ? readTags(full) : { clean: full };
+      if (plan?.phase === "check" && active) {
+        verdict = resolveVerdict(currentConcept(active), content, verdict);
+        // Still nothing decisive: the app could not mark it mechanically and
+        // the model did not say. Rather than leave the student stuck on a step
+        // they may well have got right, ask the model one closed question — a
+        // job even a 3B does reliably, because it is the only thing being asked.
+        const concept = currentConcept(active);
+        if (verdict.mastered === undefined && concept?.check.answer) {
+          const p = buildMarkPrompt(concept.check.q, concept.check.answer, content);
+          try {
+            const word = await generateOnce(p.user, p.system, undefined, undefined, 8);
+            verdict = { ...verdict, mastered: readMark(word), markedBy: "app", why: "second-pass mark" };
+          } catch {
+            /* leave undecided; the engine treats that as not yet */
+          }
+        }
+      }
+      let shown = verdict.clean;
+      if (plan?.appendAfter) shown += `\n${plan.appendAfter}`;
+      pushChat({ role: "assistant", content: shown, ts: Date.now() });
+
+      if (active && plan && !cancelled) {
+        const moved = advance(active, verdict, {
+          lost: observed.lost,
+          wantsSlower: observed.wantsSlower,
+        });
+        setLesson(moved.phase === "done" ? null : moved);
+        // A concept locked in is real progress, and it is worth more than a
+        // message sent.
+        if (verdict.mastered) {
+          addAltitude(10);
+          nextProfile = { ...nextProfile, firstTimeWins: nextProfile.firstTimeWins + 1 };
+        }
+      } else if (justStarted && active) {
+        setLesson(active);
+      }
+    }
+
+    setProfile(nextProfile);
+    if (cancelled) return;
+
+    addAltitude(5);
+    // remember the topic loosely so the tutor can reference it next session
+    if (content.length > 12 && memory) {
+      const topic = content.slice(0, 60);
+      updateMemory({ lastTopics: [...memory.lastTopics.slice(-4), topic] });
+    }
+  }
+
+  function stop() {
+    abortRef.current?.abort();
+  }
+
+  /** Reset to a blank session, aborting any in-flight reply cleanly. */
+  function newSession() {
+    genRef.current++; // invalidate the current turn (if any)
+    abortRef.current?.abort();
+    abortRef.current = null;
+    setBusy(false);
+    setDraft("");
+    clearChat();
+    setLesson(null);
+  }
+
+  const quickReplies = lesson && !busy ? (LESSON_REPLIES[lesson.phase] ?? []) : [];
+  const lessonTitle = lesson ? lessonMap(lesson)?.chapterTitle : null;
+
+  return (
+    <div className="flex flex-col h-[calc(100vh-8.5rem)] lg:h-[calc(100vh-7.5rem)]">
+      <div className="flex items-center justify-between mb-4">
+        <div>
+          <div className="eyebrow mb-0.5">Your teacher, 24 × 7</div>
+          <h1 className="font-display text-2xl font-bold text-cream">Tutor</h1>
+        </div>
+        {chat.length > 0 && (
+          <button className="btn-ghost !py-2 text-xs" onClick={newSession} title="Start a fresh session">
+            <Trash2 size={14} /> New session
+          </button>
+        )}
+      </div>
+
+      {lesson && (
+        <LessonRail
+          state={lesson}
+          profile={profile}
+          onQuit={() => setLesson(null)}
+        />
+      )}
+
+      {/* Messages */}
+      <div className="flex-1 overflow-y-auto space-y-4 pb-4 pr-1">
+        {chat.length === 0 && !busy && (
+          <div className="card text-center py-10">
+            <div className="flex justify-center mb-4">
+              <LogoMark size={40} />
+            </div>
+            <div className="font-display text-lg font-semibold text-cream mb-1">
+              {memory ? `Hey ${memory.name}.` : "Hey."} Ready when you are.
+            </div>
+            <p className="text-sm text-muted max-w-md mx-auto mb-6">
+              Ask a doubt and I'll answer it. Or say you want to learn a chapter
+              from scratch, and I'll check what you already know first, then take
+              it one step at a time.
+            </p>
+            <div className="flex flex-wrap justify-center gap-2 max-w-xl mx-auto">
+              {STARTERS.map((s) => (
+                <button
+                  key={s}
+                  className="chip hover:border-gold-dim hover:text-cream text-left"
+                  onClick={() => send(s)}
+                >
+                  {s}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {chat.map((m, i) =>
+          m.role === "user" ? (
+            <div key={i} className="flex justify-end">
+              <div className="max-w-[85%] bg-raise border border-line rounded-2xl rounded-br-md px-4 py-3 text-[15px]">
+                {m.content}
+              </div>
+            </div>
+          ) : (
+            <div key={i} className="flex gap-3">
+              <div className="shrink-0 mt-1">
+                <LogoMark size={26} />
+              </div>
+              <div className="max-w-[85%] min-w-0">
+                <Markdown text={m.content} />
+              </div>
+            </div>
+          )
+        )}
+
+        {busy && (
+          <div className="flex gap-3">
+            <div className="shrink-0 mt-1">
+              <LogoMark size={26} />
+            </div>
+            <div className="max-w-[85%] min-w-0">
+              {draft ? <Markdown text={draft} streaming /> : <Spinner />}
+            </div>
+          </div>
+        )}
+        <div ref={bottomRef} />
+      </div>
+
+      {/* Saying "I don't get it" has to be one tap, or a student who is lost
+          will type "ok" instead and quietly fall behind. */}
+      {quickReplies.length > 0 && (
+        <div className="flex flex-wrap gap-2 pb-2">
+          {quickReplies.map((q) => (
+            <button key={q} className="chip hover:border-gold-dim hover:text-cream" onClick={() => send(q)}>
+              {q}
+            </button>
+          ))}
+        </div>
+      )}
+
+      {/* Composer */}
+      <form
+        className="flex gap-2 pt-3 border-t border-line"
+        onSubmit={(e) => {
+          e.preventDefault();
+          send();
+        }}
+      >
+        <input
+          className="input flex-1"
+          placeholder={
+            lessonTitle
+              ? `Answer, or tell me you're stuck — we're on ${lessonTitle}`
+              : memory
+                ? `Ask anything, ${memory.name} — a doubt, a chapter, a plan…`
+                : "Ask anything…"
+          }
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          disabled={busy}
+          aria-label="Message the tutor"
+        />
+        {busy ? (
+          <button type="button" className="btn-ghost !px-4" onClick={stop}>
+            <Square size={15} />
+          </button>
+        ) : (
+          <button type="submit" className="btn-gold !px-4" disabled={!input.trim()} aria-label="Send">
+            <SendHorizonal size={16} />
+          </button>
+        )}
+      </form>
+      {!lesson && chat.length > 0 && !busy && (
+        <button
+          className="text-[11px] text-dim hover:text-gold mt-2 self-start inline-flex items-center gap-1"
+          onClick={() => send("I want to learn a chapter from scratch, step by step.")}
+        >
+          <GraduationCap size={12} /> Run a full chapter with me instead
+        </button>
+      )}
+    </div>
+  );
+}
