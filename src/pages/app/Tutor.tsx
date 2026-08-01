@@ -288,7 +288,7 @@ ${FORMAT_REMINDER}`
       )}
 
       {/* Messages */}
-      <div className="flex-1 overflow-y-auto space-y-4 pb-4 pr-1">
+      <div className="flex-1 overflow-y-auto space-y-4 pb-4 pr-1" role="log" aria-live="polite">
         {chat.length === 0 && !busy && (
           <div className="card text-center py-10">
             <div className="flex justify-center mb-4">
@@ -336,7 +336,7 @@ ${FORMAT_REMINDER}`
         )}
 
         {busy && (
-          <div className="flex gap-3">
+          <div className="flex gap-3" aria-hidden="true">
             <div className="shrink-0 mt-1">
               <LogoMark size={26} />
             </div>
