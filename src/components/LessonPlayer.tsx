@@ -5,7 +5,7 @@ import { Toon } from "./cast/Toon";
 import { Stage3D } from "./cast/Stage3D";
 import { Markdown } from "./ui";
 import type { SceneVisual } from "../lib/videoScript";
-import { motion, AnimatePresence } from "motion/react";
+import { motion, AnimatePresence, useReducedMotion } from "motion/react";
 import katex from "katex";
 import DOMPurify from "dompurify";
 import {
@@ -132,6 +132,7 @@ export function LessonPlayer({
   }, [video]);
 
   const cast = useMemo(() => characterById(video.castId), [video.castId]);
+  const reduced = useReducedMotion();
 
   const [started, setStarted] = useState(false);
   const [i, setI] = useState(0);
@@ -271,10 +272,10 @@ export function LessonPlayer({
           <AnimatePresence mode="wait">
             <motion.div
               key={`scene-${i}`}
-              initial={{ opacity: 0, y: 24, filter: "blur(8px)" }}
-              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-              exit={{ opacity: 0, y: -18, filter: "blur(8px)" }}
-              transition={{ duration: 0.5, ease: [0.2, 0.7, 0.2, 1] }}
+              initial={reduced ? { opacity: 0 } : { opacity: 0, y: 24, filter: "blur(8px)" }}
+              animate={reduced ? { opacity: 1 } : { opacity: 1, y: 0, filter: "blur(0px)" }}
+              exit={reduced ? { opacity: 0 } : { opacity: 0, y: -18, filter: "blur(8px)" }}
+              transition={reduced ? { duration: 0 } : { duration: 0.5, ease: [0.2, 0.7, 0.2, 1] }}
               className="max-w-2xl w-full text-center"
             >
               {step.kind !== "scene" && (
@@ -299,9 +300,9 @@ export function LessonPlayer({
                     <motion.li
                       key={qi}
                       className="flex items-start gap-3 text-cream/90"
-                      initial={{ opacity: 0, x: -12 }}
+                      initial={reduced ? false : { opacity: 0, x: -12 }}
                       animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: 0.3 + qi * 0.25 }}
+                      transition={reduced ? { duration: 0 } : { delay: 0.3 + qi * 0.25 }}
                     >
                       <span
                         className="font-mono text-sm mt-0.5"
@@ -340,7 +341,7 @@ export function LessonPlayer({
             className="h-full"
             style={{ background: step.accent }}
             animate={{ width: `${progress}%` }}
-            transition={{ duration: 0.4 }}
+            transition={reduced ? { duration: 0 } : { duration: 0.4 }}
           />
         </div>
 
