@@ -172,7 +172,10 @@ The content below is the real, curated source for what the student is asking abo
 ${grounding}
 NCERT>>>
 `
-    : "";
+    : `
+## NO CURATED SOURCE FOR THIS TOPIC
+Nothing was retrieved from the NCERT/board content store for this question. You are about to answer from your own general knowledge, unchecked against the syllabus text. If there is any real chance of being wrong — a formula, a definition, a numeric answer, an NCERT exercise or example number, a marking-scheme detail — say plainly that you are going from memory and not from the loaded chapter text, before you give it. Do not present an unsourced answer with the same confidence as a grounded one.
+`;
 
   const memoryBlock = memory
     ? `

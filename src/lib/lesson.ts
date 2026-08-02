@@ -153,7 +153,7 @@ export function masteredIds(state: LessonState): string[] {
  * verdict is what lets the ENGINE decide whether to move on — rather than
  * hoping the prose said "well done" and meaning it.
  */
-const TAG_RE = /^@@(PLACEMENT|GAPS|VERDICT)\s*:\s*(.*)$/gim;
+const TAG_RE = /^\s*@@(PLACEMENT|GAPS|VERDICT)\s*:\s*(.*)$/gim;
 
 export interface Verdict {
   clean: string;
