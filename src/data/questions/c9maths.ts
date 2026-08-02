@@ -146,6 +146,47 @@ export const C9_MATHS_QUESTIONS: Question[] = [
     ],
   },
 
+  // ── CH 5 · INTRODUCTION TO EUCLID'S GEOMETRY ──
+  {
+    id: "q-c9-maths-05-1",
+    subjectId: "c9-maths",
+    chapterId: "c9-maths-05",
+    classLevel: 9,
+    text: "State any two of Euclid's postulates and use one of Euclid's axioms to show that 'the whole is greater than the part'.",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer:
+      "Two of Euclid's postulates:\n1. A straight line may be drawn from any one point to any other point.\n2. A terminated line (line segment) can be produced indefinitely.\n\nTo show 'the whole is greater than the part':\nLet AB be a line segment and let C be a point on AB between A and B.\nThen AC is a part of AB, and AB = AC + CB.\nSince CB is a magnitude greater than zero, AB is greater than AC.\nThis is Euclid's fifth common notion (axiom): the whole is greater than the part.",
+    keywords: [
+      "state two postulates correctly (in Euclid's words)",
+      "AB = AC + CB for C between A and B",
+      "CB > 0 so AB > AC",
+      "identify this as Euclid's axiom 'the whole is greater than the part'",
+    ],
+    examinerTip:
+      "Postulates and axioms (common notions) are different lists — mixing them up loses the identification mark even if the statement itself is correct.",
+  },
+  {
+    id: "q-c9-maths-05-2",
+    subjectId: "c9-maths",
+    chapterId: "c9-maths-05",
+    classLevel: 9,
+    text: "Euclid's fifth postulate implies the existence of parallel lines. State the equivalent version of the fifth postulate given by Playfair.",
+    marks: 2,
+    type: "vsa",
+    source: "important",
+    answer:
+      "Playfair's axiom (equivalent to Euclid's fifth postulate): For every line l and for every point P not lying on l, there exists a unique line m passing through P and parallel to l.\n\nThis equivalent version is the one commonly used to define parallel lines in school geometry.",
+    keywords: [
+      "for a line l and a point P not on l",
+      "there exists a unique line m through P parallel to l",
+      "this is Playfair's axiom, equivalent to the fifth postulate",
+    ],
+    examinerTip:
+      "The word 'unique' is the key term — stating merely that a parallel line exists, without uniqueness, does not earn full marks.",
+  },
+
   // ── CH 6 · LINES AND ANGLES ──
   {
     id: "q-c9-maths-06-1",
@@ -188,6 +229,48 @@ export const C9_MATHS_QUESTIONS: Question[] = [
     ],
     examinerTip:
       "Name the congruence rule (SAS) and end with CPCT — examiners award a mark specifically for quoting CPCT, not just 'so the angles are equal'.",
+  },
+
+  // ── CH 8 · QUADRILATERALS ──
+  {
+    id: "q-c9-maths-08-1",
+    subjectId: "c9-maths",
+    chapterId: "c9-maths-08",
+    classLevel: 9,
+    text: "Prove that the diagonal of a parallelogram divides it into two congruent triangles.",
+    marks: 3,
+    type: "sa",
+    source: "pyq",
+    answer:
+      "Given: Parallelogram ABCD with diagonal AC.\nTo prove: △ABC ≅ △CDA.\n\nSince AB ∥ DC and AC is a transversal, ∠BAC = ∠DCA (alternate angles) … (i)\nSince BC ∥ AD and AC is a transversal, ∠BCA = ∠DAC (alternate angles) … (ii)\nAC = AC (common)\n\nFrom (i), (ii) and the common side, △ABC ≅ △CDA (ASA).\nHence the diagonal divides the parallelogram into two congruent triangles.",
+    keywords: [
+      "∠BAC = ∠DCA (alternate angles, AB ∥ DC)",
+      "∠BCA = ∠DAC (alternate angles, BC ∥ AD)",
+      "AC common",
+      "△ABC ≅ △CDA by ASA",
+    ],
+    examinerTip:
+      "Name which pair of sides is parallel before quoting the alternate-angle property — the examiner wants the reason attached to each angle equality, not just the ASA conclusion.",
+  },
+  {
+    id: "q-c9-maths-08-2",
+    subjectId: "c9-maths",
+    chapterId: "c9-maths-08",
+    classLevel: 9,
+    text: "In a triangle ABC, D and E are the mid-points of sides AB and AC respectively. Using the Mid-point Theorem, show that DE ∥ BC and DE = ½ BC.",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer:
+      "Given: D and E are mid-points of AB and AC.\nTo prove: DE ∥ BC and DE = ½ BC.\n\nProduce DE to F such that DE = EF, and join CF.\nIn △AED and △CEF: AE = CE (E is mid-point of AC), ∠AED = ∠CEF (vertically opposite), DE = EF (construction).\n∴ △AED ≅ △CEF (SAS), so CF = AD and ∠ADE = ∠CFE.\n\nSince AD = DB (D is mid-point of AB) and CF = AD, we get CF = DB.\nAlso ∠ADE = ∠CFE makes AB ∥ CF (equal alternate angles), so DB ∥ CF.\nSince DB = CF and DB ∥ CF, DBCF is a parallelogram, so DF ∥ BC and DF = BC.\n\nSince DE = ½ DF, DE ∥ BC and DE = ½ BC.\nThis is the Mid-point Theorem.",
+    keywords: [
+      "construction: produce DE to F with DE = EF, join CF",
+      "△AED ≅ △CEF by SAS",
+      "DBCF is a parallelogram since DB = CF and DB ∥ CF",
+      "DE ∥ BC and DE = ½ BC",
+    ],
+    examinerTip:
+      "This proof needs the construction line — attempting it without extending DE to F leaves no way to build the parallelogram, and most students lose marks here for skipping that step.",
   },
 
   // ── CH 9 · CIRCLES ──
