@@ -35,6 +35,13 @@ function verifyToken(token: string, secret: string): boolean {
 const RATE_LIMIT_WINDOW_MS = 5 * 60_000;
 const RATE_LIMIT_MAX = 5;
 
+// The verify branch just checks a token's HMAC signature — it doesn't attempt
+// the passcode, so it gets its own generous budget under a separate key.
+// Otherwise a team member re-mounting Protected.tsx across a few /master
+// pages burns the same 5-per-5-minute budget meant to stop passcode
+// brute-forcing and locks themselves out of their own console.
+const VERIFY_RATE_LIMIT_MAX = 60;
+
 // In-memory fallback only: used when Supabase isn't configured at all, so
 // there's no shared store to throttle against. When Supabase IS configured,
 // the module-level Map is not enough — Vercel resets it on every cold start
@@ -44,27 +51,27 @@ const RATE_LIMIT_MAX = 5;
 // across every instance.
 const attemptTimestamps = new Map<string, number[]>();
 
-function isRateLimitedInMemory(ip: string): boolean {
+function isRateLimitedInMemory(key: string, max: number): boolean {
   const now = Date.now();
-  const recent = (attemptTimestamps.get(ip) ?? []).filter(
+  const recent = (attemptTimestamps.get(key) ?? []).filter(
     (t) => now - t < RATE_LIMIT_WINDOW_MS
   );
   recent.push(now);
-  attemptTimestamps.set(ip, recent);
-  return recent.length > RATE_LIMIT_MAX;
+  attemptTimestamps.set(key, recent);
+  return recent.length > max;
 }
 
-async function isRateLimited(ip: string): Promise<boolean> {
-  if (!supabaseUrl || !supabaseServiceKey) return isRateLimitedInMemory(ip);
+async function isRateLimited(key: string, max: number): Promise<boolean> {
+  if (!supabaseUrl || !supabaseServiceKey) return isRateLimitedInMemory(key, max);
   const admin = createClient(supabaseUrl, supabaseServiceKey);
   const { data, error } = await admin.rpc("rate_limit_hit", {
-    p_key: `master-login:${ip}`,
+    p_key: key,
     p_window_ms: RATE_LIMIT_WINDOW_MS,
-    p_max: RATE_LIMIT_MAX,
+    p_max: max,
   });
   if (error) {
     console.error("rate_limit_hit error:", error.message);
-    return isRateLimitedInMemory(ip);
+    return isRateLimitedInMemory(key, max);
   }
   return data === true;
 }
@@ -90,12 +97,17 @@ export async function POST(req: Request): Promise<Response> {
     return new Response("Invalid JSON", { status: 400 });
   }
 
-  if (await isRateLimited(clientIp(req))) {
-    return new Response("Too many attempts", { status: 429 });
-  }
+  const ip = clientIp(req);
 
   if (typeof body.verify === "string") {
+    if (await isRateLimited(`master-login:verify:${ip}`, VERIFY_RATE_LIMIT_MAX)) {
+      return new Response("Too many attempts", { status: 429 });
+    }
     return Response.json({ valid: verifyToken(body.verify, secret) });
+  }
+
+  if (await isRateLimited(`master-login:${ip}`, RATE_LIMIT_MAX)) {
+    return new Response("Too many attempts", { status: 429 });
   }
 
   const given = typeof body.passcode === "string" ? Buffer.from(body.passcode.trim().toUpperCase()) : Buffer.alloc(0);
