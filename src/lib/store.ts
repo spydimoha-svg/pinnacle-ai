@@ -348,7 +348,10 @@ export const useStore = create<PinnacleState>()(
         const u = get().currentUser;
         if (!u) return;
         set((s) => ({
-          blobs: { ...s.blobs, [u.id]: [entry, ...(s.blobs[u.id] ?? [])] },
+          blobs: {
+            ...s.blobs,
+            [u.id]: [entry, ...(s.blobs[u.id] ?? [])].slice(0, 200),
+          },
         }));
       },
 
@@ -371,7 +374,7 @@ export const useStore = create<PinnacleState>()(
         set((s) => ({
           worksheets: {
             ...s.worksheets,
-            [u.id]: [w, ...(s.worksheets[u.id] ?? [])],
+            [u.id]: [w, ...(s.worksheets[u.id] ?? [])].slice(0, 200),
           },
         }));
       },
