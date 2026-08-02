@@ -1,6 +1,7 @@
 import type { Question } from "../lib/types";
 import { C9_MATHS_QUESTIONS } from "./questions/c9maths";
 import { C9_SCIENCE_QUESTIONS } from "./questions/c9science";
+import { C9_SST_QUESTIONS } from "./questions/c9sst";
 import { C10_MATHS_QUESTIONS } from "./questions/c10maths";
 import { C10_SCIENCE_QUESTIONS } from "./questions/c10science";
 import { C10_SST_ENGLISH_QUESTIONS } from "./questions/c10sstEnglish";
@@ -18,6 +19,7 @@ import { C12_ENGLISH_QUESTIONS } from "./questions/c12english";
 export const QUESTIONS: Question[] = [
   ...C9_MATHS_QUESTIONS,
   ...C9_SCIENCE_QUESTIONS,
+  ...C9_SST_QUESTIONS,
   ...C10_MATHS_QUESTIONS,
   ...C10_SCIENCE_QUESTIONS,
   ...C10_SST_ENGLISH_QUESTIONS,

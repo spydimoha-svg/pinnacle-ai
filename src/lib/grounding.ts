@@ -17,17 +17,28 @@ const STOP = new Set([
   "from", "about", "this", "that", "some", "make", "want", "need", "learn",
 ]);
 
+function escapeRegExp(s: string): string {
+  return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+// Whole-word match so a short word doesn't score just for appearing inside a
+// longer, unrelated word (e.g. "sin" inside "using").
+function hasWord(haystack: string, needle: string): boolean {
+  if (!needle) return false;
+  return new RegExp(`\\b${escapeRegExp(needle)}\\b`).test(haystack);
+}
+
 function scoreChapter(q: string, subject: Subject, chapter: Chapter): number {
   let score = 0;
   const title = chapter.title.toLowerCase();
-  if (q.includes(title)) score += 6;
-  if (q.includes(subject.name.toLowerCase())) score += 1;
+  if (hasWord(q, title)) score += 6;
+  if (hasWord(q, subject.name.toLowerCase())) score += 1;
   for (const t of chapter.keyTopics) {
-    if (t.length > 3 && q.includes(t.toLowerCase())) score += 3;
+    if (t.length > 3 && hasWord(q, t.toLowerCase())) score += 3;
   }
   const hay = (title + " " + chapter.keyTopics.join(" ")).toLowerCase();
   const words = q.split(/[^a-z0-9]+/).filter((w) => w.length > 3 && !STOP.has(w));
-  for (const w of words) if (hay.includes(w)) score += 1;
+  for (const w of words) if (hasWord(hay, w)) score += 1;
   const chNo = q.match(/\bchapter\s*(\d+)\b/);
   if (chNo && parseInt(chNo[1], 10) === chapter.number) score += 4;
   return score;
