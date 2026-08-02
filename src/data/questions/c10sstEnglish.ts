@@ -1283,6 +1283,29 @@ The effect is one of irony and contrast: it is precisely these gloomy, unpleasan
       "Half the marks here are for naming the device (symbolism, and the resulting irony). Students explain the mood change but never say WHY the negative images matter — the contrast is the answer, not a decoration on it.",
   },
   {
+    id: "q-c10-english-02-2",
+    subjectId: "c10-english",
+    chapterId: "c10-english-02",
+    classLevel: 10,
+    text: "What is the central idea of Robert Frost's poem 'Dust of Snow'? (30–40 words)",
+    marks: 2,
+    type: "sa",
+    source: "important",
+    answer: `The central idea of 'Dust of Snow' is that even the smallest, most ordinary and seemingly unpromising moments in nature have the power to heal a troubled mind. A crow shaking snow-dust off a hemlock tree onto the poet is a trivial, almost unpleasant incident, yet it instantly changes his mood and rescues part of a day he had been regretting.
+
+Through this small event, Frost suggests that joy can come from unexpected sources, and that we should stay open to the quiet, everyday gifts of nature rather than measuring hope only in grand or obviously beautiful moments.`,
+    keywords: [
+      "small/trivial incident in nature",
+      "change of mood",
+      "healing power of nature",
+      "positive turn from an ordinary, unpromising moment",
+      "saved part of a rued/regretted day",
+      "joy from unexpected sources",
+    ],
+    examinerTip:
+      "'Central idea' questions want the general takeaway, not a re-description of the crow and hemlock — state plainly that small, unexpected moments in nature can transform our mood.",
+  },
+  {
     id: "q-c10-english-04-1",
     subjectId: "c10-english",
     chapterId: "c10-english-04",
@@ -1310,6 +1333,28 @@ What it teaches us: Mandela teaches that true bravery lies in facing our fears r
       "This is a value-based long answer, not a summary of the inauguration ceremony. Quote Mandela's own lines on fear and on 'transitory freedoms', and close with the takeaway — answers that merely narrate the chapter lose the analysis and value marks.",
   },
   {
+    id: "q-c10-english-04-2",
+    subjectId: "c10-english",
+    chapterId: "c10-english-04",
+    classLevel: 10,
+    text: "What does Nelson Mandela mean by the 'twin obligations' every African in South Africa struggled to fulfil, and how did he try to meet them? (40–50 words)",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer: `Mandela speaks of the twin obligations that every African in South Africa struggled to fulfil: obligations to family — to parents, wife and children — and obligations to one's people, community and country. In a land of such gross inequality and oppression, he found it possible to honour his obligations to his people only by neglecting those to his family, since no one could truly keep both commitments at once.
+
+He met this obligation to his people by devoting his life to the struggle against apartheid, sacrificing decades of ordinary family life, including twenty-seven years in prison, so that all South Africans might one day live as equals — a sacrifice he regarded as unavoidable, since in an unfree country every person, oppressor and oppressed alike, remains diminished.`,
+    keywords: [
+      "twin obligations — to family and to the people/country",
+      "gross inequality made fulfilling both impossible",
+      "sacrificed family life / twenty-seven years in prison for the struggle",
+      "obligation to his people took precedence",
+      "unfree country diminishes every person",
+    ],
+    examinerTip:
+      "'Twin obligations' is a fixed phrase from the text — name both obligations explicitly (family AND people) and state that Mandela could fulfil only one, at cost to the other.",
+  },
+  {
     id: "q-c10-english-08-1",
     subjectId: "c10-english",
     chapterId: "c10-english-08",
@@ -1331,6 +1376,29 @@ What the boy learns is 'the epistemology of loss' — the knowledge of what loss
     ],
     examinerTip:
       "The marked phrase is 'the epistemology of loss' — an answer that stops at 'the boy was sad about his ball' gets no analysis mark. State that the ball is a SYMBOL of lost childhood before explaining the lesson.",
+  },
+  {
+    id: "q-c10-english-08-2",
+    subjectId: "c10-english",
+    chapterId: "c10-english-08",
+    classLevel: 10,
+    text: "What does the poet mean when he says the boy 'senses first responsibility / In a world of possessions'? (40–50 words)",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer: `When Berryman writes that the boy 'senses first responsibility / In a world of possessions', he means that losing the ball is the child's first real encounter with the rule that governs the adult world of ownership — that whatever one possesses can be taken away or lost forever, and there is no getting it back merely by demanding a replacement. This small loss is the boy's initiation into a lifelong pattern: people will lose money, love and possessions again and again, and each time they must learn to bear it and carry on.
+
+The poet suggests that how the boy behaves now, in this small trial, previews how he will cope with far greater losses later in life. The loss of the ball is therefore not trivial; it is his first lesson in responsibility and in the impermanence of what we own.`,
+    keywords: [
+      "'first responsibility in a world of possessions'",
+      "loss cannot be undone by buying a replacement",
+      "initiation into the pattern of lifelong loss",
+      "small loss previews how he copes with bigger losses later",
+      "responsibility = learning resilience and acceptance",
+      "impermanence of possessions",
+    ],
+    examinerTip:
+      "This is the poem's central abstraction — do not paraphrase it as 'he learned to be careful with his things'; the point is that loss itself, and how one bears it, is what 'responsibility' means here.",
   },
   {
     id: "q-c10-english-14-1",
@@ -1484,6 +1552,29 @@ Karan`,
       "Marks split as Format 1, Content 2, Expression/Accuracy 2. The commonest losses are a missing SUBJECT line and no suggested remedies — a letter that only complains cannot get full content marks. Keep it 100-120 words and formal; no contractions, no 'Dear Editor'.",
   },
   {
+    id: "q-c10-english-01-2",
+    subjectId: "c10-english",
+    chapterId: "c10-english-01",
+    classLevel: 10,
+    text: "In G. L. Fuentes's 'A Letter to God', why is Lencho angry after receiving the money sent by the post office staff, and what does his reaction reveal about him? (40–50 words)",
+    marks: 2,
+    type: "sa",
+    source: "important",
+    answer: `Lencho had asked God for a hundred pesos to resow his hail-destroyed field. The postmaster, moved by his faith, collected money from himself and his colleagues but could raise only seventy pesos, which he sent to Lencho signed 'God'. Lencho counted the money without a flicker of doubt that God had sent it, but on finding only seventy instead of a hundred, he grew angry, certain that God could not have made a mistake, and concluded that the post office employees must have kept the remaining thirty pesos for themselves — writing a second letter to God asking for the rest, and asking that it not be sent through the post this time, because in his opinion the post office staff were 'a bunch of crooks'.
+
+This reaction reveals the irony at the heart of the story: Lencho's faith in God is absolute and unquestioning, yet his trust in human beings — the very men whose generosity had just saved him — is nonexistent.`,
+    keywords: [
+      "asked for 100 pesos, received only seventy",
+      "certain God cannot make a mistake",
+      "blames the post office employees for the missing thirty pesos",
+      "writes a second letter asking for the rest",
+      "unquestioning faith in God",
+      "irony — no faith in the human beings who actually helped him",
+    ],
+    examinerTip:
+      "The irony is the whole mark scheme here — Lencho trusts God completely but distrusts the very men who helped him. State this contrast explicitly; a plain retelling of the second letter without naming the irony scores low.",
+  },
+  {
     id: "q-c10-english-03-1",
     subjectId: "c10-english",
     chapterId: "c10-english-03",
@@ -1505,6 +1596,29 @@ Frost says that if he had to choose only once, he would say the world will end i
     ],
     examinerTip:
       "A literal answer about global warming or an ice age scores nothing — the key wants the allegory (fire=desire, ice=hatred) stated explicitly before you explain which one Frost favours.",
+  },
+  {
+    id: "q-c10-english-03-2",
+    subjectId: "c10-english",
+    chapterId: "c10-english-03",
+    classLevel: 10,
+    text: "Comment on the form and tone of Robert Frost's 'Fire and Ice', and how they contribute to its meaning. (30–40 words)",
+    marks: 2,
+    type: "sa",
+    source: "important",
+    answer: `'Fire and Ice' is a very short poem of only nine lines, written in a simple, almost conversational tone despite dealing with the grave, apocalyptic subject of how the world will end. Frost closes the poem with the deliberately casual, understated word 'suffice', describing forces capable of destroying the world.
+
+This creates an ironic contrast between the enormity of the theme and the lightness of the language: even something as vast as the end of the world is reduced, in Frost's telling, to two very ordinary human failings, desire and hatred, discussed in an almost offhand manner. The poem's brevity and its tight, casual rhyme mirror this idea that catastrophe can come from something as small and familiar as human emotion.`,
+    keywords: [
+      "short, compact poem (nine lines)",
+      "conversational/casual tone",
+      "grave, apocalyptic subject matter",
+      "understated closing word 'suffice'",
+      "irony between form and theme",
+      "brevity mirrors the poem's message",
+    ],
+    examinerTip:
+      "Tone/form questions appear less often than the allegory question but are still asked — the key observation is the contrast between the casualness of the language and the seriousness of the theme.",
   },
   {
     id: "q-c10-english-05-1",
@@ -1530,6 +1644,29 @@ In the cage, all of this is denied. It patrols a concrete cell, hardly aware of 
     ],
     examinerTip:
       "The poem alternates jungle stanzas with cage stanzas — answer in the same paired structure (wild, then cage) rather than describing only one state, since the contrast itself is the marked idea.",
+  },
+  {
+    id: "q-c10-english-05-2",
+    subjectId: "c10-english",
+    chapterId: "c10-english-05",
+    classLevel: 10,
+    text: "Identify and explain any two poetic devices used in Leslie Norris's 'A Tiger in the Zoo'. (30–40 words)",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer: `(i) Imagery — the poet uses vivid visual imagery, such as stripes fitted to the pattern of forest shadows and 'on pads of velvet quiet' for the wild tiger, and pacing 'a few short steps' of a 'concrete cell' for the caged one, letting the reader picture both its natural grace and its confined helplessness.
+
+(ii) Alliteration — phrases such as 'pads of velvet quiet' and 'baring fangs' use the repetition of consonant sounds to create a soft, stealthy rhythm for the wild tiger and a harsher, more clipped rhythm for its captivity.
+
+Together these devices reinforce the poem's central contrast between the freedom and power of the tiger's natural life and the confinement and loss of its life in the zoo.`,
+    keywords: [
+      "imagery — forest shadows, pads of velvet quiet, concrete cell",
+      "alliteration — 'pads of velvet quiet', 'baring fangs'",
+      "devices reinforce the wild-versus-cage contrast",
+      "vivid visual imagery of both states",
+    ],
+    examinerTip:
+      "Name the device AND quote the exact phrase — a device named without its textual example earns only half credit.",
   },
   {
     id: "q-c10-english-06-1",
@@ -1603,6 +1740,28 @@ Example 2: for the Crocodile, if a reptile 'weeps' while eating you, it is a Cro
       "Two SEPARATE named examples are wanted (Lion/Bear and Crocodile/Hyena or similar) — a general statement that 'the poem is funny' with no textual detail earns almost nothing.",
   },
   {
+    id: "q-c10-english-07-2",
+    subjectId: "c10-english",
+    chapterId: "c10-english-07",
+    classLevel: 10,
+    text: "What kind of poem is 'How to Tell Wild Animals', and how does its repeated structure add to the humour? (30–40 words)",
+    marks: 2,
+    type: "sa",
+    source: "important",
+    answer: `Carolyn Wells writes 'How to Tell Wild Animals' as a mock-instructional poem, imitating the solemn tone of a wildlife field guide while actually offering pure nonsense. Each stanza follows the same repeated pattern — a serious 'if' clause describing an encounter with an animal, followed by an absurd giveaway sign that becomes obvious only once it is far too late, usually after the animal has already attacked.
+
+This repetition itself becomes comic: once the reader recognises the pattern, each new stanza is enjoyed as a fresh variation on the same too-late joke, and the poem's simple, sing-song rhyme scheme, typical of light verse, reinforces its playful, deadpan tone.`,
+    keywords: [
+      "mock-instructional/field-guide form",
+      "repeated 'if...then' structure across stanzas",
+      "identification comes too late (after the attack)",
+      "sing-song rhyme scheme typical of light/nonsense verse",
+      "repetition itself creates the comic effect",
+    ],
+    examinerTip:
+      "The FORM is the joke — a mock field-guide with a repeated 'too-late' pattern. Name this structural repetition, not just one example, to answer a 'how' question fully.",
+  },
+  {
     id: "q-c10-english-09-1",
     subjectId: "c10-english",
     chapterId: "c10-english-09",
@@ -1624,6 +1783,28 @@ The Mr Keesing episode: Mr Keesing, Anne's maths teacher, was annoyed by her con
     ],
     examinerTip:
       "Two distinct parts are asked — WHY a diary, and the Keesing episode — students often answer only one. All three essay titles, in order, are separately markable value points; naming just one caps the answer.",
+  },
+  {
+    id: "q-c10-english-09-2",
+    subjectId: "c10-english",
+    chapterId: "c10-english-09",
+    classLevel: 10,
+    text: "What kind of person does Anne Frank come across as in 'From the Diary of Anne Frank'? (40–50 words)",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer: `Anne comes across as an unusually perceptive, sensitive and articulate thirteen-year-old. Though surrounded by many acquaintances and admirers, she feels a deep loneliness because she has no one with whom she can share her innermost thoughts, which shows a maturity and emotional depth beyond her years.
+
+She is also witty, imaginative and self-aware, evident in the clever, humorous essays she writes for Mr Keesing rather than resenting the punishment. Her ability to reflect honestly on her own faults, such as her talkativeness, and to turn a punishment into an opportunity for creative self-expression, reveals a resilient, good-humoured personality, able to find meaning and companionship even in the isolation of hiding from the Nazis.`,
+    keywords: [
+      "perceptive, sensitive, articulate beyond her years",
+      "loneliness despite many acquaintances",
+      "witty and imaginative — the duck-and-swan essay",
+      "self-aware about her own talkativeness",
+      "resilient and good-humoured despite hiding from the Nazis",
+    ],
+    examinerTip:
+      "Character-sketch questions want traits SUPPORTED by incidents from the text — do not just list adjectives like 'she was nice'; tie each trait to the diary's need for a friend or the Keesing essays.",
   },
   {
     id: "q-c10-english-10-1",

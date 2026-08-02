@@ -935,6 +935,23 @@ export const C11_QUESTIONS: Question[] = [
     ],
   },
   {
+    id: "q-c11-biology-01-x2",
+    subjectId: "c11-biology",
+    chapterId: "c11-biology-01",
+    classLevel: 11,
+    text: "Arrange the following taxonomic categories in their correct hierarchical order, from the broadest to the most specific: Order, Species, Kingdom, Genus, Family, Class, Phylum.",
+    marks: 2,
+    type: "vsa",
+    source: "important",
+    answer:
+      "The taxonomic hierarchy from broadest to most specific is: Kingdom → Phylum → Class → Order → Family → Genus → Species.\n\nEach category (or taxon) at a given rank includes one or more taxa of the rank below it, so the number of characters shared by its members decreases while the number of individuals it covers increases as one moves from species to kingdom.",
+    keywords: [
+      "Kingdom → Phylum → Class → Order → Family → Genus → Species",
+      "each rank in the hierarchy is called a taxon",
+      "shared characters decrease, individuals covered increase, going from species to kingdom",
+    ],
+  },
+  {
     id: "q-c11-biology-02-x1",
     subjectId: "c11-biology",
     chapterId: "c11-biology-02",
@@ -949,6 +966,23 @@ export const C11_QUESTIONS: Question[] = [
       "bacteria → Kingdom Monera",
       "prokaryotic cells — no membrane-bound nucleus/organelles",
       "cell wall present; autotrophic or heterotrophic nutrition",
+    ],
+  },
+  {
+    id: "q-c11-biology-02-x2",
+    subjectId: "c11-biology",
+    chapterId: "c11-biology-02",
+    classLevel: 11,
+    text: "What is a lichen? Name the two organisms that associate to form it and describe the nature of their relationship.",
+    marks: 2,
+    type: "sa",
+    source: "important",
+    answer:
+      "A lichen is a composite organism formed by a symbiotic association between an alga and a fungus.\n\nThe algal component (phycobiont) is photosynthetic and prepares food for the fungus, while the fungal component (mycobiont) absorbs water and minerals and provides shelter to the alga. This is a mutually beneficial relationship that allows lichens to survive in extreme habitats.",
+    keywords: [
+      "lichen = symbiotic association of an alga and a fungus",
+      "algal partner (phycobiont) photosynthesises and provides food",
+      "fungal partner (mycobiont) provides shelter, water and minerals — mutualism",
     ],
   },
   {
@@ -969,6 +1003,23 @@ export const C11_QUESTIONS: Question[] = [
     ],
   },
   {
+    id: "q-c11-biology-03-x2",
+    subjectId: "c11-biology",
+    chapterId: "c11-biology-03",
+    classLevel: 11,
+    text: "What is heterospory? Name two heterosporous pteridophytes and state its significance in the evolution of the seed habit.",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer:
+      "Heterospory is the condition in which a plant produces two kinds of spores — smaller microspores, which give rise to the male gametophyte, and larger megaspores, which give rise to the female gametophyte.\n\nSelaginella and Salvinia are examples of heterosporous pteridophytes.\n\nSignificance: the megaspore, having limited food reserves, is retained on the parent plant, and its retention and germination while attached to the parent is considered to foreshadow the seed habit seen in gymnosperms and angiosperms.",
+    keywords: [
+      "heterospory: production of two kinds of spores — microspores and megaspores",
+      "examples: Selaginella and Salvinia",
+      "retention of the megaspore on the parent plant foreshadows the seed habit",
+    ],
+  },
+  {
     id: "q-c11-biology-04-x1",
     subjectId: "c11-biology",
     chapterId: "c11-biology-04",
@@ -983,6 +1034,23 @@ export const C11_QUESTIONS: Question[] = [
       "notochord present at some stage of life",
       "dorsal, hollow nerve cord",
       "paired pharyngeal gill slits and a post-anal tail",
+    ],
+  },
+  {
+    id: "q-c11-biology-04-x2",
+    subjectId: "c11-biology",
+    chapterId: "c11-biology-04",
+    classLevel: 11,
+    text: "The presence of a water-vascular system, used for locomotion, is a distinctive feature of which phylum?\n(A) Mollusca\n(B) Annelida\n(C) Echinodermata\n(D) Arthropoda",
+    marks: 1,
+    type: "mcq",
+    source: "pyq",
+    answer:
+      "Correct option: (C) Echinodermata.\n\nEchinoderms (e.g. starfish, sea urchins) possess a unique water-vascular system, which they use for locomotion, capture and transport of food, and respiration. This system is not found in any other animal phylum.",
+    keywords: [
+      "water-vascular system is unique to Echinodermata",
+      "used for locomotion, feeding and respiration",
+      "answer (C)",
     ],
   },
   {
@@ -1003,6 +1071,23 @@ export const C11_QUESTIONS: Question[] = [
     ],
   },
   {
+    id: "q-c11-biology-05-x2",
+    subjectId: "c11-biology",
+    chapterId: "c11-biology-05",
+    classLevel: 11,
+    text: "Differentiate between a fibrous root system and a tap root system, giving one example of a plant with each.",
+    marks: 2,
+    type: "sa",
+    source: "important",
+    answer:
+      "In a tap root system, a single main root grows vertically downward from the radicle and gives off lateral roots; it is typical of dicotyledonous plants, e.g. mustard.\n\nIn a fibrous root system, the radicle is short-lived and is replaced by a cluster of roots of more or less the same size arising from the base of the stem; it is typical of monocotyledonous plants, e.g. wheat.",
+    keywords: [
+      "tap root: single main root with laterals, from the radicle — dicots, e.g. mustard",
+      "fibrous root: cluster of similar-sized roots from the stem base — monocots, e.g. wheat",
+      "root system type is correlated with dicot vs monocot habit",
+    ],
+  },
+  {
     id: "q-c11-biology-06-x1",
     subjectId: "c11-biology",
     chapterId: "c11-biology-06",
@@ -1017,6 +1102,23 @@ export const C11_QUESTIONS: Question[] = [
       "meristem = actively dividing, undifferentiated cells for growth",
       "apical meristem — at root/shoot tips",
       "intercalary meristem (base of internodes) and lateral meristem (cambium)",
+    ],
+  },
+  {
+    id: "q-c11-biology-06-x2",
+    subjectId: "c11-biology",
+    chapterId: "c11-biology-06",
+    classLevel: 11,
+    text: "Differentiate between xylem and phloem with respect to the direction in which they conduct materials.",
+    marks: 2,
+    type: "sa",
+    source: "important",
+    answer:
+      "Xylem is a conducting tissue that transports water and dissolved mineral salts unidirectionally, upward from the roots to the rest of the plant.\n\nPhloem transports food materials, mainly sucrose, bidirectionally — both upward and downward — from the leaves (the site of synthesis) to other parts of the plant, including storage organs and growing regions.",
+    keywords: [
+      "xylem conducts water and minerals unidirectionally, upward (root to shoot)",
+      "phloem conducts food (mainly sucrose) bidirectionally, both up and down",
+      "phloem transport is also called translocation",
     ],
   },
   {
@@ -1037,6 +1139,23 @@ export const C11_QUESTIONS: Question[] = [
     ],
   },
   {
+    id: "q-c11-biology-07-x2",
+    subjectId: "c11-biology",
+    chapterId: "c11-biology-07",
+    classLevel: 11,
+    text: "Name the three types of muscular tissue found in the human body and give one distinguishing feature of each.",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer:
+      "The three types of muscular tissue are:\n\nSkeletal (striated) muscle — attached to bones, appears striped under the microscope, and is under voluntary control.\n\nSmooth (unstriated) muscle — found in the walls of internal organs like the gut and blood vessels, made of unstriped spindle-shaped cells, and is under involuntary control.\n\nCardiac muscle — found only in the heart, striated but branched and interconnected, and contracts involuntarily and rhythmically throughout life.",
+    keywords: [
+      "skeletal muscle: striated, attached to bones, voluntary",
+      "smooth muscle: unstriated, in internal organ walls, involuntary",
+      "cardiac muscle: striated, branched, involuntary, found only in the heart",
+    ],
+  },
+  {
     id: "q-c11-biology-08-x1",
     subjectId: "c11-biology",
     chapterId: "c11-biology-08",
@@ -1054,6 +1173,23 @@ export const C11_QUESTIONS: Question[] = [
     ],
   },
   {
+    id: "q-c11-biology-08-x2",
+    subjectId: "c11-biology",
+    chapterId: "c11-biology-08",
+    classLevel: 11,
+    text: "State the cell theory. Which two scientists first proposed it, and how was it later modified?",
+    marks: 2,
+    type: "sa",
+    source: "important",
+    answer:
+      "The cell theory states that all living organisms are composed of cells, and the cell is the basic structural and functional unit of life. It was proposed by Matthias Schleiden and Theodor Schwann in 1838–39.\n\nIt was later modified by Rudolf Virchow, who added that all cells arise from pre-existing cells (Omnis cellula-e cellula), giving the cell theory its final, modern form.",
+    keywords: [
+      "cell = basic structural and functional unit of life",
+      "proposed by Schleiden and Schwann",
+      "modified by Virchow: all cells arise from pre-existing cells",
+    ],
+  },
+  {
     id: "q-c11-biology-09-x1",
     subjectId: "c11-biology",
     chapterId: "c11-biology-09",
@@ -1068,6 +1204,23 @@ export const C11_QUESTIONS: Question[] = [
       "peptide bond links amino acids",
       "formed between –COOH and –NH₂ (loss of water)",
       "enzymes are proteins (biocatalysts)",
+    ],
+  },
+  {
+    id: "q-c11-biology-09-x2",
+    subjectId: "c11-biology",
+    chapterId: "c11-biology-09",
+    classLevel: 11,
+    text: "Differentiate between DNA and RNA with respect to the sugar present and the number of polynucleotide strands.",
+    marks: 2,
+    type: "vsa",
+    source: "important",
+    answer:
+      "DNA contains deoxyribose sugar and is usually double-stranded, forming the well-known double helix.\n\nRNA contains ribose sugar and is usually single-stranded.",
+    keywords: [
+      "DNA: deoxyribose sugar, double-stranded (double helix)",
+      "RNA: ribose sugar, single-stranded",
+      "both are nucleic acids, polymers of nucleotides",
     ],
   },
 
@@ -1089,6 +1242,23 @@ export const C11_QUESTIONS: Question[] = [
     ],
   },
   {
+    id: "q-c11-biology-10-x2",
+    subjectId: "c11-biology",
+    chapterId: "c11-biology-10",
+    classLevel: 11,
+    text: "State two ways in which meiosis differs from mitosis.",
+    marks: 2,
+    type: "vsa",
+    source: "important",
+    answer:
+      "Meiosis involves two successive divisions (meiosis I and meiosis II) following a single round of DNA replication, whereas mitosis involves only one division.\n\nMeiosis produces four daughter cells, each with half the chromosome number of the parent cell (haploid), and introduces genetic variation through crossing over; mitosis produces two daughter cells that are genetically identical to the parent cell and have the same (diploid) chromosome number.",
+    keywords: [
+      "meiosis: two successive divisions after one round of DNA replication; mitosis: one division",
+      "meiosis gives 4 haploid, genetically varied daughter cells",
+      "mitosis gives 2 diploid, genetically identical daughter cells",
+    ],
+  },
+  {
     id: "q-c11-biology-11-x1",
     subjectId: "c11-biology",
     chapterId: "c11-biology-11",
@@ -1103,6 +1273,23 @@ export const C11_QUESTIONS: Question[] = [
       "light reactions occur in the thylakoid membrane (grana)",
       "produce ATP, NADPH and O₂ from water splitting",
       "Calvin cycle (CO₂ fixation) occurs in the stroma",
+    ],
+  },
+  {
+    id: "q-c11-biology-11-x2",
+    subjectId: "c11-biology",
+    chapterId: "c11-biology-11",
+    classLevel: 11,
+    text: "State Blackman's Law of Limiting Factors, and name any two factors that affect the rate of photosynthesis.",
+    marks: 2,
+    type: "sa",
+    source: "important",
+    answer:
+      "Blackman's Law of Limiting Factors states that when a physiological process depends on several separate factors, its rate is limited by the factor that is nearest to its minimum value — a change in that factor directly changes the rate of the process.\n\nFactors affecting the rate of photosynthesis include light intensity, carbon dioxide concentration, temperature, and water availability.",
+    keywords: [
+      "Law of Limiting Factors: the factor nearest its minimum limits the rate of the process",
+      "changing that limiting factor directly changes the rate",
+      "examples of factors: light intensity, CO₂ concentration, temperature, water",
     ],
   },
   {
@@ -1123,6 +1310,23 @@ export const C11_QUESTIONS: Question[] = [
     ],
   },
   {
+    id: "q-c11-biology-12-x2",
+    subjectId: "c11-biology",
+    chapterId: "c11-biology-12",
+    classLevel: 11,
+    text: "Differentiate between aerobic respiration and anaerobic respiration (fermentation) in terms of oxygen requirement and end products.",
+    marks: 2,
+    type: "sa",
+    source: "important",
+    answer:
+      "Aerobic respiration takes place in the presence of oxygen; glucose is completely oxidised to carbon dioxide and water, releasing a large amount of energy (about 38 ATP per glucose molecule).\n\nAnaerobic respiration (fermentation) takes place in the absence of oxygen; glucose is only partially broken down, yielding ethanol and CO₂ (alcoholic fermentation) or lactic acid (lactic acid fermentation), and releases much less energy (a net 2 ATP per glucose molecule).",
+    keywords: [
+      "aerobic: O₂ required, glucose fully oxidised to CO₂ + H₂O, ~38 ATP",
+      "anaerobic/fermentation: no O₂, glucose only partially broken down",
+      "end products: ethanol + CO₂ or lactic acid; net yield only 2 ATP",
+    ],
+  },
+  {
     id: "q-c11-biology-13-x1",
     subjectId: "c11-biology",
     chapterId: "c11-biology-13",
@@ -1137,6 +1341,23 @@ export const C11_QUESTIONS: Question[] = [
       "auxin, gibberellin, cytokinin, ethylene, abscisic acid",
       "auxin promotes cell elongation",
       "auxin maintains apical dominance",
+    ],
+  },
+  {
+    id: "q-c11-biology-13-x2",
+    subjectId: "c11-biology",
+    chapterId: "c11-biology-13",
+    classLevel: 11,
+    text: "What is vernalisation? Name one crop in which it is used to induce early flowering.",
+    marks: 2,
+    type: "vsa",
+    source: "important",
+    answer:
+      "Vernalisation is the promotion of flowering in a plant by exposing it to a period of low temperature.\n\nIt is used, for example, in winter varieties of wheat, where a cold treatment given to the seeds or young seedlings induces the plant to flower earlier, allowing it to be sown and harvested within a single growing season.",
+    keywords: [
+      "vernalisation: promotion of flowering by a period of low-temperature treatment",
+      "shortens the vegetative phase, induces earlier flowering",
+      "example: winter wheat",
     ],
   },
   {
@@ -1157,6 +1378,23 @@ export const C11_QUESTIONS: Question[] = [
     ],
   },
   {
+    id: "q-c11-biology-14-x2",
+    subjectId: "c11-biology",
+    chapterId: "c11-biology-14",
+    classLevel: 11,
+    text: "How is oxygen transported in human blood? Name the respiratory pigment responsible.",
+    marks: 2,
+    type: "vsa",
+    source: "important",
+    answer:
+      "About 97% of the oxygen carried in human blood is transported in combination with haemoglobin, the respiratory pigment present in red blood cells, as oxyhaemoglobin. The remaining small fraction (about 3%) is carried in a dissolved state in blood plasma.",
+    keywords: [
+      "haemoglobin (in RBCs) is the respiratory pigment",
+      "~97% of O₂ transported as oxyhaemoglobin",
+      "remaining ~3% carried dissolved in plasma",
+    ],
+  },
+  {
     id: "q-c11-biology-15-x1",
     subjectId: "c11-biology",
     chapterId: "c11-biology-15",
@@ -1171,6 +1409,23 @@ export const C11_QUESTIONS: Question[] = [
       "cardiac cycle = events in one heartbeat: atrial systole, ventricular systole, joint diastole",
       "duration ≈ 0.8 s",
       "corresponds to ≈ 72 beats per minute",
+    ],
+  },
+  {
+    id: "q-c11-biology-15-x2",
+    subjectId: "c11-biology",
+    chapterId: "c11-biology-15",
+    classLevel: 11,
+    text: "Name the four chambers of the human heart, and state which valve separates the left atrium from the left ventricle.",
+    marks: 2,
+    type: "vsa",
+    source: "important",
+    answer:
+      "The four chambers of the human heart are the right atrium, right ventricle, left atrium and left ventricle.\n\nThe left atrium is separated from the left ventricle by the bicuspid (mitral) valve, which permits one-way flow of blood from the atrium into the ventricle.",
+    keywords: [
+      "four chambers: right atrium, right ventricle, left atrium, left ventricle",
+      "left atrium–left ventricle valve = bicuspid (mitral) valve",
+      "valves ensure one-way flow of blood through the heart",
     ],
   },
   {
@@ -1191,6 +1446,23 @@ export const C11_QUESTIONS: Question[] = [
     ],
   },
   {
+    id: "q-c11-biology-16-x2",
+    subjectId: "c11-biology",
+    chapterId: "c11-biology-16",
+    classLevel: 11,
+    text: "What is meant by ureotelism? Name the organisms that excrete nitrogenous waste in this form.",
+    marks: 2,
+    type: "vsa",
+    source: "important",
+    answer:
+      "Ureotelism is the excretion of nitrogenous waste mainly in the form of urea, which is less toxic than ammonia and requires comparatively less water for its elimination.\n\nUreotelic organisms include most terrestrial mammals, including humans, as well as adult amphibians and marine fishes — ammonia produced during metabolism is converted to urea in the liver before excretion.",
+    keywords: [
+      "ureotelism: nitrogenous waste excreted mainly as urea",
+      "urea is less toxic than ammonia and needs less water for elimination",
+      "ureotelic organisms: humans/mammals, adult amphibians, marine fishes",
+    ],
+  },
+  {
     id: "q-c11-biology-17-x1",
     subjectId: "c11-biology",
     chapterId: "c11-biology-17",
@@ -1205,6 +1477,23 @@ export const C11_QUESTIONS: Question[] = [
       "actin (thin) filaments slide over myosin (thick) filaments",
       "sarcomere shortens; filament lengths themselves stay the same",
       "Ca²⁺ release and ATP-powered myosin cross bridges drive the sliding",
+    ],
+  },
+  {
+    id: "q-c11-biology-17-x2",
+    subjectId: "c11-biology",
+    chapterId: "c11-biology-17",
+    classLevel: 11,
+    text: "Differentiate between a fibrous joint and a synovial joint, giving one example of each.",
+    marks: 2,
+    type: "sa",
+    source: "important",
+    answer:
+      "A fibrous joint is immovable — the bones are held together by fibrous connective tissue, allowing little or no movement, e.g. the sutures between the skull bones.\n\nA synovial joint is freely movable — the bones are enclosed in a fluid-filled synovial cavity, which reduces friction and allows a wide range of movement, e.g. the knee joint.",
+    keywords: [
+      "fibrous joint: immovable, bones joined by fibrous tissue — e.g. skull sutures",
+      "synovial joint: freely movable, fluid-filled synovial cavity — e.g. knee joint",
+      "movability of a joint depends on its type",
     ],
   },
   {
@@ -1225,6 +1514,23 @@ export const C11_QUESTIONS: Question[] = [
     ],
   },
   {
+    id: "q-c11-biology-18-x2",
+    subjectId: "c11-biology",
+    chapterId: "c11-biology-18",
+    classLevel: 11,
+    text: "What is a reflex arc? Using the example of accidentally touching a hot object, briefly describe the pathway of a spinal reflex.",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer:
+      "A reflex arc is the neural pathway along which a reflex action travels, bypassing conscious control by the brain to produce a fast, involuntary response.\n\nWhen a hand accidentally touches a hot object, sensory receptors in the skin detect the stimulus and send an impulse along a sensory (afferent) neuron to the spinal cord. Within the spinal cord, the impulse is relayed, often through an interneuron, directly to a motor (efferent) neuron, which carries it to the muscles of the arm, causing them to contract and withdraw the hand — all before the sensation of pain is consciously registered in the brain.",
+    keywords: [
+      "reflex arc: pathway of a reflex action, bypassing the brain for a fast response",
+      "sensory neuron carries the impulse from the skin receptor to the spinal cord",
+      "spinal cord relays it to a motor neuron, withdrawing the hand faster than conscious brain processing",
+    ],
+  },
+  {
     id: "q-c11-biology-19-x1",
     subjectId: "c11-biology",
     chapterId: "c11-biology-19",
@@ -1239,6 +1545,23 @@ export const C11_QUESTIONS: Question[] = [
       "adrenal medulla secretes adrenaline and noradrenaline",
       "increase heart rate and blood pressure",
       "raise blood glucose — the 'fight or flight' response",
+    ],
+  },
+  {
+    id: "q-c11-biology-19-x2",
+    subjectId: "c11-biology",
+    chapterId: "c11-biology-19",
+    classLevel: 11,
+    text: "Name the hormones secreted by the islets of Langerhans in the pancreas, and state one function of each.",
+    marks: 2,
+    type: "sa",
+    source: "important",
+    answer:
+      "The islets of Langerhans in the pancreas secrete two main hormones: insulin, from the beta cells, and glucagon, from the alpha cells.\n\nInsulin lowers the blood glucose level by promoting the uptake and utilisation of glucose by cells and its storage as glycogen. Glucagon raises the blood glucose level by stimulating the breakdown of glycogen into glucose in the liver.",
+    keywords: [
+      "islets of Langerhans: beta cells secrete insulin, alpha cells secrete glucagon",
+      "insulin lowers blood glucose (promotes uptake and storage as glycogen)",
+      "glucagon raises blood glucose (stimulates glycogen breakdown)",
     ],
   },
 
