@@ -19,6 +19,7 @@ import type {
   StudentMemory,
   Worksheet,
 } from "./types";
+import type { LearnerProfile } from "./learner";
 
 /** The per-student payload mirrored to the `student_state` table (one row/user). */
 export interface CloudUserData {
@@ -26,6 +27,7 @@ export interface CloudUserData {
   chats: ChatMessage[];
   blobs: BlobEntry[];
   worksheets: Worksheet[];
+  profile: LearnerProfile | null;
 }
 
 // `student_state` is locked to the anon key at the database (see
@@ -146,6 +148,7 @@ export async function loadUserData(
       chats: (data.chats as ChatMessage[] | null) ?? [],
       blobs: (data.blobs as BlobEntry[] | null) ?? [],
       worksheets: (data.worksheets as Worksheet[] | null) ?? [],
+      profile: (data.learner_profile as LearnerProfile | null) ?? null,
     };
   } catch {
     // Network unreachable — caller keeps local data.

@@ -14,13 +14,18 @@
 -- Per-student learning state (the data students care about most)
 -- ---------------------------------------------------------------------------
 create table if not exists public.student_state (
-  user_id     text primary key,
-  memory      jsonb,
-  chats       jsonb not null default '[]'::jsonb,
-  blobs       jsonb not null default '[]'::jsonb,
-  worksheets  jsonb not null default '[]'::jsonb,
-  updated_at  timestamptz not null default now()
+  user_id         text primary key,
+  memory          jsonb,
+  chats           jsonb not null default '[]'::jsonb,
+  blobs           jsonb not null default '[]'::jsonb,
+  worksheets      jsonb not null default '[]'::jsonb,
+  learner_profile jsonb,
+  updated_at      timestamptz not null default now()
 );
+
+-- Adds learner_profile to a student_state table created before this column
+-- existed, so re-running this file on an existing database is safe.
+alter table public.student_state add column if not exists learner_profile jsonb;
 
 -- user_id stores auth.users.id as text (see api/state.ts), so a real foreign
 -- key can't be declared (uuid vs text). Deleting the auth account instead
