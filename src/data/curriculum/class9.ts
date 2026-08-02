@@ -192,6 +192,8 @@ const science: Subject = {
         "Effect of temperature and pressure",
         "Evaporation and latent heat",
       ],
+      boardNotes:
+        "Falls in Science's highest-weightage unit (Matter — 25 of 80 marks); 'why does a desert cooler work better in dry weather' style reasoning questions on latent heat and evaporation repeat almost every year.",
     },
     {
       id: "c9-science-02",
@@ -203,6 +205,8 @@ const science: Subject = {
         "Separation techniques",
         "Physical vs chemical changes",
       ],
+      boardNotes:
+        "Separating the components of a mixture is explicitly marked excluded in the CBSE 2025-26 syllabus, so exam questions stay on classifying a given example as element/compound/mixture or colloid/suspension by property, not on naming separation apparatus.",
     },
     {
       id: "c9-science-03",
@@ -214,6 +218,8 @@ const science: Subject = {
         "Writing chemical formulae and valency",
         "Mole concept and Avogadro number",
       ],
+      boardNotes:
+        "Numericals computing molecular mass from atomic masses, and writing chemical formulae from valency using the criss-cross method, are the two question types that appear almost every year.",
     },
     {
       id: "c9-science-04",
@@ -225,6 +231,8 @@ const science: Subject = {
         "Valency, atomic number and mass number",
         "Isotopes and isobars",
       ],
+      boardNotes:
+        "Distributing electrons in shells by the 2n² rule and finding valency, atomic number and mass number from a given atomic structure is the standard short-answer pair; isotopes are tested more often via real-world uses than via calculation.",
     },
     {
       id: "c9-science-05",

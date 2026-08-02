@@ -247,7 +247,7 @@ ${FORMAT_REMINDER}`
         // they may well have got right, ask the model one closed question — a
         // job even a 3B does reliably, because it is the only thing being asked.
         const concept = currentConcept(active);
-        if (verdict.mastered === undefined && concept) {
+        if (verdict.mastered === undefined && !verdict.isDoubt && concept) {
           // Most chapters have no authored check answer to mark against — the
           // model asked its own question, so judge it against the concept's
           // brief instead of leaving the student stuck on a step they may
