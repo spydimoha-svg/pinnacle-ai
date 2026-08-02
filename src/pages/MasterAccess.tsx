@@ -16,9 +16,11 @@ export default function MasterAccess() {
   const navigate = useNavigate();
   const [code, setCode] = useState("");
   const [shake, setShake] = useState(false);
+  const [error, setError] = useState("");
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
+    setError("");
     try {
       const res = await fetch("/api/master-login", {
         method: "POST",
@@ -42,6 +44,7 @@ export default function MasterAccess() {
       setShake(true);
       setTimeout(() => setShake(false), 500);
       setCode("");
+      setError("That passcode isn't right.");
     }
   }
 
@@ -64,6 +67,11 @@ export default function MasterAccess() {
           autoFocus
           aria-label="Master passcode"
         />
+        {error && (
+          <p className="text-coral text-sm mt-4" role="alert">
+            {error}
+          </p>
+        )}
         <div className="mt-4">
           <button type="submit" className="btn-ghost text-xs !px-8">
             Ascend

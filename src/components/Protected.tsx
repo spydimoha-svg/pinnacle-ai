@@ -19,6 +19,10 @@ export default function Protected({
   const [masterOk, setMasterOk] = useState(role !== "master" ? true : null as boolean | null);
 
   useEffect(() => {
+    if (user?.role !== "master") localStorage.removeItem(MASTER_TOKEN_KEY);
+  }, [user]);
+
+  useEffect(() => {
     if (role !== "master") return;
     const token = localStorage.getItem(MASTER_TOKEN_KEY);
     if (!token) {
