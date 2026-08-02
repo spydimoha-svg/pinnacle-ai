@@ -31,6 +31,7 @@
      in the mono metadata style the reference uses next to every portrait. */
   /* Centred in the hero, biased upward so it never sits on the counter row
      underneath it. */
+  .heroChar[hidden]{display:none}
   .heroChar{position:absolute;right:clamp(20px,6vw,110px);top:50%;transform:translateY(-56%);
             display:flex;align-items:center;gap:clamp(12px,1.6vw,26px);margin:0;pointer-events:none;z-index:2}
   .charArt{width:clamp(150px,17.5vw,256px);position:relative;filter:drop-shadow(0 30px 50px rgba(0,0,0,.8));
@@ -96,7 +97,6 @@
   .globeWrap.listening .globeState{color:var(--globe)}
   .globeWrap.talking .globeState{color:var(--acid)}
   @media(max-width:900px){.globeWrap{display:none}}
-  .heroGlow{position:absolute;inset:0;pointer-events:none;background:radial-gradient(120% 90% at 78% 50%,rgba(197,182,175,.09),transparent 58%),radial-gradient(90% 70% at 0% 100%,rgba(0,0,0,.9),transparent 60%)}
   .heroText{position:relative;padding:0 var(--pad) clamp(20px,3vw,34px);max-width:min(760px,60%)}
   @media(max-width:900px){.heroText{max-width:100%}.heroArt{right:-18%;opacity:.42}}
   .eyebrow{display:flex;align-items:center;gap:12px;margin-bottom:clamp(14px,2vw,22px)}
@@ -139,7 +139,7 @@
   .dot.warn{background:var(--warm)}
   @keyframes pulse{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(235,251,29,.5)}50%{opacity:.55;box-shadow:0 0 0 6px rgba(235,251,29,0)}}
   .grow{flex:1}
-  .kbd{border:1px solid var(--line2);border-radius:5px;padding:4px 8px;font-size:10.5px;color:var(--dim);white-space:nowrap}
+  .kbd{border:1px solid rgba(197,182,175,.28);border-radius:5px;padding:4px 8px;font-size:10.5px;color:var(--dim);white-space:nowrap}
   .pill{display:flex;align-items:center;gap:10px;background:var(--ink);color:#000;border-radius:999px;padding:6px 8px 6px 16px;font-size:12px;letter-spacing:.02em;cursor:pointer;transition:transform .18s,background .18s;white-space:nowrap}
   .pill:hover{transform:translateY(-1px)}
   .pill.stop{background:var(--accent)}
@@ -149,7 +149,7 @@
   /* Content sits on smoked glass so the floor glows through without ever
      fighting the text for legibility. */
   .counts{display:grid;grid-template-columns:repeat(4,1fr)}
-  .hero .counts{position:relative;border-top:1px solid var(--line);background:linear-gradient(180deg,transparent,rgba(0,0,0,.5))}
+  .counts{border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
   @media(max-width:720px){.counts{grid-template-columns:repeat(2,1fr)}.count:nth-child(3){border-left:0}}
   .count{padding:clamp(12px,1.8vw,20px) var(--pad);border-left:1px solid var(--line)}
   .count:first-child{border-left:0}
@@ -706,6 +706,81 @@
             font-family:var(--mono);font-size:9.8px;color:var(--faint)}
   .endBlock b{font-weight:400;color:var(--dim)}
 
+
+  /* ================================================ the reference's grammar
+     Every screen on that site is the same three things: a photograph filling
+     the whole frame, giant bone type laid over it, and small mono marks at the
+     edges, all inside one hairline rectangle with its corners cut. Mine was
+     dark empty space with small things in it, which is why it never felt the
+     same however close the palette got. */
+  .bleed{position:relative;height:calc(100vh - 82px);min-height:520px;overflow:hidden;
+         display:flex;flex-direction:column;justify-content:flex-end;padding:0 0 clamp(64px,9vh,104px)}
+  .bleed .shotBg{position:absolute;inset:0;z-index:0}
+  .bleed .shotBg img{width:100%;height:100%;object-fit:cover;display:block;
+                     filter:contrast(1.06) saturate(.92) brightness(.88)}
+  /* Their images sit in the dark rather than on it. Two washes do that: one
+     from the bottom so type stays legible, one overall so nothing glares. */
+  .bleed .shotBg:after{content:"";position:absolute;inset:0;
+    background:linear-gradient(180deg,rgba(10,10,10,.5),rgba(10,10,10,0) 30%,rgba(10,10,10,.55) 66%,rgba(10,10,10,.94)),
+               radial-gradient(130% 100% at 68% 26%,transparent 20%,rgba(10,10,10,.6))}
+  .bleed > *:not(.shotBg){position:relative;z-index:2}
+
+  /* The hairline rectangle with its corners cut, drawn once and reused. */
+  .edge{position:absolute;inset:clamp(10px,1.4vw,22px);z-index:3;pointer-events:none;
+        border:1px solid var(--line2);
+        clip-path:polygon(28px 0,calc(100% - 28px) 0,100% 28px,100% calc(100% - 28px),calc(100% - 28px) 100%,28px 100%,0 calc(100% - 28px),0 28px)}
+
+  .bleedFoot{padding:0 clamp(28px,4vw,64px)}
+  .dots{display:flex;gap:7px;margin-bottom:clamp(14px,2vh,26px)}
+  .dots i{width:2px;height:2px;background:var(--ink);opacity:.7;display:block}
+  .dots i:nth-child(2n){opacity:.25}
+  .bleedFoot p{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;font-weight:300;font-size:13.7px;
+               line-height:1.3;color:var(--ink);max-width:34ch;margin:0 0 clamp(10px,1.8vh,20px)}
+  .bleedTitle{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;font-weight:400;text-transform:uppercase;
+              letter-spacing:-.05em;line-height:.84;color:var(--ink);margin:0;
+              font-size:min(clamp(38px,9.4vw,150px),20vh);text-shadow:0 4px 40px rgba(10,10,10,.8)}
+  .bleedId{position:absolute;right:clamp(28px,4vw,64px);bottom:clamp(22px,4vh,56px);z-index:4;
+           font-family:var(--mono);font-size:9.8px;line-height:1.6;color:var(--dim);text-align:right}
+
+  /* Their second move: the same full frame photograph, but with the giant line
+     split in two and thrown to opposite edges so it reads across the picture. */
+  .band{position:relative;height:86vh;min-height:440px;overflow:hidden;display:flex;flex-direction:column;
+        justify-content:flex-end;padding-bottom:clamp(56px,8vh,96px)}
+  .band .bandType{padding:0 clamp(28px,4vw,64px)}
+  .band .bandType b{display:block;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;font-weight:400;
+                    text-transform:uppercase;letter-spacing:-.05em;line-height:.84;color:var(--ink);
+                    font-size:min(clamp(36px,9.6vw,148px),19vh);text-shadow:0 4px 40px rgba(10,10,10,.7)}
+  .band .bandType b + b{text-align:right}
+  .band .bars{position:absolute;left:clamp(28px,4vw,64px);bottom:calc(100% - 46vh);z-index:3}
+
+  /* The globe stops being the subject and becomes what their fan of rods is:
+     an object laid over the photograph. */
+  .hero .heroGlobe.globeWrap{position:absolute;right:3.5vw;top:42%;transform:translateY(-50%);z-index:2;
+             pointer-events:none;mix-blend-mode:screen;opacity:.95;margin:0}
+  .hero .heroGlobe .globe{font-size:clamp(4.2px,.7vw,9px)}
+  .hero .heroGlobe .globeState{bottom:-16px;left:auto;right:0}
+  @media(max-width:900px){.heroGlobe{display:none}}
+
+  /* Their creator grid: portraits scattered at different sizes with the
+     metadata printed beside each one rather than under it. */
+  .whoGrid{padding:clamp(30px,5vw,80px) var(--pad) clamp(40px,6vw,100px);
+           display:grid;gap:clamp(28px,4vw,64px);grid-template-columns:repeat(12,1fr)}
+  .whoCard{display:flex;gap:14px;align-items:flex-start;cursor:pointer;grid-column:span 12}
+  @media(min-width:760px){
+    .whoCard{grid-column:span 4}
+    .whoCard:nth-child(4n+1){grid-column:1/span 4}
+    .whoCard:nth-child(4n+2){grid-column:6/span 4;margin-top:7vh}
+    .whoCard:nth-child(4n+3){grid-column:2/span 3;margin-top:3vh}
+    .whoCard:nth-child(4n){grid-column:8/span 4;margin-top:10vh}
+  }
+  .whoCard .face{width:clamp(90px,11vw,150px);flex:none}
+  .whoCard .who{min-width:0;padding-top:3px;font-family:var(--mono);font-size:9.8px;color:var(--faint);line-height:1.6}
+  .whoCard .who b{display:block;font-weight:400;font-size:11.8px;color:var(--ink);text-transform:uppercase;
+                  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .whoCard .who span{display:block;margin-top:9px}
+  .whoCard .who span i{font-style:normal;display:block;color:var(--dim)}
+  .whoCard:hover .who b{color:var(--acid)}
+
 </style>
 </head>
 <body>
@@ -739,44 +814,48 @@
   </div>
 </header>
 
-<div class="hero">
-  <div class="heroGlow"></div>
-  <figure class="heroChar" id="heroChar">
-    <div class="charPlinth"></div>
-    <div class="charArt" id="heroCharArt"></div>
-    <figcaption class="charMeta">
-      <span>//UNIT: PINNACLE</span>
-      <span id="charStatus">/STATUS: STANDING BY</span>
-      <span id="charCrew">/CREW: 1000 ACROSS 21</span>
-    </figcaption>
-    <span class="charHint">drag to move &middot; say "Pinnacle" to call her</span>
-  </figure>
-  <div class="bracket tl"></div><div class="bracket tr"></div><div class="bracket bl"></div><div class="bracket br"></div>
+<div class="hero bleed">
+  <div class="shotBg"><img src="/faces/hero.jpg?v=2" alt="" /></div>
+  <span class="edge"></span>
 
-  <div class="heroText">
-    <div class="eyebrow lab"><span></span>Autonomous engineering organisation</div>
-    <!-- One character per agent. The dim layer is the whole roster, the bright
-         one is only who is awake, and it moves to whoever has the floor. -->
-    <div class="globeWrap idle" id="globeWrap">
-      <pre class="globe dim" id="globeDim" aria-hidden="true"></pre>
-      <pre class="globe hot" id="globeHot" aria-hidden="true"></pre>
-      <span class="globeState" id="globeState">standing by</span>
-    </div>
-    <div class="sayline" id="sayline">Reading the floor.</div>
-    <div class="legend lab">
-      <span><i></i>at their desk</span>
-      <span><i class="up"></i>awake and working</span>
-      <span>one character is one agent</span>
-    </div>
+  <!-- A thousand agents, in text, laid over the photograph. It swells to his
+       voice and pulses on hers, so the picture is never just a picture. -->
+  <div class="heroGlobe globeWrap idle" id="globeWrap">
+    <pre class="globe dim" id="globeDim" aria-hidden="true"></pre>
+    <pre class="globe hot" id="globeHot" aria-hidden="true"></pre>
+    <span class="globeState" id="globeState">standing by</span>
   </div>
 
-  <div class="counts">
-    <div class="count acc"><div class="lab">Awake now</div><b class="disp" id="awake">0</b></div>
-    <div class="count"><div class="lab">On the roster</div><b class="disp" id="staff">0</b></div>
-    <div class="count"><div class="lab">Shipped</div><b class="disp" id="done">0</b></div>
-    <div class="count"><div class="lab">Refused by Pinnacle</div><b class="disp" id="blocked">0</b></div>
+  <figure class="heroChar" id="heroChar" hidden>
+    <div class="charArt" id="heroCharArt"></div>
+    <span class="charHint">drag to move</span>
+  </figure>
+
+  <div class="bleedFoot">
+    <div class="dots"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+    <p id="sayline">Reading the floor.</p>
+    <h1 class="bleedTitle">Pinnacle<br />office</h1>
+  </div>
+  <div class="bleedId">
+    <span>//UNIT: PINNACLE</span><br />
+    <span id="charStatus">/STATUS: STANDING BY</span><br />
+    <span id="charCrew">/CREW: 1000 ACROSS 21</span><br />
+    <span id="bootId2"></span>
   </div>
 </div>
+
+<div class="counts">
+  <div class="count acc"><div class="lab">Awake now</div><b class="disp" id="awake">0</b></div>
+  <div class="count"><div class="lab">On the roster</div><b class="disp" id="staff">0</b></div>
+  <div class="count"><div class="lab">Shipped</div><b class="disp" id="done">0</b></div>
+  <div class="count"><div class="lab">Refused by Pinnacle</div><b class="disp" id="blocked">0</b></div>
+</div>
+
+<section class="band">
+  <div class="shotBg"><img src="/faces/band2.jpg?v=2" alt="" loading="lazy" /></div>
+  <span class="edge"></span>
+  <div class="bandType"><b>Your floor</b><b>their work</b></div>
+</section>
 
 <section class="secHead">
   <div class="bars" id="bars1"></div>
@@ -843,8 +922,15 @@
 </section>
 <div class="cards" id="depts"></div>
 
+<section class="band">
+  <div class="shotBg"><img src="/faces/band.jpg?v=2" alt="" loading="lazy" /></div>
+  <span class="edge"></span>
+  <div class="bars" id="bars2"></div>
+  <div class="bandType"><b>Your office</b><b>their hours</b></div>
+</section>
+
 <div class="track2" id="track2">
-  <div class="pin"><b id="pinWord">YOUR OFFICE <em>&mdash;</em> THEIR HOURS <em>&mdash;</em> YOUR CALL <em>&mdash;</em></b></div>
+  <div class="pin"><b id="pinWord">ONE THOUSAND SPECIALISTS <em>&mdash;</em> NOBODY CLOCKS OFF <em>&mdash;</em></b></div>
 </div>
 
 <section class="ask">
@@ -1313,7 +1399,8 @@ const globe = (() => {
     const now = talking ? "talking" : hearing ? "listening" : "idle";
     if (now !== shown) {
       shown = now;
-      wrap.className = "globeWrap " + now;
+      wrap.classList.remove("idle", "listening", "talking");
+      wrap.classList.add(now);
       const label = $("globeState");
       if (label) label.textContent = now === "talking" ? "pinnacle speaking" : now === "listening" ? "listening" : "standing by";
     }
@@ -1478,10 +1565,12 @@ $("bootEnter").onclick = enterOffice;
 addEventListener("keydown", (e) => {
   if (!entered && (e.key === "Enter" || e.key === " ")) { enterOffice(); e.preventDefault(); }
 });
-$("bootId").textContent = "initiating · " + (() => {
+const identLine = "initiating · " + (() => {
   const d = new Date(), n = d.getFullYear() * 372 + d.getMonth() * 31 + d.getDate();
   return `${String(d.getMonth() + 1).padStart(2, "0")}-${String((n * 7) % 10000).padStart(4, "0")}PIN${String(n % 10000).padStart(4, "0")}`;
 })();
+$("bootId").textContent = identLine;
+if ($("bootId2")) $("bootId2").textContent = "/" + identLine.toUpperCase();
 
 // ------------------------------------------------------------------ cursor
 // The acid ring lags the pointer and the dot does not. Two speeds read as
@@ -1547,6 +1636,7 @@ function bars(el, seed, count = 46) {
   }).join("");
 }
 if ($("bars1")) bars($("bars1"), "pinnacle-floor");
+if ($("bars2")) bars($("bars2"), "pinnacle-hours", 34);
 
 // The sticky track. A giant line pinned while the page scrolls past it and
 // dragged sideways as it goes. It is the one move that makes that site feel
@@ -2309,7 +2399,8 @@ if (Rec) {
     if (e.error === "no-speech" || e.error === "aborted") return;   // ordinary silence
     if (e.error === "not-allowed" || e.error === "service-not-allowed") {
       wakeOn = false; want = "off"; earLive = false;
-      $("wake").className = "wakeSw off";
+      $("wake").classList.remove("on");
+      $("wake").classList.add("off");
       earSay("blocked");
       voiceUI("Microphone blocked", "allow it in the address bar, then press wake");
       raiseFault("mic", "quiet", "She cannot hear you: this page is not allowed the microphone. Click the padlock in the address bar, allow it, then press WAKE.");
@@ -2485,7 +2576,8 @@ const toggleVoice = () => (listening ? stopVoice() : startVoice());
 $("mic").onclick = toggleVoice;
 $("wake").onclick = () => {
   wakeOn = !wakeOn;
-  $("wake").className = "wakeSw " + (wakeOn ? "on" : "off");
+  $("wake").classList.toggle("on", wakeOn);
+  $("wake").classList.toggle("off", !wakeOn);
   if (wakeOn) { setEar("wake"); voiceUI("Say “Hey Pinnacle”"); }
   else { setEar("off"); voiceUI("Talk to Pinnacle"); }
 };
@@ -2505,7 +2597,8 @@ document.addEventListener("visibilitychange", () => {
 $("sound").onclick = () => {
   voiceOut = !voiceOut;
   if (!voiceOut) hush();
-  $("sound").className = "sound " + (voiceOut ? "on" : "off");
+  $("sound").classList.toggle("on", voiceOut);
+  $("sound").classList.toggle("off", !voiceOut);
   $("soundWord").textContent = voiceOut ? "on" : "off";
   if (voiceOut) speak("Alright, I'm talking again.");
 };
