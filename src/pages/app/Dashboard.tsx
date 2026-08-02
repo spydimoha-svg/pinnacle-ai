@@ -11,7 +11,7 @@ import {
 } from "lucide-react";
 import { useStore } from "../../lib/store";
 import { subjectsForClass } from "../../data";
-import { SectionHead, Stat, ProgressBar } from "../../components/ui";
+import { Empty, SectionHead, Stat, ProgressBar } from "../../components/ui";
 import { Ridgeline } from "../../components/Logo";
 import { buildPlan, ACTION_META } from "../../lib/mastery";
 
@@ -110,37 +110,49 @@ export default function Dashboard() {
             </Link>
           }
         />
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
-          {subjects.slice(0, 6).map((subj) => {
-            const done = subj.chapters.filter(
-              (c) => memory.progress[c.id]?.status === "mastered"
-            ).length;
-            const pct = subj.chapters.length
-              ? Math.round((done / subj.chapters.length) * 100)
-              : 0;
-            return (
-              <Link
-                key={subj.id}
-                to="/app/subjects"
-                className="card card-hover block"
-              >
-                <div className="flex items-center justify-between mb-3">
-                  <BookOpen size={18} className={`text-${subj.color}`} />
-                  <span className="font-mono text-xs text-dim">
-                    {subj.chapters.length} ch
-                  </span>
-                </div>
-                <div className="font-display font-semibold text-cream mb-2">
-                  {subj.name}
-                </div>
-                <ProgressBar value={pct} />
-                <div className="text-xs text-dim mt-2">
-                  {done} of {subj.chapters.length} mastered
-                </div>
+        {subjects.length === 0 ? (
+          <Empty
+            title="No subjects yet"
+            body={`The Class ${memory.classLevel} curriculum hasn't been loaded for your school. Check back soon, or ask the tutor anything in the meantime.`}
+            action={
+              <Link to="/app/tutor" className="btn-gold">
+                Ask the tutor
               </Link>
-            );
-          })}
-        </div>
+            }
+          />
+        ) : (
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+            {subjects.slice(0, 6).map((subj) => {
+              const done = subj.chapters.filter(
+                (c) => memory.progress[c.id]?.status === "mastered"
+              ).length;
+              const pct = subj.chapters.length
+                ? Math.round((done / subj.chapters.length) * 100)
+                : 0;
+              return (
+                <Link
+                  key={subj.id}
+                  to="/app/subjects"
+                  className="card card-hover block"
+                >
+                  <div className="flex items-center justify-between mb-3">
+                    <BookOpen size={18} className={`text-${subj.color}`} />
+                    <span className="font-mono text-xs text-dim">
+                      {subj.chapters.length} ch
+                    </span>
+                  </div>
+                  <div className="font-display font-semibold text-cream mb-2">
+                    {subj.name}
+                  </div>
+                  <ProgressBar value={pct} />
+                  <div className="text-xs text-dim mt-2">
+                    {done} of {subj.chapters.length} mastered
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
+        )}
       </div>
 
       {/* Today's plan — driven by the mastery model */}
