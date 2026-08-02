@@ -415,6 +415,23 @@ export const C11_QUESTIONS: Question[] = [
     ],
   },
   {
+    id: "q-c11-physics-12-x2",
+    subjectId: "c11-physics",
+    chapterId: "c11-physics-12",
+    classLevel: 11,
+    text: "State the law of equipartition of energy, and use it to find the total internal energy of 1 mole of a diatomic gas at temperature T (ignoring vibrational modes).",
+    marks: 2,
+    type: "sa",
+    source: "important",
+    answer:
+      "The law of equipartition of energy states that for a system in thermal equilibrium, the total energy is equally distributed among all its degrees of freedom, with each degree of freedom contributing ½kT of energy per molecule (½RT per mole).\n\nA diatomic molecule (ignoring vibration) has 5 degrees of freedom — 3 translational and 2 rotational. So the total internal energy for 1 mole is U = (5/2)RT.",
+    keywords: [
+      "each degree of freedom contributes ½kT per molecule (½RT per mole)",
+      "diatomic gas (no vibration): 3 translational + 2 rotational = 5 degrees of freedom",
+      "U = (5/2)RT per mole",
+    ],
+  },
+  {
     id: "q-c11-physics-13-x1",
     subjectId: "c11-physics",
     chapterId: "c11-physics-13",
@@ -432,6 +449,23 @@ export const C11_QUESTIONS: Question[] = [
     ],
   },
   {
+    id: "q-c11-physics-13-x2",
+    subjectId: "c11-physics",
+    chapterId: "c11-physics-13",
+    classLevel: 11,
+    text: "A particle executes SHM with amplitude 5 cm and angular frequency 2 rad/s. Find its maximum velocity and maximum acceleration.",
+    marks: 2,
+    type: "sa",
+    source: "important",
+    answer:
+      "Maximum velocity in SHM: v_max = Aω = 0.05 × 2 = 0.1 m/s.\n\nMaximum acceleration in SHM: a_max = Aω² = 0.05 × 2² = 0.2 m/s².",
+    keywords: [
+      "v_max = Aω",
+      "a_max = Aω²",
+      "v_max = 0.1 m/s, a_max = 0.2 m/s²",
+    ],
+  },
+  {
     id: "q-c11-physics-14-x1",
     subjectId: "c11-physics",
     chapterId: "c11-physics-14",
@@ -446,6 +480,23 @@ export const C11_QUESTIONS: Question[] = [
       "μ = m/L = 0.01 kg/m",
       "v = √(T/μ)",
       "v = √4000 ≈ 63.2 m/s",
+    ],
+  },
+  {
+    id: "q-c11-physics-14-x2",
+    subjectId: "c11-physics",
+    chapterId: "c11-physics-14",
+    classLevel: 11,
+    text: "Two sound waves of frequencies 256 Hz and 260 Hz are sounded together. Find the number of beats produced per second.",
+    marks: 1,
+    type: "vsa",
+    source: "pyq",
+    answer:
+      "The beat frequency is the difference between the two individual frequencies: f_beat = |f₁ − f₂| = |260 − 256| = 4.\n\nSo 4 beats are heard per second.",
+    keywords: [
+      "beat frequency = |f₁ − f₂|",
+      "|260 − 256| = 4",
+      "4 beats per second",
     ],
   },
 

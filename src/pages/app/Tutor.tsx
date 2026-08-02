@@ -215,7 +215,11 @@ ${FORMAT_REMINDER}`
       if ((err as Error)?.name === "AbortError" || controller.signal.aborted) {
         cancelled = true;
       } else if (!full) {
+        // A dropped connection mid check-phase turn is not the student
+        // getting it wrong — treat it like a cancel so advance() never
+        // sees an undefined verdict and burns a retry on our outage.
         full = offlineTutorReply(content);
+        cancelled = true;
       }
     } finally {
       abortRef.current = null;
@@ -236,7 +240,7 @@ ${FORMAT_REMINDER}`
       // cannot be judged mechanically. Without this the lesson stalls on any
       // model that does not emit the control line — every local one, so far.
       let verdict = plan ? readTags(full, plan.phase) : { clean: full };
-      if (plan?.phase === "check" && active) {
+      if (plan?.phase === "check" && active && !cancelled) {
         verdict = resolveVerdict(currentConcept(active), content, verdict);
         // Still nothing decisive: the app could not mark it mechanically and
         // the model did not say. Rather than leave the student stuck on a step
