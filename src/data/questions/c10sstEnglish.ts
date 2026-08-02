@@ -615,6 +615,36 @@ Hence a combination of treatment, technology and legal regulation is needed for 
     examinerTip:
       "Vague appeals like 'factories should not pollute the environment' score zero. The key rewards NAMED technical measures — precipitators, scrubbers, silencers, three-phase effluent treatment. Organise by water, air, noise.",
   },
+  {
+    id: "q-c10-sst-11-2",
+    subjectId: "c10-sst",
+    chapterId: "c10-sst-11",
+    classLevel: 10,
+    text: "Classify industries on the basis of ownership, giving one example of each.",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer: `On the basis of ownership, industries are classified into the following categories:
+
+(i) Public sector — owned and operated by the government, for example Hindustan Aeronautics Limited (HAL), Bharat Heavy Electricals Limited (BHEL) and the Steel Authority of India Limited (SAIL).
+
+(ii) Private sector — owned and operated by individuals or a group of individuals, for example the Tata Iron and Steel Company (TISCO).
+
+(iii) Joint sector — jointly run by the state and individuals or a group of individuals, for example Oil India Limited (OIL), jointly owned by the government and private companies.
+
+(iv) Cooperative sector — owned and operated by the producers or suppliers of raw materials, workers, or both, who pool resources and share the profits or losses proportionally, for example Amul, the dairy cooperative in Gujarat, and the sugar industry cooperatives in Maharashtra.
+
+This classification shows that Indian industry is run through a mix of government, private, joint and cooperative ownership.`,
+    keywords: [
+      "public sector — HAL / BHEL / SAIL",
+      "private sector — TISCO",
+      "joint sector — OIL",
+      "cooperative sector — Amul / Maharashtra sugar cooperatives",
+      "owned and operated by government / individuals / both",
+    ],
+    examinerTip:
+      "Each category needs its NAMED example — writing 'government-owned' and 'privately owned' without the actual company names (SAIL, TISCO, Amul) loses the identification mark for each.",
+  },
 
   {
     id: "q-c10-sst-12-1",

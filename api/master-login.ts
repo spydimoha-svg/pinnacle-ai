@@ -59,6 +59,11 @@ function verifyToken(token: string, secret: string): boolean {
 const RATE_LIMIT_WINDOW_MS = 5 * 60_000;
 const RATE_LIMIT_MAX = 5;
 
+// Per-IP alone lets a botnet or rotating proxies multiply their guesses at
+// the one shared MASTER_PASSCODE. This caps total failed attempts across all
+// IPs in the same window, regardless of source.
+const GLOBAL_RATE_LIMIT_MAX = 30;
+
 // The verify branch just checks a token's HMAC signature — it doesn't attempt
 // the passcode, so it gets its own generous budget under a separate key.
 // Otherwise a team member re-mounting Protected.tsx across a few /master
