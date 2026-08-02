@@ -27,6 +27,8 @@ const DEFAULT_SYSTEM =
 function isSameOrigin(req: Request): boolean {
   const host = req.headers.get("host");
   if (!host) return false;
+  const secFetchSite = req.headers.get("sec-fetch-site");
+  if (secFetchSite) return secFetchSite === "same-origin";
   const matchesHost = (value: string | null) => {
     if (!value) return false;
     try {
@@ -36,7 +38,7 @@ function isSameOrigin(req: Request): boolean {
     }
   };
   return (
-    matchesHost(req.headers.get("origin")) ||
+    matchesHost(req.headers.get("origin")) &&
     matchesHost(req.headers.get("referer"))
   );
 }
