@@ -249,6 +249,17 @@ function groundedSource(text: string, classLevel: ClassLevel): string {
     : "";
 }
 
+/**
+ * persona.ts's boundary rules — never invent an NCERT exercise/formula, never
+ * teach outside this student's own class syllabus — live in buildSystemPrompt's
+ * "Boundaries" section, but every lesson phase below builds its system prompt
+ * from scratch and never sees that function. Without this line repeated here,
+ * the guardrail goes silent for the whole time a lesson is actually teaching.
+ */
+function syllabusGuard(classLevel: ClassLevel): string {
+  return `- Never invent an NCERT exercise number, formula or marking scheme: if it was not given to you above, say plainly you don't have that exact one instead of making it up. Silently confirm this concept genuinely belongs to the Class ${classLevel} CBSE syllabus before teaching it; if it does not, say which class it actually belongs to and redirect instead of teaching it.`;
+}
+
 export interface TurnPlan {
   system: string;
   reminder: string;
@@ -432,6 +443,7 @@ function planTeach(
       "- Do NOT answer your own check question.",
       "- Do NOT summarise the chapter, and do not preview what is next.",
       "- No 'in conclusion', no motivational sign-off. End on the question.",
+      syllabusGuard(map.classLevel),
     ]
       .filter(Boolean)
       .join("\n"),
@@ -485,6 +497,8 @@ function planCheck(
       "- Under 110 words. No lecture.",
       "",
       "Either way, never say 'good question' or 'great job' unless they earned it.",
+      "",
+      syllabusGuard(map.classLevel),
       "",
       "Last line of your reply, exactly, and never anything after it:",
       "@@VERDICT: mastered|not-yet|question",
@@ -552,6 +566,7 @@ function planReteach(
       "- Re-using the sentences, the example or the framing you used last time.",
       "- 'As I said', 'like I explained', 'simply put', 'basically' — all of them mean you are about to repeat yourself.",
       "- Any hint that they are slow for not getting it.",
+      syllabusGuard(map.classLevel),
       "",
       "End with ONE very small question — smaller than the last one — that they can almost certainly get right. Confidence first, difficulty after.",
     ].join("\n"),
@@ -586,6 +601,8 @@ function planRecap(
       "2. The chapter in five lines: one line per step, the idea only, as a revision card they can re-read in a minute.",
       "3. The one mistake most likely to cost them marks in the board exam on this chapter.",
       "4. Two real board-style questions to try now, with marks shown. Questions only — no answers.",
+      "",
+      syllabusGuard(map.classLevel),
       "",
       "Under 220 words.",
     ].join("\n"),
