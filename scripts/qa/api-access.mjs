@@ -9,8 +9,14 @@
 // `await req.json()` and fails there with 400 — proof it got past the gate,
 // without spending a single token against the shared quota.
 //
+// Netlify runs the same /api/chat contract behind a redirect to its own
+// function (see netlify/functions/chat.mts) with its own rate limiter and
+// PERSONA_GUARD copy — that twin has drifted from the Vercel one before, so
+// it gets the identical probe whenever a base for it is supplied.
+//
 // Run:  node scripts/qa/api-access.mjs
 //       node scripts/qa/api-access.mjs --base http://localhost:3002
+//       node scripts/qa/api-access.mjs --netlify-base https://pinnacle-ai.netlify.app
 
 const argv = process.argv.slice(2);
 const argOf = (name, fallback) => {
