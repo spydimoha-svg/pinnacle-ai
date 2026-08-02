@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Logo } from "../components/Logo";
 import { useStore } from "../lib/store";
+import { supabase, cloudEnabled } from "../lib/supabase";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -9,9 +10,38 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [busy, setBusy] = useState(false);
 
-  function submit(e: React.FormEvent) {
+  async function submit(e: React.FormEvent) {
     e.preventDefault();
+    setError("");
+
+    // Supabase configured: the password is verified server-side by Supabase
+    // Auth. A matching local profile only supplies the role/name to display —
+    // it never gets a vote on whether the password was correct.
+    if (cloudEnabled() && supabase) {
+      setBusy(true);
+      const { error: authError } = await supabase.auth.signInWithPassword({
+        email: email.trim(),
+        password,
+      });
+      setBusy(false);
+      const user = authError
+        ? undefined
+        : useStore
+            .getState()
+            .allUsers()
+            .find((u) => u.email.toLowerCase() === email.trim().toLowerCase());
+      if (!user) {
+        setError("That email and password don't match any account.");
+        return;
+      }
+      useStore.setState({ currentUser: user });
+      useStore.getState().touchStreak();
+      navigate(user.role === "admin" ? "/admin" : "/app");
+      return;
+    }
+
     const user = login(email, password);
     if (!user) {
       setError("That email and password don't match any account.");
@@ -68,8 +98,8 @@ export default function Login() {
             </p>
           )}
 
-          <button type="submit" className="btn-gold w-full">
-            Sign in
+          <button type="submit" className="btn-gold w-full" disabled={busy}>
+            {busy ? "Signing in…" : "Sign in"}
           </button>
 
           <div className="ridge-rule my-6" />

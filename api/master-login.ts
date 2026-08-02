@@ -64,12 +64,12 @@ export async function POST(req: Request): Promise<Response> {
     return new Response("Invalid JSON", { status: 400 });
   }
 
-  if (typeof body.verify === "string") {
-    return Response.json({ valid: verifyToken(body.verify, secret) });
-  }
-
   if (isRateLimited(clientIp(req))) {
     return new Response("Too many attempts", { status: 429 });
+  }
+
+  if (typeof body.verify === "string") {
+    return Response.json({ valid: verifyToken(body.verify, secret) });
   }
 
   const given = typeof body.passcode === "string" ? Buffer.from(body.passcode.trim().toUpperCase()) : Buffer.alloc(0);

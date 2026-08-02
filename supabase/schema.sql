@@ -87,3 +87,48 @@ revoke all on public.schools from anon, authenticated;
 drop policy if exists dev_all on public.school_resources;
 drop policy if exists dev_read on public.school_resources;
 revoke all on public.school_resources from anon, authenticated;
+
+-- ---------------------------------------------------------------------------
+-- Rate limiting (shared Postgres row instead of a per-instance in-memory Map)
+-- ---------------------------------------------------------------------------
+-- api/chat.ts and api/master-login.ts used to throttle with a module-level
+-- Map, which Vercel resets on every cold start and keeps separate per
+-- concurrent instance — under horizontal scaling the real ceiling was
+-- (per-instance limit) x (instance count), not the stated limit. This table
+-- plus rate_limit_hit() give every instance one shared, atomically-updated
+-- counter per key+window.
+create table if not exists public.rate_limits (
+  key          text primary key,
+  window_start timestamptz not null default now(),
+  count        integer not null default 0
+);
+alter table public.rate_limits enable row level security;
+revoke all on public.rate_limits from anon, authenticated;
+
+-- Atomically bump the counter for `p_key` and report whether it has exceeded
+-- `p_max` hits inside the trailing `p_window_ms` window, resetting the window
+-- once it has elapsed. The INSERT ... ON CONFLICT DO UPDATE takes a row lock
+-- on `p_key`, so concurrent hits from different serverless instances still
+-- serialize correctly instead of racing.
+create or replace function public.rate_limit_hit(p_key text, p_window_ms integer, p_max integer)
+returns boolean
+language plpgsql
+as $$
+declare
+  v_window interval := make_interval(secs => p_window_ms / 1000.0);
+  v_count integer;
+begin
+  insert into public.rate_limits (key, window_start, count)
+  values (p_key, now(), 1)
+  on conflict (key) do update
+    set window_start = case when public.rate_limits.window_start <= now() - v_window
+                             then now() else public.rate_limits.window_start end,
+        count = case when public.rate_limits.window_start <= now() - v_window
+                      then 1 else public.rate_limits.count + 1 end
+  returning count into v_count;
+  return v_count > p_max;
+end;
+$$;
+
+revoke all on function public.rate_limit_hit(text, integer, integer) from public;
+grant execute on function public.rate_limit_hit(text, integer, integer) to service_role;
