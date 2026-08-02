@@ -19,6 +19,10 @@ import type { Subject } from "../../lib/types";
 //   Version" removed. Six prose pieces remain (NCERT numbers only the prose);
 //   the five poems are unnumbered in the book, so we number prose + poetry as
 //   one flat sequence in the order they appear in the textbook.
+// - Economics (Indian Economic Development): "Poverty" (old ch 4) and
+//   "Infrastructure" (old ch 8) removed; the remaining 8 chapters are
+//   renumbered 1-8. "Statistics for Economics" (the Part A book) is out of
+//   scope here — only the Part B book is modelled as a subject.
 //
 // Per-chapter weightage and board-question notes: Class XI has no external
 // CBSE board exam, but CBSE's own curriculum document publishes a unit-wise

@@ -149,13 +149,16 @@ export function gradeAnswer(
   const cNums = numbers(stripExponents(c));
   const essential = cNums.filter((n) => !qNums.has(n));
   if (essential.length) {
-    const sNums = new Set(numbers(stripExponents(s)));
-    const found = essential.filter((n) => sNums.has(n));
+    const sNums = numbers(stripExponents(s));
+    // A student may write a fraction's decimal ("0.33" for "1/3"), so numbers
+    // are compared within a small tolerance rather than as exact floats.
+    const near = (n: number) => sNums.some((x) => Math.abs(x - n) < 0.01);
+    const found = essential.filter(near);
     if (found.length === essential.length) {
       return { mark: "correct", why: `all key values present (${essential.join(", ")})` };
     }
     // A wrong sign is a specific, nameable error rather than a blank miss.
-    const flipped = essential.filter((n) => !sNums.has(n) && sNums.has(-n));
+    const flipped = essential.filter((n) => !near(n) && near(-n));
     if (flipped.length) {
       return { mark: "wrong", why: `sign error: expected ${flipped.join(", ")}, got the negative of it` };
     }

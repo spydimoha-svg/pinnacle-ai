@@ -1263,6 +1263,23 @@ export const C11_QUESTIONS: Question[] = [
       "Anchor the answer in the shift in the grandmother-grandson bond — this incident marks the first big change described in the essay, from companionship to silent disapproval.",
   },
   {
+    id: "q-c11-english-01-x2",
+    subjectId: "c11-english",
+    chapterId: "c11-english-01",
+    classLevel: 11,
+    text: "Describe what happened around the author's grandmother on the day she died, in 'The Portrait of a Lady'.",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer:
+      "On the day the grandmother died, hundreds of sparrows — the same birds she fed crumbs to every day in the courtyard — had gathered silently around her deathbed, without their usual chirping. When her body was carried out of the house for the last rites, the sparrows flew away quietly together, and did not return to be fed that evening. The author's mother remarked that the birds had come to pay their homage and had grieved with the family, a detail that captures the grandmother's simple, spiritual harmony with nature right up to her death.",
+    keywords: [
+      "hundreds of sparrows, whom she fed daily, gathered silently near her deathbed",
+      "sparrows flew away quietly when her body was taken out for the last rites, and did not return that evening",
+      "mother says they had come to pay homage — shows grandmother's spiritual bond with nature",
+    ],
+  },
+  {
     id: "q-c11-english-02-x1",
     subjectId: "c11-english",
     chapterId: "c11-english-02",
@@ -1282,6 +1299,23 @@ export const C11_QUESTIONS: Question[] = [
       "Trace all three losses in order (the girl, the laughter, the mother) — the poem builds its sense of transience cumulatively across the three stanzas.",
   },
   {
+    id: "q-c11-english-02-x2",
+    subjectId: "c11-english",
+    chapterId: "c11-english-02",
+    classLevel: 11,
+    text: "What does the photograph in the poem 'A Photograph' show, and who are the people in it?",
+    marks: 2,
+    type: "sa",
+    source: "important",
+    answer:
+      "The photograph shows the poet's mother as a twelve-year-old girl, standing at a seaside beach along with her two girl cousins, Betty and Dolly. All three are smiling for the camera, with the sea and the wind-blown look of their summer dresses in the background, captured at a moment long before the poet herself was born.",
+    keywords: [
+      "shows the poet's mother as a 12-year-old girl at the seaside",
+      "she is with her two cousins, Betty and Dolly",
+      "photograph taken 'before I was born', with the sea in the background",
+    ],
+  },
+  {
     id: "q-c11-english-03-x1",
     subjectId: "c11-english",
     chapterId: "c11-english-03",
@@ -1296,6 +1330,23 @@ export const C11_QUESTIONS: Question[] = [
       "rogue wave struck the yacht from behind and capsized it end over end",
       "cabin windows smashed, boat flooded with water",
       "Mary injured (broken rib, gashed forehead); crew bailed and repaired to reach Melbourne",
+    ],
+  },
+  {
+    id: "q-c11-english-03-x2",
+    subjectId: "c11-english",
+    chapterId: "c11-english-03",
+    classLevel: 11,
+    text: "Explain the significance of the title of the chapter, 'We're Not Afraid to Die... if We Can All Be Together'.",
+    marks: 2,
+    type: "sa",
+    source: "important",
+    answer:
+      "The title is drawn from a statement made by the author's wife, Mary, who says she is not afraid of dying as long as the family faces whatever comes as one, together. It captures the central theme of the chapter — that the family's courage and their bond with one another mattered more than the physical danger of the voyage, and it is exactly this unity and combined effort that helps them survive the huge wave and sail on to Cape Town.",
+    keywords: [
+      "title comes from Mary's words: not afraid of dying if the family can face it together",
+      "reflects the family's courage and unity as their real source of strength",
+      "this bond is what carries them through the storm and the damaged voyage to Cape Town",
     ],
   },
   {
@@ -1316,6 +1367,23 @@ export const C11_QUESTIONS: Question[] = [
     ],
   },
   {
+    id: "q-c11-english-04-x2",
+    subjectId: "c11-english",
+    chapterId: "c11-english-04",
+    classLevel: 11,
+    text: "What is the 'curse of the pharaohs' associated with Tutankhamun's tomb, and how does the chapter treat this belief?",
+    marks: 2,
+    type: "sa",
+    source: "important",
+    answer:
+      "After Howard Carter's team opened Tutankhamun's tomb in the 1920s, several people connected with the discovery died within the following years, giving rise to the popular belief in a 'curse of the pharaohs' said to strike anyone who disturbed the boy-king's rest. The chapter treats this as unscientific superstition, pointing out that most of the people actually present when the tomb and sarcophagus were opened went on to live long lives, and that modern science — especially the 2005 CT scan — offers real medical explanations, such as an infected injury, rather than a curse.",
+    keywords: [
+      "curse of the pharaohs: belief that disturbing Tutankhamun's tomb brings death, arising after early deaths of people linked to its discovery",
+      "chapter dismisses it as superstition — most people present at the actual opening lived long lives",
+      "modern science (the 2005 CT scan) gives a real medical explanation instead of a curse",
+    ],
+  },
+  {
     id: "q-c11-english-05-x1",
     subjectId: "c11-english",
     chapterId: "c11-english-05",
@@ -1333,6 +1401,23 @@ export const C11_QUESTIONS: Question[] = [
     ],
   },
   {
+    id: "q-c11-english-05-x2",
+    subjectId: "c11-english",
+    chapterId: "c11-english-05",
+    classLevel: 11,
+    text: "What do the goldfinch and her fledglings do when they visit the laburnum tree in 'The Laburnum Top'?",
+    marks: 2,
+    type: "sa",
+    source: "important",
+    answer:
+      "The mother goldfinch arrives at the tree with her brood of fledglings, and together they hop and flutter among the branches while feeding on the seeds of the laburnum, their twittering and quick movements filling the tree with sudden noise and motion. Once they have finished feeding, the goldfinch gives a call and the whole family flies off together, leaving the tree to settle back into stillness.",
+    keywords: [
+      "goldfinch arrives with her fledglings",
+      "they hop, flutter and feed on the laburnum's seeds, filling the tree with movement and sound",
+      "after feeding, the goldfinch calls and the family flies off together",
+    ],
+  },
+  {
     id: "q-c11-english-06-x1",
     subjectId: "c11-english",
     chapterId: "c11-english-06",
@@ -1347,6 +1432,23 @@ export const C11_QUESTIONS: Question[] = [
       "rain rises invisibly from land and sea, forms clouds, descends to renew the earth, returns to source",
       "poem/song compared to rain — both arise from an unseen origin and return to it after fulfilling their duty",
       "cycle is eternal, regardless of whether the song is valued ('reck'd or unreck'd')",
+    ],
+  },
+  {
+    id: "q-c11-english-06-x2",
+    subjectId: "c11-english",
+    chapterId: "c11-english-06",
+    classLevel: 11,
+    text: "How does Walt Whitman personify the rain at the start of 'The Voice of the Rain', and what does the rain call itself?",
+    marks: 2,
+    type: "sa",
+    source: "important",
+    answer:
+      "In the opening lines, the poet directly asks the rain who it is, and the rain 'gives him an answer' as though it were a living, speaking being — this personification runs through the whole poem. The rain identifies itself as the 'poem of earth', explaining that, just like a poem, it rises invisibly from the land and sea and eventually returns to renew the very earth from which it came.",
+    keywords: [
+      "poet questions the rain and it 'answers' him — personification of the rain",
+      "rain calls itself the 'poem of earth'",
+      "ties its physical journey (rising, falling, returning) to the idea of a poem's cycle",
     ],
   },
   {
