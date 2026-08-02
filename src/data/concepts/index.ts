@@ -14,11 +14,12 @@ import { SUBJECTS } from "../curriculum";
 import { ncertChapterById } from "../ncert";
 import type { Concept, ConceptMap, Prereq } from "./types";
 import { C10_MATHS_POLYNOMIALS_MAP } from "./c10-maths-polynomials";
+import { C10_MATHS_TRIGONOMETRY_MAP } from "./c10-maths-trigonometry";
 
 export type { Concept, ConceptMap, Prereq, LeadsTo } from "./types";
 
 /** Every hand-authored map. Grows as chapters are seeded. */
-const AUTHORED: ConceptMap[] = [C10_MATHS_POLYNOMIALS_MAP];
+const AUTHORED: ConceptMap[] = [C10_MATHS_POLYNOMIALS_MAP, C10_MATHS_TRIGONOMETRY_MAP];
 
 const STOP = new Set([
   "and", "the", "of", "in", "to", "a", "an", "with", "for", "its", "their",
