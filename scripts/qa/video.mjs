@@ -78,6 +78,38 @@ t("prose where a plot spec belongs is dropped", () => {
   return null;
 });
 
+// 8. an all-text lesson warns; a lesson with enough visuals does not
+t("fewer than 3 visual scenes warns, 3+ does not", () => {
+  const scene = (withVisual) => ({
+    caption: "C", say: "Look.",
+    ...(withVisual ? { visual: { type: "3d", kind: "cube", a: 1 } } : {}),
+  });
+  const warnings = [];
+  const origWarn = console.warn;
+  console.warn = (...args) => warnings.push(args.join(" "));
+  try {
+    const noVisuals = JSON.stringify({ title: "X", hook: "h", scenes: Array.from({ length: 6 }, () => scene(false)), recap: [] });
+    parseLessonVideo(noVisuals, "X");
+    if (warnings.length !== 1) return `expected 1 warning for an all-text lesson, got ${warnings.length}`;
+
+    warnings.length = 0;
+    const enoughVisuals = JSON.stringify({ title: "X", hook: "h", scenes: [scene(true), scene(true), scene(true), scene(false)], recap: [] });
+    parseLessonVideo(enoughVisuals, "X");
+    if (warnings.length !== 0) return `expected no warning for a 3-visual lesson, got ${warnings.length}`;
+  } finally {
+    console.warn = origWarn;
+  }
+  return null;
+});
+
+// 9. recap is capped at 3 questions to match the prompt contract
+t("a recap of 5 questions is capped at 3", () => {
+  const raw = JSON.stringify({ title:"X", hook:"h", scenes:[{caption:"A", say:"one"}], recap:["q1","q2","q3","q4","q5"] });
+  const v = parseLessonVideo(raw, "X");
+  if (v.recap.length !== 3) return `expected 3 recap questions, got ${v.recap.length}`;
+  return null;
+});
+
 console.log(fail === 0 ? "\nall video parser checks passed" : `\n${fail} failed`);
 await vite.close();
 process.exit(fail ? 1 : 0);

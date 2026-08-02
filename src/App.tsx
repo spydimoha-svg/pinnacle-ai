@@ -2,8 +2,13 @@ import { Suspense, lazy } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import Layout from "./components/Layout";
 import Protected from "./components/Protected";
-import CloudSync from "./components/CloudSync";
 import { Spinner } from "./components/ui";
+import { useStore } from "./lib/store";
+
+// Lazy: its import chain pulls in the Supabase SDK, which a logged-out visitor
+// should never have to download. Also gated on being a signed-in student below
+// so the fetch only happens for someone who can actually use cloud sync.
+const CloudSync = lazy(() => import("./components/CloudSync"));
 
 const Landing = lazy(() => import("./pages/Landing"));
 // The cinematic narrative. Lazy so the three/R3F bundle stays out of the
@@ -43,10 +48,20 @@ function Fallback() {
   );
 }
 
+function CloudSyncGate() {
+  const isStudent = useStore((s) => s.currentUser?.role === "student");
+  if (!isStudent) return null;
+  return (
+    <Suspense fallback={null}>
+      <CloudSync />
+    </Suspense>
+  );
+}
+
 export default function App() {
   return (
     <>
-      <CloudSync />
+      <CloudSyncGate />
       <Suspense fallback={<Fallback />}>
       <Routes>
         <Route path="/" element={<Landing />} />

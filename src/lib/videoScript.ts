@@ -489,7 +489,7 @@ export function parseLessonVideo(raw: string, fallbackTitle: string, castId = "g
         recap: (Array.isArray(obj.recap) ? obj.recap : [])
           .map(asString)
           .filter(Boolean)
-          .slice(0, 4),
+          .slice(0, 3),
       };
     }
   }

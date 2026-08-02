@@ -24,7 +24,7 @@ import type { VideoRec } from "../lib/types";
 const SEARCH = "https://www.youtube.com/results?search_query=";
 
 export const VIDEOS: VideoRec[] = [
-  // ============================================================== CLASS 9 (5)
+  // ============================================================== CLASS 9 (6)
   {
     id: "v-c9-maths-number-systems",
     title: "Number Systems — Complete Chapter (Class 9 Maths)",
@@ -79,6 +79,17 @@ export const VIDEOS: VideoRec[] = [
     classLevel: 9,
     topic: "The French Revolution (History Ch 1)",
     why: "Told as one continuous story with dates in order, so the 5-mark 'causes of the revolution' answer writes itself instead of being memorised.",
+  },
+  {
+    id: "v-c9-english-fun-they-had",
+    title: "The Fun They Had — Full Explanation with Poem (Class 9 English)",
+    channel: "Magnet Brains",
+    language: "Hindi",
+    url: `${SEARCH}the+fun+they+had+class+9+english+beehive+magnet+brains`,
+    subjectId: "c9-english",
+    classLevel: 9,
+    topic: "The Fun They Had (Beehive Ch 1)",
+    why: "Beehive's opening chapter is a guaranteed reference-to-context extract; this goes scene by scene through Margie's mechanical teacher so the answer quotes the text instead of paraphrasing it.",
   },
 
   // ============================================================= CLASS 10 (17)
@@ -277,7 +288,7 @@ export const VIDEOS: VideoRec[] = [
     why: "Explains the chapter in Hindi but keeps the English text on screen, which is what most students actually need to answer the extract questions.",
   },
 
-  // ============================================================= CLASS 11 (4)
+  // ============================================================= CLASS 11 (5)
   {
     id: "v-c11-physics-laws-of-motion",
     title: "Laws of Motion in One Shot (Class 11)",
@@ -321,6 +332,17 @@ export const VIDEOS: VideoRec[] = [
     classLevel: 11,
     topic: "Trigonometric Functions",
     why: "Derives the compound-angle formulas instead of listing them, so you can rebuild the identity in the exam when memory fails.",
+  },
+  {
+    id: "v-c11-english-portrait-of-a-lady",
+    title: "The Portrait of a Lady — Full Explanation (Class 11 English)",
+    channel: "LearnoHub",
+    language: "English",
+    url: `${SEARCH}portrait+of+a+lady+class+11+english+hornbill+learnohub`,
+    subjectId: "c11-english",
+    classLevel: 11,
+    topic: "The Portrait of a Lady (Hornbill Ch 1)",
+    why: "The grandmother's character sketch is the most-repeated short-answer prompt from this chapter, and it works through Khushwant Singh's actual details scene by scene instead of generic praise.",
   },
 
   // ============================================================= CLASS 12 (13)
