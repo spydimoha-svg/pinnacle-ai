@@ -23,7 +23,7 @@ function escapeRegExp(s: string): string {
 
 // Whole-word match so a short word doesn't score just for appearing inside a
 // longer, unrelated word (e.g. "sin" inside "using").
-function hasWord(haystack: string, needle: string): boolean {
+export function hasWord(haystack: string, needle: string): boolean {
   if (!needle) return false;
   return new RegExp(`\\b${escapeRegExp(needle)}\\b`).test(haystack);
 }

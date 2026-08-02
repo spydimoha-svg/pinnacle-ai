@@ -21,7 +21,7 @@
 import type { ClassLevel, StudentMemory } from "./types";
 import { SUBJECTS } from "../data/curriculum";
 import { conceptMapFor, roadmapDiagram, type Concept, type ConceptMap } from "../data/concepts";
-import { groundingForChapter } from "./grounding";
+import { groundingForChapter, hasWord } from "./grounding";
 import { describeLearner, type LearnerProfile } from "./learner";
 import { gradeAnswer, stripScaffolding } from "./grade";
 import { FORMAT_CONTRACT, FORMAT_REMINDER } from "./persona";
@@ -95,9 +95,9 @@ export function detectLessonIntent(
     for (const c of s.chapters) {
       let score = 0;
       const title = c.title.toLowerCase();
-      if (q.includes(title)) score += 6;
+      if (hasWord(q, title)) score += 6;
       for (const t of c.keyTopics) {
-        if (t.length > 4 && q.includes(t.toLowerCase())) score += 3;
+        if (t.length > 4 && hasWord(q, t.toLowerCase())) score += 3;
       }
       if (score > 0 && (!best || score > best.score)) {
         best = { chapterId: c.id, title: c.title, score };
@@ -255,7 +255,7 @@ function groundedSource(chapterId: string, classLevel: ClassLevel): string {
   const g = groundingForChapter(chapterId, classLevel);
   return g
     ? `\n## THE REAL SOURCE — teach only from this\n<<<NCERT\n${g}\nNCERT>>>\nDo not substitute a different problem, exercise or number. If something is not in here, say so instead of inventing it.\n`
-    : "";
+    : `\n## NO CURATED SOURCE FOR THIS TOPIC\nNothing was retrieved from the NCERT/board content store for this chapter. You are about to teach from your own general knowledge, unchecked against the syllabus text. If there is any real chance of being wrong — a formula, a definition, a numeric answer, an NCERT exercise or example number, a marking-scheme detail — say plainly that you are going from memory and not from the loaded chapter text, before you give it. Do not present an unsourced answer with the same confidence as a grounded one.\n`;
 }
 
 /**
