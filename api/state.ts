@@ -18,6 +18,30 @@ import { createClient } from "@supabase/supabase-js";
 const url = process.env.VITE_SUPABASE_URL;
 const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
+// Same-origin only. Sec-Fetch-Site is set by the browser itself and can't be
+// set by page JS or a fetch() call — but a raw HTTP client (curl, node fetch)
+// can set it by hand too, since nothing stops a script from sending any
+// header it likes. So it's never trusted alone: Origin *and* Referer must
+// also genuinely match Host, which a script can forge individually but
+// rarely bothers matching both to the real Host at once. Same check as
+// api/chat.ts.
+function isSameOrigin(req: Request): boolean {
+  const host = req.headers.get("host");
+  if (!host) return false;
+  const matchesHost = (value: string | null) => {
+    if (!value) return false;
+    try {
+      return new URL(value).host === host;
+    } catch {
+      return false;
+    }
+  };
+  return (
+    matchesHost(req.headers.get("origin")) &&
+    matchesHost(req.headers.get("referer"))
+  );
+}
+
 async function verifiedUserId(req: Request): Promise<string | null> {
   if (!url || !serviceKey) return null;
   const auth = req.headers.get("authorization") ?? "";
@@ -74,6 +98,9 @@ async function isRateLimited(key: string): Promise<boolean> {
 }
 
 export async function GET(req: Request): Promise<Response> {
+  if (!isSameOrigin(req)) {
+    return new Response("Forbidden", { status: 403 });
+  }
   if (!url || !serviceKey) {
     return new Response("Cloud sync is not configured", { status: 503 });
   }
@@ -97,6 +124,9 @@ export async function GET(req: Request): Promise<Response> {
 }
 
 export async function POST(req: Request): Promise<Response> {
+  if (!isSameOrigin(req)) {
+    return new Response("Forbidden", { status: 403 });
+  }
   if (!url || !serviceKey) {
     return new Response("Cloud sync is not configured", { status: 503 });
   }

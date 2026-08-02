@@ -142,6 +142,9 @@ export async function POST(req: Request): Promise<Response> {
   if (await isRateLimited(`master-login:${ip}`, RATE_LIMIT_MAX)) {
     return new Response("Too many attempts", { status: 429 });
   }
+  if (await isRateLimited("master-login:global", GLOBAL_RATE_LIMIT_MAX)) {
+    return new Response("Too many attempts", { status: 429 });
+  }
 
   const given = typeof body.passcode === "string" ? Buffer.from(body.passcode.trim().toUpperCase()) : Buffer.alloc(0);
   const expected = Buffer.from(secret.trim().toUpperCase());

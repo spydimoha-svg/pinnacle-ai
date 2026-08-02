@@ -727,6 +727,30 @@ Thus the Belgian model shows that respecting and accommodating diversity, rather
       "The 'community government' is the point students forget, and it is the most distinctive feature of the Belgian model. Also state the 59/40/1 and Brussels 80/20 figures — they earn the introductory mark.",
   },
   {
+    id: "q-c10-sst-13-2",
+    subjectId: "c10-sst",
+    chapterId: "c10-sst-13",
+    classLevel: 10,
+    text: "Distinguish between horizontal and vertical distribution of power, giving one example of each.",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer: `(i) Horizontal distribution of power — power is shared among different organs of government, such as the legislature, executive and judiciary, placed at the same level. This ensures a system of checks and balances, since no organ can exercise unlimited power and each organ checks the others. For example, in India the executive is accountable to the legislature, and courts can review laws made by the legislature.
+
+(ii) Vertical distribution of power — power is shared among governments at different levels — a general government for the entire country and governments at the provincial or regional level, with the national government at the top and the state and local governments below it. This is typically found in a federal system, for example the division of powers between the Union Government, State Governments and local bodies (panchayats and municipalities) in India through the Union, State and Concurrent Lists.
+
+Thus horizontal sharing balances power among institutions at the same level, while vertical sharing distributes power among different tiers of government.`,
+    keywords: [
+      "horizontal distribution — legislature, executive, judiciary",
+      "checks and balances",
+      "vertical distribution — different levels of government (federal)",
+      "Union, State and local governments in India",
+      "Union / State / Concurrent Lists",
+    ],
+    examinerTip:
+      "'Same level, different organs' versus 'different levels, similar organs' is the exact distinction the key wants — do not just list examples without stating the underlying principle.",
+  },
+  {
     id: "q-c10-sst-14-1",
     subjectId: "c10-sst",
     chapterId: "c10-sst-14",
@@ -855,6 +879,34 @@ Reform: state funding of elections, and stricter regulation of party finances an
       "The paper pairs challenges with reforms. Students write the three challenges fully and then stop — every unwritten reform is a lost half-mark, so answer in challenge-then-reform pairs, not in two blocks.",
   },
   {
+    id: "q-c10-sst-16-2",
+    subjectId: "c10-sst",
+    chapterId: "c10-sst-16",
+    classLevel: 10,
+    text: "Explain any three functions performed by political parties in a democracy.",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer: `(i) Contesting elections and forming government — parties put up candidates who contest elections, and in most democracies elections are fought mainly among candidates put up by political parties; the party that wins a majority of seats forms the government and carries out its programmes.
+
+(ii) Making policies and laws — parties place various policies and programmes before the electorate for their selection, and citizens can be part of this process of choice by joining a party or expressing support for the policies they prefer.
+
+(iii) Role of opposition — parties that lose an election play the role of opposition to the parties in power, voicing different views, criticising the government for its failures or wrong policies, and mobilising opposition to it.
+
+(iv) Shaping public opinion — parties shape public opinion by raising and highlighting issues, using pressure groups and movements to build support for policies, and providing people access to government machinery and welfare schemes.
+
+Thus by contesting elections, forming policy, providing opposition and shaping opinion, political parties are the backbone of democratic government.`,
+    keywords: [
+      "contest elections / form government",
+      "make policies and laws",
+      "role of opposition",
+      "shape public opinion",
+      "access to government machinery and welfare schemes",
+    ],
+    examinerTip:
+      "'Any three' means write exactly three DISTINCT functions with a one-line elaboration each — students name five functions in one word each and lose the explanation marks.",
+  },
+  {
     id: "q-c10-sst-17-1",
     subjectId: "c10-sst",
     chapterId: "c10-sst-17",
@@ -880,6 +932,32 @@ The contrast between Belgium, which accommodated its linguistic communities thro
     ],
     examinerTip:
       "The two CONDITIONS are the marked content, not a general essay on democracy. Adding the Belgium-versus-Sri-Lanka contrast as your conclusion is what turns a 2-mark answer into a 3-mark one.",
+  },
+  {
+    id: "q-c10-sst-17-2",
+    subjectId: "c10-sst",
+    chapterId: "c10-sst-17",
+    classLevel: 10,
+    text: "Assess the outcome of democracy in ensuring economic growth and reducing economic inequality, with reference to India.",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer: `(i) Economic growth — when democratic and non-democratic regimes are compared, dictatorships often score similarly to democracies on economic growth rates, and overall the difference in growth rates between less developed countries with dictatorships and those with democracies is not very significant.
+
+(ii) Persisting economic inequality — democracy in India has not been able to reduce economic inequalities substantially. A small number of ultra-rich enjoy a highly disproportionate share of wealth and incomes, while the poor find it difficult to meet basic needs of food, clothing, housing, education and health, so much of the promise of economic and social justice remains unfulfilled.
+
+(iii) Assessment — although democracies have some inherent capacity to correct their own mistakes over time, and the pressures of democratic politics ensure that governments pay attention to providing goods and services, the actual outcome of reducing poverty and inequality has fallen short of the ideals of democracy.
+
+Hence, while democracy in India has sustained reasonable growth, it has not translated this growth into a significant reduction of economic inequality.`,
+    keywords: [
+      "growth rates under democracy and dictatorship not very different",
+      "persisting economic inequality in India",
+      "concentration of wealth with a few",
+      "poor struggle for basic needs — food, health, education",
+      "democracy's self-correcting capacity",
+    ],
+    examinerTip:
+      "The scheme wants a BALANCED assessment — growth roughly holds up under democracy, but inequality reduction has failed — a one-sided answer praising or condemning democracy loses half the marks.",
   },
 
   // ==========================================================================
@@ -911,6 +989,32 @@ Hence developmental goals are not only different but can even be conflicting.`,
     ],
     examinerTip:
       "The examiner wants CONFLICTING pairs, not two unrelated wishes. Writing 'a farmer wants rain and a student wants marks' misses the point — the two goals must clash, which is the whole idea of the chapter.",
+  },
+  {
+    id: "q-c10-sst-18-2",
+    subjectId: "c10-sst",
+    chapterId: "c10-sst-18",
+    classLevel: 10,
+    text: "What is meant by the Human Development Index (HDI)? How is it different from using per capita income alone as a measure of development?",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer: `(i) Human Development Index — the HDI, published every year by the United Nations Development Programme (UNDP) in its Human Development Reports, compares countries on the basis of the educational levels of the people, their health status (life expectancy) and per capita income, rather than income alone.
+
+(ii) Limitation of per capita income — average or per capita income is a useful measure but has a major limitation: it hides disparities, since it does not tell us how the income is distributed among the people or whether the country's wealth is fairly distributed or concentrated in a few hands.
+
+(iii) Broader comparison — the HDI is a more comprehensive measure since it combines health and education indicators along with income, on the belief that people may not want only more income but also better health and educational facilities that make their life better and enable them to lead a life they value.
+
+Hence the HDI gives a fuller picture of development than per capita income alone, which is why comparisons of states and countries increasingly use it.`,
+    keywords: [
+      "HDI published by UNDP",
+      "combines education, health (life expectancy) and income",
+      "per capita income hides income distribution",
+      "people want more than just income",
+      "fuller / comprehensive measure of development",
+    ],
+    examinerTip:
+      "Name UNDP specifically and state the THREE components of HDI — a generic 'HDI is better than income' answer without naming health, education and income as its components loses the definition mark.",
   },
   {
     id: "q-c10-sst-19-1",

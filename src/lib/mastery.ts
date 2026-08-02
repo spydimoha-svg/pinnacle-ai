@@ -5,6 +5,7 @@ import type {
   StudentMemory,
   Subject,
 } from "./types";
+import { hasWord } from "./grounding";
 
 // Pinnacle's mastery model. It never invents a score — it reads the real
 // signals already in the student's memory (status, self-confidence, and how
@@ -152,9 +153,9 @@ function matchesFocus(focus: string, ch: Chapter, s: Subject): boolean {
   const f = focus.trim().toLowerCase();
   if (!f) return false;
   return (
-    ch.title.toLowerCase().includes(f) ||
-    s.name.toLowerCase().includes(f) ||
-    (ch.keyTopics ?? []).some((k) => k.toLowerCase().includes(f))
+    hasWord(ch.title.toLowerCase(), f) ||
+    hasWord(s.name.toLowerCase(), f) ||
+    (ch.keyTopics ?? []).some((k) => hasWord(k.toLowerCase(), f))
   );
 }
 
