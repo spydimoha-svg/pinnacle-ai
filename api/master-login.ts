@@ -27,6 +27,30 @@ function verifyToken(token: string, secret: string): boolean {
   return Number(payload) > Date.now();
 }
 
+// Per-IP throttle on passcode attempts so MASTER_PASSCODE can't be brute
+// forced by scripting POSTs. Same pattern as api/chat.ts's rate limit.
+const RATE_LIMIT_WINDOW_MS = 5 * 60_000;
+const RATE_LIMIT_MAX = 5;
+const attemptTimestamps = new Map<string, number[]>();
+
+function isRateLimited(ip: string): boolean {
+  const now = Date.now();
+  const recent = (attemptTimestamps.get(ip) ?? []).filter(
+    (t) => now - t < RATE_LIMIT_WINDOW_MS
+  );
+  recent.push(now);
+  attemptTimestamps.set(ip, recent);
+  return recent.length > RATE_LIMIT_MAX;
+}
+
+// x-forwarded-for's first hop is client-supplied and trivially spoofed.
+// x-vercel-forwarded-for (falling back to x-real-ip) is set by Vercel's own
+// edge and stays correct even behind an extra proxy in front of Vercel.
+function clientIp(req: Request): string {
+  const ip = req.headers.get("x-vercel-forwarded-for") || req.headers.get("x-real-ip");
+  return ip?.split(",")[0]?.trim() || "unknown";
+}
+
 export async function POST(req: Request): Promise<Response> {
   const secret = process.env.MASTER_PASSCODE;
   if (!secret) {
@@ -42,6 +66,10 @@ export async function POST(req: Request): Promise<Response> {
 
   if (typeof body.verify === "string") {
     return Response.json({ valid: verifyToken(body.verify, secret) });
+  }
+
+  if (isRateLimited(clientIp(req))) {
+    return new Response("Too many attempts", { status: 429 });
   }
 
   if (
