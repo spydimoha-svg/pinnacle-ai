@@ -328,8 +328,10 @@ ${FORMAT_REMINDER}`
     if (cancelled) return;
 
     addAltitude(5);
-    // remember the topic loosely so the tutor can reference it next session
-    if (content.length > 12 && memory) {
+    // remember the topic loosely so the tutor can reference it next session —
+    // but a check-phase reply is the student's answer to a question, not a
+    // topic, and would otherwise pollute this with fragments like "x = -3".
+    if (content.length > 12 && memory && plan?.phase !== "check") {
       const topic = content.slice(0, 60);
       updateMemory({ lastTopics: [...memory.lastTopics.slice(-4), topic] });
     }

@@ -11,6 +11,42 @@ const CLASS_LEVELS: ClassLevel[] = [9, 10, 11, 12];
     admin routes against — see the comment in submit() below. */
 const ADMIN_TOKEN_KEY = "pinnacle-admin-token";
 
+/** Mirrors a trial signup onto Supabase the same way store.ts's
+ *  linkCloudProfile does, but — unlike that best-effort fire-and-forget
+ *  version — reports back whether the email came back confirmed. Supabase
+ *  queues a freshly linked email as unconfirmed until the inbox owner clicks
+ *  the link, so returning false here is what stops submitTrial() from
+ *  treating a typed-but-unproven email as a working cloud account: without
+ *  this check, anyone could squat a real student's email and permanently
+ *  block their real signup from ever linking to it. Fails open (true) on any
+ *  cloud error so a flaky connection never blocks the local trial account. */
+async function linkTrialCloudProfile(u: {
+  name: string;
+  email: string;
+  password: string;
+  classLevel?: ClassLevel;
+  schoolId?: string;
+}): Promise<boolean> {
+  if (!cloudEnabled() || !supabase) return true;
+  try {
+    const { data: anon } = await supabase.auth.signInAnonymously();
+    if (!anon.session) return true;
+    const { data: updated, error } = await supabase.auth.updateUser({
+      email: u.email,
+      password: u.password,
+      data: {
+        name: u.name,
+        classLevel: u.classLevel ?? null,
+        schoolId: u.schoolId ?? null,
+      },
+    });
+    if (error) return true;
+    return Boolean(updated.user?.email_confirmed_at);
+  } catch {
+    return true;
+  }
+}
+
 export default function Login() {
   const navigate = useNavigate();
   const login = useStore((s) => s.login);
@@ -23,6 +59,7 @@ export default function Login() {
   const [classLevel, setClassLevel] = useState<ClassLevel>(10);
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
+  const [confirmEmail, setConfirmEmail] = useState<string | null>(null);
 
   async function submitTrial(e: React.FormEvent) {
     e.preventDefault();
@@ -48,11 +85,15 @@ export default function Login() {
     });
     // Mirror the profile onto Supabase before navigating, so the student
     // this browser is about to sign in as can also sign in from any other
-    // device (see linkCloudProfile) — CloudSync starts syncing this same
-    // student the moment /app mounts, so this has to finish first.
+    // device (see linkTrialCloudProfile) — CloudSync starts syncing this
+    // same student the moment /app mounts, so this has to finish first.
     setBusy(true);
-    await useStore.getState().linkCloudProfile(created);
+    const confirmed = await linkTrialCloudProfile(created);
     setBusy(false);
+    if (!confirmed) {
+      setConfirmEmail(cleanEmail);
+      return;
+    }
     const user = login(cleanEmail, cleanPassword);
     if (!user) {
       setError("Couldn't create your account. Try again.");
@@ -143,6 +184,29 @@ export default function Login() {
             <Logo size={34} />
           </Link>
         </div>
+        {confirmEmail ? (
+          <div className="card !p-7 text-center">
+            <div className="eyebrow mb-1">Almost there</div>
+            <h1 className="font-display text-2xl font-bold text-cream mb-4">
+              Confirm your email
+            </h1>
+            <p className="text-dim text-sm mb-6">
+              We've sent a confirmation link to{" "}
+              <span className="text-cream">{confirmEmail}</span>. Click it to activate cloud
+              sync for this account, then sign in.
+            </p>
+            <button
+              type="button"
+              className="btn-gold w-full"
+              onClick={() => {
+                setConfirmEmail(null);
+                setMode("signin");
+              }}
+            >
+              Back to sign in
+            </button>
+          </div>
+        ) : (
         <form className="card !p-7" onSubmit={submit}>
           <div className="flex gap-1 p-1 mb-6 rounded-lg bg-black/20">
             <button
@@ -278,6 +342,7 @@ export default function Login() {
             </>
           )}
         </form>
+        )}
       </div>
     </div>
   );
