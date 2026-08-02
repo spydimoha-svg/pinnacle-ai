@@ -74,8 +74,14 @@ No prose before or after the json block.`;
 
 // -------------------------------------------------------------- worker brief
 
-export function workerBrief({ dept, agent, task, mode }) {
+export function workerBrief({ dept, agent, task, mode, learned = "", catalog = "" }) {
   const canEdit = mode === "apply" && dept.kind === "code";
+  const history = learned
+    ? `\nWHAT THIS SEAT HAS LEARNED DOING THIS JOB BEFORE\nEveryone who has held your seat wrote these. Trust them over your instincts, they were learned on this codebase.\n\n${learned}\n`
+    : "";
+  const tools = catalog
+    ? `\nWHAT THE OFFICE ALREADY HAS\n${catalog}\nIf you need something that is not on this list, do not go without and do not improvise. Put it in "needs" and Supply will get it for you.\n`
+    : "";
   const delivery = canEdit
     ? `Edit the files directly. Your change will be typechecked and built the moment you finish; if either fails your entire change is deleted and this task is marked failed, so verify before you stop.`
     : `Do not edit any file. Produce written analysis. Your report body is the deliverable.`;
@@ -87,7 +93,7 @@ ${dept.name}. ${dept.mission}
 
 YOUR DEPARTMENT'S GUARDRAILS
 ${list(dept.guardrails)}
-
+${history}${tools}
 YOUR TASK
 ${task.title}
 
@@ -113,19 +119,27 @@ Reply with one fenced json block and nothing else, in exactly this shape:
   "summary": "two sentences maximum, plain English, what you actually changed or found",
   "changed": ["src/file/you/edited.tsx"],
   "verified": "the specific thing you ran or checked, or 'not verified' if you could not",
+  "note": "one sentence to Ayaan in your own voice, the way a specialist reports to the founder. Say what you did and whether he needs to know anything. Blunt, no dashes, no emojis, never mention your own id",
+  "learned": ["what the next person in your seat needs to know that is not obvious from the code. A real constraint, a real gotcha, a real decision and why. Nothing generic. Empty array if you learned nothing worth passing on"],
+  "needs": [{ "what": "a tool, CLI, MCP server, API, dataset or document you needed and did not have", "why": "what it would let you do that you could not do" }],
   "lines_added": 0,
   "lines_removed": 0,
   "followups": ["anything you noticed but did not touch"]
 }
 \`\`\`
 "outcome" is one of: done, partial, blocked.
-${canEdit ? "" : 'Put your full written analysis in a "body" field as markdown, in the same json object.\n'}No prose before or after the json block.`;
+${dept.kind === "report"
+  ? `Then, AFTER the json block, write the line ---REPORT--- on its own, and then your full written analysis as markdown. That markdown is your deliverable, so make it worth reading. Never put the markdown inside the json.`
+  : `No prose before or after the json block.`}`;
 }
 
 // --------------------------------------------------------------- chief brief
 
-export function chiefBrief({ window, stats, uptime }) {
-  return `You are Pinnacle, Zainul's chief of staff. You run an office of 1000 agents building Pinnacle AI. You are writing his briefing.
+export function chiefBrief({ window, stats, uptime, owner = "" }) {
+  return `You are Pinnacle. You run an office of 1000 agents building Pinnacle AI. You are writing his briefing.
+
+WHO YOU WORK FOR
+${owner}
 
 WHAT HAPPENED SINCE THE LAST BRIEFING
 ${window}
@@ -133,8 +147,8 @@ ${window}
 RUNNING TOTALS
 Tasks completed ${stats.completed}. Failed and reverted ${stats.failed}. Office uptime ${uptime}.
 
-HOW ZAINUL WANTS TO BE TALKED TO
-Short paragraphs and bullets. Blunt. No dashes as punctuation. No emojis. No filler and no cheerleading.
+HOW HE WANTS THIS WRITTEN
+Short paragraphs and bullets. Blunt. No dashes as punctuation. No emojis. No filler and no cheerleading. This one is read, not spoken, so it can be tighter than the way you talk.
 
 WHAT HE WANTS TO KNOW
 What actually moved. What is now better than it was. What broke and what you did about it. What you need him to decide.

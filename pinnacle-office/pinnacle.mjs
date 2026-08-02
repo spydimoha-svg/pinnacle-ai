@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Pinnacle. Zainul's chief of staff.
+// Pinnacle. Ayaan's chief of staff.
 //
 //   node pinnacle-office/pinnacle.mjs            open the office and start work
 //   node pinnacle-office/pinnacle.mjs open       dashboard only, nobody working
@@ -11,8 +11,8 @@ import { spawn } from "node:child_process";
 import { existsSync } from "node:fs";
 import { CONFIG, claudeBin } from "./config.mjs";
 import { DEPARTMENTS, TOTAL_HEADCOUNT, buildRoster } from "./core/org.mjs";
-import { state, setOffice, flush } from "./core/store.mjs";
-import { startOffice, stopOffice, writeBriefing } from "./core/chief.mjs";
+import { state, setOffice, flush, bus } from "./core/store.mjs";
+import { startOffice, stopOffice, writeBriefing, runOnce } from "./core/chief.mjs";
 import { serve } from "./server.mjs";
 
 const [cmd = "start", arg] = process.argv.slice(2);
@@ -46,15 +46,18 @@ switch (cmd) {
     process.exit(0);
 
   case "once": {
-    // Single supervised round, for checking the machine before letting it run.
+    // Single supervised round: one head plans, one specialist works, then stop.
     const dept = DEPARTMENTS.find((d) => d.key === arg);
     if (!dept) { console.error(`Unknown department. One of: ${DEPARTMENTS.map((d) => d.key).join(", ")}`); process.exit(1); }
-    for (const d of DEPARTMENTS) state.office.deptEnabled[d.key] = d.key === dept.key;
-    setOffice({ concurrency: 1 });
-    serve();
-    open();
-    startOffice();
-    break;
+    console.log(`  ${dept.name} is starting a supervised round.\n`);
+    bus.on("event", (e) => {
+      const detail = e.label || e.text || e.title || e.detail || e.summary || e.error || e.finding || "";
+      if (e.type !== "agent.step" || e.kind === "tool") console.log(`  ${e.type.padEnd(14)} ${String(detail).slice(0, 110)}`);
+    });
+    const out = await runOnce(dept.key);
+    const t = out.task;
+    console.log("\n  Result: " + (t ? JSON.stringify({ status: t.status, summary: t.summary, changed: t.changed, sha: t.sha, reason: t.reason }, null, 2) : "no task was filed"));
+    process.exit(0);
   }
 
   case "open":
@@ -69,10 +72,28 @@ switch (cmd) {
     startOffice();
 }
 
+// Edge, deliberately. It is the only browser on this machine that exposes
+// Microsoft's free neural voices to a web page, which is the difference between
+// Pinnacle sounding like a person and sounding like a station announcement.
+// Chrome only offers the five old SAPI voices. Set PINNACLE_BROWSER=default to
+// use whatever the system prefers instead.
 function open() {
   const url = `http://localhost:${CONFIG.port}`;
-  const cmd = process.platform === "win32" ? ["cmd", ["/c", "start", "", url]] : process.platform === "darwin" ? ["open", [url]] : ["xdg-open", [url]];
-  try { spawn(cmd[0], cmd[1], { detached: true, stdio: "ignore", windowsHide: true }).unref(); } catch {}
+  const useEdge = process.platform === "win32" && process.env.PINNACLE_BROWSER !== "default";
+  const cmd = useEdge
+    ? ["cmd", ["/c", "start", "", "msedge", url]]
+    : process.platform === "win32" ? ["cmd", ["/c", "start", "", url]]
+    : process.platform === "darwin" ? ["open", [url]]
+    : ["xdg-open", [url]];
+
+  const child = spawn(cmd[0], cmd[1], { detached: true, stdio: "ignore", windowsHide: true });
+  // spawn reports a missing binary asynchronously, so a try/catch here would
+  // never see it. If Edge is not there, fall back rather than open nothing.
+  child.on("error", () => {
+    if (!useEdge) return console.error(`  Could not open a browser. Go to ${url}`);
+    spawn("cmd", ["/c", "start", "", url], { detached: true, stdio: "ignore", windowsHide: true }).unref();
+  });
+  child.unref();
 }
 
 // Never leave the office in a half open state.
@@ -83,3 +104,19 @@ for (const sig of ["SIGINT", "SIGTERM"]) {
     setTimeout(() => process.exit(0), 500);
   });
 }
+
+// Nothing gets to die quietly. Without these, a rejected promise anywhere in
+// the office either vanished or took the process down with a bare stack trace
+// and no hint about what state was left behind.
+process.on("unhandledRejection", (reason) => {
+  console.error("\n  [office] something failed and nobody caught it:", reason?.stack || reason);
+  console.error("  The office is still open. State was saved. This is a defect, not a normal failure.\n");
+  try { flush(); } catch {}
+});
+
+process.on("uncaughtException", (err) => {
+  console.error("\n  [office] fatal:", err?.stack || err);
+  console.error("  Marking the office closed so the next start is clean.\n");
+  try { stopOffice(); } catch {}
+  setTimeout(() => process.exit(1), 300);
+});

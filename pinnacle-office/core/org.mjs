@@ -1,14 +1,14 @@
-// The organisation: 20 departments, 1000 named agents, one chain of command.
+// The organisation: 21 departments, 1000 named agents, one chain of command.
 //
 // Structure per department: 1 head -> managers (1 per 12 people) -> workers.
 // Heads plan. Managers review. Workers execute one narrow task each.
-// Every department reports upward to Pinnacle, who reports to Zainul.
+// Every department reports upward to Pinnacle, who reports to Ayaan.
 
 export const DEPARTMENTS = [
   {
     key: "frontend",
     name: "Front End",
-    headcount: 90,
+    headcount: 85,
     kind: "code",
     priority: 2,
     scope: ["src/components/**", "src/pages/**", "src/index.css", "src/App.tsx"],
@@ -51,7 +51,7 @@ export const DEPARTMENTS = [
   {
     key: "tutor",
     name: "Tutor Engine",
-    headcount: 90,
+    headcount: 85,
     kind: "code",
     priority: 1,
     scope: ["src/lib/ai.ts", "src/lib/lesson.ts", "src/lib/persona.ts", "src/lib/grounding.ts", "src/lib/grade.ts", "src/lib/mastery.ts", "src/pages/app/Tutor.tsx", "src/pages/app/Chapter.tsx"],
@@ -73,7 +73,7 @@ export const DEPARTMENTS = [
   {
     key: "content",
     name: "CBSE Content",
-    headcount: 90,
+    headcount: 85,
     kind: "code",
     priority: 1,
     scope: ["src/data/**"],
@@ -95,7 +95,7 @@ export const DEPARTMENTS = [
   {
     key: "video",
     name: "Video Generation",
-    headcount: 60,
+    headcount: 55,
     kind: "code",
     priority: 3,
     scope: ["src/lib/videoScript.ts", "src/pages/app/Videos.tsx", "src/data/videos.ts", "scripts/qa/video.mjs"],
@@ -256,7 +256,7 @@ export const DEPARTMENTS = [
   {
     key: "design",
     name: "Design Studio",
-    headcount: 60,
+    headcount: 55,
     kind: "code",
     priority: 3,
     scope: ["design/**", "src/index.css", "src/pages/landing.css", "src/components/**"],
@@ -384,6 +384,27 @@ export const DEPARTMENTS = [
     specialties: [
       "DPDP Act and children's data", "terms of service", "privacy policy", "NCERT and CBSE content licensing",
       "school contracts", "refund and consumer law", "trademark and brand", "liability and disclaimers",
+    ],
+  },
+  {
+    key: "supply",
+    name: "Supply",
+    headcount: 25,
+    kind: "report",
+    priority: 1,
+    scope: [],
+    mission:
+      "You are the office's procurement desk. When any specialist says they need something to do their job, a CLI, an MCP server, an API, a dataset, a library, a doc, a connector, you find it, prove it is free and safe, and write the exact steps to put it in their hands. Ayaan never does this legwork himself.",
+    guardrails: [
+      "Free tier or open source only. If the good option costs money, say what it costs and what the free path is, then let Ayaan decide.",
+      "Never install anything. You write the exact command and why it is safe. Installing is Ayaan's call, always.",
+      "Verify it exists and is current before you recommend it. A dead package or a renamed CLI wastes everyone's time.",
+      "Say plainly what it can reach. A tool that gets filesystem or network access on his machine needs that spelled out.",
+    ],
+    specialties: [
+      "CLI tools", "MCP servers and connectors", "free tier APIs", "open datasets",
+      "npm and library research", "documentation sourcing", "developer tooling", "CBSE and NCERT sources",
+      "design and asset sources", "automation and integration",
     ],
   },
   {

@@ -2,7 +2,7 @@
 //
 // Two rules are enforced here and nowhere else:
 //   1. Paid Anthropic credentials are stripped from the child environment, so
-//      an agent physically cannot run on Zainul's API key. Subscription only.
+//      an agent physically cannot run on Ayaan's API key. Subscription only.
 //   2. Nothing loads MCP servers or project settings. That cut the per call
 //      system prompt from 57k tokens to 44k and startup from 50s to 2s.
 
@@ -11,12 +11,36 @@ import { claudeBin, childEnv, PROJECT_DIR } from "../config.mjs";
 
 const LEAN = ["--strict-mcp-config", "--mcp-config", '{"mcpServers":{}}', "--setting-sources", ""];
 
+// The real lock on the front door. The git gate cannot protect files git does
+// not track: .env is gitignored, so an agent writing to it would never show up
+// in `git status` and would never be reverted. These denials stop the tool call
+// itself, before anything reaches disk. Verified: an agent asked to read .env
+// gets refused.
+const SETTINGS = JSON.stringify({
+  permissions: {
+    deny: [
+      "Read(./.env)", "Read(./.env.*)", "Edit(./.env)", "Edit(./.env.*)", "Write(./.env)", "Write(./.env.*)",
+      "Read(./pinnacle-office/state/**)", "Edit(./pinnacle-office/**)", "Write(./pinnacle-office/**)",
+      "Edit(./.git/**)", "Write(./.git/**)", "Edit(./node_modules/**)", "Write(./node_modules/**)",
+      "Bash(git push:*)", "Bash(git commit:*)", "Bash(git reset:*)", "Bash(git checkout:*)",
+      "Bash(npm publish:*)", "Bash(vercel:*)", "Bash(curl:*)", "Bash(rm:*)",
+    ],
+  },
+});
+
 // Tool sets. Anything not listed is denied, because a headless session cannot
 // answer a permission prompt and therefore refuses by default.
 export const TOOLS = {
   read: ["Read", "Grep", "Glob"],
   write: ["Read", "Grep", "Glob", "Edit", "Write", "NotebookEdit"],
   build: ["Bash(npm run build)", "Bash(npx tsc:*)", "Bash(node scripts:*)", "Bash(git diff:*)", "Bash(git status:*)"],
+  // Research. Every department gets this: an agent that cannot look anything up
+  // is guessing, and a guess about the CBSE syllabus or the DPDP Act is worse
+  // than no answer.
+  research: ["WebSearch", "WebFetch"],
+  // Procurement only. Read-only inspection of what is installed and available,
+  // so Supply can answer "can we use this" without installing anything.
+  survey: ["Bash(npm view:*)", "Bash(npm ls:*)", "Bash(npx --version)", "Bash(where:*)", "Bash(claude mcp list)", "Bash(gh --version)", "Bash(node --version)", "Bash(python --version)"],
 };
 
 /**
@@ -39,7 +63,8 @@ export function runAgent({ prompt, system, model = "sonnet", tools = TOOLS.read,
     "--model", model,
     "--max-turns", String(maxTurns),
     "--allowedTools", tools.join(","),
-    "--disallowedTools", "WebSearch,WebFetch,Task,KillShell",
+    "--disallowedTools", "Task,KillShell",
+    "--settings", SETTINGS,
     ...LEAN,
   ];
   if (system) args.push("--append-system-prompt", system);

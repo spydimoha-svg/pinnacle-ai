@@ -6,8 +6,12 @@ import fs from "node:fs";
 import path from "node:path";
 import { OFFICE_DIR, REPORTS_DIR, CONFIG } from "./config.mjs";
 import { DEPARTMENTS, TOTAL_HEADCOUNT } from "./core/org.mjs";
-import { state, bus, setOffice, recentEvents, listReports, emit } from "./core/store.mjs";
-import { startOffice, stopOffice, writeBriefing } from "./core/chief.mjs";
+import { state, bus, setOffice, recentEvents, listReports, emit, setTask } from "./core/store.mjs";
+import { startOffice, stopOffice, writeBriefing, forcePlan, orderTask } from "./core/chief.mjs";
+import { ask } from "./core/talk.mjs";
+import * as skills from "./core/skills.mjs";
+import { proficiency, leaderboard, deptCard, dismiss, dismissBenched } from "./core/scorecard.mjs";
+import { openRequests, readRequests, approve, decline } from "./core/supply.mjs";
 
 const json = (res, body, code = 200) => {
   res.writeHead(code, { "content-type": "application/json", "cache-control": "no-store" });
@@ -30,6 +34,8 @@ function snapshot() {
         queued: tasks.filter((t) => t.status === "queued").length,
         done: tasks.filter((t) => t.status === "done").length,
         failed: tasks.filter((t) => t.status === "failed" || t.status === "reverted").length,
+        blocked: tasks.filter((t) => t.status === "blocked").length,
+        card: deptCard(d.key),
       }];
     })
   );
@@ -41,11 +47,25 @@ function snapshot() {
     departments: byDept,
     tasks: state.tasks.slice(-60).reverse(),
     reports: listReports(30),
+    supplyOpen: openRequests().length,
     now: Date.now(),
   };
 }
 
-const server = http.createServer(async (req, res) => {
+// One throw in any route used to take the whole office down: the listener is
+// async, so an exception became an unhandled rejection and Node exited. Every
+// request now runs inside a boundary that answers with a 500 and keeps the
+// building open.
+const server = http.createServer((req, res) => {
+  route(req, res).catch((err) => {
+    emit("office.fault", { detail: `Request ${req.method} ${req.url} failed: ${err.message}` });
+    console.error("[office] route threw", err);
+    if (!res.headersSent) json(res, { error: "The office hit an internal error handling that request.", detail: String(err.message || err) }, 500);
+    else res.end();
+  });
+});
+
+async function route(req, res) {
   const url = new URL(req.url, "http://localhost");
 
   if (url.pathname === "/") {
@@ -70,6 +90,36 @@ const server = http.createServer(async (req, res) => {
     return json(res, { path: rel, body: fs.readFileSync(target, "utf8") });
   }
 
+  // The standard Pinnacle holds everyone to. Readable from the dashboard so
+  // Ayaan can see exactly what is being enforced on his behalf.
+  if (url.pathname === "/api/charter") {
+    try { return json(res, { body: fs.readFileSync(path.join(OFFICE_DIR, "charter.md"), "utf8") }); }
+    catch { return json(res, { error: "charter.md is missing" }, 404); }
+  }
+
+  // One agent, everything about it: its record, what it has learned, and every
+  // job it has ever been given.
+  if (url.pathname === "/api/agent") {
+    const id = url.searchParams.get("id");
+    const a = state.agents.find((x) => x.id === id);
+    if (!a) return json(res, { error: "no such agent" }, 404);
+    return json(res, {
+      ...a,
+      score: proficiency(a),
+      skill: skills.read(a.dept, a.specialty),
+      lessons: skills.lessons(a.dept, a.specialty).length,
+      history: state.tasks.filter((t) => t.agent === id).slice(-25).reverse(),
+    });
+  }
+
+  // The bench, best first.
+  if (url.pathname === "/api/leaderboard") {
+    return json(res, { top: leaderboard(Number(url.searchParams.get("n") || 12)), skills: skills.stats() });
+  }
+
+  // What the office has asked Ayaan to get for it.
+  if (url.pathname === "/api/supply") return json(res, { requests: openRequests(), all: readRequests().slice(-40) });
+
   if (url.pathname === "/api/task") {
     const task = state.tasks.find((t) => t.id === url.searchParams.get("id"));
     return task ? json(res, task) : json(res, { error: "not found" }, 404);
@@ -86,6 +136,23 @@ const server = http.createServer(async (req, res) => {
     return;
   }
 
+  // Plain English, typed or spoken. Pinnacle answers and may act.
+  if (url.pathname === "/api/ask" && req.method === "POST") {
+    let body = "";
+    for await (const chunk of req) body += chunk;
+    // This parse used to be unguarded. Because the request listener is async,
+    // one malformed POST became an unhandled rejection and killed the whole
+    // office, dashboard and all.
+    let said = {};
+    try { said = JSON.parse(body || "{}"); } catch { return json(res, { say: "That did not arrive as valid JSON." }, 400); }
+    const text = String(said.text || "").slice(0, 600);
+    if (!text.trim()) return json(res, { say: "I did not catch that." });
+    emit("ceo.said", { text });
+    const reply = await ask(text);
+    emit("pinnacle.said", { text: reply.say, action: reply.action });
+    return json(res, reply);
+  }
+
   if (url.pathname === "/api/control" && req.method === "POST") {
     let body = "";
     for await (const chunk of req) body += chunk;
@@ -93,12 +160,16 @@ const server = http.createServer(async (req, res) => {
     try { cmd = JSON.parse(body || "{}"); } catch {}
 
     switch (cmd.action) {
+      // Opening the office spends subscription usage and lets agents edit real
+      // code, so it cannot be triggered by a stray click or a stale browser
+      // tab. The caller has to say so on purpose.
       case "start":
+        if (cmd.value !== "confirm") return json(res, { error: "start requires an explicit confirm" }, 400);
         startOffice();
         break;
       case "stop":
         stopOffice();
-        emit("office.command", { detail: "Zainul stopped the office. Running agents finish their current task." });
+        emit("office.command", { detail: "Ayaan stopped the office. Running agents finish their current task." });
         break;
       case "mode":
         setOffice({ mode: cmd.value === "propose" ? "propose" : "apply" });
@@ -112,11 +183,68 @@ const server = http.createServer(async (req, res) => {
         state.office.deptEnabled[cmd.value] = !state.office.deptEnabled[cmd.value];
         emit("office.command", { detail: `${cmd.value} ${state.office.deptEnabled[cmd.value] ? "reopened" : "closed"}` });
         break;
+      case "only":
+        for (const d of DEPARTMENTS) state.office.deptEnabled[d.key] = d.key === cmd.value;
+        emit("office.command", { detail: `Everyone sent home except ${cmd.value}` });
+        break;
+      case "all":
+        for (const d of DEPARTMENTS) state.office.deptEnabled[d.key] = true;
+        emit("office.command", { detail: "All 20 departments open" });
+        break;
+      case "plan":
+        forcePlan(cmd.value);
+        emit("office.command", { detail: `${cmd.value} told to plan a new round now` });
+        break;
+      case "order": {
+        const t = orderTask(cmd.value.dept, cmd.value.title);
+        emit("office.command", { detail: `You gave ${cmd.value.dept} a job: ${cmd.value.title}` });
+        return json(res, { ok: true, task: t });
+      }
+      case "retry": {
+        const t = state.tasks.find((x) => x.id === cmd.value);
+        if (t) { setTask(t.id, { status: "queued", reason: null, agent: null, fromAyaan: true }); emit("office.command", { detail: `Requeued: ${t.title}` }); }
+        break;
+      }
+      case "cancel": {
+        const t = state.tasks.find((x) => x.id === cmd.value);
+        if (t && t.status === "queued") { setTask(t.id, { status: "cancelled" }); emit("office.command", { detail: `Dropped: ${t.title}` }); }
+        break;
+      }
+      // Supply never installs. Ayaan runs the command, then tells the office
+      // it now has the thing, or that it is not getting it.
+      case "approveTool": {
+        const r = approve(cmd.value);
+        if (r) emit("supply.approved", { detail: `You approved ${r.what}. Every agent will be told the office has it.` });
+        break;
+      }
+      case "declineTool": {
+        const r = decline(cmd.value);
+        if (r) emit("supply.declined", { detail: `You declined ${r.what}. Nobody will ask for it again.` });
+        break;
+      }
+      // Dismiss a specialist and seat a fresh one the same second. The roster
+      // stays at 1000 and the queue never stalls.
+      case "dismiss": {
+        const out = dismiss(cmd.value, cmd.reason);
+        if (out?.error) return json(res, out, 400);
+        if (out) emit("office.command", { detail: `Dismissed ${cmd.value}. A fresh specialist has the seat and work continues.` });
+        return json(res, out || { error: "no such agent" }, out ? 200 : 404);
+      }
+      case "clearBench": {
+        const out = dismissBenched(cmd.value || null);
+        emit("office.command", {
+          detail: out.length
+            ? `Dismissed ${out.length} underperformer${out.length === 1 ? "" : "s"}. Fresh specialists are in those seats.`
+            : "Nobody is below the floor.",
+        });
+        return json(res, { dismissed: out });
+      }
       case "brief":
         writeBriefing();
         break;
       case "clearCooldown":
         setOffice({ cooldownUntil: 0 });
+        emit("office.command", { detail: "Cooldown cleared, back to work" });
         break;
       default:
         return json(res, { error: "unknown action" }, 400);
@@ -126,9 +254,20 @@ const server = http.createServer(async (req, res) => {
 
   res.writeHead(404);
   res.end("not found");
-});
+}
 
 export function serve() {
+  // A port already in use is the one startup failure worth explaining, since
+  // the usual cause is an office that is already open in another window.
+  server.on("error", (err) => {
+    if (err.code === "EADDRINUSE") {
+      console.error(`\n  Port ${CONFIG.port} is already taken. The office may already be open at http://localhost:${CONFIG.port}`);
+      console.error(`  Close that one, or start this on another port: PINNACLE_PORT=4271 npm run office\n`);
+    } else {
+      console.error("\n  The office could not open:", err.message, "\n");
+    }
+    process.exit(1);
+  });
   server.listen(CONFIG.port, () => {
     console.log(`\n  Pinnacle Office is open at http://localhost:${CONFIG.port}\n`);
   });

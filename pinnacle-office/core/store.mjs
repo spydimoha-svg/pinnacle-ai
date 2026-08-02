@@ -16,10 +16,21 @@ bus.setMaxListeners(0);
 
 const file = (name) => path.join(STATE_DIR, name);
 
+// A missing file on a first run is normal. A file that exists but will not
+// parse is not: the fallback used to be promoted straight to the new truth and
+// written back within 1.5 seconds, so one corrupt agents.json permanently
+// erased every agent's record without a word. Now the damaged file is kept
+// aside and the loss is stated out loud.
 function readJson(name, fallback) {
+  const target = file(name);
+  if (!fs.existsSync(target)) return fallback;
   try {
-    return JSON.parse(fs.readFileSync(file(name), "utf8"));
-  } catch {
+    return JSON.parse(fs.readFileSync(target, "utf8"));
+  } catch (err) {
+    const rescued = target + ".corrupt";
+    try { fs.copyFileSync(target, rescued); } catch {}
+    console.error(`\n  [office] ${name} could not be read (${err.message}).`);
+    console.error(`  A copy is at ${rescued}. Starting from defaults for this file, so anything it held is not in memory.\n`);
     return fallback;
   }
 }
@@ -38,21 +49,34 @@ const defaultOffice = () => ({
   startedAt: null,
   cooldownUntil: 0,
   deptEnabled: Object.fromEntries(DEPARTMENTS.map((d) => [d.key, true])),
-  stats: { planned: 0, completed: 0, failed: 0, reverted: 0, briefings: 0 },
+  stats: { planned: 0, completed: 0, failed: 0, reverted: 0, blocked: 0, briefings: 0 },
 });
 
+const saved = readJson("office.json", {});
 export const state = {
-  office: { ...defaultOffice(), ...readJson("office.json", {}) },
+  office: { ...defaultOffice(), ...saved, stats: { ...defaultOffice().stats, ...(saved.stats || {}) } },
   agents: readJson("agents.json", null) || buildRoster(),
   tasks: readJson("tasks.json", []),
 };
 
-// Roster shape changes when departments change. Rebuild but keep counters.
-if (state.agents.length !== buildRoster().length) {
+// Roster shape changes when departments change. Rebuild, but carry every
+// agent's record and history across so nobody loses their track record.
+// Comparing lengths alone is not enough: moving 25 seats between departments
+// keeps the total at 1000 while changing who exists.
+const signature = (list) => list.map((a) => a.id).sort().join(",");
+const fresh = buildRoster();
+if (signature(state.agents) !== signature(fresh)) {
   const prior = new Map(state.agents.map((a) => [a.id, a]));
-  state.agents = buildRoster().map((a) => ({ ...a, done: prior.get(a.id)?.done || 0 }));
+  state.agents = fresh.map((a) => {
+    const was = prior.get(a.id);
+    return was ? { ...a, done: was.done || 0, card: was.card, score: was.score, task: null } : a;
+  });
 }
-state.agents.forEach((a) => (a.status = a.status === "working" ? "idle" : a.status));
+// Nobody is mid task across a restart. Send everyone back to their desk and
+// requeue whatever was in flight, otherwise a task the office died on stays
+// "running" forever and its department never plans again.
+state.agents.forEach((a) => { if (a.status === "working") { a.status = "idle"; a.task = null; } });
+state.tasks.forEach((t) => { if (t.status === "running" || t.status === "claimed") t.status = "queued"; });
 
 let dirty = false;
 const touch = () => { dirty = true; };

@@ -53,6 +53,15 @@ export const CONFIG = {
 
   maxTurns: { head: num("PINNACLE_TURNS_HEAD", 40), worker: num("PINNACLE_TURNS_WORKER", 80) },
 
+  // Pinnacle's own review. Nothing an agent produces is accepted until this
+  // has passed. Turning it off is not recommended and is why it defaults on.
+  warden: {
+    enabled: flag("PINNACLE_WARDEN", true),
+    model: process.env.PINNACLE_MODEL_WARDEN || "sonnet",
+    maxTurns: num("PINNACLE_WARDEN_TURNS", 8),
+    timeout: num("PINNACLE_WARDEN_TIMEOUT", 5 * 60_000),
+  },
+
   // Tasks a department head is allowed to file per planning round.
   tasksPerPlan: num("PINNACLE_TASKS_PER_PLAN", 5),
 
