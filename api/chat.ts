@@ -55,8 +55,13 @@ function isRateLimited(ip: string): boolean {
   return recent.length > RATE_LIMIT_MAX;
 }
 
+// x-forwarded-for's first hop is client-supplied and trivially spoofed.
+// x-vercel-forwarded-for (falling back to x-real-ip) is set by Vercel's own
+// edge and stays correct even behind an extra proxy in front of Vercel:
+// https://vercel.com/docs/headers/request-headers#x-vercel-forwarded-for
 function clientIp(req: Request): string {
-  return req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
+  const ip = req.headers.get("x-vercel-forwarded-for") || req.headers.get("x-real-ip");
+  return ip?.split(",")[0]?.trim() || "unknown";
 }
 
 export async function POST(req: Request): Promise<Response> {
