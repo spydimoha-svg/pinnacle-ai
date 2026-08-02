@@ -7,7 +7,7 @@
 // across devices. localStorage stays as the instant-load cache and offline
 // fallback; the cloud is the durable source of truth on login.
 //
-// The schools/resources helpers below are provided and ready (see
+// The school_resources helpers below are provided and ready (see
 // supabase/schema.sql) but are not auto-wired yet — those stay local until you
 // move auth server-side. See README for the next step.
 import { supabase } from "./supabase";
@@ -15,7 +15,6 @@ import type {
   BlobEntry,
   ChatMessage,
   Resource,
-  School,
   StudentMemory,
   Worksheet,
 } from "./types";
@@ -27,7 +26,7 @@ export interface CloudUserData {
   chats: ChatMessage[];
   blobs: BlobEntry[];
   worksheets: Worksheet[];
-  profile: LearnerProfile | null;
+  profile?: LearnerProfile | null;
 }
 
 // `student_state` is locked to the anon key at the database (see
@@ -180,61 +179,6 @@ export async function saveUserData(
     // Network unreachable — local state stays the source of truth for now.
     console.warn("cloud saveUserData unreachable:", err);
   }
-}
-
-// ---------------------------------------------------------------------------
-// Schools + school materials. Ready to use, not auto-synced yet (kept local
-// until auth moves server-side). Wire these once you enable Supabase Auth.
-// ---------------------------------------------------------------------------
-
-interface SchoolRow {
-  id: string;
-  name: string;
-  city: string;
-  plan: School["plan"];
-  price_per_student: number;
-  students: number;
-  joined: string;
-  notes: string | null;
-}
-
-const rowToSchool = (r: SchoolRow): School => ({
-  id: r.id,
-  name: r.name,
-  city: r.city,
-  plan: r.plan,
-  pricePerStudent: r.price_per_student,
-  students: r.students,
-  joined: r.joined,
-  notes: r.notes ?? undefined,
-});
-
-export async function loadSchools(): Promise<School[] | null> {
-  if (!supabase) return null;
-  const { data, error } = await supabase.from("schools").select("*");
-  if (error || !data) return null;
-  return (data as SchoolRow[]).map(rowToSchool);
-}
-
-export async function saveSchools(schools: School[]): Promise<void> {
-  if (!supabase || schools.length === 0) return;
-  const rows = schools.map((s) => ({
-    id: s.id,
-    name: s.name,
-    city: s.city,
-    plan: s.plan,
-    price_per_student: s.pricePerStudent,
-    students: s.students,
-    joined: s.joined,
-    notes: s.notes ?? null,
-  }));
-  const { error } = await supabase.from("schools").upsert(rows);
-  if (error) console.warn("cloud saveSchools failed:", error.message);
-}
-
-export async function deleteSchool(id: string): Promise<void> {
-  if (!supabase) return;
-  await supabase.from("schools").delete().eq("id", id);
 }
 
 // school_resources has no anon-key grant at all (see supabase/schema.sql) —

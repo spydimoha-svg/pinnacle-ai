@@ -386,6 +386,9 @@ export const useStore = create<PinnacleState>()(
           chats: { ...s.chats, [userId]: data.chats },
           blobs: { ...s.blobs, [userId]: data.blobs },
           worksheets: { ...s.worksheets, [userId]: data.worksheets },
+          profiles: data.profile
+            ? { ...s.profiles, [userId]: data.profile }
+            : s.profiles,
         })),
 
       addBlob: (entry) => {
@@ -477,6 +480,12 @@ export const useStore = create<PinnacleState>()(
     }),
     {
       name: "pinnacle-state-v1",
+      version: 1,
+      // Bump this alongside a matching migrate step whenever StudentMemory,
+      // ChapterProgress or LearnerProfile change shape — otherwise a
+      // returning student's old localStorage crashes on rehydrate instead
+      // of transforming.
+      migrate: (persistedState) => persistedState as PinnacleState,
       partialize: (s) => ({
         currentUser: s.currentUser,
         extraUsers: s.extraUsers,

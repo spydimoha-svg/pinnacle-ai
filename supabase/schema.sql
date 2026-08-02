@@ -7,8 +7,10 @@
 --   schools          the schools the Master console manages (normalised for analytics)
 --   school_resources materials a school admin uploads (kept as JSON documents)
 --
--- Only `student_state` is auto-synced by the app today; the other two tables are
--- created and ready for when you move auth server-side (see README).
+-- Only `student_state` is auto-synced by the app today. `school_resources` has
+-- a server route ready to wire up (see README); `schools` is admin/business
+-- data with no client code touching it at all — manage it via the
+-- service_role key or the Supabase dashboard.
 
 -- ---------------------------------------------------------------------------
 -- Per-student learning state (the data students care about most)
