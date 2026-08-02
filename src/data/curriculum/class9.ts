@@ -724,6 +724,8 @@ const english: Subject = {
         "Pashupatinath vs Baudhnath: a study in contrast",
         "The flute seller",
       ],
+      boardNotes:
+        "The standard long-answer question asks students to contrast Pashupatinath and Baudhnath as described in the travelogue, testing close reading of descriptive detail rather than general knowledge of Nepal.",
     },
     {
       id: "c9-english-09",
