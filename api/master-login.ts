@@ -10,6 +10,31 @@ const TOKEN_TTL_MS = 30 * 60 * 1000;
 const supabaseUrl = process.env.VITE_SUPABASE_URL;
 const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
+// Same-origin only. Sec-Fetch-Site is set by the browser itself and can't be
+// set by page JS or a fetch() call, so it's the strongest signal: trust it
+// whenever present. A script (curl, node fetch) can forge Origin/Referer by
+// hand, but rarely bothers setting both to the same value, so browsers old
+// enough to omit Sec-Fetch-Site still need Origin *and* Referer to agree.
+// Same check as api/chat.ts.
+function isSameOrigin(req: Request): boolean {
+  const host = req.headers.get("host");
+  if (!host) return false;
+  const secFetchSite = req.headers.get("sec-fetch-site");
+  if (secFetchSite) return secFetchSite === "same-origin";
+  const matchesHost = (value: string | null) => {
+    if (!value) return false;
+    try {
+      return new URL(value).host === host;
+    } catch {
+      return false;
+    }
+  };
+  return (
+    matchesHost(req.headers.get("origin")) &&
+    matchesHost(req.headers.get("referer"))
+  );
+}
+
 function sign(payload: string, secret: string): string {
   return createHmac("sha256", secret).update(payload).digest("base64url");
 }
@@ -85,6 +110,10 @@ function clientIp(req: Request): string {
 }
 
 export async function POST(req: Request): Promise<Response> {
+  if (!isSameOrigin(req)) {
+    return new Response("Forbidden", { status: 403 });
+  }
+
   const secret = process.env.MASTER_PASSCODE;
   if (!secret) {
     return new Response("Master access not configured", { status: 503 });
