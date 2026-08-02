@@ -72,6 +72,13 @@ function clampTokens(requested?: number): number {
 }
 const TEMPERATURE = numEnv("AI_TEMPERATURE", 0.6);
 
+// A provider that accepts the TCP connection but never answers (dead key,
+// firewalled Ollama box) would otherwise hang the fetch until the platform's
+// own hard timeout kills the whole request. Bounding each attempt lets
+// streamLLM fall through to the next provider instead, the same way it
+// already does for a fast 429.
+const PROVIDER_TIMEOUT_MS = numEnv("AI_PROVIDER_TIMEOUT_MS", 20_000);
+
 /** Thrown when every provider refused. `rateLimited` drives the message the
  *  student sees, which should say "wait a moment", not "something broke". */
 export class AllProvidersFailed extends Error {
@@ -229,6 +236,7 @@ async function openStream(
   if (provider.apiKey) headers["Authorization"] = `Bearer ${provider.apiKey}`;
   Object.assign(headers, provider.extraHeaders ?? {});
 
+  const timeout = AbortSignal.timeout(PROVIDER_TIMEOUT_MS);
   return fetch(`${provider.baseUrl}/chat/completions`, {
     method: "POST",
     headers,
@@ -242,7 +250,7 @@ async function openStream(
       // ignored by a small one; a token ceiling is not negotiable.
       max_tokens: clampTokens(maxTokens),
     }),
-    signal,
+    signal: signal ? AbortSignal.any([signal, timeout]) : timeout,
   });
 }
 

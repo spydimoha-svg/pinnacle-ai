@@ -24,12 +24,15 @@ const argOf = (name, fallback) => {
   return i >= 0 && argv[i + 1] ? argv[i + 1] : fallback;
 };
 const BASE = argOf("base", process.env.QA_BASE || "https://pinnacle-ai-two.vercel.app");
+const NETLIFY_BASE = argOf("netlify-base", process.env.QA_NETLIFY_BASE);
 
 const GATE_STATUSES = new Set([401, 403]);
 
-async function main() {
-  const url = `${BASE}/api/chat`;
-  console.log(`Requesting ${url} with no session, no auth header, no Origin.`);
+// Probes one deploy target's /api/chat with no session, no auth header, no
+// Origin. Returns true if the gate held.
+async function checkGate(label, base) {
+  const url = `${base}/api/chat`;
+  console.log(`[${label}] Requesting ${url} with no session, no auth header, no Origin.`);
 
   let res;
   try {
@@ -42,23 +45,29 @@ async function main() {
       body: "{not json",
     });
   } catch (err) {
-    console.log(`could not reach ${url}: ${err.message}`);
-    process.exit(1);
-    return;
+    console.log(`[${label}] could not reach ${url}: ${err.message}`);
+    return false;
   }
 
   const body = (await res.text().catch(() => "")).slice(0, 200);
 
   if (GATE_STATUSES.has(res.status)) {
-    console.log(`rejected with ${res.status} before the request body was even read — the gate held.`);
-    process.exit(0);
-    return;
+    console.log(`[${label}] rejected with ${res.status} before the request body was even read — the gate held.`);
+    return true;
   }
 
-  console.log(`unauthenticated request was served`);
+  console.log(`[${label}] unauthenticated request was served`);
   console.log(`  status: ${res.status}`);
   console.log(`  body:   ${body}`);
-  process.exit(1);
+  return false;
+}
+
+async function main() {
+  const targets = [["vercel", BASE]];
+  if (NETLIFY_BASE) targets.push(["netlify", NETLIFY_BASE]);
+
+  const results = await Promise.all(targets.map(([label, base]) => checkGate(label, base)));
+  process.exit(results.every(Boolean) ? 0 : 1);
 }
 
 main();
