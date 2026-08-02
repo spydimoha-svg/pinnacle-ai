@@ -1119,4 +1119,112 @@ export const CLASS_11_SUBJECTS: Subject[] = [
       },
     ],
   },
+
+  // ------------------------------------------------ Statistics for Economics
+  // Part A of the XI Economics paper — a separate NCERT book from "Indian
+  // Economic Development" (Part B, modelled above as "c11-economics"), so it
+  // gets its own chapter numbering starting at 1.
+  {
+    id: "c11-statistics",
+    name: "Statistics for Economics",
+    classLevel: 11,
+    icon: "BarChart3",
+    color: "gold",
+    chapters: [
+      {
+        id: "c11-statistics-01",
+        number: 1,
+        title: "Introduction",
+        weightage: "≈2 marks",
+        keyTopics: [
+          "What is Economics?",
+          "Meaning and scope of statistics",
+          "Functions and importance of statistics in Economics",
+        ],
+        boardNotes:
+          "Explaining why an economist needs statistics — to describe, compare and forecast economic variables — with a one-line functional definition is the standard short question here.",
+      },
+      {
+        id: "c11-statistics-02",
+        number: 2,
+        title: "Collection of Data",
+        weightage: "≈4 marks",
+        keyTopics: [
+          "Primary and secondary sources of data",
+          "Concepts of sampling; census versus sample survey",
+          "Methods of collecting data",
+          "Census of India and the National Sample Survey Organisation (NSSO)",
+        ],
+        boardNotes:
+          "Distinguishing primary from secondary data with an example, and naming Census of India versus NSSO as the two key official secondary sources (what each actually surveys), is the recurring question; a generic 'government data' answer does not score.",
+      },
+      {
+        id: "c11-statistics-03",
+        number: 3,
+        title: "Organisation of Data",
+        weightage: "≈4 marks",
+        keyTopics: [
+          "Meaning and types of variables",
+          "Raw data versus arrayed data",
+          "Frequency distribution — class intervals, class limits, class width",
+        ],
+        boardNotes:
+          "Constructing a frequency distribution table from a given raw data set, correctly choosing exclusive versus inclusive class intervals, is the standard numerical; the concept check is distinguishing a discrete from a continuous variable.",
+      },
+      {
+        id: "c11-statistics-04",
+        number: 4,
+        title: "Presentation of Data",
+        weightage: "≈5 marks",
+        keyTopics: [
+          "Tabular presentation of data",
+          "Diagrammatic presentation — bar diagrams and pie diagrams",
+          "Frequency diagrams — histogram, polygon and ogive",
+          "Arithmetic line graphs (time series graphs)",
+        ],
+        boardNotes:
+          "Drawing a specified diagram (usually a histogram, ogive or pie diagram) from given data, with correctly labelled axes and scale, is the standard question; picking the right diagram type for the kind of data given is what the marking scheme actually checks first.",
+      },
+      {
+        id: "c11-statistics-05",
+        number: 5,
+        title: "Measures of Central Tendency",
+        weightage: "≈10 marks",
+        keyTopics: [
+          "Arithmetic mean — direct, short-cut and step-deviation methods",
+          "Median, including for grouped data",
+          "Mode, including for grouped data",
+        ],
+        boardNotes:
+          "A numerical calculating mean, median or mode from grouped data is the anchor long question every year; using the wrong class-interval convention (exclusive/inclusive) before applying the formula is the most common way marks are lost.",
+      },
+      {
+        id: "c11-statistics-06",
+        number: 6,
+        title: "Correlation",
+        weightage: "≈8 marks",
+        keyTopics: [
+          "Meaning and properties of correlation; scatter diagram",
+          "Karl Pearson's coefficient of correlation (two-variable ungrouped data)",
+          "Spearman's rank correlation — non-repeated and repeated ranks",
+        ],
+        boardNotes:
+          "Computing Karl Pearson's coefficient or Spearman's rank correlation (including the repeated-ranks correction term) from a given data set is the standard numerical; interpreting the sign and magnitude of the result in words is the follow-up part that is often skipped.",
+      },
+      {
+        id: "c11-statistics-07",
+        number: 7,
+        title: "Index Numbers",
+        weightage: "≈7 marks",
+        keyTopics: [
+          "Meaning and types of index numbers",
+          "Wholesale Price Index, Consumer Price Index and Index of Industrial Production",
+          "Uses of index numbers; inflation and index numbers",
+          "Simple aggregative method",
+        ],
+        boardNotes:
+          "Constructing an index number by the simple aggregative method, and distinguishing WPI from CPI by what each measures and who uses it, is the recurring question; naming CPI as the basis for dearness allowance revision is a common follow-up.",
+      },
+    ],
+  },
 ];

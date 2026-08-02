@@ -139,12 +139,19 @@ export const useStore = create<PinnacleState>()(
               u.password === password
           );
         if (!user) return null;
+        const keepOwn = <T,>(rec: Record<string, T>): Record<string, T> =>
+          rec[user.id] !== undefined ? { [user.id]: rec[user.id] } : {};
         set((s) => ({
           currentUser: user,
           memories:
-            user.role === "student" && !s.memories[user.id]
-              ? { ...s.memories, [user.id]: freshMemory(user) }
-              : s.memories,
+            user.role === "student"
+              ? { [user.id]: s.memories[user.id] ?? freshMemory(user) }
+              : {},
+          chats: keepOwn(s.chats),
+          blobs: keepOwn(s.blobs),
+          worksheets: keepOwn(s.worksheets),
+          lessons: keepOwn(s.lessons),
+          profiles: keepOwn(s.profiles),
         }));
         get().touchStreak();
         void get().hydrateSchoolResources();
