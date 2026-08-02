@@ -2,27 +2,47 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { LogoMark } from "../components/Logo";
 import { useStore } from "../lib/store";
+import { MASTER_NAME } from "../data/schools";
+
+/** localStorage key for the short-lived token api/master-login.ts issues. */
+const MASTER_TOKEN_KEY = "pinnacle-master-token";
 
 /**
  * Hidden Pinnacle Master access — /summit. Not linked anywhere in the UI.
- * Only the Pinnacle team knows this route and the passcode.
+ * Only the Pinnacle team knows this route and the passcode, which is checked
+ * server-side by api/master-login.ts — nothing secret ships in this bundle.
  */
 export default function MasterAccess() {
   const navigate = useNavigate();
-  const masterLogin = useStore((s) => s.masterLogin);
   const [code, setCode] = useState("");
   const [shake, setShake] = useState(false);
 
-  function submit(e: React.FormEvent) {
+  async function submit(e: React.FormEvent) {
     e.preventDefault();
-    const user = masterLogin(code);
-    if (!user) {
+    try {
+      const res = await fetch("/api/master-login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ passcode: code }),
+      });
+      if (!res.ok) throw new Error("rejected");
+      const { token } = await res.json();
+      localStorage.setItem(MASTER_TOKEN_KEY, token);
+      useStore.setState({
+        currentUser: {
+          id: "u-master",
+          name: MASTER_NAME,
+          email: "master@pinnacle.ai",
+          password: "",
+          role: "master",
+        },
+      });
+      navigate("/master");
+    } catch {
       setShake(true);
       setTimeout(() => setShake(false), 500);
       setCode("");
-      return;
     }
-    navigate("/master");
   }
 
   return (

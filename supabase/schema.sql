@@ -63,25 +63,25 @@ alter table public.student_state    enable row level security;
 alter table public.schools          enable row level security;
 alter table public.school_resources enable row level security;
 
--- DEV (demo) policies: allow all. Drop these before real launch.
+-- student_state holds every student's tutor memory and chat/journal history, so
+-- the anon/authenticated roles get NO policy and NO grants at all: every direct
+-- REST call (select/insert/update/delete) fails with permission-denied, for
+-- anyone holding only the public anon key. The only reader/writer is the
+-- api/state.ts server function, which uses the service_role key (bypasses RLS
+-- by design) and only ever touches the row matching the caller's verified
+-- Supabase auth token — see src/lib/cloud.ts.
 drop policy if exists dev_all on public.student_state;
-create policy dev_all on public.student_state
-  for all using (true) with check (true);
+revoke all on public.student_state from anon, authenticated;
 
+-- schools/school_resources are business + admin data: anon may read (needed for
+-- the app today) but must NOT write. Only the service-role key (server-side,
+-- once the Master console is wired that way) can insert/update/delete here.
 drop policy if exists dev_all on public.schools;
-create policy dev_all on public.schools
-  for all using (true) with check (true);
+drop policy if exists dev_read on public.schools;
+create policy dev_read on public.schools
+  for select using (true);
 
 drop policy if exists dev_all on public.school_resources;
-create policy dev_all on public.school_resources
-  for all using (true) with check (true);
-
--- ---------------------------------------------------------------------------
--- PRODUCTION policy example (enable after wiring Supabase Auth; keep rows keyed
--- to the authenticated user's id):
---
---   drop policy if exists dev_all on public.student_state;
---   create policy own_rows on public.student_state
---     for all using (auth.uid()::text = user_id)
---             with check (auth.uid()::text = user_id);
--- ---------------------------------------------------------------------------
+drop policy if exists dev_read on public.school_resources;
+create policy dev_read on public.school_resources
+  for select using (true);
