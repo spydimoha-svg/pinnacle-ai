@@ -54,7 +54,15 @@ const defaultOffice = () => ({
 
 const saved = readJson("office.json", {});
 export const state = {
-  office: { ...defaultOffice(), ...saved, stats: { ...defaultOffice().stats, ...(saved.stats || {}) } },
+  office: {
+    ...defaultOffice(), ...saved,
+    stats: { ...defaultOffice().stats, ...(saved.stats || {}) },
+    // How many work at once is a tuning knob, not accumulated state. Saved state
+    // was winning over config.mjs, so the number he set there did nothing and the
+    // office stayed on whatever it was told once, months ago. He can still change
+    // it while it runs; a restart puts it back to what the config says.
+    concurrency: CONFIG.concurrency,
+  },
   agents: readJson("agents.json", null) || buildRoster(),
   tasks: readJson("tasks.json", []),
 };

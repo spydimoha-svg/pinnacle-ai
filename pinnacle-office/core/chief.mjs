@@ -151,7 +151,10 @@ function raiseRequests(needs, agent, dept) {
 // block precisely because an unexpected throw is the case that matters.
 async function executeTask(task) {
   const dept = deptByKey(task.dept);
-  const agent = bestFor(task.dept, task.risk) || pickAgent(task.dept, "manager");
+  // A task Pinnacle named a seat for goes to that seat. She told him who had it
+  // the moment he asked, so handing it to somebody else would make her a liar.
+  const named = task.assignedTo && state.agents.find((a) => a.id === task.assignedTo && a.status === "idle");
+  const agent = named || bestFor(task.dept, task.risk) || pickAgent(task.dept, "manager");
   if (!agent) { setTask(task.id, { status: "queued" }); return; }
   try {
     return await runTask(task, dept, agent);
@@ -361,7 +364,10 @@ async function writeBriefing() {
   sinceBriefing = 0;
   const since = state.tasks.filter((t) => t.finished && t.finished > Date.now() - 6 * 3600_000);
   const lines = since.slice(-40).map((t) => `[${t.dept}] ${t.status}: ${t.title}. ${t.summary || t.reason || ""}`).join("\n");
-  if (!lines) return;
+  // Nothing has finished, so there is nothing to summarise and no reason to
+  // spend a model run saying so. He still asked for a report, so he gets one:
+  // where the floor actually stands, written from state, instantly.
+  if (!lines) return standingReport();
 
   emit("briefing.start", {});
   const uptimeMs = Date.now() - (state.office.startedAt || Date.now());
@@ -384,6 +390,47 @@ async function writeBriefing() {
   const file = saveReport(`briefing-${stamp}.md`, res.result);
   state.office.stats.briefings++;
   emit("briefing.done", { file, text: res.result });
+  flush();
+}
+
+// Where the floor stands right now, with no model involved. This is what "give
+// me a report" produces before anything has finished, and it takes no time and
+// no usage to write.
+function standingReport() {
+  const s = state.office.stats;
+  const q = queued();
+  const live = state.agents.filter((a) => a.status === "working");
+  const byDept = DEPARTMENTS.map((d) => ({ d, n: q.filter((t) => t.dept === d.key).length })).filter((x) => x.n);
+  const stamp = new Date();
+
+  const body = `# Where the floor stands
+
+Written ${stamp.toLocaleString()}. Nothing has finished since the last briefing, so this is the standing position rather than a summary of work.
+
+## The office
+
+The office is ${state.office.running ? "open" : "closed"}, in ${state.office.mode} mode, running up to ${state.office.concurrency} agents at once. ${live.length ? `${live.length} ${live.length === 1 ? "specialist is" : "specialists are"} mid task.` : "Nobody is mid task."}
+
+## What is waiting
+
+${byDept.length ? byDept.map((x) => `- ${x.d.name}: ${x.n} ${x.n === 1 ? "job" : "jobs"} queued`).join("\n") : "- Nothing is queued. Give a department a job, or open up and let the heads plan."}
+
+${q.filter((t) => t.fromAyaan).length ? `${q.filter((t) => t.fromAyaan).length} of those you asked for yourself, and they run first.` : ""}
+
+## Running totals
+
+- Shipped: ${s.completed}
+- Refused by Pinnacle: ${s.blocked || 0}
+- Reverted for failing the build: ${s.reverted || 0}
+- Failed outright: ${s.failed || 0}
+
+## Your call
+
+${state.office.running ? "Nothing needs you right now." : q.length ? "The queue has work in it and the office is shut. Say open the office and they start." : "Give the floor something to do."}
+`;
+
+  const file = saveReport(`standing-${stamp.toISOString().replace(/[:.]/g, "-").slice(0, 16)}.md`, body);
+  emit("briefing.done", { file, text: body });
   flush();
 }
 
@@ -411,8 +458,12 @@ function nextRunnable() {
   const enabled = new Set(enabledDepts().map((d) => d.key));
   // Anything Ayaan ordered himself jumps the queue, then departments run in
   // priority order.
+  // A proof task waits for the work it is proving, or it tests the old code and
+  // passes for the wrong reason.
+  const settled = (id) => !state.tasks.some((t) => t.id === id && t.status !== "done" && t.status !== "cancelled");
   const ready = queued()
     .filter((t) => enabled.has(t.dept))
+    .filter((t) => !t.after?.length || t.after.every(settled))
     .sort((a, b) => (b.fromAyaan ? 1 : 0) - (a.fromAyaan ? 1 : 0) || deptByKey(a.dept).priority - deptByKey(b.dept).priority);
   for (const task of ready) {
     const dept = deptByKey(task.dept);

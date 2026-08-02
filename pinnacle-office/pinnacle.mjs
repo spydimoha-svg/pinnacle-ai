@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 // Pinnacle. Ayaan's chief of staff.
 //
-//   node pinnacle-office/pinnacle.mjs            open the office and start work
-//   node pinnacle-office/pinnacle.mjs open       dashboard only, nobody working
+//   node pinnacle-office/pinnacle.mjs            open the dashboard, nobody working
+//   node pinnacle-office/pinnacle.mjs start      open it AND put everyone to work
 //   node pinnacle-office/pinnacle.mjs once tutor one planning round, one task
 //   node pinnacle-office/pinnacle.mjs brief      write a briefing now
 //   node pinnacle-office/pinnacle.mjs roster     print the org chart
@@ -60,16 +60,21 @@ switch (cmd) {
     process.exit(0);
   }
 
-  case "open":
-    setOffice({ running: false });
-    serve();
-    open();
-    break;
-
-  default:
+  // Putting a thousand agents to work spends his subscription and lets them
+  // edit real code, so it has to be asked for. It used to be what the bare
+  // command did, which meant restarting the building to look at it started
+  // billing him, and the running flag persists so the dashboard then claimed
+  // work was happening after a crash when nothing was.
+  case "start":
     serve();
     open();
     startOffice();
+    break;
+
+  default:
+    setOffice({ running: false });
+    serve();
+    open();
 }
 
 // Edge, deliberately. It is the only browser on this machine that exposes

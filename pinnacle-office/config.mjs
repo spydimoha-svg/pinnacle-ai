@@ -31,7 +31,15 @@ export const CONFIG = {
 
   // How many agents may be awake at once. Writers are serialised separately
   // (see below) because they all share one working tree.
-  concurrency: num("PINNACLE_CONCURRENCY", 3),
+  //
+  // Ayaan wants all thousand working. All thousand are in the rotation and get
+  // real jobs, but they cannot all hold a Claude process at the same instant:
+  // each awake agent is a subprocess on his laptop, and a thousand of them
+  // would take the machine down and hit the rate limit in seconds. This is how
+  // many are genuinely awake at once. Everything read only (planning, analysis,
+  // research) runs in parallel up to this; only code writers queue behind the
+  // one working tree.
+  concurrency: num("PINNACLE_CONCURRENCY", 8),
 
   // Only one agent may hold the codebase at a time. This is not a limitation
   // we can wish away: two agents editing the same tree makes the build gate

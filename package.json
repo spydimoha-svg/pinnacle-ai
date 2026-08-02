@@ -8,7 +8,6 @@
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
     "office": "node pinnacle-office/pinnacle.mjs",
-    "office:open": "node pinnacle-office/pinnacle.mjs open",
     "office:once": "node pinnacle-office/pinnacle.mjs once",
     "office:brief": "node pinnacle-office/pinnacle.mjs brief",
     "office:roster": "node pinnacle-office/pinnacle.mjs roster",
@@ -19,7 +18,8 @@
     "brain": "node scripts/ollama-dev-server.mjs",
     "qa:local": "node scripts/qa.mjs --base http://localhost:3002",
     "qa:engine": "node scripts/lesson.mjs --dry",
-    "qa:video": "node scripts/qa/video.mjs"
+    "qa:video": "node scripts/qa/video.mjs",
+    "office:start": "node pinnacle-office/pinnacle.mjs start"
   },
   "dependencies": {
     "@paper-design/shaders-react": "^0.0.77",

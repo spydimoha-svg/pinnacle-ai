@@ -4,7 +4,25 @@
 // The output contract is repeated at the END of each user prompt on purpose:
 // a model copies the shape of the last thing it read, not the first.
 
-import { CONFIG } from "../config.mjs";
+import fs from "node:fs";
+import path from "node:path";
+import { CONFIG, OFFICE_DIR } from "../config.mjs";
+
+// What the company is for, read fresh every single time. Editing vision.md
+// changes what a thousand agents are aiming at on the next task, with no
+// restart, which is the only way a direction stays true rather than becoming a
+// copy of what it was on the day the office started.
+export function vision() {
+  try { return fs.readFileSync(path.join(OFFICE_DIR, "vision.md"), "utf8").trim(); }
+  catch { return ""; }
+}
+
+// Never appended at the end of a prompt: the output contract has to be the last
+// thing read or the model copies the shape of this instead.
+const visionBlock = () => {
+  const v = vision();
+  return v ? `\nWHAT THIS COMPANY IS FOR\nThis is not background. It is how you decide whether what you are about to do is worth doing at all.\n\n${v}\n` : "";
+};
 
 export const DOCTRINE = `You are a specialist inside Pinnacle Office, the autonomous engineering organisation that builds and improves Pinnacle AI: a CBSE tutoring web app for Indian school students in classes 9 to 12.
 
@@ -31,7 +49,7 @@ const list = (items) => items.map((s) => `- ${s}`).join("\n");
 export function headBrief({ dept, recent, mode }) {
   const canEdit = mode === "apply" && dept.kind === "code";
   return `You are the Head of ${dept.name} at Pinnacle Office. You are planning this department's next round of work.
-
+${visionBlock()}
 YOUR DEPARTMENT'S MISSION
 ${dept.mission}
 
@@ -46,6 +64,8 @@ ${recent.length ? list(recent) : "- Nothing yet. This is the first round."}
 
 YOUR JOB RIGHT NOW
 Investigate the current state of your scope in this repository. Read the real files. Then file exactly ${CONFIG.tasksPerPlan} tasks for your specialists.
+
+Nobody is going to hand you this list. You decide what your department does next, and you are judged on whether it moved the company toward what it is for. Work back from the vision above: what does this product need from your department that it is not getting, given what is actually in these files today. At least one of your tasks must come from something you found yourself in the repository, not from the mission statement.
 
 A good task is one specialist can finish in a single sitting, touches a named file, and has an acceptance test somebody else could check. A bad task is "improve performance" or "refactor the components".
 ${canEdit ? "Your specialists will be editing real files, so name the files precisely." : "Your specialists will produce written analysis only. Do not ask them to edit files."}
@@ -87,7 +107,7 @@ export function workerBrief({ dept, agent, task, mode, learned = "", catalog = "
     : `Do not edit any file. Produce written analysis. Your report body is the deliverable.`;
 
   return `You are ${agent.title} (${agent.id}) at Pinnacle Office. Your specialty is ${agent.specialty}. You report to ${agent.reportsTo}.
-
+${visionBlock()}
 YOUR DEPARTMENT
 ${dept.name}. ${dept.mission}
 

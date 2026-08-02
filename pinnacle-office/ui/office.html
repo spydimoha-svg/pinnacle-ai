@@ -385,6 +385,73 @@
   .chip:hover{border-color:var(--accent);color:var(--accent)}
   .confirmChip{border-color:var(--accent);color:var(--accent)}
 
+  /* ------------------------------------------------------------ the plan
+     He asks for something and gets told how it is going to be done, before
+     anyone starts: the steps, the team on each one, and the name of the seat
+     it has actually been given to. Not a progress bar. A plan. */
+  .plan{margin-top:18px;max-width:74ch;border:1px solid var(--line2);padding:14px 16px 4px;
+        background:rgba(19,19,19,.62);
+        clip-path:polygon(15px 0,100% 0,100% calc(100% - 15px),calc(100% - 15px) 100%,0 100%,0 15px);
+        animation:planIn .42s cubic-bezier(.2,.7,.3,1) both}
+  @keyframes planIn{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:none}}
+  .planTop{display:flex;align-items:center;gap:12px;font-family:var(--mono);font-size:9.8px;
+           text-transform:uppercase;letter-spacing:.02em;color:var(--faint);margin-bottom:11px}
+  .planTop b{font-weight:400;color:var(--ink)}
+  .planTop s{flex:1;border-bottom:1px dotted var(--line2);text-decoration:none;transform:translateY(-3px)}
+  .planTop em{font-style:normal;max-width:34%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .planX{background:none;border:0;color:var(--faint);cursor:pointer;font:inherit;padding:0 1px}
+  .planX:hover{color:var(--acid)}
+  .pr{display:grid;grid-template-columns:30px 1fr auto;gap:14px;align-items:start;
+      padding:11px 0;border-top:1px solid var(--line)}
+  .pr u{font-family:var(--mono);font-size:9.8px;color:var(--acid);text-decoration:none;padding-top:3px}
+  .pr.proof u{color:var(--faint)}
+  .pw b{display:block;font-weight:400;font-size:13.7px;line-height:1.32;color:var(--ink)}
+  .pw span{display:block;margin-top:4px;font-family:var(--mono);font-size:9.8px;
+           text-transform:uppercase;color:var(--faint)}
+  .pa{text-align:right;min-width:0}
+  .pa i{display:block;font-style:normal;font-family:var(--mono);font-size:10.6px;color:var(--acid)}
+  .pa span{display:block;margin-top:4px;font-family:var(--mono);font-size:9.8px;color:var(--faint)}
+  @media(max-width:640px){.pr{grid-template-columns:24px 1fr}.pa{grid-column:2;text-align:left}}
+
+  /* ---------------------------------------------------------- the report
+     A briefing was a markdown file behind a modal showing raw text. He asked
+     for the document itself, opening on its own when he asks for one. */
+  /* Above the fault bar, which is fixed to the top and was sitting across the
+     report's own toolbar, hiding open, download and close. */
+  .paper{position:fixed;inset:0;z-index:97;background:rgba(10,10,10,.94);
+         backdrop-filter:blur(7px);display:flex;flex-direction:column;
+         animation:planIn .3s ease both}
+  .paper[hidden]{display:none}
+  .paperBar{display:flex;align-items:center;gap:16px;padding:16px clamp(18px,4vw,48px);
+            border-bottom:1px solid var(--line);font-family:var(--mono);font-size:9.8px;
+            text-transform:uppercase;letter-spacing:.02em;color:var(--faint);flex:none}
+  .paperBar b{font-weight:400;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .paperBar s{flex:1;border-bottom:1px dotted var(--line);text-decoration:none;transform:translateY(-3px)}
+  .paperBar a,.paperBar button{color:var(--dim);text-decoration:none;background:none;border:0;
+            font:inherit;text-transform:uppercase;cursor:pointer;white-space:nowrap}
+  .paperBar a:hover,.paperBar button:hover{color:var(--acid)}
+  /* The column is a real element, not auto margins on every child: every rule
+     below sets the margin shorthand, which wipes an inherited auto margin, so
+     the whole report sat against the left edge of a very wide screen. */
+  .paperScroll{flex:1;overflow:auto;padding:clamp(26px,5vw,64px) clamp(18px,4vw,48px) 20vh}
+  .paperBody{max-width:74ch;margin:0 auto}
+  .paperBody h1{font-weight:400;text-transform:uppercase;letter-spacing:-.05em;line-height:.9;
+                font-size:clamp(28px,5vw,56px);color:var(--ink);margin:0 0 .5em}
+  .paperBody h2{font-weight:400;text-transform:uppercase;letter-spacing:-.02em;
+                font-size:clamp(16px,2.2vw,22px);color:var(--ink);margin:2.1em 0 .5em}
+  .paperBody h3{font-weight:400;font-size:15px;color:var(--dim);margin:1.7em 0 .4em}
+  .paperBody p,.paperBody li{font-family:system-ui,sans-serif;font-weight:300;font-size:15px;
+                line-height:1.62;color:var(--dim)}
+  .paperBody p{margin:0 0 1em}
+  .paperBody ul,.paperBody ol{margin:0 0 1.2em;padding-left:1.1em}
+  .paperBody li{margin:0 0 .45em}
+  .paperBody li::marker{color:var(--acid)}
+  .paperBody b{font-weight:500;color:var(--ink)}
+  .paperBody code{font-family:var(--mono);font-size:.88em;color:var(--acid)}
+  .paperBody blockquote{margin:0 0 1.2em;padding:12px 16px;border-left:2px solid var(--acid);
+                background:rgba(235,251,29,.05);color:var(--ink)}
+  .paperBody hr{border:0;border-top:1px solid var(--line);margin:2.4em 0}
+
   /* The orb, adapted from the 21st AI loader into the office palette. Pure
      CSS, no React, and it only spins when Pinnacle is actually thinking. */
   .orbWrap{position:relative;width:clamp(118px,13vw,168px);height:clamp(118px,13vw,168px);flex:none;display:grid;place-items:center}
@@ -949,6 +1016,10 @@
         <button class="send" id="send" title="send">&#8594;</button>
       </div>
       <div class="reply" id="reply"></div>
+      <div class="plan" id="plan" hidden>
+        <div class="planTop"><b>How I'm doing this</b><s></s><em id="planAsk"></em><button class="planX" id="planX">close</button></div>
+        <div id="planRows"></div>
+      </div>
       <div class="askHint" id="askHint"></div>
     </div>
   </div>
@@ -1021,6 +1092,17 @@
 
 <dialog id="modal"><div class="dh"><b id="modalTitle"></b><button class="kbd" onclick="modal.close()">close</button></div><div class="db" id="modalBody"></div></dialog>
 
+<!-- The report, as a document. It opens itself when he asks for one. -->
+<div class="paper" id="paper" hidden>
+  <div class="paperBar">
+    <b id="paperName"></b><span id="paperWhen"></span><s></s>
+    <a id="paperTab" target="_blank" rel="noopener">open in a tab</a>
+    <a id="paperDl" download>download</a>
+    <button id="paperX">close</button>
+  </div>
+  <div class="paperScroll"><article class="paperBody" id="paperBody"></article></div>
+</div>
+
 <b id="curDot"></b><i id="curRing"><i></i><i></i><i></i><i></i><b></b></i>
 
 <!-- Voice used to be a keystroke and a small round button, so for practical
@@ -1029,8 +1111,8 @@
 <div class="vdock off" id="vdock">
   <div class="vsay">
     <u>things you can say</u>
-    <i>Hey Pinnacle</i><i>Pinnacle, what is the floor doing</i><i>tell frontend to fix the lesson player</i>
-    <i>brief me</i><i>who is my best agent</i><i>stop everything</i>
+    <i>press V, talk, press V again</i><i>Hey Pinnacle</i><i>fix the lesson player, it keeps crashing</i>
+    <i>open the office</i><i>give me a report</i><i>who is my best agent</i><i>stop everything</i>
   </div>
   <button class="vbtn" id="vbtn" title="talk to Pinnacle (V)">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true">
@@ -1755,6 +1837,7 @@ async function refresh() {
 
   paintBench(keys);
   paintSupply();
+  watchReports(r);
   pinnacleInitiative(r);
 
   const latest = r.reports.find((f) => f.path.includes("briefing-"));
@@ -1837,6 +1920,7 @@ const closeScene = () => {
 $("sceneX").onclick = closeScene;
 $("scene").addEventListener("click", (e) => { if (e.target.id === "scene" || e.target.id === "sceneBg") closeScene(); });
 addEventListener("keydown", (e) => {
+  if (e.key === "Escape" && !$("paper").hidden) return shutPaper();
   if (e.key === "Escape" && !$("scene").hidden) closeScene();
   if ($("scene").hidden && e.target.tagName !== "INPUT") {
     if (e.key === "ArrowLeft") crew.go(crew.all().findIndex((c) => c === crew.current()) - 1);
@@ -2102,8 +2186,7 @@ async function clipFor(line) {
   return url;
 }
 
-async function speakKokoro(text) {
-  const mine = ++sayQueue;
+async function speakKokoro(text, mine) {
   const lines = clauses(text);
   let ahead = clipFor(lines[0]);            // the next clause is always already cooking
   for (let i = 0; i < lines.length; i++) {
@@ -2124,7 +2207,8 @@ async function speakKokoro(text) {
     });
     if (mine !== sayQueue) return;
   }
-  if (mine === sayQueue) { her = null; mouth(false); }
+  her = null;
+  finishedSpeaking(mine);
 }
 
 // Said so often it is worth having ready before he asks.
@@ -2150,20 +2234,45 @@ fetch("/api/voice").then((r) => r.json()).then((v) => {
 const orbSay = (w) => { const e = $("orbState"); if (e) e.textContent = w; };
 let speaking = false;
 let hushTimer = null;
-let handBack = false;      // give him the floor the moment she stops talking
+
+// True from the moment he speaks to her until he types instead. While it is on,
+// the floor comes back to him by itself when she stops, which is the whole
+// difference between talking to her and filling in a form: he says a thing, she
+// answers, and he is already able to say the next thing.
+let convo = false;
+let herLast = "";          // the last thing she said, so she never answers it
+let awaiting = false;      // she is mid answer and the floor is still hers
+const pick = (list) => list[Math.floor(Math.random() * list.length)];
 
 // The globe is the only thing on the page that says who has the floor, so it
 // has to be told the truth about when she starts and stops.
 function mouth(on) {
   speaking = on;
-  clearTimeout(hushTimer);
   if (on) { orb.mode("talking"); orbSay("pinnacle speaking"); return; }
   orb.mode(listening ? "listening" : "idle");
   orbSay(listening ? "listening" : "standing by");
-  if (handBack) { handBack = false; if (!listening) startVoice(); }
+}
+
+// She reached the end of a line. Handing the floor back has to happen HERE and
+// nowhere else: hush() also closes her mouth, but hush is her being cut off
+// mid sentence, and re-opening the microphone there meant it opened a frame
+// before she started talking and she spent every reply listening to herself.
+//
+// The tag is which line finished. A stale timer from a line he interrupted must
+// never hand the floor back on top of the one she is saying now.
+function finishedSpeaking(tag) {
+  if (tag !== sayQueue) return;
+  clearTimeout(hushTimer);
+  mouth(false);
+  // She is only holding the floor because she is waiting on the office. Opening
+  // the microphone here would have her listening to herself finish the answer.
+  if (awaiting) return;
+  if (!convo || !rec || listening || document.hidden || !iAmLive) return;
+  setTimeout(() => { if (convo && !speaking && !listening) startVoice(); }, 200);
 }
 
 function hush() {
+  clearTimeout(hushTimer);
   try { speechSynthesis.cancel(); } catch {}
   try { window.responsiveVoice?.cancel(); } catch {}
   if (her) { her.pause(); her = null; }
@@ -2173,22 +2282,37 @@ function hush() {
 let speak = function speak(text) {
   if (!voiceOut || !text) return;
   hush();
+  const tag = ++sayQueue;
+  herLast = String(text);
   mouth(true);
-  // Nothing reports the end of a browser utterance reliably, so the mouth is
-  // closed on a clock sized to the sentence rather than left hanging open.
-  hushTimer = setTimeout(() => mouth(false), 900 + String(text).length * 62);
-  if (kokoroState === "ready") return speakKokoro(text);
-  if (engine.provider === "elevenlabs" && engine.ready) return speakPaid(text);
+  // Every engine below reports its own end, but none of them can be relied on
+  // to report it when something goes wrong, so this is the backstop: a clock
+  // sized generously to the sentence, which never fires first on a healthy line
+  // and always fires on a dead one.
+  hushTimer = setTimeout(() => finishedSpeaking(tag), 1600 + String(text).length * 88);
+  if (kokoroState === "ready") return speakKokoro(text, tag);
+  if (engine.provider === "elevenlabs" && engine.ready) return speakPaid(text, tag);
   if (engine.provider === "responsive" && window.responsiveVoice) {
-    return window.responsiveVoice.speak(String(text), engine.voice || "UK English Female", { rate: 1, pitch: 1 });
+    return window.responsiveVoice.speak(String(text), engine.voice || "UK English Female",
+      { rate: 1, pitch: 1, onend: () => finishedSpeaking(tag) });
   }
-  speakLocal(text);
+  speakLocal(text, tag);
 };
+
+// Recognition hears her through the speakers as readily as it hears him, and a
+// woman's voice answering her own last sentence is an infinite conversation
+// with nobody in it.
+const flat = (s) => String(s).toLowerCase().replace(/[^a-z0-9 ]/g, "").replace(/\s+/g, " ").trim();
+function heardHerself(said) {
+  const a = flat(said), b = flat(herLast);
+  if (a.length < 9 || b.length < 9) return false;
+  return b.includes(a) || a.includes(b.slice(0, 40));
+}
 
 // A real recording, fetched from whatever engine is configured. It falls back
 // rather than going quiet, because a voice that stops working without saying so
 // is worse than a plain one.
-async function speakPaid(text) {
+async function speakPaid(text, tag) {
   try {
     const r = await fetch("/api/say", {
       method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ text }),
@@ -2197,7 +2321,7 @@ async function speakPaid(text) {
     if (!r.ok) throw new Error((await r.json().catch(() => ({}))).error || "http " + r.status);
     const clip = new Audio(URL.createObjectURL(await r.blob()));
     her = clip;
-    clip.onended = clip.onerror = () => { URL.revokeObjectURL(clip.src); if (her === clip) her = null; };
+    clip.onended = clip.onerror = () => { URL.revokeObjectURL(clip.src); if (her === clip) her = null; finishedSpeaking(tag); };
     await clip.play();
   } catch (err) {
     raiseFault("voice", "quiet", `${engine.provider} would not speak (${err.message}). She is using the browser's voice instead.`);
@@ -2205,7 +2329,7 @@ async function speakPaid(text) {
   }
 }
 
-function speakLocal(text) {
+function speakLocal(text, tag) {
   if (!window.speechSynthesis || !text) return;
   speechSynthesis.cancel();
   if (!chosenVoice) chosenVoice = pickVoice();
@@ -2228,6 +2352,7 @@ function speakLocal(text) {
     u.rate = neural ? (asking ? 1.0 : 1.04) : (asking ? 0.94 : 1.0) + (i % 3) * 0.02;
     u.pitch = neural ? 1 : asking ? 1.02 : 0.9;
     u.volume = 1;
+    if (i === clauses.length - 1) u.onend = () => finishedSpeaking(tag);
     speechSynthesis.speak(u);
 
     // The pause between sentences is doing as much work as the voice itself.
@@ -2242,12 +2367,16 @@ function speakLocal(text) {
 }
 
 // Pinnacle putting a question to you out loud, and waiting for an answer.
+// She has put a question to him out loud and now waits for the answer. The
+// microphone opens when she actually stops talking, not on a guess at how long
+// the sentence takes to say, which is what used to have her asking him
+// something and then listening to the back half of her own question.
 function askAloud(question, { listen = true } = {}) {
   pushMsg({ who: "Pinnacle", what: question });
   $("reply").className = "reply";
   $("reply").textContent = question;
+  if (listen && rec) convo = true;
   speak(question);
-  if (listen && rec) setTimeout(() => { if (!listening) startVoice(); }, Math.min(9000, 1400 + question.length * 55));
 }
 
 const HINTS = ["what did the office get done today", "get the tutor team to fix the hint ladder", "why was that change refused", "slow down to one at a time", "brief me"];
@@ -2287,8 +2416,8 @@ async function spokenCommand(text) {
     return answerNow("That spends your usage and lets them edit real code. Want me to open up?");
   }
 
-  if (/\b(close|shut|stop|stand down|pause)\b.*\b(office|floor|them|everyone|agents)\b/.test(q)
-      || /^\s*(close|stop) (the )?office\b/.test(q)) {
+  if (/\b(close|shut|stop|stand down|pause)\b.*\b(office|floor|them|everyone|everything|agents|work)\b/.test(q)
+      || /^\s*(close|stop|shut)\s*(it|down|up)?\s*(the )?(office)?\s*$/.test(q)) {
     await post("stop", null);
     return answerNow("Closing it. Anyone mid task finishes what they're on.");
   }
@@ -2300,17 +2429,97 @@ async function spokenCommand(text) {
     const dept = matchDept(order[1]);
     if (!dept) return answerNow(`I don't have a team called ${order[1].trim()}. Say it again with the department name.`);
     const title = text.slice(text.toLowerCase().indexOf(order[2].slice(0, 12))).trim() || order[2];
-    const r = await post("order", { dept, title });
-    if (r?.error) return answerNow(`I couldn't file that: ${r.error}`);
-    tick();
-    return answerNow(`Done. ${snap?.departments?.[dept]?.name || dept} have it, front of the queue.`);
+    return fileWork(title, dept);
   }
 
-  if (/\b(brief|briefing|report)\b.*\b(me|now|write|give)\b/.test(q) || /^\s*(brief me|write a briefing|give me a report)\b/.test(q)) {
-    await post("brief", null);
-    return answerNow("Writing it now. It'll land in your reports in a couple of minutes.");
+  if (/\b(brief|briefing|report)\b.*\b(me|now|write|give)\b/.test(q) || /^\s*(brief me|write a briefing|give me a report|show me the report)\b/.test(q)) {
+    return showReport();
   }
+
+  // Anything else in the imperative is work. This is the difference between
+  // "what is frontend doing", which she answers, and "frontend, fix the lesson
+  // player", which she hands out: a question about the floor, or a job for it.
+  if (!ASKING.test(q) && DOING.test(q) && q.length > 9) return fileWork(text);
   return false;
+}
+
+const ASKING = /^\s*(what|who|whose|when|why|how|which|where|is|are|was|were|do|does|did|have|has|can you tell|could you tell|any|tell me about)\b|\?\s*$/i;
+const DOING = /\b(fix|add|build|make|write|create|change|improve|update|remove|delete|redesign|refactor|check|test|audit|review|sort|clean|speed|secure|harden|look into|work on|start on|handle|deal with|implement|design|rewrite|sort out|get on)\b/i;
+
+// ------------------------------------------------------------- the plan
+// He gives her work and gets the plan back before he has put the microphone
+// down: the steps, the team on each, and the name of the seat it has genuinely
+// been given to. Nothing here waits on a model, because a model would take four
+// seconds to produce a worse version of what the office already knows.
+async function fileWork(text, dept) {
+  let r = null;
+  try {
+    r = await fetch("/api/assign", {
+      method: "POST", headers: { "content-type": "application/json" },
+      body: JSON.stringify({ text, dept }),
+    }).then((x) => x.json());
+  } catch { return answerNow("I couldn't reach the office to file that."); }
+
+  if (!r || r.error) return answerNow(`I couldn't file that. ${r?.error || "Nothing came back"}.`);
+  drawPlan(r);
+  tick();
+  return answerNow(r.say);
+}
+
+function drawPlan(plan) {
+  $("planAsk").textContent = plan.asked || "";
+  $("planRows").innerHTML = plan.rows.map((r) => `
+    <div class="pr ${r.proof ? "proof" : ""}" data-task="${r.taskId}">
+      <u>${String(r.n).padStart(2, "0")}</u>
+      <div class="pw"><b>${esc(r.step)}</b><span>${esc(r.deptName)} &middot; ${r.kind === "code" ? "builds it" : "writes it up"}</span></div>
+      <div class="pa"><i>${esc(r.agent)}</i><span>${esc(r.specialty)}</span></div>
+    </div>`).join("");
+  $("plan").hidden = false;
+}
+$("planX").onclick = () => { $("plan").hidden = true; };
+
+// ----------------------------------------------------------- the report
+// "Give me a report" used to file a request and say wait a couple of minutes.
+// Now the last one opens immediately, as a document, and a fresh one is written
+// behind it and swapped in the moment it lands.
+async function openPaper(path) {
+  let doc = null;
+  try { doc = await fetch("/api/report?path=" + encodeURIComponent(path)).then((r) => r.json()); }
+  catch { return false; }
+  if (!doc || doc.error) return false;
+  $("paperName").textContent = doc.title || path.split("/").pop();
+  $("paperWhen").textContent = doc.when || "";
+  $("paperBody").innerHTML = doc.html || esc(doc.body || "");
+  $("paperBody").parentElement.scrollTop = 0;
+  $("paperTab").href = "/api/report?html=1&path=" + encodeURIComponent(path);
+  $("paperDl").href = "/api/report?raw=1&path=" + encodeURIComponent(path);
+  $("paper").hidden = false;
+  return true;
+}
+const shutPaper = () => { $("paper").hidden = true; };
+$("paperX").onclick = shutPaper;
+
+async function showReport() {
+  const latest = snap?.reports?.[0];
+  post("brief", null);                       // a fresh one starts either way
+  if (latest && await openPaper(latest.path)) {
+    seenReport = latest.path;
+    return answerNow(`That's the last one, filed ${new Date(latest.mtime).toLocaleString()}. It's open in front of you. I'm writing you a fresh one now, I'll put it up when it's done.`);
+  }
+  return answerNow("Nothing's been filed yet. I'm writing one now, and it'll open by itself the second it's ready.");
+}
+
+// A report landing while he is stood there is worth showing him without being
+// asked twice. This is also what makes "write me a report" finish properly:
+// the document appears on its own.
+let seenReport = null;
+function watchReports(r) {
+  const latest = r.reports?.[0];
+  if (!latest) return;
+  if (seenReport === null) { seenReport = latest.path; return; }   // first paint
+  if (latest.path === seenReport) return;
+  seenReport = latest.path;
+  openPaper(latest.path).then((ok) => { if (ok) speak("That's your report, it's up on the screen."); });
 }
 
 // Loosely match what he said to a real department, because he says "front end"
@@ -2372,7 +2581,7 @@ function quickAnswer(text) {
   }
   if (is("what have we shipped", "how many shipped", "what's shipped", "whats shipped", "how much done", "how many done")) {
     return s.completed
-      ? `${nWord(s.completed)} so far.${s.blocked ? ` I threw ${nWord(s.blocked)} out.` : ""}${s.reverted ? ` ${nWord(s.reverted)} got rolled back.` : ""}`
+      ? `${nWord(s.completed)} so far.${s.blocked ? ` I threw ${nWord(s.blocked)} out.` : ""}${s.reverted ? ` And ${nWord(s.reverted)} got rolled back.` : ""}`
       : "Nothing yet.";
   }
   if (is("what went wrong", "anything broken", "anything failed", "how many failed")) {
@@ -2412,12 +2621,20 @@ async function askPinnacle(text) {
     return;
   }
 
+  // Everything above answered in milliseconds. What is left is the small set of
+  // things that genuinely need thinking about, and those go to a model and take
+  // seconds. Sitting in silence through that is what made her feel broken, so
+  // if it runs long she says so, the way a person would.
   $("reply").className = "reply think";
   $("reply").textContent = "Pinnacle is thinking.";
   thinking(true);
+  awaiting = true;
+  const filler = convo ? setTimeout(() => speak(pick(["Give me a second.", "Hang on, let me look.", "One sec."])), 850) : 0;
   let r;
   try { r = await fetch("/api/ask", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ text }) }).then((x) => x.json()); }
   catch { r = { say: "I lost the connection to the office." }; }
+  clearTimeout(filler);
+  awaiting = false;
   thinking(false);
   $("reply").className = "reply";
   $("reply").textContent = r.say || "";
@@ -2443,8 +2660,10 @@ async function carryOut(r) {
   if (map[a]) await post(map[a], r.value);
 }
 
-$("send").onclick = () => askPinnacle($("askIn").value);
-$("askIn").addEventListener("keydown", (e) => { if (e.key === "Enter") askPinnacle($("askIn").value); });
+// Typing is not a conversation, so she answers and stops rather than opening
+// the microphone on him while he is still at the keyboard.
+$("send").onclick = () => { convo = false; askPinnacle($("askIn").value); };
+$("askIn").addEventListener("keydown", (e) => { if (e.key === "Enter") { convo = false; askPinnacle($("askIn").value); } });
 $("askHint").addEventListener("click", async (e) => {
   const chip = e.target.closest("[data-hint]");
   const yes = e.target.closest("[data-confirm]");
@@ -2470,6 +2689,7 @@ let earLive = false;       // a session is actually running right now
 let earTries = 0;          // consecutive immediate failures, for the backoff
 let lastHeard = "";
 let wokeAt = 0;          // when her name last landed, so one breath wakes her once
+let turnEnded = 0;       // when he last finished a sentence, so its tail is ignored
 
 // Speech recognition mangles proper nouns, and "Pinnacle" is a proper noun it
 // has never heard of. It comes back as pinnacles, pinacle, panicle, innacle,
@@ -2505,6 +2725,10 @@ if (Rec) {
     if (want === "wake") {
       // Waiting for one word. Nothing is shown, stored or sent until it lands.
       orb.pulse(0.75);            // a word arriving is proof he is talking
+      // The tail of the question he just finished is still arriving. If he said
+      // her name in it, this is where she would wake up and greet him on top of
+      // her own answer.
+      if (Date.now() - turnEnded < 1500) return;
       if (wakeHit(said)) { wokeAt = Date.now(); setEar("off"); wakeUp(afterWake(said)); }
       else earSay("armed", said ? `heard "${said.slice(0, 28)}"` : undefined);
       return;
@@ -2515,7 +2739,10 @@ if (Rec) {
     orb.pulse(0.85);
     $("askIn").value = said;
     voiceUI(said || "Listening");
-    if (e.results[e.results.length - 1].isFinal) { stopVoice(); askPinnacle(said); }
+    // The recogniser deciding he has finished is the same event as him pressing
+    // V, so it goes through the same door. Two doors is how the question ended
+    // up being asked twice on some paths and not at all on others.
+    if (e.results[e.results.length - 1].isFinal) stopVoice();
   };
 
   rec.onerror = (e) => {
@@ -2639,24 +2866,49 @@ function voiceLabel() {
 
 function startVoice() {
   if (!rec || listening) return;
+  if (speaking) hush();          // he is talking over her, so she stops
   listening = true;
-  setEar("ask");
+  convo = true;
+  lastHeard = "";
+  $("askIn").value = "";
   orb.mode("listening");
   orbSay("listening");
   $("mic").classList.add("on");
   $("vdock").classList.add("hot");
-  voiceUI("Listening", "say it how you would say it to a person");
-  try { rec.start(); } catch { stopVoice(); }
+  voiceUI("Listening", "press V again when you're done, or just stop talking");
+  // setEar owns the recogniser. This used to also call rec.start() straight
+  // after, which the browser answers with InvalidStateError because a session
+  // was already running, and the catch around it called stopVoice. So every
+  // single press of V opened the microphone and shut it again in the same
+  // frame. That is the whole of "she is not listening to me".
+  setEar("ask");
 }
+
+// The microphone going off is him finishing his sentence, so it is also the
+// question being asked. It never used to be: stopVoice reset the dock, flipped
+// the ear back to waiting for her name, and the transcript went nowhere. He
+// pressed V, said his piece, pressed V, and got silence. Every single time.
 function stopVoice() {
   if (!listening) return;
+  const said = ($("askIn").value || lastHeard || "").trim();
   listening = false;
+  turnEnded = Date.now();
+  lastHeard = "";
+  $("askIn").value = "";
   if (!speaking) { orb.mode("idle"); orbSay("standing by"); }
   $("mic").classList.remove("on");
   $("vdock").classList.remove("hot");
-  voiceUI(wakeOn ? "Say “Hey Pinnacle”" : "Talk to Pinnacle", voiceLabel());
   try { rec.stop(); } catch {}
   setEar(wakeOn ? "wake" : "off");
+
+  if (said.length > 1 && !heardHerself(said)) {
+    voiceUI("Thinking", `heard "${said.slice(0, 42)}"`);
+    return askPinnacle(said);
+  }
+  // He opened the microphone and said nothing, so he has walked off. She stops
+  // taking the floor back after every line until he talks to her again.
+  convo = false;
+  voiceUI(wakeOn ? "Say “Hey Pinnacle”" : "Talk to Pinnacle", voiceLabel());
 }
 // --------------------------------------------------------------- "Pinnacle"
 // He should not have to click a button to talk to his own assistant. She sits
@@ -2682,12 +2934,12 @@ function wakeUp(rest) {
   const floor = !snap ? "Still reading the floor."
     : awake ? `Right now ${awake === 1 ? "one of them is" : say(awake) + " of them are"} working.`
     : snap.office.running ? "Nobody's mid task this second." : "Office is shut at the moment.";
-  const done = s?.done ? ` We've shipped ${say(s.done)} so far.` : "";
+  const done = s?.completed ? ` We've shipped ${say(s.completed)} so far.` : "";
   const line = `${HELLO} ${floor}${done} What do you need?`;
   pushMsg({ who: "Pinnacle", what: line });
   $("reply").className = "reply";
   $("reply").textContent = line;
-  handBack = true;      // she takes the floor back the instant she stops
+  convo = true;         // he said her name out loud, so this is a conversation
   speak(line);
 }
 
@@ -3084,7 +3336,8 @@ cmdList.addEventListener("mousedown", (e) => {
 document.addEventListener("keydown", (e) => {
   if (e.target.tagName === "INPUT") return;
   if (e.key === "/" || ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k")) { cmdIn.focus(); e.preventDefault(); }
-  // V talks to Pinnacle out loud. A talks to it by typing.
+  // V is the microphone. On to talk, off to send: turning it off IS asking, so
+  // the answer starts the same instant his finger leaves the key.
   if (e.key.toLowerCase() === "v") { listening ? stopVoice() : startVoice(); e.preventDefault(); }
   if (e.key.toLowerCase() === "a") { $("askIn").focus(); e.preventDefault(); }
   if (e.key.toLowerCase() === "p") { callHer(); e.preventDefault(); }
@@ -3171,11 +3424,9 @@ document.addEventListener("click", async (e) => {
     modal.showModal();
   }
 
-  if (report) {
-    const doc = await fetch("/api/report?path=" + encodeURIComponent(report.dataset.report)).then((r) => r.json());
-    $("modalTitle").textContent = report.dataset.report.split("/").pop();
-    $("modalBody").textContent = doc.body || doc.error;
-    modal.showModal();
+  if (report && !e.target.closest("[data-stop]")) {
+    seenReport = report.dataset.report;
+    openPaper(report.dataset.report);
   }
 });
 

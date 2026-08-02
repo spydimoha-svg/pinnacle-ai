@@ -13,6 +13,8 @@ import * as skills from "./core/skills.mjs";
 import { proficiency, leaderboard, deptCard, dismiss, dismissBenched } from "./core/scorecard.mjs";
 import { openRequests, readRequests, approve, decline } from "./core/supply.mjs";
 import { publicSettings, say } from "./core/voice.mjs";
+import { assignWork, spokenPlan } from "./core/plan.mjs";
+import { mdHtml, artifactPage } from "./core/artifact.mjs";
 
 const json = (res, body, code = 200) => {
   res.writeHead(code, { "content-type": "application/json", "cache-control": "no-store" });
@@ -111,7 +113,39 @@ async function route(req, res) {
       });
       return res.end(fs.readFileSync(target));
     }
-    return json(res, { path: rel, body: fs.readFileSync(target, "utf8") });
+    const body = fs.readFileSync(target, "utf8");
+    const when = new Date(fs.statSync(target).mtimeMs).toLocaleString();
+    // ?html is the document itself: a page he can open, keep, or print. The
+    // office panel gets the same rendering from the json below, so the two can
+    // never drift into disagreeing about the same file.
+    if (url.searchParams.get("html")) {
+      res.writeHead(200, { "content-type": "text/html; charset=utf-8", "cache-control": "no-store" });
+      return res.end(artifactPage({ title: path.basename(target), body: mdHtml(body), when }));
+    }
+    return json(res, { path: rel, body, html: mdHtml(body), when, title: path.basename(target) });
+  }
+
+  // What the company is for. Every agent reads it before it plans or works, so
+  // Ayaan gets to read exactly what they were told.
+  if (url.pathname === "/api/vision") {
+    try { return json(res, { body: fs.readFileSync(path.join(OFFICE_DIR, "vision.md"), "utf8") }); }
+    catch { return json(res, { error: "vision.md is missing" }, 404); }
+  }
+
+  // He tells her what he wants. She answers with the plan, with a real seat
+  // named against every step, before he has finished putting the microphone
+  // down. No model runs here: a model would take four seconds to do it worse.
+  if (url.pathname === "/api/assign" && req.method === "POST") {
+    let body = "";
+    for await (const chunk of req) body += chunk;
+    let asked = {};
+    try { asked = JSON.parse(body || "{}"); } catch { return json(res, { error: "bad json" }, 400); }
+    const text = String(asked.text || "").trim().slice(0, 600);
+    if (text.length < 4) return json(res, { error: "there was nothing in that to hand out" }, 400);
+    if (asked.dept && !DEPARTMENTS.some((d) => d.key === asked.dept)) return json(res, { error: `no department called ${asked.dept}` }, 400);
+    const plan = assignWork(text, { dept: asked.dept });
+    if (!plan) return json(res, { error: "I could not work out who that belongs to" }, 400);
+    return json(res, { ...plan, say: spokenPlan(plan) });
   }
 
   // The standard Pinnacle holds everyone to. Readable from the dashboard so
@@ -223,7 +257,7 @@ async function route(req, res) {
         emit("office.command", { detail: `Mode set to ${state.office.mode}` });
         break;
       case "concurrency":
-        setOffice({ concurrency: Math.max(1, Math.min(8, Number(cmd.value) || 1)) });
+        setOffice({ concurrency: Math.max(1, Math.min(40, Number(cmd.value) || 1)) });
         emit("office.command", { detail: `Concurrency set to ${state.office.concurrency}` });
         break;
       case "dept":
