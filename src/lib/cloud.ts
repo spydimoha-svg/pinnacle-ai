@@ -42,6 +42,16 @@ function sessionKey(userId: string): string {
   return `pinnacle_cloud_session_${userId}`;
 }
 
+// How long to back off after a failed email link before minting another
+// anonymous identity for the same user — without this, a losing device in a
+// two-device race retries signInAnonymously()+updateUser() on every sync and
+// burns a fresh Supabase Auth user each time.
+const LINK_COOLDOWN_MS = 5 * 60 * 1000;
+
+function linkCooldownKey(userId: string): string {
+  return `${sessionKey(userId)}_link_cooldown`;
+}
+
 async function authToken(
   userId: string,
   email: string,
@@ -73,6 +83,8 @@ async function authToken(
       // First time this student's data has ever synced anywhere: create the
       // identity and link these credentials to it, so the next device can
       // find it via signInWithPassword instead of getting a fresh empty one.
+      const cdKey = linkCooldownKey(userId);
+      if (Date.now() < Number(localStorage.getItem(cdKey) || 0)) return null;
       if (hadStoredSession) {
         console.warn(
           `cloud authToken: stored session for user ${userId} failed to restore and signInWithPassword did not recover it — minting a new anonymous identity, previous student_state row may be orphaned`
@@ -86,6 +98,7 @@ async function authToken(
           password,
         });
         if (linkError) {
+          localStorage.setItem(cdKey, String(Date.now() + LINK_COOLDOWN_MS));
           console.warn(
             `cloud authToken: linking credentials to new anonymous identity for user ${userId} failed — refusing to persist an orphaned session:`,
             linkError.message
@@ -221,25 +234,57 @@ export async function deleteSchool(id: string): Promise<void> {
   await supabase.from("schools").delete().eq("id", id);
 }
 
+// school_resources has no anon-key grant at all (see supabase/schema.sql) —
+// the only door in is /api/resources, which trusts nothing from the request
+// and instead verifies the caller's Supabase bearer token carries
+// app_metadata.role === "admin" before touching the table. That token is the
+// same one Login.tsx stores under this key on admin sign-in (see
+// Protected.tsx) — a student never has it, so these become no-ops for them
+// instead of a network call an unauthorized caller could probe.
+const ADMIN_TOKEN_KEY = "pinnacle-admin-token";
+
 export async function loadSchoolResources(): Promise<Resource[] | null> {
-  if (!supabase) return null;
-  const { data, error } = await supabase.from("school_resources").select("data");
-  if (error || !data) return null;
-  return (data as { data: Resource }[]).map((r) => r.data);
+  const token = localStorage.getItem(ADMIN_TOKEN_KEY);
+  if (!token) return null;
+  try {
+    const res = await fetch("/api/resources", {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    if (!res.ok) return null;
+    return (await res.json()) as Resource[];
+  } catch {
+    return null;
+  }
 }
 
 export async function saveSchoolResources(resources: Resource[]): Promise<void> {
-  if (!supabase || resources.length === 0) return;
-  const rows = resources.map((r) => ({
-    id: r.id,
-    school_id: r.schoolId ?? null,
-    data: r,
-  }));
-  const { error } = await supabase.from("school_resources").upsert(rows);
-  if (error) console.warn("cloud saveSchoolResources failed:", error.message);
+  const token = localStorage.getItem(ADMIN_TOKEN_KEY);
+  if (!token || resources.length === 0) return;
+  try {
+    const res = await fetch("/api/resources", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ resources }),
+    });
+    if (!res.ok) console.warn("cloud saveSchoolResources failed:", await res.text());
+  } catch (err) {
+    console.warn("cloud saveSchoolResources unreachable:", err);
+  }
 }
 
 export async function deleteSchoolResource(id: string): Promise<void> {
-  if (!supabase) return;
-  await supabase.from("school_resources").delete().eq("id", id);
+  const token = localStorage.getItem(ADMIN_TOKEN_KEY);
+  if (!token) return;
+  try {
+    const res = await fetch(`/api/resources?id=${encodeURIComponent(id)}`, {
+      method: "DELETE",
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    if (!res.ok) console.warn("cloud deleteSchoolResource failed:", await res.text());
+  } catch (err) {
+    console.warn("cloud deleteSchoolResource unreachable:", err);
+  }
 }

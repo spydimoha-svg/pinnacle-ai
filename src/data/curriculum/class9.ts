@@ -449,6 +449,7 @@ const sst: Subject = {
       id: "c9-sst-06",
       number: 6,
       title: "India — Size and Location",
+      weightage: "≈2 marks",
       keyTopics: [
         "Latitudinal and longitudinal extent",
         "Standard Meridian (82°30'E)",
@@ -461,6 +462,7 @@ const sst: Subject = {
       id: "c9-sst-07",
       number: 7,
       title: "Physical Features of India",
+      weightage: "≈4 marks",
       keyTopics: [
         "Plate tectonics and the making of India's relief",
         "The Himalayas and the Northern Plains",
@@ -474,6 +476,7 @@ const sst: Subject = {
       id: "c9-sst-08",
       number: 8,
       title: "Drainage",
+      weightage: "≈4 marks",
       keyTopics: [
         "Himalayan vs Peninsular rivers",
         "The Ganga and Brahmaputra systems",
@@ -487,6 +490,7 @@ const sst: Subject = {
       id: "c9-sst-09",
       number: 9,
       title: "Climate",
+      weightage: "≈4 marks",
       keyTopics: [
         "Factors and controls of India's climate",
         "Mechanism, onset and withdrawal of the monsoon",
@@ -500,6 +504,7 @@ const sst: Subject = {
       id: "c9-sst-10",
       number: 10,
       title: "Natural Vegetation and Wildlife",
+      weightage: "≈3 marks",
       keyTopics: [
         "Factors: relief, soil, climate",
         "Types of vegetation, from tropical evergreen to montane",
@@ -512,6 +517,7 @@ const sst: Subject = {
       id: "c9-sst-11",
       number: 11,
       title: "Population",
+      weightage: "≈3 marks",
       keyTopics: [
         "Population size, distribution and density",
         "Population growth and processes of change",
@@ -527,6 +533,7 @@ const sst: Subject = {
       id: "c9-sst-12",
       number: 12,
       title: "What is Democracy? Why Democracy?",
+      weightage: "≈3 marks",
       keyTopics: [
         "Features of democracy",
         "Arguments for and against democracy",
@@ -539,6 +546,7 @@ const sst: Subject = {
       id: "c9-sst-13",
       number: 13,
       title: "Constitutional Design",
+      weightage: "≈4 marks",
       keyTopics: [
         "Democratic constitution in South Africa",
         "Why and how India's Constitution was made",
@@ -552,6 +560,7 @@ const sst: Subject = {
       id: "c9-sst-14",
       number: 14,
       title: "Electoral Politics",
+      weightage: "≈4 marks",
       keyTopics: [
         "Why elections are necessary",
         "System of elections in India",
@@ -565,6 +574,7 @@ const sst: Subject = {
       id: "c9-sst-15",
       number: 15,
       title: "Working of Institutions",
+      weightage: "≈5 marks",
       keyTopics: [
         "Parliament: Lok Sabha and Rajya Sabha",
         "Political executive: PM and Council of Ministers",
@@ -578,6 +588,7 @@ const sst: Subject = {
       id: "c9-sst-16",
       number: 16,
       title: "Democratic Rights",
+      weightage: "≈4 marks",
       keyTopics: [
         "Why we need rights in a democracy",
         "Fundamental Rights in the Indian Constitution",
@@ -593,6 +604,7 @@ const sst: Subject = {
       id: "c9-sst-17",
       number: 17,
       title: "The Story of Village Palampur",
+      weightage: "≈5 marks",
       keyTopics: [
         "Factors of production",
         "Farming in Palampur and land distribution",
@@ -606,6 +618,7 @@ const sst: Subject = {
       id: "c9-sst-18",
       number: 18,
       title: "People as Resource",
+      weightage: "≈5 marks",
       keyTopics: [
         "Human capital formation",
         "Economic and non-economic activities",
@@ -619,6 +632,7 @@ const sst: Subject = {
       id: "c9-sst-19",
       number: 19,
       title: "Poverty as a Challenge",
+      weightage: "≈5 marks",
       keyTopics: [
         "The poverty line and poverty estimates",
         "Vulnerable groups and inter-state disparities",
@@ -632,6 +646,7 @@ const sst: Subject = {
       id: "c9-sst-20",
       number: 20,
       title: "Food Security in India",
+      weightage: "≈5 marks",
       keyTopics: [
         "What is food security; who is food-insecure",
         "Buffer stock and the Public Distribution System",
@@ -661,6 +676,7 @@ const english: Subject = {
       id: "c9-english-01",
       number: 1,
       title: "The Fun They Had",
+      weightage: "≈4 marks",
       keyTopics: [
         "Poem: The Road Not Taken (Robert Frost)",
         "Isaac Asimov; Margie's mechanical teacher",
