@@ -424,6 +424,21 @@ function coerceScene(v: unknown): LessonScene | null {
 }
 
 /**
+ * The prompt requires at least 3 of 5-6 scenes to carry a visual — a talking
+ * head with nothing to look at is the thing this rewrite exists to kill. A
+ * small model that ignores the rule still parses cleanly, so this is the only
+ * place left to catch an all-text lesson before it ships.
+ */
+function warnIfTooFewVisuals(title: string, scenes: LessonScene[]): void {
+  const withVisual = scenes.filter((s) => s.visual != null).length;
+  if (withVisual < 3) {
+    console.warn(
+      `[videoScript] "${title}": only ${withVisual}/${scenes.length} scenes have a visual (need at least 3) — this will play as a talking head.`,
+    );
+  }
+}
+
+/**
  * Turn a model reply into a playable LessonVideo. Tries strict JSON first, then
  * a relaxed parse, and finally salvages scenes from a partial object. Throws
  * only if nothing usable can be recovered.
@@ -465,6 +480,7 @@ export function parseLessonVideo(raw: string, fallbackTitle: string, castId = "g
     const scenesRaw = Array.isArray(obj.scenes) ? obj.scenes : [];
     const scenes = scenesRaw.map(coerceScene).filter((s): s is LessonScene => !!s);
     if (scenes.length) {
+      warnIfTooFewVisuals(asString(obj.title) || fallbackTitle, scenes);
       return {
         castId,
         title: asString(obj.title) || fallbackTitle,
