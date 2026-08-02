@@ -434,6 +434,7 @@ const sst: Subject = {
       id: "c9-sst-05",
       number: 5,
       title: "Pastoralists in the Modern World",
+      weightage: "≈3 marks",
       keyTopics: [
         "Pastoral nomads and their movements",
         "Colonial rule and grazing laws",
