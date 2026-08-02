@@ -1,13 +1,15 @@
 import type { Question } from "../../lib/types";
 
 /**
- * CLASS 9 — SOCIAL SCIENCE (c9-sst), HISTORY AND GEOGRAPHY SECTIONS.
+ * CLASS 9 — SOCIAL SCIENCE (c9-sst), ALL FOUR SECTIONS.
  *
  * Chapter ids copied verbatim from src/data/curriculum/class9.ts. History
  * (c9-sst-01 to c9-sst-05) is checked against the NCERT text India and the
  * Contemporary World – I. Geography (c9-sst-06 to c9-sst-11) is checked
- * against the NCERT text Contemporary India – I. Political Science and
- * Economics (c9-sst-12 to c9-sst-20) are not covered here.
+ * against the NCERT text Contemporary India – I. Political Science
+ * (c9-sst-12 to c9-sst-16) is checked against Democratic Politics – I.
+ * Economics (c9-sst-17 to c9-sst-20) is checked against the NCERT
+ * Economics textbook.
  *
  * `year` is set ONLY where a question is a verbatim board repeat with a known
  * year. Everything else is "important" — no year is guessed.
