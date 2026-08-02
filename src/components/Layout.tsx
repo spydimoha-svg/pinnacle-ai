@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
 import {
   LayoutDashboard,
@@ -79,6 +79,13 @@ export default function Layout({ role }: { role: Role }) {
     localStorage.removeItem(MASTER_TOKEN_KEY);
     navigate("/");
   };
+
+  const mobileNavRef = useRef<HTMLElement>(null);
+  useEffect(() => {
+    mobileNavRef.current
+      ?.querySelector<HTMLElement>('a[aria-current="page"]')
+      ?.scrollIntoView({ inline: "center", block: "nearest" });
+  }, [location.pathname]);
 
   return (
     <div className="min-h-screen flex">
@@ -168,23 +175,27 @@ export default function Layout({ role }: { role: Role }) {
         </main>
 
         {/* Mobile nav */}
-        <nav className="lg:hidden fixed bottom-0 inset-x-0 z-40 bg-pit border-t border-line flex overflow-x-auto">
-          {items.map(({ to, label, icon: Icon, end }) => (
-            <NavLink
-              key={to}
-              to={to}
-              end={end}
-              className={({ isActive }) =>
-                `flex flex-col items-center gap-0.5 px-3 py-2 text-[10px] min-w-16 ${
-                  isActive ? "text-gold" : "text-dim"
-                }`
-              }
-            >
-              <Icon size={18} strokeWidth={1.8} />
-              {label.split(" ")[0]}
-            </NavLink>
-          ))}
-        </nav>
+        <div className="lg:hidden fixed bottom-0 inset-x-0 z-40 bg-pit border-t border-line relative">
+          <nav ref={mobileNavRef} className="flex overflow-x-auto">
+            {items.map(({ to, label, icon: Icon, end }) => (
+              <NavLink
+                key={to}
+                to={to}
+                end={end}
+                className={({ isActive }) =>
+                  `flex flex-col items-center gap-0.5 px-3 py-2 text-[10px] min-w-16 shrink-0 ${
+                    isActive ? "text-gold" : "text-dim"
+                  }`
+                }
+              >
+                <Icon size={18} strokeWidth={1.8} />
+                {label.split(" ")[0]}
+              </NavLink>
+            ))}
+          </nav>
+          <div className="pointer-events-none absolute inset-y-0 left-0 w-6 bg-gradient-to-r from-pit to-transparent" />
+          <div className="pointer-events-none absolute inset-y-0 right-0 w-6 bg-gradient-to-l from-pit to-transparent" />
+        </div>
         <div className="h-16 lg:hidden" />
       </div>
     </div>
