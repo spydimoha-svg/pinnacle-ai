@@ -29,7 +29,7 @@ async function verifiedUserId(req: Request): Promise<string | null> {
   return data.user.id;
 }
 
-// Cheap per-IP throttle so a scripted loop can't self-mint anon Supabase
+// Cheap per-user throttle so a scripted loop can't self-mint anon Supabase
 // sessions and fill the shared 500MB free-tier Postgres. Backed by the
 // shared rate_limit_hit() RPC (see supabase/schema.sql) rather than an
 // in-memory Map, so the limit is atomic across every instance and survives
@@ -39,10 +39,10 @@ async function verifiedUserId(req: Request): Promise<string | null> {
 const RATE_LIMIT_WINDOW_MS = 60_000;
 const RATE_LIMIT_MAX = 20;
 
-async function isRateLimited(ip: string): Promise<boolean> {
+async function isRateLimited(key: string): Promise<boolean> {
   const admin = createClient(url!, serviceKey!);
   const { data, error } = await admin.rpc("rate_limit_hit", {
-    p_key: `state:${ip}`,
+    p_key: `state:${key}`,
     p_window_ms: RATE_LIMIT_WINDOW_MS,
     p_max: RATE_LIMIT_MAX,
   });
@@ -53,21 +53,13 @@ async function isRateLimited(ip: string): Promise<boolean> {
   return data === true;
 }
 
-// x-forwarded-for's first hop is client-supplied and trivially spoofed.
-// x-vercel-forwarded-for (falling back to x-real-ip) is set by Vercel's own
-// edge and stays correct even behind an extra proxy in front of Vercel.
-function clientIp(req: Request): string {
-  const ip = req.headers.get("x-vercel-forwarded-for") || req.headers.get("x-real-ip");
-  return ip?.split(",")[0]?.trim() || "unknown";
-}
-
 export async function GET(req: Request): Promise<Response> {
   if (!url || !serviceKey) {
     return new Response("Cloud sync is not configured", { status: 503 });
   }
   const userId = await verifiedUserId(req);
   if (!userId) return new Response("Unauthorized", { status: 401 });
-  if (await isRateLimited(clientIp(req))) {
+  if (await isRateLimited(`user:${userId}`)) {
     return new Response("Too many requests", { status: 429 });
   }
 
@@ -90,11 +82,15 @@ export async function POST(req: Request): Promise<Response> {
   }
   const userId = await verifiedUserId(req);
   if (!userId) return new Response("Unauthorized", { status: 401 });
-  if (await isRateLimited(clientIp(req))) {
+  if (await isRateLimited(`user:${userId}`)) {
     return new Response("Too many requests", { status: 429 });
   }
 
-  const MAX_BODY_BYTES = 1_000_000;
+  // Chat history is capped client-side at 80 messages (see src/lib/store.ts);
+  // 200KB comfortably fits that plus journal memory, blobs and worksheets
+  // while capping the per-IP abuse ceiling to ~4MB/min at the 20/min limit
+  // above, instead of the old 1MB limit's ~20MB/min.
+  const MAX_BODY_BYTES = 200_000;
   const text = await req.text();
   if (new TextEncoder().encode(text).length > MAX_BODY_BYTES) {
     return new Response("Payload too large", { status: 413 });

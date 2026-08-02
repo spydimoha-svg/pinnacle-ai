@@ -22,7 +22,7 @@ import {
 } from "./cloud";
 import type { LessonState } from "./lesson";
 import { freshProfile, type LearnerProfile } from "./learner";
-import { cloudEnabled } from "./supabase";
+import { supabase, cloudEnabled } from "./supabase";
 
 const isoDay = (d = new Date()) =>
   `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(
