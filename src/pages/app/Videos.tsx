@@ -77,6 +77,10 @@ export default function Videos() {
     setShowScript(false);
     setStatusIdx(0);
     try {
+      const maxTokens =
+        1500 +
+        (depth === "deeper" ? 400 : 0) +
+        (language !== "English" ? 400 : 0);
       const out = await generateOnce(
         buildVideoJsonPrompt({
           topic: t,
@@ -93,7 +97,7 @@ export default function Videos() {
         VIDEO_SYSTEM,
         undefined,
         undefined,
-        1500
+        maxTokens
       );
       const parsed = parseLessonVideo(out, t, castId);
       setLesson(parsed);
