@@ -254,6 +254,7 @@ const science: Subject = {
       id: "c9-science-05",
       number: 5,
       title: "The Fundamental Unit of Life",
+      weightage: "≈12 marks",
       keyTopics: [
         "Cell as the basic unit of life",
         "Plasma membrane, diffusion and osmosis",
@@ -267,6 +268,7 @@ const science: Subject = {
       id: "c9-science-06",
       number: 6,
       title: "Tissues",
+      weightage: "≈10 marks",
       keyTopics: [
         "Meristematic and permanent plant tissues",
         "Epithelial and connective tissues",
@@ -279,6 +281,7 @@ const science: Subject = {
       id: "c9-science-07",
       number: 7,
       title: "Motion",
+      weightage: "≈6 marks",
       keyTopics: [
         "Distance vs displacement",
         "Speed, velocity and acceleration",
@@ -292,6 +295,7 @@ const science: Subject = {
       id: "c9-science-08",
       number: 8,
       title: "Force and Laws of Motion",
+      weightage: "≈5 marks",
       keyTopics: [
         "Newton's three laws of motion",
         "Inertia and mass",
@@ -305,6 +309,7 @@ const science: Subject = {
       id: "c9-science-09",
       number: 9,
       title: "Gravitation",
+      weightage: "≈6 marks",
       keyTopics: [
         "Universal law of gravitation",
         "Free fall and acceleration due to gravity",
@@ -318,6 +323,7 @@ const science: Subject = {
       id: "c9-science-10",
       number: 10,
       title: "Work and Energy",
+      weightage: "≈5 marks",
       keyTopics: [
         "Work done by a constant force",
         "Kinetic and potential energy",
@@ -331,6 +337,7 @@ const science: Subject = {
       id: "c9-science-11",
       number: 11,
       title: "Sound",
+      weightage: "≈5 marks",
       keyTopics: [
         "Production and propagation of sound",
         "Characteristics of a sound wave",
@@ -344,6 +351,7 @@ const science: Subject = {
       id: "c9-science-12",
       number: 12,
       title: "Improvement in Food Resources",
+      weightage: "≈6 marks",
       keyTopics: [
         "Crop variety improvement and cropping patterns",
         "Manures and fertilisers",
@@ -370,6 +378,7 @@ const sst: Subject = {
       id: "c9-sst-01",
       number: 1,
       title: "The French Revolution",
+      weightage: "≈5 marks",
       keyTopics: [
         "French society in the late 18th century",
         "Outbreak of the revolution and the Estates General",
@@ -383,6 +392,7 @@ const sst: Subject = {
       id: "c9-sst-02",
       number: 2,
       title: "Socialism in Europe and the Russian Revolution",
+      weightage: "≈4 marks",
       keyTopics: [
         "Liberals, radicals and conservatives",
         "The February and October Revolutions",
@@ -396,6 +406,7 @@ const sst: Subject = {
       id: "c9-sst-03",
       number: 3,
       title: "Nazism and the Rise of Hitler",
+      weightage: "≈4 marks",
       keyTopics: [
         "The Weimar Republic and its crises",
         "Hitler's rise to power",
@@ -409,6 +420,7 @@ const sst: Subject = {
       id: "c9-sst-04",
       number: 4,
       title: "Forest Society and Colonialism",
+      weightage: "≈4 marks",
       keyTopics: [
         "Deforestation and scientific forestry",
         "Forest Acts and the impact on villagers",

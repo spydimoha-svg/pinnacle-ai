@@ -82,6 +82,12 @@ async function verifiedUserId(req: Request): Promise<string | null | undefined> 
 const RATE_LIMIT_WINDOW_MS = 60_000;
 const RATE_LIMIT_MAX = 20;
 
+// Per-user/IP throttling alone can't stop many trial accounts from together
+// draining the one shared free-tier provider budget every student depends on.
+// This caps total chat requests across all users/IPs in the same window,
+// same global-cap pattern as GLOBAL_RATE_LIMIT_MAX in api/master-login.ts.
+const GLOBAL_RATE_LIMIT_MAX = 300;
+
 // In-memory fallback only: used when Supabase isn't configured at all, so
 // there's no shared store to throttle against. When Supabase IS configured,
 // the module-level Map is not enough — Vercel resets it on every cold start
@@ -91,7 +97,7 @@ const RATE_LIMIT_MAX = 20;
 // supabase/schema.sql), which every instance shares and updates atomically.
 const fallbackTimestamps = new Map<string, number[]>();
 
-function isRateLimitedInMemory(ip: string): boolean {
+function isRateLimitedInMemory(ip: string, max: number): boolean {
   const now = Date.now();
   for (const [key, timestamps] of fallbackTimestamps) {
     if (now - timestamps[timestamps.length - 1] >= RATE_LIMIT_WINDOW_MS) {
@@ -103,20 +109,20 @@ function isRateLimitedInMemory(ip: string): boolean {
   );
   recent.push(now);
   fallbackTimestamps.set(ip, recent);
-  return recent.length > RATE_LIMIT_MAX;
+  return recent.length > max;
 }
 
-async function isRateLimited(key: string): Promise<boolean> {
-  if (!supabaseUrl || !supabaseServiceKey) return isRateLimitedInMemory(key);
+async function isRateLimited(key: string, max: number = RATE_LIMIT_MAX): Promise<boolean> {
+  if (!supabaseUrl || !supabaseServiceKey) return isRateLimitedInMemory(key, max);
   const admin = createClient(supabaseUrl, supabaseServiceKey);
   const { data, error } = await admin.rpc("rate_limit_hit", {
     p_key: `chat:${key}`,
     p_window_ms: RATE_LIMIT_WINDOW_MS,
-    p_max: RATE_LIMIT_MAX,
+    p_max: max,
   });
   if (error) {
     console.error("rate_limit_hit error:", error.message);
-    return isRateLimitedInMemory(key);
+    return isRateLimitedInMemory(key, max);
   }
   return data === true;
 }
@@ -142,6 +148,9 @@ export async function POST(req: Request): Promise<Response> {
   // can't dodge it by switching IPs (common on Indian mobile carriers) and so
   // a whole class behind one school Wi-Fi NAT doesn't share a single budget.
   if (await isRateLimited(userId ? `user:${userId}` : `ip:${clientIp(req)}`)) {
+    return new Response("Too many requests", { status: 429 });
+  }
+  if (await isRateLimited("global", GLOBAL_RATE_LIMIT_MAX)) {
     return new Response("Too many requests", { status: 429 });
   }
 
