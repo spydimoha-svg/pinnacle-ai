@@ -101,6 +101,24 @@ export default function Login() {
           <button type="submit" className="btn-gold w-full" disabled={busy}>
             {busy ? "Signing in…" : "Sign in"}
           </button>
+
+          <div className="ridge-rule my-6" />
+
+          <div className="text-xs text-dim space-y-1.5">
+            <div className="eyebrow-dim mb-2">Demo accounts</div>
+            <div>
+              <span className="text-muted">Student (Class 10):</span>{" "}
+              <code className="font-mono text-gold-bright">aarav@student.demo / demo</code>
+            </div>
+            <div>
+              <span className="text-muted">Student (Class 12):</span>{" "}
+              <code className="font-mono text-gold-bright">diya@student.demo / demo</code>
+            </div>
+            <div>
+              <span className="text-muted">School admin:</span>{" "}
+              <code className="font-mono text-gold-bright">admin@school.demo / admin</code>
+            </div>
+          </div>
         </form>
       </div>
     </div>
