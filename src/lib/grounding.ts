@@ -65,6 +65,13 @@ function findCurriculumChapter(
   return best ? { subject: best.subject, chapter: best.chapter } : null;
 }
 
+/**
+ * Hard ceiling on the grounded source. The free tier charges every prompt token
+ * against a per-minute budget, and an unbounded block here is what pushes a
+ * normal second question over the limit.
+ */
+const MAX_GROUNDING_CHARS = 6000;
+
 function buildCurriculumGrounding(subject: Subject, chapter: Chapter): string {
   const lines: string[] = [];
   lines.push(`Subject: ${subject.name} (Class ${subject.classLevel}, CBSE)`);
@@ -112,13 +119,6 @@ function buildCurriculumGrounding(subject: Subject, chapter: Chapter): string {
  * Real grounded source text for a student message, or null when nothing in the
  * library matches (the tutor then answers honestly without inventing content).
  */
-/**
- * Hard ceiling on the grounded source. The free tier charges every prompt token
- * against a per-minute budget, and an unbounded block here is what pushes a
- * normal second question over the limit.
- */
-const MAX_GROUNDING_CHARS = 6000;
-
 function capped(text: string): string {
   if (text.length <= MAX_GROUNDING_CHARS) return text;
   // Cut at a line boundary so a question never ends mid-sentence and gets

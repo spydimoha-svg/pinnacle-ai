@@ -54,14 +54,19 @@ function isSameOrigin(req: Request): boolean {
 const supabaseUrl = process.env.VITE_SUPABASE_URL;
 const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
-async function hasVerifiedSession(req: Request): Promise<boolean> {
-  if (!supabaseUrl || !supabaseServiceKey) return true;
+// Returns the verified Supabase user id, `null` if a session was required but
+// invalid/missing, or `undefined` if Supabase isn't configured (no session
+// system to check against — same bypass as before, just distinguishable from
+// "checked and failed" so the caller can tell the two apart).
+async function verifiedUserId(req: Request): Promise<string | null | undefined> {
+  if (!supabaseUrl || !supabaseServiceKey) return undefined;
   const auth = req.headers.get("authorization") ?? "";
   const token = auth.startsWith("Bearer ") ? auth.slice(7).trim() : "";
-  if (!token) return false;
+  if (!token) return null;
   const admin = createClient(supabaseUrl, supabaseServiceKey);
   const { data, error } = await admin.auth.getUser(token);
-  return !error && !!data.user;
+  if (error || !data.user) return null;
+  return data.user.id;
 }
 
 // Cheap per-IP throttle so a scripted loop can't burn through the shared
@@ -93,17 +98,17 @@ function isRateLimitedInMemory(ip: string): boolean {
   return recent.length > RATE_LIMIT_MAX;
 }
 
-async function isRateLimited(ip: string): Promise<boolean> {
-  if (!supabaseUrl || !supabaseServiceKey) return isRateLimitedInMemory(ip);
+async function isRateLimited(key: string): Promise<boolean> {
+  if (!supabaseUrl || !supabaseServiceKey) return isRateLimitedInMemory(key);
   const admin = createClient(supabaseUrl, supabaseServiceKey);
   const { data, error } = await admin.rpc("rate_limit_hit", {
-    p_key: `chat:${ip}`,
+    p_key: `chat:${key}`,
     p_window_ms: RATE_LIMIT_WINDOW_MS,
     p_max: RATE_LIMIT_MAX,
   });
   if (error) {
     console.error("rate_limit_hit error:", error.message);
-    return isRateLimitedInMemory(ip);
+    return isRateLimitedInMemory(key);
   }
   return data === true;
 }
@@ -121,10 +126,14 @@ export async function POST(req: Request): Promise<Response> {
   if (!isSameOrigin(req)) {
     return new Response("Forbidden", { status: 403 });
   }
-  if (!(await hasVerifiedSession(req))) {
+  const userId = await verifiedUserId(req);
+  if (userId === null) {
     return new Response("Unauthorized", { status: 401 });
   }
-  if (await isRateLimited(clientIp(req))) {
+  // Key the throttle off the verified user when there is one, so a student
+  // can't dodge it by switching IPs (common on Indian mobile carriers) and so
+  // a whole class behind one school Wi-Fi NAT doesn't share a single budget.
+  if (await isRateLimited(userId ? `user:${userId}` : `ip:${clientIp(req)}`)) {
     return new Response("Too many requests", { status: 429 });
   }
 

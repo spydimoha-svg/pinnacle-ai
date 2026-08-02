@@ -135,7 +135,7 @@ export default function ChapterPage() {
 
   const teachMe = () => {
     const prompt = `Teach me chapter ${chapter.number}: ${chapter.title} (${subject.name}) properly — explain, example, then check me`;
-    navigate("/app/tutor", { state: { autoPrompt: prompt } });
+    navigate("/app/tutor", { state: { autoPrompt: prompt, chapterId: chapter.id } });
   };
 
   return (

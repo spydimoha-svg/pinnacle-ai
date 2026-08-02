@@ -18,6 +18,7 @@ import {
   startLesson,
   type LessonState,
 } from "../../lib/lesson";
+import { conceptMapFor } from "../../data/concepts";
 import { hardWordsIn, observeStudent, type LearnerProfile } from "../../lib/learner";
 import { Markdown, Spinner } from "../../components/ui";
 import { LessonRail } from "../../components/LessonRail";
@@ -90,11 +91,12 @@ export default function Tutor() {
   // Arriving from "Teach me this chapter": the lesson prompt travels in nav
   // state instead of the clipboard, so it can be sent straight away.
   useEffect(() => {
-    const autoPrompt = (location.state as { autoPrompt?: string } | null)?.autoPrompt;
+    const navState = location.state as { autoPrompt?: string; chapterId?: string } | null;
+    const autoPrompt = navState?.autoPrompt;
     if (!autoPrompt || autoSentRef.current) return;
     autoSentRef.current = true;
     navigate(location.pathname, { replace: true, state: null });
-    send(autoPrompt);
+    send(autoPrompt, navState?.chapterId);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.state]);
 
@@ -107,7 +109,7 @@ export default function Tutor() {
    * — and hands the model one small job with a hard word limit. That is the
    * whole difference between a tutor and a generator.
    */
-  async function send(text?: string) {
+  async function send(text?: string, startChapterId?: string) {
     const content = (text ?? input).trim();
     if (!content || busy) return;
     setInput("");
@@ -140,7 +142,17 @@ export default function Tutor() {
     // Starting a lesson, or continuing one.
     let active: LessonState | null = lesson;
     let justStarted = false;
-    if (!active) {
+    // "Teach me this chapter" carries the exact chapter clicked, so it is
+    // trusted directly — never re-matched against the prompt text, which
+    // detectLessonIntent scopes to the student's stored class and can miss
+    // or misfire when the chapter clicked is from a different class.
+    if (startChapterId) {
+      if (!active || active.chapterId !== startChapterId) {
+        const map = conceptMapFor(startChapterId);
+        active = startLesson(startChapterId, map?.classLevel ?? memory?.classLevel ?? 10);
+        justStarted = Boolean(active);
+      }
+    } else if (!active) {
       const intent = detectLessonIntent(content, memory?.classLevel);
       if (intent) {
         active = startLesson(intent.chapterId, memory?.classLevel ?? 10);

@@ -20,12 +20,12 @@ import type { Subject } from "../../lib/types";
 //   the five poems are unnumbered in the book, so we number prose + poetry as
 //   one flat sequence in the order they appear in the textbook.
 //
-// Per-chapter weightage and boardNotes: Class XI has no external CBSE board
-// exam, but CBSE's own curriculum document publishes a unit-wise Question
-// Paper Design for the school-conducted annual exam (mirroring the Class XII
-// board format), and schools set papers to it. Marks below are that unit
-// weightage split across the chapters within each unit; English has no
-// official design, so its weightage follows the same prose > poetry
+// Per-chapter weightage and board-question notes: Class XI has no external
+// CBSE board exam, but CBSE's own curriculum document publishes a unit-wise
+// Question Paper Design for the school-conducted annual exam (mirroring the
+// Class XII board format), and schools set papers to it. Marks below are
+// that unit weightage split across the chapters within each unit; English
+// has no official design, so its weightage follows the same prose > poetry
 // convention used in the Class XII Flamingo chapters.
 
 export const CLASS_11_SUBJECTS: Subject[] = [
