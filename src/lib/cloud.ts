@@ -50,40 +50,45 @@ async function authToken(
   if (!supabase) return null;
   const key = sessionKey(userId);
   const stored = localStorage.getItem(key);
-  if (stored) {
-    try {
-      const saved = JSON.parse(stored) as {
-        access_token: string;
-        refresh_token: string;
-      };
-      const { data, error } = await supabase.auth.setSession(saved);
-      if (!error && data.session) return data.session.access_token;
-    } catch {
-      /* stored session is corrupt or expired — fall through to a fresh one */
+  try {
+    if (stored) {
+      try {
+        const saved = JSON.parse(stored) as {
+          access_token: string;
+          refresh_token: string;
+        };
+        const { data, error } = await supabase.auth.setSession(saved);
+        if (!error && data.session) return data.session.access_token;
+      } catch {
+        /* stored session is corrupt or expired — fall through to a fresh one */
+      }
     }
+    // No usable local session — a new device, or this one had storage cleared.
+    // Sign in with the student's own credentials first, so this lands back on
+    // the SAME Supabase identity (and student_state row) as before.
+    const signedIn = await supabase.auth.signInWithPassword({ email, password });
+    let session = signedIn.data.session;
+    if (!session) {
+      // First time this student's data has ever synced anywhere: create the
+      // identity and link these credentials to it, so the next device can
+      // find it via signInWithPassword instead of getting a fresh empty one.
+      const anon = await supabase.auth.signInAnonymously();
+      session = anon.data.session;
+      if (session) await supabase.auth.updateUser({ email, password });
+    }
+    if (!session) return null;
+    localStorage.setItem(
+      key,
+      JSON.stringify({
+        access_token: session.access_token,
+        refresh_token: session.refresh_token,
+      })
+    );
+    return session.access_token;
+  } catch {
+    // Network unreachable (flaky 4G, offline) — fall back to local-only.
+    return null;
   }
-  // No usable local session — a new device, or this one had storage cleared.
-  // Sign in with the student's own credentials first, so this lands back on
-  // the SAME Supabase identity (and student_state row) as before.
-  const signedIn = await supabase.auth.signInWithPassword({ email, password });
-  let session = signedIn.data.session;
-  if (!session) {
-    // First time this student's data has ever synced anywhere: create the
-    // identity and link these credentials to it, so the next device can
-    // find it via signInWithPassword instead of getting a fresh empty one.
-    const anon = await supabase.auth.signInAnonymously();
-    session = anon.data.session;
-    if (session) await supabase.auth.updateUser({ email, password });
-  }
-  if (!session) return null;
-  localStorage.setItem(
-    key,
-    JSON.stringify({
-      access_token: session.access_token,
-      refresh_token: session.refresh_token,
-    })
-  );
-  return session.access_token;
 }
 
 /**
@@ -98,18 +103,23 @@ export async function loadUserData(
   if (!supabase) return null;
   const token = await authToken(userId, email, password);
   if (!token) return null;
-  const res = await fetch("/api/state", {
-    headers: { Authorization: `Bearer ${token}` },
-  });
-  if (!res.ok) return null;
-  const data = await res.json();
-  if (!data) return null;
-  return {
-    memory: (data.memory as StudentMemory | null) ?? null,
-    chats: (data.chats as ChatMessage[] | null) ?? [],
-    blobs: (data.blobs as BlobEntry[] | null) ?? [],
-    worksheets: (data.worksheets as Worksheet[] | null) ?? [],
-  };
+  try {
+    const res = await fetch("/api/state", {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    if (!res.ok) return null;
+    const data = await res.json();
+    if (!data) return null;
+    return {
+      memory: (data.memory as StudentMemory | null) ?? null,
+      chats: (data.chats as ChatMessage[] | null) ?? [],
+      blobs: (data.blobs as BlobEntry[] | null) ?? [],
+      worksheets: (data.worksheets as Worksheet[] | null) ?? [],
+    };
+  } catch {
+    // Network unreachable — caller keeps local data.
+    return null;
+  }
 }
 
 /** Upsert a student's full state. Safe no-op when Supabase is off. */
@@ -122,15 +132,20 @@ export async function saveUserData(
   if (!supabase) return;
   const token = await authToken(userId, email, password);
   if (!token) return;
-  const res = await fetch("/api/state", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify(payload),
-  });
-  if (!res.ok) console.warn("cloud saveUserData failed:", await res.text());
+  try {
+    const res = await fetch("/api/state", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(payload),
+    });
+    if (!res.ok) console.warn("cloud saveUserData failed:", await res.text());
+  } catch (err) {
+    // Network unreachable — local state stays the source of truth for now.
+    console.warn("cloud saveUserData unreachable:", err);
+  }
 }
 
 // ---------------------------------------------------------------------------
