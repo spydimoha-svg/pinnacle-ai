@@ -7,6 +7,7 @@
 // exercise: it can only work from the verbatim text we hand it.
 import type { ClassLevel } from "../../lib/types";
 import type { NcertChapter, NcertExercise } from "./types";
+import { C9_MATHS_NUMBER_SYSTEMS } from "./c9-maths-01-number-systems";
 import { C10_MATHS_REAL_NUMBERS } from "./c10-maths-01-real-numbers";
 import { C10_MATHS_POLYNOMIALS } from "./c10-maths-polynomials";
 import { C10_MATHS_TRIGONOMETRY } from "./c10-maths-trigonometry";
@@ -15,6 +16,7 @@ import { C10_SCIENCE_ACIDS_BASES_SALTS } from "./c10-science-02-acids-bases-salt
 
 /** Every grounded chapter. Grows as the library is seeded. */
 export const NCERT: NcertChapter[] = [
+  C9_MATHS_NUMBER_SYSTEMS,
   C10_MATHS_REAL_NUMBERS,
   C10_MATHS_POLYNOMIALS,
   C10_MATHS_TRIGONOMETRY,
