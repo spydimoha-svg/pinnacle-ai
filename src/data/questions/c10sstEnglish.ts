@@ -984,4 +984,497 @@ Karan`,
     examinerTip:
       "Marks split as Format 1, Content 2, Expression/Accuracy 2. The commonest losses are a missing SUBJECT line and no suggested remedies — a letter that only complains cannot get full content marks. Keep it 100-120 words and formal; no contractions, no 'Dear Editor'.",
   },
+  {
+    id: "q-c10-english-03-1",
+    subjectId: "c10-english",
+    chapterId: "c10-english-03",
+    classLevel: 10,
+    text: "In Robert Frost's 'Fire and Ice', what do 'fire' and 'ice' stand for? Which force does the poet consider more destructive, and why? (40–50 words)",
+    marks: 2,
+    type: "sa",
+    source: "important",
+    answer: `Fire and ice are used figuratively, not literally. Fire stands for desire — greed, passion and uncontrolled want — while ice stands for hatred — coldness, indifference and cruelty. Both, the poet says, are capable of ending the world.
+
+Frost says that if he had to choose only once, he would say the world will end in fire, siding with those who favour desire as the greater destructive force. But he adds that if the world had to perish twice, his own experience of hatred (ice) is great enough to know that it too would be equally destructive, and 'would suffice'. The poem thus suggests that unchecked desire and unchecked hatred are equally capable of destroying the world.`,
+    keywords: [
+      "fire = desire",
+      "ice = hatred",
+      "world will end in fire (favours desire)",
+      "hatred / ice is also great and would suffice",
+      "figurative / allegorical reading",
+      "both equally destructive",
+    ],
+    examinerTip:
+      "A literal answer about global warming or an ice age scores nothing — the key wants the allegory (fire=desire, ice=hatred) stated explicitly before you explain which one Frost favours.",
+  },
+  {
+    id: "q-c10-english-05-1",
+    subjectId: "c10-english",
+    chapterId: "c10-english-05",
+    classLevel: 10,
+    text: "In Leslie Norris's 'A Tiger in the Zoo', contrast the tiger's life in the wild jungle with its life in the cage. (40–50 words)",
+    marks: 2,
+    type: "sa",
+    source: "important",
+    answer: `The poem is built entirely on the contrast between the tiger's natural freedom and its present captivity.
+
+In the wild, the tiger would have moved quietly, its stripes fitted to the pattern of the forest shadows, and it would have hidden in the tall grass near the water hole, ready to spring at a deer, or terrorised villages, snarling around houses at night. It was a creature of power, cunning and freedom.
+
+In the cage, all of this is denied. It patrols a concrete cell, hardly aware of the few stone-manacled steps it can pace, baring fangs at the strolling crowds instead of at prey, and at night it stares with its eyes at brilliant stars — a hint at its longing for the lost freedom of the wild.`,
+    keywords: [
+      "wild — stalking in shadow of stripes, near the water hole, terrorising villages",
+      "cage — concrete cell, stalking a few short steps",
+      "on pads of velvet quiet / cruel claws (wild power)",
+      "baring fangs at strolling crowds (captivity)",
+      "stares at brilliant stars (longing for freedom)",
+      "contrast structure of the poem",
+    ],
+    examinerTip:
+      "The poem alternates jungle stanzas with cage stanzas — answer in the same paired structure (wild, then cage) rather than describing only one state, since the contrast itself is the marked idea.",
+  },
+  {
+    id: "q-c10-english-06-1",
+    subjectId: "c10-english",
+    chapterId: "c10-english-06",
+    classLevel: 10,
+    text: "In 'His First Flight' (from 'Two Stories about Flying'), what made the young seagull finally fly? (40–50 words)",
+    marks: 2,
+    type: "sa",
+    source: "important",
+    answer: `The young seagull was afraid to fly. He watched his brothers and sister fly and eat, and though he was hungry, he could not summon the courage to launch himself off the ledge, even after his father and mother tried coaxing, scolding and finally shamed and starved him into trying.
+
+What finally made him fly was hunger, not courage. When his mother flew up to him with a piece of fish, he could not bear the hunger any longer and dived at it — an involuntary lunge that took him off the ledge into the air. Once falling through space, his lifted wings instinctively caught the wind, and he found himself gliding and then flying, discovering that flight came naturally once he stopped being afraid.`,
+    keywords: [
+      "seagull afraid to fly, unlike his siblings",
+      "hunger forced him to act",
+      "dived at the piece of fish held by his mother",
+      "instinct took over once he was in the air",
+      "wings caught the wind / glided",
+      "fear versus hunger",
+    ],
+    examinerTip:
+      "Name the trigger precisely — it is hunger for the fish, not sudden courage — since the marking scheme treats 'he decided to be brave' as a paraphrase that misses the actual cause given in the story.",
+  },
+  {
+    id: "q-c10-english-06-2",
+    subjectId: "c10-english",
+    chapterId: "c10-english-06",
+    classLevel: 10,
+    text: "In 'Black Aeroplane' (from 'Two Stories about Flying'), who guided the narrator's plane through the storm, and what happens when he reaches the airport? (40–50 words)",
+    marks: 2,
+    type: "sa",
+    source: "important",
+    answer: `Flying over France at night, the narrator's plane runs into a fierce storm with heavy black clouds all around. A mysterious black aeroplane, with a pilot the narrator never sees clearly, appears beside him and silently guides him safely through the storm, out into clear sky, until the narrator can see the lights of the airport.
+
+The black plane then simply disappears — it is not on the airport's radar and no other aircraft was reported flying near him. The woman controller at the airport tells him there was no other plane in the sky that night, leaving the pilot's identity a mystery. The story suggests, without stating outright, that the mysterious pilot may have been a guardian figure or an old, deceased pilot who had once flown that very route.`,
+    keywords: [
+      "storm with black clouds over France",
+      "mysterious black aeroplane guided him",
+      "pilot never clearly seen",
+      "plane disappears at the airport",
+      "no other aircraft was on the radar / reported",
+      "mystery left unexplained",
+    ],
+    examinerTip:
+      "'Two Stories about Flying' has two separate stories — always check which one the question names. Do not blend the seagull's hunger with the mystery pilot; they are unrelated in every way except the shared title.",
+  },
+  {
+    id: "q-c10-english-07-1",
+    subjectId: "c10-english",
+    chapterId: "c10-english-07",
+    classLevel: 10,
+    text: "How does Carolyn Wells create humour in the poem 'How to Tell Wild Animals'? Give two examples. (40–50 words)",
+    marks: 2,
+    type: "sa",
+    source: "important",
+    answer: `The poem is a mock-serious set of instructions for identifying wild animals, and its humour lies in the fact that by the time you can apply the 'test' given, the animal has usually already attacked or killed you — the identification method is useless.
+
+Example 1: the poet says if a tawny, tailless beast 'lets you scratch its head', it is a Bear; but if it 'lies on you and eats you', it was a Lion — you identify it only after being eaten.
+
+Example 2: for the Crocodile, if a reptile 'weeps' while eating you, it is a Crocodile, but if it 'gives a friendly little smile', it is only a Hyena — the distinction arrives too late to matter, which is the deliberate absurdity that makes the poem funny.`,
+    keywords: [
+      "mock-serious / absurd identification instructions",
+      "you are already being attacked / eaten before identifying the animal",
+      "Bear scratches its head vs Lion lies on you and eats you",
+      "Crocodile weeps vs Hyena's friendly smile",
+      "irony / exaggeration",
+      "coined comic detail (e.g. Bengal Tiger's 'friendly little smile' of Hyena)",
+    ],
+    examinerTip:
+      "Two SEPARATE named examples are wanted (Lion/Bear and Crocodile/Hyena or similar) — a general statement that 'the poem is funny' with no textual detail earns almost nothing.",
+  },
+  {
+    id: "q-c10-english-09-1",
+    subjectId: "c10-english",
+    chapterId: "c10-english-09",
+    classLevel: 10,
+    text: "In 'From the Diary of Anne Frank', why did Anne Frank feel the need for a diary, and what happened in the 'Mr Keesing' episode? (100–120 words)",
+    marks: 5,
+    type: "la",
+    source: "important",
+    answer: `Anne's need for a diary: Anne says she wants to write because she has no real friend, only acquaintances and fun-loving companions with whom she can never discuss anything beyond everyday things; her many friends and admirers cannot become the intimate friend she longs for. Paper, she feels, has more patience than people, and so she decides to make her diary itself her friend, and to call this friend 'Kitty', since she does not want to set down a series of bald facts as most people do in a diary.
+
+The Mr Keesing episode: Mr Keesing, Anne's maths teacher, was annoyed by her constant talking in class and punished her by setting extra homework — an essay titled 'A Chatterbox'. Anne wrote three sides proving that talking was a feminine trait she had inherited from her mother and that she could not do much to cure herself of the habit, which amused Mr Keesing. He then set 'An Incorrigible Chatterbox', and finally, after Anne talked again, 'Quack, Quack, Quack, said Mistress Chatterback', a title given in fun by a classmate, Sanne. This time Anne wrote a comic poem, describing a mother duck and a father swan who bit their chattering son to death for talking too much, which so amused Mr Keesing that after this he never punished her again and let her talk in class, even making jokes about it.`,
+    keywords: [
+      "no true friend / paper has more patience than people",
+      "diary named 'Kitty'",
+      "Mr Keesing — maths teacher annoyed by her talking",
+      "essay 'A Chatterbox' / 'An Incorrigible Chatterbox' / 'Quack, Quack, Quack, said Mistress Chatterback'",
+      "poem about the mother duck and father swan",
+      "Mr Keesing never punished her again after that",
+    ],
+    examinerTip:
+      "Two distinct parts are asked — WHY a diary, and the Keesing episode — students often answer only one. All three essay titles, in order, are separately markable value points; naming just one caps the answer.",
+  },
+  {
+    id: "q-c10-english-10-1",
+    subjectId: "c10-english",
+    chapterId: "c10-english-10",
+    classLevel: 10,
+    text: "In Robin Klein's poem 'Amanda!', what does Amanda long for, and how does the poet contrast this with her real life? (40–50 words)",
+    marks: 2,
+    type: "sa",
+    source: "important",
+    answer: `Amanda longs to escape the constant nagging of her mother — to sit properly, stop biting her nails, stand up straight — and imagines herself instead as a mermaid, an orphan and Rapunzel locked in a tower, figures who are all, in their own way, free from adult supervision and interference.
+
+The poet contrasts Amanda's real life, filled with continuous scolding printed in ordinary type, with her fantasy life, printed in italics, where she is unbothered, unbossed and undisturbed. Even Rapunzel, though imprisoned in a tower, is 'never told to do anything' — showing that Amanda would rather be a captive in her own imagination than a supervised child in real life, because her fantasy at least offers freedom from nagging.`,
+    keywords: [
+      "escape from nagging (sit up, don't bite nails, stand up straight)",
+      "fantasy figures — mermaid, orphan, Rapunzel",
+      "normal type (mother's nagging) vs italics (Amanda's fantasy)",
+      "Rapunzel 'never told to do anything'",
+      "longs for freedom from adult supervision",
+      "irony — prefers imprisonment in fantasy to freedom in real life",
+    ],
+    examinerTip:
+      "Identify the typography before interpreting: plain text is the mother nagging, italics are Amanda's daydream. Missing this structural cue is the commonest reason students misattribute lines to the wrong speaker.",
+  },
+  {
+    id: "q-c10-english-11-1",
+    subjectId: "c10-english",
+    chapterId: "c10-english-11",
+    classLevel: 10,
+    text: "Describe the land and people of Coorg as depicted in 'Glimpses of India'. (40–50 words)",
+    marks: 2,
+    type: "sa",
+    source: "important",
+    answer: `Coorg, India's smallest district, lies between the mountains of Karnataka, and its unique environment gives it India's best climate. Its steep hills and evergreen rainforests are home to exotic wildlife, and it is also the source of the river Kaveri, which winds its way into Tamil Nadu.
+
+The Kodavus, the people of Coorg, are a martial race — independent, unique and the only people in India permitted to carry firearms without a licence. Historians believe they descend from Arabs, or Greeks who came with Alexander's army, since they wear a kind of kuppia similar to the Kurdish outfits worn by the Arabs, or that they are descendants of Greek soldiers who married locally. Coorg is also known for growing coffee, and its people are as passionate about honouring their martial past — hockey and the army being their favoured pursuits — as they are hospitable to visitors.`,
+    keywords: [
+      "smallest district of Karnataka",
+      "best climate in India / evergreen rainforests",
+      "source of the river Kaveri",
+      "Kodavus — martial race, allowed to carry firearms without a licence",
+      "possible Greek or Arab ancestry",
+      "coffee cultivation / hockey and army as favoured pursuits",
+    ],
+    examinerTip:
+      "'Glimpses of India' has three unrelated sub-texts (baker, Coorg, tea) — a Coorg question answered with baker or tea details earns nothing. Name at least one theory of Kodavu ancestry, since it is a distinctive, markable fact.",
+  },
+  {
+    id: "q-c10-english-12-1",
+    subjectId: "c10-english",
+    chapterId: "c10-english-12",
+    classLevel: 10,
+    text: "In Adrienne Rich's poem 'The Trees', what does the image of the trees leaving the house symbolise? (40–50 words)",
+    marks: 2,
+    type: "sa",
+    source: "important",
+    answer: `On the surface, the poem describes potted trees inside a house coming to life at night, growing leaves, and slowly forcing their way out through the windows into the forest outside, from where they have long been absent.
+
+Symbolically, the trees represent people, and especially women, who have long been confined indoors, forced into a domesticated, restricted existence. Their painful, halting journey out — 'stumbling', 'like newly discharged patients' — into 'a night that is stormy and full of stars' represents a struggle for freedom and self-realisation after a long confinement, even though that freedom is uncertain and difficult. The moon, watching from indoors, is unable to do anything to help or hinder this movement toward liberation.`,
+    keywords: [
+      "trees = symbol for confined/domesticated people (often read as women)",
+      "leaving the house = breaking free of confinement",
+      "extended/sustained metaphor",
+      "'stumbling' / 'newly discharged patients' — painful, difficult freedom",
+      "night full of stars — the unknown but desired outside world",
+      "moon watches helplessly from indoors",
+    ],
+    examinerTip:
+      "A literal answer about houseplants growing outward scores nothing on its own — the marking key wants the extended-metaphor reading (confinement to freedom) stated explicitly.",
+  },
+  {
+    id: "q-c10-english-13-1",
+    subjectId: "c10-english",
+    chapterId: "c10-english-13",
+    classLevel: 10,
+    text: "Describe Mijbil's journey from Iraq to England as narrated in Gavin Maxwell's 'Mijbil the Otter'. (100–120 words)",
+    marks: 5,
+    type: "la",
+    source: "important",
+    answer: `Gavin Maxwell acquired Mijbil, a smooth-coated otter cub, in Basra, Iraq, to replace a dog he had wanted, after learning that an otter might make an even better pet. Mij quickly became attached to him, following him about like a dog and sleeping curled into the curve of his stomach.
+
+The journey to England was eventful. On the flight from Basra, Mij was confined in a small cabin bag, but he escaped, caused chaos, and had to be recaptured, after which the author had to keep him quiet by taking him to the lavatory and letting him play in the wash-basin with water, which fascinated him. In London, the author had to walk him on a lead to a waiting taxi; a large crowd gathered and someone shouted that it was a baby seal, causing near-panic. Throughout, Mij's playful curiosity, his love of water, and his loud chirming cries when distressed reveal a deep and endearing bond between the otter and his master, which only grew once Mij was safely settled in England.`,
+    keywords: [
+      "acquired in Basra, Iraq, as a substitute for a dog",
+      "escaped from the cabin bag on the flight",
+      "played with water in the lavatory wash-basin",
+      "mistaken for a baby seal at London airport",
+      "walked on a lead / caused a crowd to gather",
+      "close, affectionate bond between Mij and the author",
+    ],
+    examinerTip:
+      "Questions on this chapter want specific INCIDENTS with detail (the wash-basin, the baby-seal remark), not a general 'the otter was loved' summary — the events themselves are the value points.",
+  },
+  {
+    id: "q-c10-english-15-1",
+    subjectId: "c10-english",
+    chapterId: "c10-english-15",
+    classLevel: 10,
+    text: "In 'Madam Rides the Bus', how did the bus journey change Valli? (100–120 words)",
+    marks: 5,
+    type: "la",
+    source: "important",
+    answer: `Valli, an eight-year-old girl living beside a bus stop, was fascinated for a whole year by the ply of buses on the new bus route and desperately wanted to take a ride, all alone, without her mother. She saved every coin she could and finally boarded the bus for Rani, the neighbouring village, refusing all help from fellow passengers, determined to see and experience everything with her own sharp, curious eyes — the paddy fields, canals, cattle, and every detail of the road.
+
+The turning point came when the bus ran over and killed a young calf. Valli, who till then had chattered and argued fearlessly with the conductor and passengers, was suddenly overcome by grief and cried silently, thinking of the calf's mother who would be looking for it. On the return journey she remained quiet, no longer the bold, garrulous child she had been. When she reached home, she did not tell her mother the full truth of what had happened, and simply said the journey was 'nothing much'.
+
+Thus the journey, which began as an adventure driven by curiosity and a desire for independence, ended by giving Valli her first brush with the pain of death and loss, marking a quiet passage out of pure childhood innocence.`,
+    keywords: [
+      "saved money over a year to ride the bus alone",
+      "curious, argumentative, self-reliant on the outward journey",
+      "bus runs over and kills a calf",
+      "grief / silence overtakes her afterwards",
+      "does not tell her mother the full truth",
+      "loss of innocence / first encounter with death",
+    ],
+    examinerTip:
+      "The calf's death is the hinge of the whole answer — before-and-after must be shown as a contrast (talkative and fearless, then silent and subdued), not just narrated as one more event in the journey.",
+  },
+  {
+    id: "q-c10-english-16-1",
+    subjectId: "c10-english",
+    chapterId: "c10-english-16",
+    classLevel: 10,
+    text: "In Ogden Nash's 'The Tale of Custard the Dragon', how does the poet build up irony around Custard's cowardice? (40–50 words)",
+    marks: 2,
+    type: "sa",
+    source: "important",
+    answer: `The whole household — Belinda, the black cat Ink, the grey mouse Blink and the little pet dog Mustard — are described as bold and brave, always wishing for a fight, while Custard the dragon, with sharp teeth and spikes on top, is repeatedly called a coward who cries for a nice safe cage.
+
+The irony unfolds when a real pirate climbs in through the window: the 'brave' Belinda, Ink, Blink and Mustard all hide in fright, while Custard alone, the supposed coward, gobbles up the pirate to save the household. Once the danger passes, everyone claims they would have been brave too, but Custard now weeps and wishes he were 'only a coward' again — showing that true courage often hides behind an apparent coward, while the boastfully brave prove cowardly when real danger appears.`,
+    keywords: [
+      "Belinda, Ink, Blink, Mustard called brave; Custard called coward",
+      "real pirate climbs through the window",
+      "the 'brave' ones hide; Custard alone fights",
+      "Custard swallows the pirate",
+      "role reversal / irony",
+      "everyone claims bravery afterwards, but Custard wishes to be a coward again",
+    ],
+    examinerTip:
+      "The word IRONY (or 'reversal') should appear explicitly in the answer — describing the plot without naming the device is treated as a narration, not the analysis the question actually asks for.",
+  },
+  {
+    id: "q-c10-english-17-1",
+    subjectId: "c10-english",
+    chapterId: "c10-english-17",
+    classLevel: 10,
+    text: "In 'The Sermon at Benares', how does the Buddha use the parable of the mustard seed to console Kisa Gotami? What is the sermon's message? (100–120 words)",
+    marks: 5,
+    type: "la",
+    source: "important",
+    answer: `Kisa Gotami, grief-stricken after the death of her only son, carried his body from house to house begging for medicine to bring him back to life. Someone directed her to the Buddha, who told her he could restore her son if she brought him a handful of mustard seed from a house where no one — father, mother, child, servant or friend — had ever died.
+
+Kisa Gotami went from house to house; every family readily gave her mustard seed, but she could not find a single house that had not lost someone to death. As the day wore on, she realised the truth the Buddha wanted her to discover for herself: that death is not confined to her alone, but is the common and universal lot of all living things, and that there is no cure for it. She then understood that grief must give way to acceptance, buried her son, and returned to the Buddha, who preached the sermon at Benares that unrest and pain lie in wanting things to last forever when nothing does; only by giving up craving and self can one attain peace, since everyone must eventually pass through the same 'flood' as her child had.`,
+    keywords: [
+      "Kisa Gotami's dead son / seeking medicine to revive him",
+      "Buddha's condition — mustard seed from a house where no one has died",
+      "she finds every house has lost someone",
+      "death is universal / common lot of all",
+      "acceptance of grief, buries the child",
+      "craving and attachment cause pain; giving them up brings peace",
+    ],
+    examinerTip:
+      "The value the examiner wants is that Kisa Gotami discovers the truth HERSELF through the failed search, not that the Buddha simply tells her death is universal — the parable's method (self-realisation) is as markable as its content.",
+  },
+  {
+    id: "q-c10-english-18-1",
+    subjectId: "c10-english",
+    chapterId: "c10-english-18",
+    classLevel: 10,
+    text: "In W. B. Yeats's poem 'For Anne Gregory', what does the young man mean when he says only God could love Anne 'for herself alone'? (40–50 words)",
+    marks: 2,
+    type: "sa",
+    source: "important",
+    answer: `The poem is a dialogue: a young man tells Anne, admired for her lovely yellow hair, that men can never love her 'for herself alone' — they will always be captivated by her outer, physical beauty, her 'yellow hair', rather than by her inner self.
+
+Anne protests that she could dye or change her hair colour to test whether men would still love her for who she truly is. But the young man insists that this will not work, because it is human nature to be drawn to external appearance; only God, who looks into the heart rather than at appearances, is capable of loving a person purely for her inner self, regardless of outward beauty. The poem thus contrasts superficial, appearance-based human love with the ideal of a deeper, unconditional love.`,
+    keywords: [
+      "dialogue form — young man and Anne",
+      "'yellow hair' = symbol of physical/outer beauty",
+      "men love for outer appearance, not inner self",
+      "Anne's proposal to dye her hair",
+      "only God can love for the self alone",
+      "contrast between physical and inner beauty",
+    ],
+    examinerTip:
+      "Identify the SPEAKER of each stanza first — this is a two-voice dialogue and misattributing a line to the wrong speaker is the commonest error the marking scheme penalises.",
+  },
+  {
+    id: "q-c10-english-20-1",
+    subjectId: "c10-english",
+    chapterId: "c10-english-20",
+    classLevel: 10,
+    text: "In James Herriot's 'A Triumph of Surgery', what was really wrong with Tricki, and how was he actually cured? Why is the title ironic? (40–50 words)",
+    marks: 2,
+    type: "sa",
+    source: "important",
+    answer: `Tricki, Mrs Pumphrey's pampered pet dog, was not suffering from any disease requiring surgery. He was overfed with rich food, chocolates, cream cakes and titbits at every hour, and given no exercise, which made him listless, overweight, and unable even to stand properly.
+
+Dr Herriot's 'cure' was simply to admit Tricki to the surgery for a fortnight, cut off the extra feeding entirely, and let him exercise and mix with the other dogs, feeding him a normal diet instead. Tricki recovered completely within a fortnight, active and playful once again. The title is ironic because no actual surgery was performed — the 'triumph' was really achieved through withdrawal of excessive food and normal exercise, exposing the harm caused by Mrs Pumphrey's over-indulgent love.`,
+    keywords: [
+      "overfeeding and lack of exercise, not disease",
+      "admitted to the surgery, kept off rich food",
+      "normal diet and exercise with other dogs",
+      "recovered within a fortnight",
+      "no actual surgery performed",
+      "title is ironic",
+    ],
+    examinerTip:
+      "State explicitly that NO surgery took place — the irony of the title is a separately marked point, and an answer that only describes the diagnosis and recovery without naming the irony is incomplete.",
+  },
+  {
+    id: "q-c10-english-21-1",
+    subjectId: "c10-english",
+    chapterId: "c10-english-21",
+    classLevel: 10,
+    text: "In Ruskin Bond's 'The Thief's Story', how does Anil's trust change Hari Singh? (100–120 words)",
+    marks: 5,
+    type: "la",
+    source: "important",
+    answer: `Hari Singh, a fifteen-year-old orphan and practised thief, befriends Anil, a young man who earns his living by wrestling and freelance writing, and persuades him to teach him wrestling in exchange for food and a place to sleep. Anil, though poor himself, trusts Hari completely, teaches him to read and write, and even leaves money lying about, seemingly careless of it.
+
+One night, after Anil receives a large sum of money from selling a story, Hari Singh steals it and runs to the railway station, planning to catch a train and escape. But at the station, he begins to think of Anil's kindness and trust, and realises he cannot become a full-fledged thief, jumping trains and picking pockets forever, when Anil had begun teaching him something worthwhile. Ashamed, he returns before dawn, replaces the money where he found it, and stays on, waiting for Anil to teach him more. The next morning, Anil, who had apparently realised the money was gone and returned, makes no mention of the theft at all — his silent trust and refusal to accuse Hari is what finally reforms him, more effectively than any punishment could have.`,
+    keywords: [
+      "Hari Singh — orphan, practised thief, befriends Anil",
+      "Anil teaches him to read and write, trusts him with money",
+      "steals the money after the sale of Anil's story",
+      "changes his mind at the railway station",
+      "returns the money before dawn",
+      "Anil never mentions the theft — silent trust reforms Hari",
+    ],
+    examinerTip:
+      "The reform happens BEFORE Hari knows Anil is aware of the theft — his change of heart is driven by his own conscience and Anil's earlier kindness, not by fear of being caught. Anil's silence afterward is the confirming, not the causing, act.",
+  },
+  {
+    id: "q-c10-english-22-1",
+    subjectId: "c10-english",
+    chapterId: "c10-english-22",
+    classLevel: 10,
+    text: "In Robert Arthur's 'The Midnight Visitor', how does Ausable outwit Max without using any weapon? (40–50 words)",
+    marks: 2,
+    type: "sa",
+    source: "important",
+    answer: `Max, a spy, breaks into secret agent Ausable's hotel room at gunpoint, demanding a valuable report on defence plans that Ausable is carrying. Ausable, fat and unglamorous, unlike the fictional secret agents Fowler (a young reporter present) had imagined, calmly tells Max that the balcony outside is used constantly by the police, since it is being used for that purpose to catch smugglers.
+
+When a knock comes at the door, Ausable claims it is the waiter with dinner, and warns Max that if the waiter finds an armed intruder, the ensuing scandal could embarrass Max's superiors — so Max, panicked, hides on the (non-existent) balcony to avoid being seen, and disappears into the night, having never really existed. Ausable defeats Max entirely through wit, presence of mind and quick invention, not through any weapon or physical action, which is the story's central twist.`,
+    keywords: [
+      "Max breaks in at gunpoint demanding the report",
+      "Ausable invents a story about the balcony being watched by police",
+      "knock at the door used as a pretext",
+      "Max hides on the balcony, which does not exist",
+      "Max disappears / falls to his 'death' in the invented scenario",
+      "wit and presence of mind, not force",
+    ],
+    examinerTip:
+      "The 'balcony' is fictional — the twist is that Ausable's room has NO balcony, and the whole story is a lie constructed on the spot. Missing that the balcony does not exist is the single most common error in retellings.",
+  },
+  {
+    id: "q-c10-english-23-1",
+    subjectId: "c10-english",
+    chapterId: "c10-english-23",
+    classLevel: 10,
+    text: "In Victor Canning's 'A Question of Trust', how is Horace Danby, an expert safe-breaker, himself cheated? Why is the story's ending ironic? (40–50 words)",
+    marks: 2,
+    type: "sa",
+    source: "important",
+    answer: `Horace Danby was a respectable, elderly locksmith by day and an accomplished but non-violent safe-breaker by night, who stole once a year, purely to buy rare books he loved, and had never been caught in twenty years.
+
+Planning to rob Shotover Grange while its owner was away, he unexpectedly encountered a woman calling herself Elizabeth, who caught him red-handed but, instead of exposing him, persuaded him to open the safe for her, claiming she needed papers to prevent a divorce. He willingly opened it and handed her the jewels inside; she then gave him a drugged drink, locked him in, and made off with the jewels, leaving Horace to be found by the police and arrested. The irony is that a lifelong thief, always so careful and precise, was himself robbed and betrayed by a bigger, cleverer thief posing as a trusting woman.`,
+    keywords: [
+      "Horace Danby — respectable locksmith, secret safe-breaker",
+      "stole once a year to buy rare books",
+      "Elizabeth caught him but persuaded him to open the safe for her",
+      "drugged drink / locked in",
+      "she takes the jewels and escapes",
+      "irony — a thief himself robbed / betrayed",
+    ],
+    examinerTip:
+      "'A Question of Trust' is about trust misplaced twice — Horace trusts Elizabeth, and the title's irony is that the very question of trust defeats the trusting thief himself. State this irony explicitly, not just the plot sequence.",
+  },
+  {
+    id: "q-c10-english-25-1",
+    subjectId: "c10-english",
+    chapterId: "c10-english-25",
+    classLevel: 10,
+    text: "What made Richard Ebright 'The Making of a Scientist'? Discuss the role of his mother and his own curiosity. (100–120 words)",
+    marks: 5,
+    type: "la",
+    source: "important",
+    answer: `Richard Ebright's development into a scientist began in his childhood, driven above all by intense curiosity. As a boy, he collected butterflies with his mother, who encouraged this hobby by giving him a book, 'The Travels of Monarch X', about the migration of monarch butterflies, which set him on the path of scientific inquiry. He went on to collect all twenty-five species of butterflies found near his home, then moved to collecting other things — rocks, fossils, coins, insects — mounting an ever-growing museum in his room, always guided by his mother's constant encouragement and her habit of asking questions that made him think and read further to find the answers.
+
+At Linsly School, his interest deepened into research. In seventh grade, at a science fair, his hypothesis about a disease killing monarch caterpillars was disproved, but a scientist he met suggested he test whether viruses could be the cause — this led to an award-winning project. In high school, competing at the Bio Genesis Fund research competition, he collaborated on and helped design a synthetic honeybee hormone, work that was published in a scientific journal.
+
+Ebright's own explanation for his success combined native intelligence, an inherited love of science from his mother, competitiveness, and above all, his willingness to work exceedingly hard.`,
+    keywords: [
+      "curiosity about butterflies from childhood",
+      "mother's encouragement — 'The Travels of Monarch X'",
+      "collected all 25 local species, then rocks, fossils, coins",
+      "monarch caterpillar disease hypothesis / science fair",
+      "synthetic honeybee hormone research published",
+      "combination of curiosity, mother's encouragement, competitiveness and hard work",
+    ],
+    examinerTip:
+      "The examiner wants the CHAIN of causes — childhood curiosity, then his mother's specific encouragement, then formal research — not just a list of his achievements. Ebright's own stated combination (intelligence, competitiveness, hard work) is a value point worth quoting directly.",
+  },
+  {
+    id: "q-c10-english-27-1",
+    subjectId: "c10-english",
+    chapterId: "c10-english-27",
+    classLevel: 10,
+    text: "How does education empower Bholi in K. A. Abbas's story 'Bholi'? (100–120 words)",
+    marks: 5,
+    type: "la",
+    source: "important",
+    answer: `Bholi, the fourth daughter of Numberdar Ramlal, was disfigured by an attack of smallpox at ten months and, being slow to speak and learn, was considered ugly and stupid by her family and neighbours, treated with neglect and even cruelty at home.
+
+When a primary school for girls opened in the village, Ramlal was reluctant, but Bholi was sent since the family thought no one would marry her in any case. At school, a kind, patient teacher gave Bholi confidence for the first time in her life, and she gradually blossomed, learning to read, write and speak fluently, and to think for herself.
+
+The turning point comes years later, when Bholi is to be married to Bishamber, a much older widower who demands a large dowry, revealing at the very wedding that he has decayed teeth and is only marrying her for the dowry money, and further demands more money on seeing her pockmarked face. Bholi, now educated and self-assured, publicly refuses to marry him, walks away from the wedding, and declares that she would rather remain unmarried than be bought or humiliated. Education has thus given her not just literacy but the confidence, self-respect and independence to reject an exploitative marriage and to choose her own path, later becoming a teacher herself.`,
+    keywords: [
+      "disfigured by smallpox / considered ugly and dumb by her family",
+      "sent to the newly opened girls' school",
+      "kind teacher gives her confidence",
+      "learns to speak, read and think for herself",
+      "Bishamber demands dowry and reveals decayed teeth at the wedding",
+      "Bholi refuses to marry him, becomes independent (later a teacher)",
+    ],
+    examinerTip:
+      "The dowry-demanding groom's decayed teeth and his greed for more money AT the wedding are the specific, named details the key checks for — a vague 'she refused to marry him' without this context loses marks.",
+  },
+  {
+    id: "q-c10-english-28-1",
+    subjectId: "c10-english",
+    chapterId: "c10-english-28",
+    classLevel: 10,
+    text: "In Claire Boiko's play 'The Book That Saved the Earth', how do the Martians misinterpret Mother Goose rhymes, and how does this save the earth from invasion? (40–50 words)",
+    marks: 2,
+    type: "sa",
+    source: "important",
+    answer: `In the year 2040, the Martians plan to invade Earth, believing humans to be a primitive species. Their Chief Investigator, Omega, reads a Mother Goose book found among the ruins of a library and, along with the Great Think-Tank Computer, hilariously misinterprets its simple nursery rhymes as evidence of a technologically advanced and mysterious civilisation.
+
+For example, 'Hey diddle diddle, the cat and the fiddle, the cow jumped over the moon' is read as proof that Earth has anti-gravity devices allowing cows to leap over the moon; 'Little Miss Muffet' is thought to be a coded message about a dangerous local creature called a 'spider'; and 'Old Mother Hubbard' is taken to describe a food shortage. Terrified by these misreadings of Earth's supposed power, the Martian invasion fleet retreats in fear, and a simple book of nursery rhymes ends up saving the Earth from being conquered.`,
+    keywords: [
+      "Martians plan to invade Earth in 2040",
+      "Omega and Think-Tank misread the Mother Goose book",
+      "'cow jumped over the moon' read as anti-gravity technology",
+      "'Little Miss Muffet' / the spider misread as a dangerous creature",
+      "misinterpretation causes fear",
+      "Martian invasion called off / Earth saved",
+    ],
+    examinerTip:
+      "At least two named misreadings (the cow-over-the-moon and Miss Muffet's spider are the most-asked) should be given with what the Martians wrongly concluded — a general 'they got scared of the book' answer misses the specific humour the key rewards.",
+  },
 ];

@@ -6,6 +6,7 @@
 // Streams a Pinnacle tutor reply as plain text from whichever FREE LLM
 // provider you have configured (Groq, Gemini, Cerebras, OpenRouter, or a local
 // Ollama). No Anthropic, no paid key. See api/_llm.ts and .env.example.
+import { createClient } from "@supabase/supabase-js";
 import {
   activeProviders,
   streamLLM,
@@ -39,6 +40,26 @@ function isSameOrigin(req: Request): boolean {
   );
 }
 
+// Origin/Referer only prove the request *claims* to come from our page — a
+// scripted client sets both by hand. When Supabase is configured, also require
+// a session token verified against Supabase's own auth server (the same check
+// api/state.ts uses), so a forged-Origin request with no real session is
+// rejected before any provider is called. When Supabase isn't configured
+// there's no session system to check against, so this step is skipped and the
+// origin + rate-limit checks below are all that apply.
+const supabaseUrl = process.env.VITE_SUPABASE_URL;
+const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+async function hasVerifiedSession(req: Request): Promise<boolean> {
+  if (!supabaseUrl || !supabaseServiceKey) return true;
+  const auth = req.headers.get("authorization") ?? "";
+  const token = auth.startsWith("Bearer ") ? auth.slice(7).trim() : "";
+  if (!token) return false;
+  const admin = createClient(supabaseUrl, supabaseServiceKey);
+  const { data, error } = await admin.auth.getUser(token);
+  return !error && !!data.user;
+}
+
 // Cheap per-IP throttle so a scripted loop can't burn through the shared
 // Groq free-tier token budget and starve real students mid-lesson.
 const RATE_LIMIT_WINDOW_MS = 60_000;
@@ -67,6 +88,9 @@ function clientIp(req: Request): string {
 export async function POST(req: Request): Promise<Response> {
   if (!isSameOrigin(req)) {
     return new Response("Forbidden", { status: 403 });
+  }
+  if (!(await hasVerifiedSession(req))) {
+    return new Response("Unauthorized", { status: 401 });
   }
   if (isRateLimited(clientIp(req))) {
     return new Response("Too many requests", { status: 429 });
