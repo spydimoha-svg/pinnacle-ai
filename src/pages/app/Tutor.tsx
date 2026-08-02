@@ -342,7 +342,7 @@ ${FORMAT_REMINDER}`
   const lessonTitle = lesson ? lessonMap(lesson)?.chapterTitle : null;
 
   return (
-    <div className="flex flex-col h-[calc(100vh-8.5rem)] lg:h-[calc(100vh-7.5rem)]">
+    <div className="flex flex-col h-[calc(100dvh-8.5rem)] lg:h-[calc(100dvh-7.5rem)]">
       <div className="flex items-center justify-between mb-4">
         <div>
           <div className="eyebrow mb-0.5">Your teacher, 24 × 7</div>

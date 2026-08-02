@@ -292,8 +292,14 @@ export function LessonPlayer({
                 </div>
               )}
               <h3
-                className="font-display font-bold text-cream leading-[1.05]"
-                style={{ fontSize: step.kind === "hook" ? 40 : step.visual ? 24 : 34, textWrap: "balance" }}
+                className={`font-display font-bold text-cream leading-[1.05] ${
+                  step.kind === "hook"
+                    ? "text-2xl sm:text-3xl lg:text-4xl"
+                    : step.visual
+                      ? "text-base sm:text-lg lg:text-2xl"
+                      : "text-xl sm:text-2xl lg:text-3xl"
+                }`}
+                style={{ textWrap: "balance" }}
               >
                 {step.caption}
               </h3>

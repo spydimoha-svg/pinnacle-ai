@@ -1,8 +1,8 @@
 #!/usr/bin/env node
-// Guards daily student routes from pulling in the 3D/animation bundle.
-// Runs a real `vite build` in memory (no files written) and walks the
-// emitted chunk graph for each route entry, failing if three.js, gsap or
-// the shader library end up reachable from a page a student hits every day.
+// Guards daily student routes from pulling in the 3D/animation bundle, and
+// guards the master passcode from ever reaching a client chunk. Runs a real
+// `vite build` in memory (no files written) and walks the emitted chunk
+// graph for each route entry.
 import { build } from "vite";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -16,6 +16,11 @@ const ENTRY_PAGES = [
   "src/pages/app/Subjects.tsx",
 ];
 
+const MASTER_PAGES = [
+  "src/pages/MasterAccess.tsx",
+  "src/pages/master/MasterDashboard.tsx",
+];
+
 const BANNED = ["three", "gsap", "@paper-design/shaders-react"];
 
 function bannedPackage(moduleId) {
@@ -26,6 +31,37 @@ function bannedPackage(moduleId) {
   if (at === -1) return null;
   const rel = normalized.slice(at + marker.length);
   return BANNED.find((pkg) => rel === pkg || rel.startsWith(`${pkg}/`)) ?? null;
+}
+
+// Catches both the real secret (if the runner has it set, e.g. in CI) and
+// any hardcoded stand-in someone pastes into client source regardless.
+const MASTER_PASSCODE = process.env.MASTER_PASSCODE;
+const PASSCODE_LITERAL = /MASTER_PASSCODE\s*[:=]\s*["'`]([^"'`]+)["'`]/;
+
+function passcodeLeak(code) {
+  if (MASTER_PASSCODE && code.includes(MASTER_PASSCODE)) return `contains the live MASTER_PASSCODE value`;
+  const literal = code.match(PASSCODE_LITERAL);
+  if (literal) return `hardcodes "${literal[0]}"`;
+  return null;
+}
+
+function reachableChunks(entry, chunksByFile) {
+  const queue = [entry];
+  const seen = new Set([entry.fileName]);
+  const chunks = [entry];
+  while (queue.length) {
+    const chunk = queue.shift();
+    for (const fileName of [...(chunk.imports ?? []), ...(chunk.dynamicImports ?? [])]) {
+      if (seen.has(fileName)) continue;
+      seen.add(fileName);
+      const next = chunksByFile.get(fileName);
+      if (next) {
+        chunks.push(next);
+        queue.push(next);
+      }
+    }
+  }
+  return chunks;
 }
 
 console.log("Running vite build to inspect the emitted chunk graph...");
@@ -47,7 +83,7 @@ function entryChunkFor(pagePath) {
 
 let failed = false;
 
-for (const page of ENTRY_PAGES) {
+for (const page of [...ENTRY_PAGES, ...MASTER_PAGES]) {
   const entry = entryChunkFor(page);
   if (!entry) {
     console.error(`FAIL ${page}: no emitted chunk found for this page (check the lazy import in App.tsx)`);
@@ -55,34 +91,43 @@ for (const page of ENTRY_PAGES) {
     continue;
   }
 
-  const queue = [entry];
-  const seen = new Set([entry.fileName]);
-  let offender = null;
+  const chunks = reachableChunks(entry, chunksByFile);
+  const checkBanned = ENTRY_PAGES.includes(page);
 
-  while (queue.length && !offender) {
-    const chunk = queue.shift();
-    const moduleIds = chunk.moduleIds ?? Object.keys(chunk.modules ?? {});
-    for (const moduleId of moduleIds) {
-      const pkg = bannedPackage(moduleId);
-      if (pkg) {
-        offender = { pkg, moduleId, via: chunk.fileName };
-        break;
+  let offender = null;
+  if (checkBanned) {
+    outer: for (const chunk of chunks) {
+      const moduleIds = chunk.moduleIds ?? Object.keys(chunk.modules ?? {});
+      for (const moduleId of moduleIds) {
+        const pkg = bannedPackage(moduleId);
+        if (pkg) {
+          offender = { pkg, moduleId, via: chunk.fileName };
+          break outer;
+        }
       }
-    }
-    if (offender) break;
-    for (const fileName of [...(chunk.imports ?? []), ...(chunk.dynamicImports ?? [])]) {
-      if (seen.has(fileName)) continue;
-      seen.add(fileName);
-      const next = chunksByFile.get(fileName);
-      if (next) queue.push(next);
     }
   }
 
   if (offender) {
     console.error(`FAIL ${page}: chunk ${offender.via} pulls in "${offender.pkg}" via ${offender.moduleId}`);
     failed = true;
+    continue;
+  }
+
+  let leak = null;
+  for (const chunk of chunks) {
+    const reason = passcodeLeak(chunk.code ?? "");
+    if (reason) {
+      leak = { via: chunk.fileName, reason };
+      break;
+    }
+  }
+
+  if (leak) {
+    console.error(`FAIL ${page}: chunk ${leak.via} ${leak.reason}`);
+    failed = true;
   } else {
-    console.log(`OK   ${page}: no three/gsap/shaders reachable`);
+    console.log(`OK   ${page}: no master passcode leak${checkBanned ? ", no three/gsap/shaders" : ""}`);
   }
 }
 
