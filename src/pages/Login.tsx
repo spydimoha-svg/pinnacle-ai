@@ -3,16 +3,46 @@ import { Link, useNavigate } from "react-router-dom";
 import { Logo } from "../components/Logo";
 import { useStore } from "../lib/store";
 import { supabase, cloudEnabled } from "../lib/supabase";
+import type { ClassLevel } from "../lib/types";
+
+const CLASS_LEVELS: ClassLevel[] = [9, 10, 11, 12];
 
 export default function Login() {
   const navigate = useNavigate();
   const login = useStore((s) => s.login);
+  const addStudent = useStore((s) => s.addStudent);
+  const allUsers = useStore((s) => s.allUsers);
+  const [mode, setMode] = useState<"signin" | "trial">("signin");
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [classLevel, setClassLevel] = useState<ClassLevel>(10);
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
 
+  function submitTrial(e: React.FormEvent) {
+    e.preventDefault();
+    setError("");
+    const cleanName = name.trim();
+    const cleanEmail = email.trim().toLowerCase();
+    const cleanPassword = password.trim();
+    if (!cleanName || !cleanEmail || !cleanPassword) return;
+    const taken = allUsers().some((u) => u.email.toLowerCase() === cleanEmail);
+    if (taken) {
+      setError("That email already has an account. Sign in instead.");
+      return;
+    }
+    addStudent({ name: cleanName, email: cleanEmail, password: cleanPassword, classLevel });
+    const user = login(cleanEmail, cleanPassword);
+    if (!user) {
+      setError("Couldn't create your account. Try again.");
+      return;
+    }
+    navigate("/app");
+  }
+
   async function submit(e: React.FormEvent) {
+    if (mode === "trial") return submitTrial(e);
     e.preventDefault();
     setError("");
 
@@ -59,10 +89,55 @@ export default function Login() {
           </Link>
         </div>
         <form className="card !p-7" onSubmit={submit}>
-          <div className="eyebrow mb-1">Sign in</div>
+          <div className="flex gap-1 p-1 mb-6 rounded-lg bg-black/20">
+            <button
+              type="button"
+              className={`flex-1 py-1.5 rounded-md text-sm font-medium transition ${
+                mode === "signin" ? "bg-gold text-charcoal" : "text-dim"
+              }`}
+              onClick={() => {
+                setMode("signin");
+                setError("");
+              }}
+            >
+              Sign in
+            </button>
+            <button
+              type="button"
+              className={`flex-1 py-1.5 rounded-md text-sm font-medium transition ${
+                mode === "trial" ? "bg-gold text-charcoal" : "text-dim"
+              }`}
+              onClick={() => {
+                setMode("trial");
+                setError("");
+              }}
+            >
+              Start free trial
+            </button>
+          </div>
+
+          <div className="eyebrow mb-1">{mode === "signin" ? "Sign in" : "Free trial"}</div>
           <h1 className="font-display text-2xl font-bold text-cream mb-6">
-            Back to the climb.
+            {mode === "signin" ? "Back to the climb." : "Start climbing, free."}
           </h1>
+
+          {mode === "trial" && (
+            <>
+              <label className="label" htmlFor="name">
+                Name
+              </label>
+              <input
+                id="name"
+                type="text"
+                className="input mb-4"
+                placeholder="Your name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                autoComplete="name"
+                required
+              />
+            </>
+          )}
 
           <label className="label" htmlFor="email">
             Email
@@ -88,9 +163,29 @@ export default function Login() {
             placeholder="••••••••"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            autoComplete="current-password"
+            autoComplete={mode === "signin" ? "current-password" : "new-password"}
             required
           />
+
+          {mode === "trial" && (
+            <>
+              <label className="label" htmlFor="classLevel">
+                Class
+              </label>
+              <select
+                id="classLevel"
+                className="input mb-4"
+                value={classLevel}
+                onChange={(e) => setClassLevel(Number(e.target.value) as ClassLevel)}
+              >
+                {CLASS_LEVELS.map((c) => (
+                  <option key={c} value={c}>
+                    Class {c}
+                  </option>
+                ))}
+              </select>
+            </>
+          )}
 
           {error && (
             <p className="text-coral text-sm mb-4" role="alert">
@@ -99,7 +194,11 @@ export default function Login() {
           )}
 
           <button type="submit" className="btn-gold w-full" disabled={busy}>
-            {busy ? "Signing in…" : "Sign in"}
+            {mode === "signin"
+              ? busy
+                ? "Signing in…"
+                : "Sign in"
+              : "Start free trial"}
           </button>
 
           {import.meta.env.DEV && (

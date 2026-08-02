@@ -50,6 +50,7 @@ async function authToken(
   if (!supabase) return null;
   const key = sessionKey(userId);
   const stored = localStorage.getItem(key);
+  const hadStoredSession = Boolean(stored);
   try {
     if (stored) {
       try {
@@ -72,6 +73,11 @@ async function authToken(
       // First time this student's data has ever synced anywhere: create the
       // identity and link these credentials to it, so the next device can
       // find it via signInWithPassword instead of getting a fresh empty one.
+      if (hadStoredSession) {
+        console.warn(
+          `cloud authToken: stored session for user ${userId} failed to restore and signInWithPassword did not recover it — minting a new anonymous identity, previous student_state row may be orphaned`
+        );
+      }
       const anon = await supabase.auth.signInAnonymously();
       session = anon.data.session;
       if (session) await supabase.auth.updateUser({ email, password });
