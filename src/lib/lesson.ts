@@ -430,8 +430,8 @@ function planTeach(
       gapNote,
       "",
       "Shape of this reply, in this order:",
-      "1. The idea in plain words. Two sentences at most.",
-      "2. The worked example, every step shown, no step skipped.",
+      "1. The worked example, every step shown, no step skipped.",
+      "2. The idea in plain words, drawn out of that example. Two sentences at most.",
       "3. One line on the mistake to avoid.",
       concept.check.q
         ? `4. Then this check question, copied EXACTLY, on its own line, as the last thing in the reply:\n"${concept.check.q}"`

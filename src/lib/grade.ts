@@ -123,7 +123,10 @@ export function gradeAnswer(
 
   // 2. Numeric questions: the values that matter are the ones in the answer
   //    that are NOT already in the question. Everything else was just copied.
-  const qNums = new Set(numbers(plain(question)));
+  //    Exponents (the "2" in "x^2") are stripped first: they are not values a
+  //    student could copy as a coefficient, so they must not shadow a genuine
+  //    answer value that happens to share the same digit (e.g. a root of 2).
+  const qNums = new Set(numbers(plain(question).replace(/\^\s*-?\d+(?:\.\d+)?/g, " ")));
   const cNums = numbers(c);
   const essential = cNums.filter((n) => !qNums.has(n));
   if (essential.length) {
