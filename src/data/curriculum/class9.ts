@@ -132,6 +132,8 @@ const maths: Subject = {
         "Angle subtended by an arc at the centre",
         "Cyclic quadrilaterals",
       ],
+      boardNotes:
+        "Theorems on equal chords and angles subtended by an arc are proved almost every year; 'equal chords are equidistant from the centre' and its converse are the pair students most often confuse with each other.",
     },
     {
       id: "c9-maths-10",
