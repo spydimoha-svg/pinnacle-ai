@@ -148,7 +148,7 @@ export default function Login() {
             <button
               type="button"
               className={`flex-1 py-1.5 rounded-md text-sm font-medium transition ${
-                mode === "signin" ? "bg-gold text-charcoal" : "text-dim"
+                mode === "signin" ? "bg-gold text-ink" : "text-dim"
               }`}
               onClick={() => {
                 setMode("signin");
