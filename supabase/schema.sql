@@ -73,15 +73,17 @@ alter table public.school_resources enable row level security;
 drop policy if exists dev_all on public.student_state;
 revoke all on public.student_state from anon, authenticated;
 
--- schools/school_resources are business + admin data: anon may read (needed for
--- the app today) but must NOT write. Only the service-role key (server-side,
--- once the Master console is wired that way) can insert/update/delete here.
+-- schools is business + admin data: anon may read (needed for the app today)
+-- but must NOT write. Only the service-role key (server-side, once the Master
+-- console is wired that way) can insert/update/delete here.
 drop policy if exists dev_all on public.schools;
 drop policy if exists dev_read on public.schools;
 create policy dev_read on public.schools
   for select using (true);
 
+-- school_resources holds school-uploaded materials but no shipped code reads
+-- or writes it yet, so anon/authenticated get NO policy and NO grants at all,
+-- same treatment as student_state: only the service-role key can touch it.
 drop policy if exists dev_all on public.school_resources;
 drop policy if exists dev_read on public.school_resources;
-create policy dev_read on public.school_resources
-  for select using (true);
+revoke all on public.school_resources from anon, authenticated;
