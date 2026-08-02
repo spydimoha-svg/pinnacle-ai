@@ -1,10 +1,9 @@
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import {
   ArrowLeft,
   ChevronDown,
   ChevronRight,
-  ClipboardCheck,
   ExternalLink,
   FileText,
   Gauge,
@@ -112,15 +111,6 @@ export default function ChapterPage() {
   );
   const recordProgress = useStore((s) => s.recordProgress);
   const addAltitude = useStore((s) => s.addAltitude);
-  const [copyNote, setCopyNote] = useState<string | null>(null);
-  const teachTimer = useRef<number | null>(null);
-
-  useEffect(
-    () => () => {
-      if (teachTimer.current !== null) window.clearTimeout(teachTimer.current);
-    },
-    []
-  );
 
   const found = chapterId ? getChapter(chapterId) : undefined;
   if (!found) {
@@ -166,15 +156,9 @@ export default function ChapterPage() {
     }
   };
 
-  const teachMe = async () => {
+  const teachMe = () => {
     const prompt = `Teach me chapter ${chapter.number}: ${chapter.title} (${subject.name}) properly — explain, example, then check me`;
-    try {
-      await navigator.clipboard.writeText(prompt);
-      setCopyNote("Prompt copied — paste it to the tutor. Opening now.");
-    } catch {
-      setCopyNote("Opening the tutor — ask it to teach you this chapter.");
-    }
-    teachTimer.current = window.setTimeout(() => navigate("/app/tutor"), 1100);
+    navigate("/app/tutor", { state: { autoPrompt: prompt } });
   };
 
   return (
@@ -238,11 +222,6 @@ export default function ChapterPage() {
                 <MessageCircle size={16} strokeWidth={1.8} /> Teach me this
                 chapter
               </button>
-              {copyNote && (
-                <p className="text-xs text-mint flex items-center gap-1.5">
-                  <ClipboardCheck size={14} strokeWidth={1.8} /> {copyNote}
-                </p>
-              )}
               <Link to="/app/worksheets" className="btn-ghost w-full">
                 <FileText size={16} strokeWidth={1.8} /> Generate worksheet
               </Link>

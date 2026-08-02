@@ -163,6 +163,13 @@ export interface Verdict {
   /** Who decided `mastered` — the app's own marking, or the model's line. */
   markedBy?: "app" | "model";
   why?: string;
+  /**
+   * True when a check-phase message was a genuine doubt, not an attempt at
+   * the check question — e.g. "wait, why do we flip the sign here?". The
+   * reply already answers it directly, so this must never be treated as a
+   * wrong answer.
+   */
+  isDoubt?: boolean;
 }
 
 export function readTags(reply: string): Verdict {
@@ -173,7 +180,11 @@ export function readTags(reply: string): Verdict {
     const key = m[1].toUpperCase();
     const value = m[2].trim().toLowerCase();
     if (key === "VERDICT") {
-      out.mastered = /master|correct|right|yes|pass/.test(value);
+      if (/question|doubt|clarif/.test(value)) {
+        out.isDoubt = true;
+      } else {
+        out.mastered = /master|correct|right|yes|pass/.test(value);
+      }
       out.markedBy = "model";
     }
     if (key === "PLACEMENT") {
@@ -206,6 +217,10 @@ export function resolveVerdict(
   studentAnswer: string,
   fromModel: Verdict
 ): Verdict {
+  // A doubt was never an attempt at the check answer, so there is nothing
+  // here for the mechanical grader to mark — marking it would score a
+  // clarifying question against the answer key it has nothing to do with.
+  if (fromModel.isDoubt) return fromModel;
   if (!concept?.check.q || !concept.check.answer) return fromModel;
   const { mark, why } = gradeAnswer(concept.check.q, concept.check.answer, studentAnswer);
   if (mark === "unsure") return fromModel;
@@ -448,6 +463,10 @@ function planCheck(
       "",
       "What follows is private. It is the marking key, not a template. NEVER print the correct answer as an \"Answer:\" line, never print these headings, and never re-state the instructions — the student sees only your reply to them.",
       "",
+      "FIRST, decide what their message actually is. Most of the time it is an attempt at the check question — mark it as below. But sometimes it is a genuine doubt instead, e.g. \"wait, why do we flip the sign here?\" or \"what does that symbol mean?\" — a question ABOUT the idea, not a go at answering it. A doubt is not a wrong answer, so never grade one as one.",
+      "If it is a doubt: answer it directly and simply, tied to this concept, in a couple of sentences. Do not say 'not yet' or hint that they got something wrong — they have not attempted anything yet. End by putting the exact same check question back to them so they can still have a go. Finish with @@VERDICT: question instead of the line below.",
+      "If it is an attempt at the check question, mark it as below.",
+      "",
       known
         ? `The question you asked was: ${concept.check.q}\nIt is correct if it comes to: ${concept.check.answer}\nIf they are stuck, steer them with this idea in your own words: ${concept.check.hint}`
         : `You asked them a check question on "${concept.title}". Mark it against the chapter's own content: ${concept.brief}`,
@@ -468,12 +487,12 @@ function planCheck(
       "Either way, never say 'good question' or 'great job' unless they earned it.",
       "",
       "Last line of your reply, exactly, and never anything after it:",
-      "@@VERDICT: mastered|not-yet",
+      "@@VERDICT: mastered|not-yet|question",
     ]
       .filter(Boolean)
       .join("\n"),
     reminder:
-      "Mark it. If wrong: name the cause, hint, re-ask smaller — do not give the answer away. Finish with the @@VERDICT line.",
+      "First check: is this an attempt at the answer, or a genuine doubt? A doubt gets answered directly, not graded — end that reply with @@VERDICT: question and put the check question back to them. Otherwise mark it: if wrong, name the cause, hint, re-ask smaller — do not give the answer away. Finish with the @@VERDICT line.",
     maxTokens: 260,
   };
 }
@@ -656,6 +675,10 @@ export function advance(
     }
 
     case "check": {
+      // A doubt asked mid-check was never an attempt at the question, so it
+      // is not a wrong answer either — the reply already answered it
+      // directly. Stay on the check, untouched, for their real attempt.
+      if (verdict.isDoubt) break;
       if (verdict.mastered) {
         if (concept) {
           next.progress[concept.id] = {

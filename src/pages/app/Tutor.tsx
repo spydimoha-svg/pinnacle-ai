@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { GraduationCap, SendHorizonal, Square, Trash2 } from "lucide-react";
 import { useStore } from "../../lib/store";
 import { buildSystemPrompt, FORMAT_REMINDER, simplifyReminder } from "../../lib/persona";
@@ -64,10 +65,13 @@ export default function Tutor() {
     updatedAt: Date.now(),
   };
 
+  const location = useLocation();
+  const navigate = useNavigate();
   const [input, setInput] = useState("");
   const [busy, setBusy] = useState(false);
   const [draft, setDraft] = useState("");
   const abortRef = useRef<AbortController | null>(null);
+  const autoSentRef = useRef(false);
   // Bumped whenever a session is reset; an in-flight send() whose token no
   // longer matches discards its result instead of writing into a cleared chat.
   const genRef = useRef(0);
@@ -80,6 +84,17 @@ export default function Tutor() {
   useEffect(() => {
     return () => abortRef.current?.abort();
   }, []);
+
+  // Arriving from "Teach me this chapter": the lesson prompt travels in nav
+  // state instead of the clipboard, so it can be sent straight away.
+  useEffect(() => {
+    const autoPrompt = (location.state as { autoPrompt?: string } | null)?.autoPrompt;
+    if (!autoPrompt || autoSentRef.current) return;
+    autoSentRef.current = true;
+    navigate(location.pathname, { replace: true, state: null });
+    send(autoPrompt);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location.state]);
 
   /**
    * One turn of the conversation.
