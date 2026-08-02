@@ -35,6 +35,8 @@ const maths: Subject = {
         "Laws of exponents for real numbers",
         "Rationalising the denominator",
       ],
+      boardNotes:
+        "Representing √2 or √3 on the number line via the spiral construction is a recurring 3-4 marker judged on the accuracy of the diagram, and rationalising a denominator with a binomial surd is the standard follow-up question.",
     },
     {
       id: "c9-maths-02",
@@ -46,6 +48,8 @@ const maths: Subject = {
         "Factor Theorem and factorisation",
         "Algebraic identities up to degree three",
       ],
+      boardNotes:
+        "Applying the Factor Theorem to check whether (x − a) divides a polynomial, and expanding using the (a+b+c)³-type identities, are the two question types that repeat most; showing the substitution step is where marks are actually awarded, not the final value.",
     },
     {
       id: "c9-maths-03",
@@ -56,6 +60,8 @@ const maths: Subject = {
         "Quadrants and sign conventions",
         "Plotting points from a table",
       ],
+      boardNotes:
+        "Tested only as short 1-2 mark questions — naming the quadrant of a point or plotting a table of values — since the chapter mainly sets up the graphing skill used in Linear Equations in Two Variables.",
     },
     {
       id: "c9-maths-04",
@@ -66,6 +72,8 @@ const maths: Subject = {
         "A linear equation has infinitely many solutions",
         "Drawing the graph of a linear equation",
       ],
+      boardNotes:
+        "The standard question gives one linear equation, asks students to find y for two values of x, plot the line, and read a value off the graph — losing the mark for an unscaled or unlabelled axis is the most common slip.",
     },
     {
       id: "c9-maths-05",
@@ -76,6 +84,8 @@ const maths: Subject = {
         "The five postulates",
         "Equivalent versions of the fifth postulate",
       ],
+      boardNotes:
+        "Low-weight and mostly definitional — expect a question naming Euclid's postulates or asking which everyday statement illustrates an axiom, not a construction or proof.",
     },
     {
       id: "c9-maths-06",
@@ -86,6 +96,8 @@ const maths: Subject = {
         "Parallel lines cut by a transversal",
         "Angle sum property of a triangle",
       ],
+      boardNotes:
+        "Angle-chasing with parallel lines is the recurring proof question — full marks require naming the specific reason (e.g. 'corresponding angles', 'co-interior angles are supplementary') at each step, not just the final angle value.",
     },
     {
       id: "c9-maths-07",
@@ -96,6 +108,8 @@ const maths: Subject = {
         "Properties of an isosceles triangle",
         "Inequalities in a triangle",
       ],
+      boardNotes:
+        "Proving two triangles congruent is the standard 3-5 marker; the congruence criterion used (SAS/ASA/AAS/SSS/RHS) must be named explicitly as its own step or the proof loses marks even with the right final conclusion.",
     },
     {
       id: "c9-maths-08",
@@ -106,6 +120,8 @@ const maths: Subject = {
         "Properties and tests for a parallelogram",
         "The Mid-point Theorem and its converse",
       ],
+      boardNotes:
+        "The Mid-point Theorem and its converse is the most repeated proof in the chapter, usually combined with a parallelogram-properties question in the same long-answer slot.",
     },
     {
       id: "c9-maths-09",

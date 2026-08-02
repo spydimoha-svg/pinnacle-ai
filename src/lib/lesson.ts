@@ -628,7 +628,10 @@ function planRecap(
       "",
       "Under 220 words.",
     ].join("\n"),
-    reminder: "Revision card, the trap, two questions with no answers. Under 220 words.",
+    reminder: [
+      "Revision card, the trap, two questions with no answers. Under 220 words.",
+      FORMAT_REMINDER,
+    ].join("\n\n"),
     maxTokens: 520,
   };
 }
