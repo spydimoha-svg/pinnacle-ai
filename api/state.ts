@@ -29,6 +29,36 @@ async function verifiedUserId(req: Request): Promise<string | null> {
   return data.user.id;
 }
 
+// Cheap per-IP throttle so a scripted loop can't self-mint anon Supabase
+// sessions and fill the shared 500MB free-tier Postgres. Same pattern as
+// api/chat.ts and api/master-login.ts.
+const RATE_LIMIT_WINDOW_MS = 60_000;
+const RATE_LIMIT_MAX = 20;
+const requestTimestamps = new Map<string, number[]>();
+
+function isRateLimited(ip: string): boolean {
+  const now = Date.now();
+  for (const [key, timestamps] of requestTimestamps) {
+    if (now - timestamps[timestamps.length - 1] >= RATE_LIMIT_WINDOW_MS) {
+      requestTimestamps.delete(key);
+    }
+  }
+  const recent = (requestTimestamps.get(ip) ?? []).filter(
+    (t) => now - t < RATE_LIMIT_WINDOW_MS
+  );
+  recent.push(now);
+  requestTimestamps.set(ip, recent);
+  return recent.length > RATE_LIMIT_MAX;
+}
+
+// x-forwarded-for's first hop is client-supplied and trivially spoofed.
+// x-vercel-forwarded-for (falling back to x-real-ip) is set by Vercel's own
+// edge and stays correct even behind an extra proxy in front of Vercel.
+function clientIp(req: Request): string {
+  const ip = req.headers.get("x-vercel-forwarded-for") || req.headers.get("x-real-ip");
+  return ip?.split(",")[0]?.trim() || "unknown";
+}
+
 export async function GET(req: Request): Promise<Response> {
   if (!url || !serviceKey) {
     return new Response("Cloud sync is not configured", { status: 503 });
@@ -52,6 +82,9 @@ export async function POST(req: Request): Promise<Response> {
   }
   const userId = await verifiedUserId(req);
   if (!userId) return new Response("Unauthorized", { status: 401 });
+  if (isRateLimited(clientIp(req))) {
+    return new Response("Too many requests", { status: 429 });
+  }
 
   const MAX_BODY_BYTES = 1_000_000;
   const text = await req.text();
