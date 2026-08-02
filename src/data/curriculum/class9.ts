@@ -226,6 +226,7 @@ const science: Subject = {
       id: "c9-science-03",
       number: 3,
       title: "Atoms and Molecules",
+      weightage: "≈7 marks",
       keyTopics: [
         "Laws of chemical combination",
         "Atomic and molecular masses",
@@ -239,6 +240,7 @@ const science: Subject = {
       id: "c9-science-04",
       number: 4,
       title: "Structure of the Atom",
+      weightage: "≈6 marks",
       keyTopics: [
         "Thomson, Rutherford and Bohr models",
         "Distribution of electrons in shells",
