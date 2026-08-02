@@ -19,7 +19,54 @@ const MAX_CHARS = 60_000;
 const DEFAULT_SYSTEM =
   "You are Pinnacle, a warm CBSE teacher for Indian school students.";
 
+// Same-origin only: a browser fetch from our own frontend sends an
+// Origin/Referer that matches the Host it's calling. A scripted call
+// (curl, node fetch) either omits Origin or sends a mismatched one.
+function isSameOrigin(req: Request): boolean {
+  const host = req.headers.get("host");
+  if (!host) return false;
+  const matchesHost = (value: string | null) => {
+    if (!value) return false;
+    try {
+      return new URL(value).host === host;
+    } catch {
+      return false;
+    }
+  };
+  return (
+    matchesHost(req.headers.get("origin")) ||
+    matchesHost(req.headers.get("referer"))
+  );
+}
+
+// Cheap per-IP throttle so a scripted loop can't burn through the shared
+// Groq free-tier token budget and starve real students mid-lesson.
+const RATE_LIMIT_WINDOW_MS = 60_000;
+const RATE_LIMIT_MAX = 20;
+const requestTimestamps = new Map<string, number[]>();
+
+function isRateLimited(ip: string): boolean {
+  const now = Date.now();
+  const recent = (requestTimestamps.get(ip) ?? []).filter(
+    (t) => now - t < RATE_LIMIT_WINDOW_MS
+  );
+  recent.push(now);
+  requestTimestamps.set(ip, recent);
+  return recent.length > RATE_LIMIT_MAX;
+}
+
+function clientIp(req: Request): string {
+  return req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
+}
+
 export async function POST(req: Request): Promise<Response> {
+  if (!isSameOrigin(req)) {
+    return new Response("Forbidden", { status: 403 });
+  }
+  if (isRateLimited(clientIp(req))) {
+    return new Response("Too many requests", { status: 429 });
+  }
+
   if (activeProviders().length === 0) {
     // No free provider configured — the client drops to offline tutor mode.
     return new Response("Tutor service is not configured", { status: 503 });
