@@ -596,6 +596,15 @@
   .vdock:hover .vsay{opacity:1;visibility:visible;transform:none}
   /* The wake switch. The microphone genuinely stays open while this is on, so
      it says so, it is always visible, and it is one tap to kill. */
+  /* The level meter. It exists so the microphone is never invisible again:
+     if this moves when he speaks, the hardware is fine and anything still
+     broken is the recognition service. */
+  .earRow{display:flex;align-items:center;gap:8px;margin-top:6px}
+  .earBar{position:relative;display:block;flex:1;height:2px;background:var(--line2);overflow:hidden;min-width:52px}
+  .earBar:after{content:"";position:absolute;left:0;top:0;bottom:0;width:100%;background:var(--globe);
+                transform:scaleX(var(--lvl,0));transform-origin:0 50%;transition:transform .06s linear}
+  .earRow em{font-style:normal;font-size:9px;letter-spacing:normal;text-transform:uppercase;color:var(--faint);flex:none}
+  .vdock.hot .earRow em{color:var(--acid)}
   .wakeSw{display:flex;align-items:center;gap:6px;flex:none;padding:5px 10px;border-radius:999px;
           border:1px solid var(--line2);cursor:pointer;transition:.2s}
   .wakeSw:hover{border-color:var(--ink)}
@@ -672,6 +681,10 @@
   .col .cap u{text-decoration:none;color:var(--faint);font-size:9.8px;flex:none}
   .col .cap b{font-weight:400;text-transform:uppercase;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   .col .cap s{text-decoration:none;color:var(--faint);font-size:9.8px;flex:none;white-space:nowrap}
+  .col .cap2{margin-top:6px;font-family:var(--mono);font-size:9.8px;letter-spacing:normal;color:var(--faint);
+             overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .col.live .cap b{color:var(--acid)}
+  .col.sel .cap b{text-decoration:underline;text-underline-offset:4px}
   .col.shut{opacity:.34}
 
   /* Their creator card: portrait, with the metadata printed beside it rather
@@ -823,6 +836,13 @@
   </div>
 </div>
 
+<section class="secHead" style="padding-bottom:0">
+  <span class="kick">//the departments</span>
+  <h2 class="big sm">Twenty one of them.<br />Every one a specialty.</h2>
+  <p class="lede" id="deptNote"></p>
+</section>
+<div class="cards" id="depts"></div>
+
 <div class="track2" id="track2">
   <div class="pin"><b id="pinWord">YOUR OFFICE <em>&mdash;</em> THEIR HOURS <em>&mdash;</em> YOUR CALL <em>&mdash;</em></b></div>
 </div>
@@ -854,10 +874,7 @@
       <div class="marker"><b>003</b><u>Pinnacle's briefing</u><s></s><em id="briefWhen"></em></div>
       <div class="brief" id="brief">No briefing yet. Pinnacle writes one after every few finished tasks. Type <b>brief</b> in the command bar to ask for one now.</div>
     </div>
-    <div class="block">
-      <div class="marker"><b>004</b><u>departments</u><s></s><em id="deptNote"></em></div>
-      <div id="depts"></div>
-    </div>
+
     <div class="block">
       <div class="marker"><b>005</b><u>Filed reports</u><s></s><em>memos and briefings</em></div>
       <div id="reports"></div>
@@ -934,7 +951,11 @@
       <rect x="9" y="2.5" width="6" height="11.5" rx="3"/><path d="M5 11.5a7 7 0 0014 0"/><path d="M12 18.5v3"/>
     </svg>
   </button>
-  <div class="vtxt"><b id="vstate">Talk to Pinnacle</b><span id="vsub">press V, or tap her</span></div>
+  <div class="vtxt">
+    <b id="vstate">Talk to Pinnacle</b>
+    <span id="vsub">press V, or tap her</span>
+    <div class="earRow"><i class="earBar" id="earBar"></i><em id="earState">off</em></div>
+  </div>
   <button class="wakeSw on" id="wake" title="listen for &quot;Pinnacle&quot; without being asked. The microphone stays open while this is on.">
     <i></i><em>wake</em>
   </button>
@@ -1248,44 +1269,22 @@ const globe = (() => {
   });
 
   let spin = 0, tilt = -0.38, awake = 0, state = "idle", level = 0, beat = 0;
-  let analyser = null, bins = null, stream = null;
   let bass = 0, mid = 0, air = 0, burst = 0;
   let armed = false, shown = "idle";
+  let fedLevel = 0, fedLow = 0, fedHigh = 0;
 
-  // Real microphone level, so the ball moves to his actual voice rather than to
-  // a timer pretending to be his voice.
-  async function ear() {
-    if (analyser || !navigator.mediaDevices?.getUserMedia) return;
-    try {
-      stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      const ctx = new (window.AudioContext || window.webkitAudioContext)();
-      analyser = ctx.createAnalyser();
-      analyser.fftSize = 256;
-      analyser.smoothingTimeConstant = 0.72;
-      ctx.createMediaStreamSource(stream).connect(analyser);
-      bins = new Uint8Array(analyser.frequencyBinCount);
-    } catch { analyser = null; }     // no permission, so fall back to the idle drift
-  }
-  function deaf() {
-    stream?.getTracks().forEach((t) => t.stop());
-    stream = null; analyser = null; bins = null;
-    bass = mid = air = 0;
-  }
-
+  // The level arrives from the one shared microphone stream rather than the
+  // globe opening a second one of its own. Two getUserMedia calls competing
+  // with the recogniser for the same device was part of why she went deaf.
   // Three bands, not one number. Low frequencies push the belly of the sphere
   // out, the middle drives the overall swell, and the top end scatters the
   // poles. That split is the whole difference between a ball that throbs and a
   // ball that looks like it is forming words.
   function bands() {
-    if (!analyser) return;
-    analyser.getByteFrequencyData(bins);
-    const n = bins.length, avg = (from, to) => {
-      let t = 0; for (let i = from; i < to; i++) t += bins[i];
-      return t / (to - from) / 255;
-    };
-    bass += (avg(0, n * 0.12) - bass) * 0.35;
-    mid += (avg(n * 0.12, n * 0.45) - mid) * 0.3;
-    air += (avg(n * 0.45, n) - air) * 0.25;
+    if (!armed) return;
+    bass += (fedLow - bass) * 0.35;
+    mid += (fedLevel - mid) * 0.3;
+    air += (fedHigh - air) * 0.25;
   }
 
   // Cheap 3D value noise. One hash, three axes, smoothed. Good enough to make
@@ -1310,7 +1309,7 @@ const globe = (() => {
     const talking = state === "talking";
     // Armed counts as listening the moment there is anything to hear. He should
     // never have to tell it he is about to speak.
-    const hearing = !talking && (state === "listening" || (armed && level > 0.04));
+    const hearing = !talking && (state === "listening" || (armed && fedLevel > 0.035));
     const now = talking ? "talking" : hearing ? "listening" : "idle";
     if (now !== shown) {
       shown = now;
@@ -1322,7 +1321,7 @@ const globe = (() => {
     // He drives it from the microphone. She has no waveform to read, so her
     // rhythm is synthesised, but it is built out of three beating oscillators
     // rather than one sine, which is why it does not read as a metronome.
-    if (hearing) level += (Math.min(1, mid * 1.5 + bass) - level) * 0.3;
+    if (hearing) level += (Math.min(1, fedLevel * 1.7) - level) * 0.32;
     else if (talking) {
       const sim = 0.3 + Math.sin(beat * 12.4) * 0.16 + Math.sin(beat * 7.1) * 0.11 + Math.sin(beat * 3.3) * 0.08;
       level += (Math.max(0, sim) - level) * 0.22;
@@ -1393,8 +1392,10 @@ const globe = (() => {
     mode(next) { state = next; },
     // The microphone follows whether she is armed at all, not whether he has
     // pressed a button.
-    arm() { armed = true; ear(); },
-    disarm() { armed = false; deaf(); level = bass = mid = air = 0; },
+    arm() { armed = true; },
+    disarm() { armed = false; fedLevel = fedLow = fedHigh = 0; level = bass = mid = air = 0; },
+    // Handed the real level from the one microphone stream the page owns.
+    feed(lvl, low = 0, high = 0) { fedLevel = lvl; fedLow = low; fedHigh = high; },
   };
 })();
 
@@ -1674,12 +1675,15 @@ async function refresh() {
   $("crewNote").textContent = `${depts.filter((d) => d.working.length).length} of ${depts.length} on the floor`;
   crew.sync(depts, keys);
 
-  $("depts").innerHTML = depts.map((d) => `
-    <div class="row ${d.enabled ? "" : "off"} ${focusDept === d.key ? "sel" : ""}" data-dept="${d.key}" style="--team:${hueOf(d.key, keys)}">
-      <div class="n"><i class="team"></i><b class="ident">${identOf(d.key, keys)}</b><b>${esc(d.name)}</b><u>${d.kind === "code" ? "builds" : "advises"}</u></div>
-      <div class="meta"><span>${d.headcount} staff</span><span>queue <i>${d.queued}</i></span><span>done <i>${d.done}</i></span><span>rejected <i>${d.failed}</i></span><span>refused <i>${d.blocked || 0}</i></span></div>
-      ${d.working.length ? `<div class="doing">${esc(d.working.map((w) => w.id + " " + (w.task || "planning the next round")).join("   //   "))}</div>` : ""}
-    </div>`).join("");
+  $("depts").innerHTML = depts.map((d, i) => {
+    const live = d.working.length > 0;
+    return `
+    <figure class="col ${live ? "live" : ""} ${d.enabled ? "" : "shut"} ${focusDept === d.key ? "sel" : ""}" data-dept="${d.key}">
+      <div class="shot">${personCard(faceFor(d.key, i), { live, closed: !d.enabled })}</div>
+      <figcaption class="cap"><u>${identOf(d.key, keys)}</u><b>${esc(scramble(d.name, d.key))}</b><s>${d.headcount} / q${d.queued}</s></figcaption>
+      <div class="cap2">${esc(d.name)} &middot; ${d.kind === "code" ? "builds the product" : "advises the office"}${live ? " &middot; working" : ""}</div>
+    </figure>`;
+  }).join("");
 
   const board = r.tasks.filter((t) => !focusDept || t.dept === focusDept);
   $("boardNote").textContent = focusDept ? focusDept + " only" : "";
@@ -2242,50 +2246,162 @@ $("askHint").addEventListener("click", async (e) => {
 });
 
 // ------------------------------------------------------------------- voice
+// ------------------------------------------------------------------ the ear
+// This has been rebuilt three times because it kept being fixed blind. So the
+// first thing it does now is tell the truth about itself: a live level meter in
+// the dock driven by the actual microphone, and a word for what the recogniser
+// is doing. If the meter moves, the microphone works, and any remaining problem
+// is the recognition service rather than the hardware. That distinction is the
+// whole difference between fixing this and guessing at it again.
+
+let wakeOn = true, waking = false;
 const Rec = window.SpeechRecognition || window.webkitSpeechRecognition;
 let rec = null, listening = false;
+
+let want = "off";          // off, wake, or ask
+let earLive = false;       // a session is actually running right now
+let earTries = 0;          // consecutive immediate failures, for the backoff
+let lastHeard = "";
+
+// Speech recognition mangles proper nouns, and "Pinnacle" is a proper noun it
+// has never heard of. It comes back as pinnacles, pinacle, panicle, innacle,
+// spinnaker. Matching the exact string was most of why she never woke up.
+// Recognition mangles proper nouns and "Pinnacle" is one it has never heard
+// of. It comes back as pinacle, pinnicle, pincle, pinnackle. Matching the
+// exact spelling was most of why she never woke up. The six character floor
+// is what keeps "pink" and "pinned" out.
+const WAKE_NEAR = /\b(?:hey|hi|ok|okay|yo)?\s*\b(?=\w{6,})p[iy]n+[aeiou]*c?k?le?s?\b/i;
+const wakeHit = (said) => WAKE_NEAR.test(said);
+const afterWake = (said) => said.replace(WAKE_NEAR, "").replace(/^[\s,.!?]+/, "").trim();
+
+function earSay(word, detail) {
+  const el = $("earState");
+  if (el) el.textContent = word;
+  if (detail != null) voiceUI(null, detail);
+}
+
 if (Rec) {
   rec = new Rec();
-  rec.lang = "en-IN";
+  // en-IN is right for him, but it is markedly worse at her name than en-US is,
+  // and her name is the only word that has to land.
+  rec.lang = "en-US";
   rec.interimResults = true;
-  rec.continuous = false;
+  rec.continuous = false;    // short sessions restarted back to back. Continuous
+                             // is patchily supported and dies quietly on Edge.
+
+  rec.onstart = () => { earTries = 0; earSay(want === "wake" ? "armed" : "listening"); };
+
   rec.onresult = (e) => {
     const said = [...e.results].map((r) => r[0].transcript).join("");
-    if (waking) {
-      // While she is only waiting for her name, nothing is sent anywhere and
-      // nothing is shown. She is listening for one word, not transcribing him.
-      if (WAKE.test(said)) {
-        const after = said.replace(WAKE, "").trim();
-        setEar("off");
-        wakeUp(after);
-      }
+    lastHeard = said;
+    if (want === "wake") {
+      // Waiting for one word. Nothing is shown, stored or sent until it lands.
+      if (wakeHit(said)) { setEar("off"); wakeUp(afterWake(said)); }
+      else earSay("armed", said ? `heard "${said.slice(0, 28)}"` : undefined);
       return;
     }
     $("askIn").value = said;
     voiceUI(said || "Listening");
     if (e.results[e.results.length - 1].isFinal) { stopVoice(); askPinnacle(said); }
   };
+
   rec.onerror = (e) => {
     if (e.error === "no-speech" || e.error === "aborted") return;   // ordinary silence
-    stopVoice();
-    voiceUI("Talk to Pinnacle", e.error === "not-allowed" ? "microphone blocked, allow it in the address bar" : voiceLabel());
     if (e.error === "not-allowed" || e.error === "service-not-allowed") {
       wakeOn = false; want = "off"; earLive = false;
       $("wake").className = "wakeSw off";
-      raiseFault("mic", "quiet", "She cannot hear you: the microphone is blocked for this page. Allow it in the address bar, then press wake.");
+      earSay("blocked");
+      voiceUI("Microphone blocked", "allow it in the address bar, then press wake");
+      raiseFault("mic", "quiet", "She cannot hear you: this page is not allowed the microphone. Click the padlock in the address bar, allow it, then press WAKE.");
+      return;
     }
-    if (e.error === "network") raiseFault("mic", "quiet", "Speech recognition needs the network and it is not answering. Type to her instead.");
+    if (e.error === "network") {
+      earSay("offline");
+      raiseFault("mic", "quiet", "Speech recognition is a Microsoft service and it is not answering. Her hearing needs the network even though her voice does not.");
+      return;
+    }
+    earSay("error");
   };
-  // The browser ends a session on its own every few seconds. That is normal,
-  // not a failure, so this is the restart loop rather than a shutdown.
+
+  // A session ends by itself every few seconds. That is normal, so this is the
+  // restart loop. Backing off matters: restarting instantly in a tight loop is
+  // what gets the recognition service to start refusing outright.
   rec.onend = () => {
     earLive = false;
-    if (listening) { stopVoice(); return; }     // she had the floor and it finished
-    setTimeout(launchEar, 250);
+    if (listening) { stopVoice(); return; }
+    setTimeout(launchEar, Math.min(2000, 220 + earTries * 260));
   };
 } else {
   $("mic").title = "this browser has no speech recognition, use Edge or Chrome";
 }
+
+function setEar(next) {
+  want = next;
+  waking = next === "wake";
+  if (next === "off") { earSay("off"); meter(false); }
+  else meter(true);
+  if (earLive) { try { rec.abort(); } catch {} return; }   // onend picks it up
+  launchEar();
+}
+
+function launchEar() {
+  if (earLive || want === "off" || !rec || document.hidden) return;
+  rec.continuous = false;
+  rec.interimResults = true;
+  try { rec.start(); earLive = true; }
+  catch { earLive = false; if (++earTries < 20) setTimeout(launchEar, Math.min(2000, 300 + earTries * 200)); }
+}
+
+const openEar = () => { if (wakeOn && !listening) setEar("wake"); };
+const sleepEar = () => setEar(listening ? "ask" : "off");
+
+// ---------------------------------------------------------- the level meter
+// One microphone stream, opened once, shared by the dock meter and the globe.
+// Two separate getUserMedia calls competing with the recogniser was part of
+// what was breaking it.
+let micStream = null, micAnalyser = null, micBins = null, micRaf = 0;
+
+async function meter(on) {
+  if (!on) {
+    micStream?.getTracks().forEach((t) => t.stop());
+    micStream = null; micAnalyser = null;
+    cancelAnimationFrame(micRaf); micRaf = 0;
+    $("earBar")?.style.setProperty("--lvl", "0");
+    globe.feed(0);
+    return;
+  }
+  if (micAnalyser || !navigator.mediaDevices?.getUserMedia) return;
+  try {
+    micStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    if (ctx.state === "suspended") await ctx.resume();
+    micAnalyser = ctx.createAnalyser();
+    micAnalyser.fftSize = 256;
+    micAnalyser.smoothingTimeConstant = 0.7;
+    ctx.createMediaStreamSource(micStream).connect(micAnalyser);
+    micBins = new Uint8Array(micAnalyser.frequencyBinCount);
+    const tick = () => {
+      if (!micAnalyser) return;
+      micAnalyser.getByteFrequencyData(micBins);
+      let sum = 0, low = 0, high = 0;
+      for (let i = 0; i < micBins.length; i++) {
+        sum += micBins[i];
+        if (i < micBins.length * 0.15) low += micBins[i];
+        if (i > micBins.length * 0.5) high += micBins[i];
+      }
+      const lvl = Math.min(1, sum / micBins.length / 62);
+      $("earBar")?.style.setProperty("--lvl", lvl.toFixed(3));
+      globe.feed(lvl, low / (micBins.length * 0.15) / 255, high / (micBins.length * 0.5) / 255);
+      micRaf = requestAnimationFrame(tick);
+    };
+    tick();
+  } catch (err) {
+    micAnalyser = null;
+    raiseFault("mic", "quiet", `The microphone would not open (${err.name}). She cannot hear you until that is allowed.`);
+  }
+}
+
+
 
 // The dock is the one place voice is visible, so it has to tell the truth:
 // whether there is a microphone at all, what it is hearing, and which voice it
@@ -2335,39 +2451,8 @@ function stopVoice() {
 // browser shows its recording dot the whole time. So it is a switch he can see
 // and turn off, not something buried. Nothing is transcribed anywhere, nothing
 // is sent, and the recogniser runs entirely in the browser.
-const WAKE = /^\s*(hey|hi|ok|okay|yo)?\s*,?\s*pinnacle\b[\s,.!?]*/i;
-let wakeOn = true, waking = false;
 
-// The old pair of these deadlocked. A recogniser stops itself after a few
-// seconds of silence even with continuous on, and onend restarted it by
-// calling openEar, which bailed straight back out because `waking` was still
-// true. So she listened once, for about eight seconds, and then never again.
-//
-// One recogniser, one thing we want it doing, and every restart routed through
-// onend so start() is never called on a session that has not finished
-// stopping. That was the other half of it: start-while-running throws.
-let want = "off";          // off, wake, or ask
-let earLive = false;       // whether a session is actually running right now
-let earFails = 0;
 
-function setEar(next) {
-  want = next;
-  waking = next === "wake";
-  if (next === "off") globe.disarm(); else globe.arm();
-  if (earLive) { try { rec.abort(); } catch {} return; }   // onend picks it up
-  launchEar();
-}
-
-function launchEar() {
-  if (earLive || want === "off" || !rec || document.hidden) return;
-  rec.continuous = want === "wake";
-  rec.interimResults = true;
-  try { rec.start(); earLive = true; earFails = 0; }
-  catch { earLive = false; if (++earFails < 8) setTimeout(launchEar, 500); }
-}
-
-const openEar = () => { if (wakeOn && !listening) setEar("wake"); };
-const sleepEar = () => setEar(listening ? "ask" : "off");
 
 // She answers by name, says who she is, and gives him the floor in one breath
 // rather than making him ask twice.
