@@ -75,7 +75,10 @@ export async function GET(req: Request): Promise<Response> {
     .select("memory, chats, blobs, worksheets")
     .eq("user_id", userId)
     .maybeSingle();
-  if (error) return new Response(error.message, { status: 500 });
+  if (error) {
+    console.error("state GET failed:", error.message);
+    return new Response("Sync failed", { status: 500 });
+  }
   return Response.json(data ?? null);
 }
 
@@ -107,6 +110,17 @@ export async function POST(req: Request): Promise<Response> {
     return new Response("Invalid JSON", { status: 400 });
   }
 
+  const isPlainObject = (v: unknown): boolean =>
+    typeof v === "object" && v !== null && !Array.isArray(v);
+  if (
+    (body.memory !== undefined && body.memory !== null && !isPlainObject(body.memory)) ||
+    (body.chats !== undefined && !Array.isArray(body.chats)) ||
+    (body.blobs !== undefined && !Array.isArray(body.blobs)) ||
+    (body.worksheets !== undefined && !Array.isArray(body.worksheets))
+  ) {
+    return new Response("Invalid state shape", { status: 400 });
+  }
+
   const admin = createClient(url, serviceKey);
   const { error } = await admin.from("student_state").upsert({
     user_id: userId,
@@ -116,6 +130,9 @@ export async function POST(req: Request): Promise<Response> {
     worksheets: body.worksheets ?? [],
     updated_at: new Date().toISOString(),
   });
-  if (error) return new Response(error.message, { status: 500 });
+  if (error) {
+    console.error("state POST failed:", error.message);
+    return new Response("Sync failed", { status: 500 });
+  }
   return new Response(null, { status: 204 });
 }
