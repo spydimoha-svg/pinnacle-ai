@@ -12,8 +12,11 @@
     <!-- One type system for the landing and the product: Hanken Grotesk for
          everything set in words, JetBrains Mono for every label, number and
          marks chip. Loaded here rather than per-page so the front door has no
-         flash of fallback type. -->
-    <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+         flash of fallback type. Preloaded as non-blocking (rel=preload +
+         onload swap) so first paint doesn't wait on fonts.googleapis.com. -->
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" />
+    <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" /></noscript>
     <title>Pinnacle AI — Your CBSE Board Buddy</title>
   </head>
   <body>

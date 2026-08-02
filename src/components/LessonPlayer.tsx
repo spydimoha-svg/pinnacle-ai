@@ -5,7 +5,7 @@ import { Toon } from "./cast/Toon";
 import { Stage3D } from "./cast/Stage3D";
 import { Markdown } from "./ui";
 import type { SceneVisual } from "../lib/videoScript";
-import { motion, AnimatePresence, useReducedMotion } from "motion/react";
+import { motion, AnimatePresence, MotionConfig, useReducedMotion } from "motion/react";
 import katex from "katex";
 import DOMPurify from "dompurify";
 import {
@@ -195,6 +195,10 @@ export function LessonPlayer({
   const progress = ((i + (playing ? 0.5 : atEnd ? 1 : 0)) / steps.length) * 100;
 
   return (
+    // reducedMotion="user" honours the OS setting for every framer-motion
+    // animation below. Scoped here (not at app root) since this is the only
+    // screen in the app that uses motion/react.
+    <MotionConfig reducedMotion="user">
     <div className="space-y-3">
       {/* Stage */}
       <div
@@ -404,5 +408,6 @@ export function LessonPlayer({
         </button>
       </div>
     </div>
+    </MotionConfig>
   );
 }
