@@ -243,7 +243,13 @@ async function route(req, res) {
         emit("office.command", { detail: `${cmd.value} told to plan a new round now` });
         break;
       case "order": {
-        const t = orderTask(cmd.value.dept, cmd.value.title);
+        // She fills this in from what he said, so it arrives malformed often
+        // enough to matter. An unguarded read here threw a 500 and he saw a
+        // job silently not happen.
+        const dept = cmd.value?.dept, title = String(cmd.value?.title || "").trim();
+        if (!dept || !title) return json(res, { error: "a job needs a department and a title" }, 400);
+        if (!DEPARTMENTS.some((d) => d.key === dept)) return json(res, { error: `no department called ${dept}` }, 400);
+        const t = orderTask(dept, title);
         emit("office.command", { detail: `You gave ${cmd.value.dept} a job: ${cmd.value.title}` });
         return json(res, { ok: true, task: t });
       }

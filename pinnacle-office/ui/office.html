@@ -2253,6 +2253,87 @@ function askAloud(question, { listen = true } = {}) {
 const HINTS = ["what did the office get done today", "get the tutor team to fix the hint ladder", "why was that change refused", "slow down to one at a time", "brief me"];
 $("askHint").innerHTML = HINTS.map((h) => `<span class="chip" data-hint="${esc(h)}">${esc(h)}</span>`).join("");
 
+// ----------------------------------------------------- doing as he asks
+// "Open the office" was going out to a language model, coming back as an
+// action, and then putting a button on screen for him to click. He was
+// talking, not clicking, so it never happened. Same for handing a team a job.
+//
+// These are the things he says most and they are the things that must never
+// fail, so they are recognised here, acted on here, and confirmed out loud.
+let pendingStart = false;
+
+const YES = /^\s*(yes|yeah|yep|yup|go on|do it|please do|open it|go ahead|sure|ok|okay|confirm|affirmative)\b/i;
+const NO = /^\s*(no|nope|not now|leave it|cancel|don'?t|stop)\b/i;
+
+async function spokenCommand(text) {
+  const q = text.toLowerCase().trim();
+
+  // He is answering the question she just asked him.
+  if (pendingStart) {
+    if (YES.test(q)) {
+      pendingStart = false;
+      const r = await post("start", "confirm");
+      const line = r?.error ? `I couldn't: ${r.error}` : "Right, they're up. I'll tell you when something lands.";
+      return answerNow(line);
+    }
+    if (NO.test(q)) { pendingStart = false; return answerNow("Fine, leaving it shut."); }
+    pendingStart = false;                       // he moved on, so drop it
+  }
+
+  if (/\b(open|start|fire up|wake|get going|kick off)\b.*\b(office|floor|them|everyone|agents)\b/.test(q)
+      || /^\s*(open|start) (the )?office\b/.test(q)) {
+    if (snap?.office?.running) return answerNow("It's already open. Want me to push them harder instead?");
+    pendingStart = true;
+    return answerNow("That spends your usage and lets them edit real code. Want me to open up?");
+  }
+
+  if (/\b(close|shut|stop|stand down|pause)\b.*\b(office|floor|them|everyone|agents)\b/.test(q)
+      || /^\s*(close|stop) (the )?office\b/.test(q)) {
+    await post("stop", null);
+    return answerNow("Closing it. Anyone mid task finishes what they're on.");
+  }
+
+  // "tell frontend to fix the lesson player", "get the tutor team to ...",
+  // "ask legal to look at ...". Whatever shape he says it in.
+  const order = q.match(/\b(?:tell|ask|get|have|assign|give)\s+(?:the\s+)?([a-z][a-z ]{2,24}?)(?:\s+(?:team|lot|department|people))?\s+(?:to\s+|that\s+)?(.{6,})$/);
+  if (order) {
+    const dept = matchDept(order[1]);
+    if (!dept) return answerNow(`I don't have a team called ${order[1].trim()}. Say it again with the department name.`);
+    const title = text.slice(text.toLowerCase().indexOf(order[2].slice(0, 12))).trim() || order[2];
+    const r = await post("order", { dept, title });
+    if (r?.error) return answerNow(`I couldn't file that: ${r.error}`);
+    tick();
+    return answerNow(`Done. ${snap?.departments?.[dept]?.name || dept} have it, front of the queue.`);
+  }
+
+  if (/\b(brief|briefing|report)\b.*\b(me|now|write|give)\b/.test(q) || /^\s*(brief me|write a briefing|give me a report)\b/.test(q)) {
+    await post("brief", null);
+    return answerNow("Writing it now. It'll land in your reports in a couple of minutes.");
+  }
+  return false;
+}
+
+// Loosely match what he said to a real department, because he says "front end"
+// and "the front-end lot" and the key is "frontend".
+function matchDept(said) {
+  const keys = Object.keys(snap?.departments || {});
+  const flat = said.toLowerCase().replace(/[^a-z]/g, "");
+  if (!flat) return null;
+  let hit = keys.find((k) => k === flat);
+  if (!hit) hit = keys.find((k) => k.replace(/[^a-z]/g, "") === flat);
+  if (!hit) hit = keys.find((k) => flat.includes(k) || k.includes(flat));
+  if (!hit) hit = keys.find((k) => (snap.departments[k].name || "").toLowerCase().replace(/[^a-z]/g, "").includes(flat));
+  return hit || null;
+}
+
+function answerNow(line) {
+  $("reply").className = "reply";
+  $("reply").textContent = line;
+  pushMsg({ who: "Pinnacle", what: line });
+  speak(line);
+  return true;
+}
+
 // ------------------------------------------------------- answering at once
 // Most of what he asks her, she already knows. Sending "how many are working"
 // to a language model and waiting three seconds for it to read the same object
@@ -2317,6 +2398,10 @@ async function askPinnacle(text) {
   $("askIn").value = "";
   pushMsg({ boss: true, who: "You", what: text });
 
+  // An order is not a question, so it never goes near the instant answers and
+  // never waits on a model. This is the path that kept failing him.
+  if (await spokenCommand(text)) return;
+
   // If she already knows, she answers now rather than in three seconds.
   const quick = quickAnswer(text);
   if (quick) {
@@ -2347,6 +2432,9 @@ async function carryOut(r) {
   const a = r.action;
   if (!a || a === "none") return;
   if (a === "start") {
+    // She has asked. He can click, or just say yes, which is what he actually
+    // does when he is talking to her.
+    pendingStart = true;
     $("askHint").innerHTML = `<span class="chip confirmChip" data-confirm="1">yes, open the office</span><span class="chip" data-hint="">no, leave it closed</span>`;
     return;
   }
@@ -2381,6 +2469,7 @@ let want = "off";          // off, wake, or ask
 let earLive = false;       // a session is actually running right now
 let earTries = 0;          // consecutive immediate failures, for the backoff
 let lastHeard = "";
+let wokeAt = 0;          // when her name last landed, so one breath wakes her once
 
 // Speech recognition mangles proper nouns, and "Pinnacle" is a proper noun it
 // has never heard of. It comes back as pinnacles, pinacle, panicle, innacle,
@@ -2416,10 +2505,13 @@ if (Rec) {
     if (want === "wake") {
       // Waiting for one word. Nothing is shown, stored or sent until it lands.
       orb.pulse(0.75);            // a word arriving is proof he is talking
-      if (wakeHit(said)) { setEar("off"); wakeUp(afterWake(said)); }
+      if (wakeHit(said)) { wokeAt = Date.now(); setEar("off"); wakeUp(afterWake(said)); }
       else earSay("armed", said ? `heard "${said.slice(0, 28)}"` : undefined);
       return;
     }
+    // Anything still arriving from the breath that just woke her is the same
+    // breath, not a new question.
+    if (Date.now() - wokeAt < 2500) return;
     orb.pulse(0.85);
     $("askIn").value = said;
     voiceUI(said || "Listening");
@@ -2757,7 +2849,17 @@ try {
 
 // Nothing makes a sound unless this tab owns the office.
 const _speak = speak;
-speak = function (text) { if (iAmLive) _speak(text); };
+let lastSaid = "", lastSaidAt = 0;
+speak = function (text) {
+  if (!iAmLive || !text) return;
+  // Two of anything saying the same line within three seconds is a bug
+  // somewhere upstream, and he should not have to listen to it twice while I
+  // find out where.
+  const now = Date.now();
+  if (text === lastSaid && now - lastSaidAt < 3000) return;
+  lastSaid = text; lastSaidAt = now;
+  _speak(text);
+};
 
 // -------------------------------------------------------- Pinnacle speaks up
 // An assistant that only answers is a search box. This one watches the floor
@@ -2774,6 +2876,22 @@ function pinnacleInitiative(r) {
   const depts = Object.values(r.departments);
 
   const prompts = [
+    {
+      // The state he is in most of the time, and the one she had nothing to say
+      // about: shut, with work waiting. She should be the one to raise it.
+      id: "waiting:" + depts.reduce((n, d) => n + d.queued, 0),
+      when: () => !r.office.running && depts.reduce((n, d) => n + d.queued, 0) > 0,
+      say: () => {
+        const q = depts.reduce((n, d) => n + d.queued, 0);
+        return `There's ${q === 1 ? "a job" : q + " jobs"} sat in the queue and the office is shut. Want me to open up and get them going?`;
+      },
+      act: () => { pendingStart = true; },
+    },
+    {
+      id: "shutquiet",
+      when: () => !r.office.running && depts.reduce((n, d) => n + d.queued, 0) === 0 && (s.completed || 0) === 0,
+      say: () => "Nothing's queued and we're shut. Give me something to hand out, like tell frontend to fix the lesson player.",
+    },
     {
       id: "cooldown",
       when: () => r.office.cooldownUntil > r.now,
@@ -2805,6 +2923,8 @@ function pinnacleInitiative(r) {
   if (!next) return;
   raised.add(next.id);
   lastSpoke = Date.now();
+  // Some prompts arm something, so that "yes" means what he expects it to.
+  next.act?.();
   askAloud(next.say());
 }
 
