@@ -101,6 +101,16 @@ async function route(req, res) {
     const rel = (url.searchParams.get("path") || "").replace(/\\/g, "/");
     const target = path.resolve(REPORTS_DIR, rel);
     if (!target.startsWith(path.resolve(REPORTS_DIR)) || !fs.existsSync(target)) return json(res, { error: "not found" }, 404);
+    // ?raw downloads the markdown itself, so a briefing is a file on his
+    // machine rather than something trapped behind a dashboard.
+    if (url.searchParams.get("raw")) {
+      res.writeHead(200, {
+        "content-type": "text/markdown; charset=utf-8",
+        "content-disposition": `attachment; filename="${path.basename(target)}"`,
+        "cache-control": "no-store",
+      });
+      return res.end(fs.readFileSync(target));
+    }
     return json(res, { path: rel, body: fs.readFileSync(target, "utf8") });
   }
 

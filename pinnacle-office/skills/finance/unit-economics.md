@@ -1,0 +1,7 @@
+# unit economics
+
+What the finance specialists in this seat have learned working on Pinnacle AI.
+- There is no LLM backend wired into src/ at all — the actual tutor logic lives in api/_llm.ts (out of scope for this task but load-bearing for every finance number). W001's whole shadow-cost model comes from reading that file, not from src/.
+- The platform-wide free-tier ceiling W001 computed (~2,500 tutor messages/day, shared across every school and plan) is smaller than what a single 3,000-student school generates at median usage alone. Any future volume-tier work has to treat large schools as paid-API-cost schools by default, not free-tier schools — this materially changes their cost floor versus a small school.
+- PricingControl.tsx already lets an admin type any number into pricePerStudent per school — nothing technically blocks a volume discount today. What's missing is a default/guided rate card banded by school.students so admins aren't guessing, which is a small product change, not a pricing-policy change.
+- A big school's per-student average LLM cost is more predictable than a small school's, because one heavy user spread over 3,000 students barely moves the average, while the same user spread over 30 dominates it. That's a legitimate actuarial argument for discounting large schools deeper, on top of the usual CAC/procurement argument — worth keeping if this gets challenged later.

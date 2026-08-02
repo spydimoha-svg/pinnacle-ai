@@ -75,6 +75,10 @@ Done means: ${task.acceptance || "not stated"}
 WHAT THE AGENT SAYS IT DID
 ${task.summary || "no summary given"}
 Claims to have verified: ${task.verified || "nothing stated"}
+${task.drift ? `IT ADMITS IT DID SOMETHING ELSE: ${task.drift}
+Weigh that honestly. Owning up is worth something, but it does not make off task work acceptable.` : ""}
+${task.outOfScope?.length ? `IT TOUCHED ${task.outOfScope.length} FILE(S) OUTSIDE ITS DEPARTMENT'S SCOPE: ${task.outOfScope.slice(0, 8).join(", ")}
+This is drift whether or not it admitted to it. An agent working outside its remit is how a codebase gets quietly pulled apart by people who each thought they were helping. Refuse unless the task genuinely could not be done any other way.` : ""}
 ${screened}
 ${code ? "THE ACTUAL CHANGE IT MADE" : "THE ADVICE IT FILED, WHICH AYAAN MAY ACT ON"}
 \`\`\`${code ? "diff" : "markdown"}

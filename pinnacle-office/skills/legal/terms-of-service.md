@@ -1,0 +1,6 @@
+# terms of service
+
+What the legal specialists in this seat have learned working on Pinnacle AI.
+- Do not trust a 'source: pyq' or 'rewritten in original wording' label at face value. Spot-checking against public sources (Vedantu, Teachoo, myCBSEguide, etc., which mirror NCERT/CBSE questions) is fast and cheap, and is the only way to tell an original problem from a lifted one, because the answer/explanation text can be 100% original while the question stem is a verbatim copy.
+- The legal risk is NOT in testing a syllabus concept (that's an unprotectable idea/method under Sec. 13 read with the idea-expression dichotomy). The risk is in copying the specific numbers and fact pattern NCERT or CBSE chose to express that concept with, since an infinite number of other numbers would test the same skill, so the specific choice is protected expression, not merged with the idea.
+- CBSE has already litigated and won on exactly this fact pattern (Rupendra Kashyap 1996, Evergreen Publications 2016: guidebooks verbatim-reproducing board questions for commercial sale = infringement), and NCERT issued a public 2024 warning threatening legal action over unauthorized commercial use of its textbook content. This is not a theoretical risk for this industry.

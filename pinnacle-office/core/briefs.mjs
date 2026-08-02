@@ -109,6 +109,21 @@ ${task.acceptance}
 HOW TO DELIVER
 ${delivery}
 
+STAY ON THIS TASK
+Do this task. Not the thing next to it, not the thing you think is more
+important, not the tidy up you noticed on the way. If you believe the task is
+wrong or something else matters more, say so in "followups" and do the task
+anyway. Ayaan decides what is worth doing; you decide how to do it.
+
+If you end up doing something other than what was asked, you must say so
+plainly in "drift". Quietly doing different work and reporting it as the task
+is the one thing that makes your whole report worthless, because he cannot tell
+which of your reports to trust.
+
+Only touch files inside your department's scope. Anything you change outside it
+gets thrown out and the task is marked refused, so it costs you and helps
+nobody.
+
 Remember the house rule: the shortest version that achieves this is the correct version. If you can achieve the acceptance condition by deleting code, delete it.
 
 OUTPUT CONTRACT. Restating this now because it is the last thing you should read:
@@ -119,6 +134,8 @@ Reply with one fenced json block and nothing else, in exactly this shape:
   "summary": "two sentences maximum, plain English, what you actually changed or found",
   "changed": ["src/file/you/edited.tsx"],
   "verified": "the specific thing you ran or checked, or 'not verified' if you could not",
+  "did_what_was_asked": true,
+  "drift": "empty string if you did exactly what was asked. If you did anything else, say here what you did instead and why, in one sentence. Never leave this out to look better",
   "note": "one sentence to Ayaan in your own voice, the way a specialist reports to the founder. Say what you did and whether he needs to know anything. Blunt, no dashes, no emojis, never mention your own id",
   "learned": ["what the next person in your seat needs to know that is not obvious from the code. A real constraint, a real gotcha, a real decision and why. Nothing generic. Empty array if you learned nothing worth passing on"],
   "needs": [{ "what": "a tool, CLI, MCP server, API, dataset or document you needed and did not have", "why": "what it would let you do that you could not do" }],

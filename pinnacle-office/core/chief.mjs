@@ -223,6 +223,19 @@ async function runTask(task, dept, agent) {
     if (touched.length) {
       // Pinnacle's pattern screen runs first because it costs nothing. What it
       // blocks never reaches a build, a review, or the project.
+      // Did they do the job, or something adjacent to it? Two checks, because
+      // asking an agent to confess is not the same as knowing.
+      const outOfScope = dept.scope.length
+        ? touched.filter((f) => !dept.scope.some((sc) => f.startsWith(sc.replace(/\*+$/, ""))))
+        : [];
+      if (outOfScope.length) {
+        emit("agent.drift", { agent: agent.id, dept: dept.key, title: task.title, files: outOfScope.slice(0, 6) });
+      }
+      if (report.drift) {
+        emit("agent.drift", { agent: agent.id, dept: dept.key, title: task.title, said: report.drift });
+      }
+      setTask(task.id, { drift: report.drift || "", outOfScope });
+
       const patch = await diffText();
       const { blocked, flags } = screen(patch);
       if (blocked.length) {
@@ -249,7 +262,7 @@ async function runTask(task, dept, agent) {
       // It compiles. Now Pinnacle reads it and rules on it.
       if (CONFIG.warden.enabled) {
         emit("warden.start", { taskId: task.id, dept: dept.key, agent: agent.id, title: task.title });
-        const ruling = await review({ task: { ...task, summary: report.summary, verified: report.verified }, agent, dept, patch, flags, onEvent: (e) => emit("agent.step", { agent: "PINNACLE", dept: dept.key, ...e }) });
+        const ruling = await review({ task: { ...task, summary: report.summary, verified: report.verified, drift: report.drift || "", outOfScope }, agent, dept, patch, flags, onEvent: (e) => emit("agent.step", { agent: "PINNACLE", dept: dept.key, ...e }) });
         setTask(task.id, { ruling });
         if (ruling.verdict === "refuse") {
           await revertAll();

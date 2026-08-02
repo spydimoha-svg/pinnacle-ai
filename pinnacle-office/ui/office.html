@@ -180,6 +180,12 @@
   .fault button{font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:inherit;opacity:.7;cursor:pointer;border:1px solid currentColor;border-radius:4px;padding:3px 8px;flex:none}
   .fault button:hover{opacity:1}
 
+  .dupBar{position:fixed;left:0;right:0;top:0;z-index:96;display:flex;align-items:center;gap:14px;
+          padding:9px var(--pad);background:var(--violet);color:#efe6dd;font-size:11.5px}
+  .dupBar[hidden]{display:none}
+  .dupBar em{font-style:normal;flex:1}
+  .dupBar button{font-size:9.8px;letter-spacing:normal;text-transform:uppercase;color:inherit;cursor:pointer;
+                 border:1px solid currentColor;border-radius:4px;padding:4px 10px}
   .statusbar{position:fixed;left:0;right:0;bottom:0;z-index:55;border-top:1px solid var(--line);background:rgba(0,0,0,.82);backdrop-filter:blur(12px);
              display:flex;align-items:center;justify-content:space-between;gap:16px;padding:7px var(--pad);font-size:9.5px;letter-spacing:.14em;color:var(--faint);text-transform:uppercase}
   .statusbar .eq{display:flex;gap:2px;align-items:flex-end;height:11px}
@@ -238,6 +244,7 @@
   .tag.reverted,.tag.failed{color:var(--bad);border-color:rgba(255,139,125,.3)}
   .tag.blocked{color:#000;background:var(--bad);border-color:var(--bad)}
   .tag.mine{color:#000;background:var(--accent);border-color:var(--accent)}
+  .tag.drift{color:#efe6dd;background:var(--violet);border-color:var(--violet)}
 
   /* The bench. Who is actually any good, measured, not asserted. */
   .rank{display:grid;grid-template-columns:auto 1fr auto auto;gap:12px;align-items:center;padding:9px 0;border-bottom:1px solid var(--line);cursor:pointer;font-size:12px}
@@ -263,6 +270,8 @@
   .file{display:flex;justify-content:space-between;gap:14px;padding:10px 0;border-bottom:1px solid var(--line);cursor:pointer;font-size:12px;transition:padding-left .22s}
   .file:hover{padding-left:9px}
   .file span{color:var(--faint);font-size:10.5px}
+  .file .dl{margin-left:12px;color:var(--acid);text-decoration:none;border-bottom:1px solid transparent}
+  .file .dl:hover{border-bottom-color:var(--acid)}
 
   /* -------------------------------------------------- the crew (hero 2)
      One bot per department, each spot lit in its own black cell the way Ciao
@@ -771,6 +780,13 @@
 <body>
 
 <div class="faults" id="faults" hidden></div>
+
+<!-- Every "open the office" spawns a tab, and every tab is a whole Pinnacle
+     with her own voice. The newest one owns the floor; the rest go quiet. -->
+<div class="dupBar" id="dupBar" hidden>
+  <em>This office is open in another tab, so this one is muted.</em>
+  <button id="dupTake">use this tab instead</button>
+</div>
 
 <div id="boot">
   <div id="bootBar"></div>
@@ -1712,13 +1728,19 @@ async function refresh() {
   $("boardNote").textContent = focusDept ? focusDept + " only" : "";
   $("tasks").innerHTML = board.map((t) => `
     <div class="card" data-task="${t.id}">
-      <div class="h"><b>${esc(t.title)}</b><span class="tag ${t.fromAyaan && t.status === "queued" ? "mine" : t.status}">${t.fromAyaan && t.status === "queued" ? "yours" : t.status}</span></div>
+      <div class="h"><b>${esc(t.title)}</b>${t.drift || t.outOfScope?.length ? `<span class="tag drift" title="${esc(t.drift || (t.outOfScope || []).join(", "))}">off task</span>` : ""}<span class="tag ${t.fromAyaan && t.status === "queued" ? "mine" : t.status}">${t.fromAyaan && t.status === "queued" ? "yours" : t.status}</span></div>
       <div class="sub">${t.dept} &middot; ${esc(t.agent || t.plannedBy || "unassigned")}${t.sha ? " &middot; " + t.sha : ""}</div>
       ${t.summary || t.reason ? `<div class="sum">${esc(t.summary || t.reason)}</div>` : ""}
     </div>`).join("") || `<div style="color:var(--faint);font-size:12px">Nothing filed yet.</div>`;
 
+  // Every briefing is a markdown file on disk. Read it here, or take it away.
   $("reports").innerHTML = r.reports.map((f) => `
-    <div class="file" data-report="${f.path}"><span style="color:var(--ink)">${esc(f.path.split("/").pop())}</span><span>${new Date(f.mtime).toLocaleString()}</span></div>`).join("")
+    <div class="file" data-report="${f.path}">
+      <span style="color:var(--ink)">${esc(f.path.split("/").pop())}</span>
+      <span>${new Date(f.mtime).toLocaleString()}
+        <a class="dl" href="/api/report?raw=1&path=${encodeURIComponent(f.path)}" download data-stop>download</a>
+      </span>
+    </div>`).join("")
     || `<div style="color:var(--faint);font-size:12px">No reports filed yet.</div>`;
 
   // HUD readouts. Real numbers, not set dressing.
@@ -1937,6 +1959,10 @@ stream.onmessage = (e) => {
   if (ev.type === "staff.report") pushMsg({ who: ev.who, what: ev.note, dept: ev.dept, verdict: ev.ruling });
   if (ev.type === "warden.block") { pushMsg({ who: "Pinnacle", what: `I refused a change from ${ev.dept}. ${ev.reason}` }); speak(`I refused a change from ${ev.dept}.`); }
   if (ev.type === "briefing.done") speak("Your briefing is ready.");
+  if (ev.type === "agent.drift") {
+    const what = ev.said ? `they say: ${ev.said}` : `touched ${ev.files.length} file(s) outside ${ev.dept}: ${ev.files.join(", ")}`;
+    pushMsg({ who: "Pinnacle", what: `Off task on "${ev.title}". ${what}` });
+  }
   if (ev.type === "warden.start" || ev.type === "briefing.start") thinking(true);
   if (ev.type === "warden.pass" || ev.type === "warden.block" || ev.type === "briefing.done") thinking(false);
   if (ev.type.startsWith("task.") || ev.type.startsWith("plan.") || ev.type.startsWith("office.") || ev.type === "briefing.done") tick();
@@ -2144,7 +2170,7 @@ function hush() {
   mouth(false);
 }
 
-function speak(text) {
+let speak = function speak(text) {
   if (!voiceOut || !text) return;
   hush();
   mouth(true);
@@ -2157,7 +2183,7 @@ function speak(text) {
     return window.responsiveVoice.speak(String(text), engine.voice || "UK English Female", { rate: 1, pitch: 1 });
   }
   speakLocal(text);
-}
+};
 
 // A real recording, fetched from whatever engine is configured. It falls back
 // rather than going quiet, because a voice that stops working without saying so
@@ -2227,15 +2253,83 @@ function askAloud(question, { listen = true } = {}) {
 const HINTS = ["what did the office get done today", "get the tutor team to fix the hint ladder", "why was that change refused", "slow down to one at a time", "brief me"];
 $("askHint").innerHTML = HINTS.map((h) => `<span class="chip" data-hint="${esc(h)}">${esc(h)}</span>`).join("");
 
+// ------------------------------------------------------- answering at once
+// Most of what he asks her, she already knows. Sending "how many are working"
+// to a language model and waiting three seconds for it to read the same object
+// this page is holding is the whole reason a conversation with her feels like
+// filling in a form.
+//
+// So: anything answerable from the floor is answered from the floor, in
+// milliseconds. Only the things that genuinely need thinking about go to the
+// office and take their time.
+const SAY_N = ["none", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"];
+const nWord = (n) => SAY_N[n] ?? String(n);
+
+function quickAnswer(text) {
+  const q = text.toLowerCase().trim();
+  const r = snap;
+  if (!r) return null;
+  const s = r.office.stats || {};
+  const awake = r.awake || 0;
+  const open = r.office.running;
+  const busy = Object.values(r.departments).filter((d) => d.working.length);
+
+  const is = (...pats) => pats.some((p) => q.includes(p));
+
+  if (is("how many", "how much") && is("work", "awake", "busy", "going", "running")) {
+    return awake
+      ? `${nWord(awake)} of them right now. ${busy.length === 1 ? busy[0].name : nWord(busy.length) + " teams"} on it.`
+      : open ? "Nobody's mid task this second." : "None. The office is shut.";
+  }
+  if (is("who is working", "who's working", "who is on", "whos working", "what's running", "whats running")) {
+    return busy.length
+      ? `${busy.map((d) => d.name).slice(0, 3).join(", ")}. ${nWord(awake)} people between them.`
+      : "Nobody, it's quiet.";
+  }
+  if (is("is the office open", "are we open", "office open", "are they working")) {
+    return open ? `Yeah, we're open. ${awake ? nWord(awake) + " working right now" : "nobody mid task this second"}.` : "No, it's shut. Say open the office and they start.";
+  }
+  if (is("what have we shipped", "how many shipped", "what's shipped", "whats shipped", "how much done", "how many done")) {
+    return s.completed
+      ? `${nWord(s.completed)} so far.${s.blocked ? ` I threw ${nWord(s.blocked)} out.` : ""}${s.reverted ? ` ${nWord(s.reverted)} got rolled back.` : ""}`
+      : "Nothing yet.";
+  }
+  if (is("what went wrong", "anything broken", "anything failed", "how many failed")) {
+    return s.failed || s.reverted
+      ? `${nWord((s.failed || 0) + (s.reverted || 0))} didn't make it. ${nWord(s.reverted || 0)} got rolled back for failing the build.`
+      : "Nothing's broken.";
+  }
+  if (is("how many refused", "what did you refuse", "how many blocked", "what have you blocked")) {
+    return s.blocked ? `${nWord(s.blocked)}. Want to know why?` : "Nothing so far. Everything's passed.";
+  }
+  if (is("what time", "the time")) return "It's " + new Date().toTimeString().slice(0, 5) + ".";
+  if (is("who am i", "my name", "who is ayaan")) return "You're Ayaan Khan. You run this place, I work for you.";
+  if (is("who are you", "what are you")) return "Pinnacle. I run your floor and nothing reaches your codebase without going past me.";
+  if (is("thanks", "thank you", "cheers", "nice one")) return "Any time.";
+  if (is("how are you", "you alright", "you ok")) return awake ? `Fine. ${nWord(awake)} of them working, nothing on fire.` : "Fine. It's quiet.";
+  return null;
+}
+
 async function askPinnacle(text) {
   if (!text.trim()) return;
   // Just her name, nothing else, means "come here" rather than a question.
   if (/^\s*(hey\s+|ok\s+|okay\s+)?pinnacle[\s!.?]*$/i.test(text)) { $("askIn").value = ""; return callHer(); }
   $("askIn").value = "";
+  pushMsg({ boss: true, who: "You", what: text });
+
+  // If she already knows, she answers now rather than in three seconds.
+  const quick = quickAnswer(text);
+  if (quick) {
+    $("reply").className = "reply";
+    $("reply").textContent = quick;
+    pushMsg({ who: "Pinnacle", what: quick });
+    speak(quick);
+    return;
+  }
+
   $("reply").className = "reply think";
   $("reply").textContent = "Pinnacle is thinking.";
   thinking(true);
-  pushMsg({ boss: true, who: "You", what: text });
   let r;
   try { r = await fetch("/api/ask", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ text }) }).then((x) => x.json()); }
   catch { r = { say: "I lost the connection to the office." }; }
@@ -2512,6 +2606,8 @@ const say = (n) => SAY[n] || String(n);
 
 const toggleVoice = () => (listening ? stopVoice() : startVoice());
 $("mic").onclick = toggleVoice;
+$("dupTake").onclick = takeOver;
+
 $("wake").onclick = () => {
   wakeOn = !wakeOn;
   $("wake").classList.toggle("on", wakeOn);
@@ -2613,6 +2709,55 @@ function callHer() {
   speak(greeting);
   setTimeout(() => { if (!listening) startVoice(); }, 900);
 }
+
+// ---------------------------------------------------------------- one office
+// Opening the office spawns a browser tab, and it has been opened many times.
+// Every one of those tabs is a whole Pinnacle: its own recogniser, its own
+// voice, its own timers. Three tabs is three women talking over each other,
+// which is exactly the mess he described, and no amount of tidying the speech
+// code would have fixed it.
+//
+// So the newest tab owns the office and every older one goes quiet: no voice,
+// no microphone, no polling. It says so, and one click hands ownership back.
+const OFFICE_CHANNEL = "pinnacle.office";
+const myTab = String(Date.now()) + Math.random().toString(36).slice(2, 7);
+let iAmLive = true;
+let bus = null;
+
+function standDown(why) {
+  if (!iAmLive) return;
+  iAmLive = false;
+  voiceOut = false;
+  try { hush(); } catch {}
+  try { setEar("off"); } catch {}
+  const b = $("dupBar");
+  if (b) { b.hidden = false; b.querySelector("em").textContent = why; }
+}
+
+function takeOver() {
+  iAmLive = true;
+  voiceOut = true;
+  const b = $("dupBar");
+  if (b) b.hidden = true;
+  bus?.postMessage({ type: "claim", tab: myTab });
+  if (wakeOn) setEar("wake");
+}
+
+try {
+  bus = new BroadcastChannel(OFFICE_CHANNEL);
+  bus.onmessage = (e) => {
+    if (!e.data || e.data.tab === myTab) return;
+    if (e.data.type === "claim") standDown("This office is open in another tab, so this one is muted.");
+    if (e.data.type === "who" && iAmLive) bus.postMessage({ type: "claim", tab: myTab });
+  };
+  // Announce on arrival: whoever opened last is the one he is looking at.
+  bus.postMessage({ type: "claim", tab: myTab });
+  addEventListener("pagehide", () => bus.postMessage({ type: "gone", tab: myTab }));
+} catch { /* no BroadcastChannel, so a single tab is all there is anyway */ }
+
+// Nothing makes a sound unless this tab owns the office.
+const _speak = speak;
+speak = function (text) { if (iAmLive) _speak(text); };
 
 // -------------------------------------------------------- Pinnacle speaks up
 // An assistant that only answers is a search box. This one watches the floor
