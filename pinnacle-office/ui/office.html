@@ -14,7 +14,7 @@
     --dim:rgba(197,182,175,.58); --faint:rgba(197,182,175,.34);
     --line:rgba(197,182,175,.1); --line2:rgba(197,182,175,.2);
     --warm:#ebfb1d; --bad:#4f009e; --good:#c5b6af;
-    --acid:#ebfb1d; --violet:#4f009e; --globe:#39ff9e;
+    --acid:#ebfb1d; --violet:#4f009e;
     --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
     --pad:clamp(18px,3.4vw,52px);
   }
@@ -74,29 +74,18 @@
   .charMeta span:first-child{color:var(--accent)}
   @media(max-width:1080px){.charMeta{display:none}}
   @media(max-width:820px){.heroChar{opacity:.3;right:-6%}}
-  /* ------------------------------------------------------------ the globe
-     A thousand agents on a sphere, in text. Two layers stacked exactly: the
-     dim one is the whole roster, the bright one is only who is awake, so the
-     ball lights up as the floor does. Per character colouring in one <pre> per
-     frame would need a thousand spans; two <pre>s costs two writes. */
-  .globeWrap{position:relative;display:inline-block;margin:clamp(4px,1vw,14px) 0 clamp(14px,2vw,24px);pointer-events:none}
-  .globe{margin:0;white-space:pre;font-family:var(--mono);
-         font-size:clamp(5.4px,0.95vw,11.5px);line-height:1.02;letter-spacing:0;
-         transition:color .5s,text-shadow .5s}
-  .globe.hot{position:absolute;inset:0}
-  .globe.dim{color:rgba(57,255,158,.3)}
-  .globe.hot{color:var(--globe);text-shadow:0 0 8px rgba(57,255,158,.55)}
-  /* Who has the floor is legible from across the room: she glows brighter and
-     wider while she is answering, and cools while she is listening to him. */
-  .globeWrap.listening .globe.hot{color:#eafff5;text-shadow:0 0 14px rgba(57,255,158,.9)}
-  .globeWrap.listening .globe.dim{color:rgba(57,255,158,.44)}
-  .globeWrap.talking .globe.hot{color:var(--acid);text-shadow:0 0 16px rgba(235,251,29,.75)}
-  .globeWrap.talking .globe.dim{color:rgba(235,251,29,.26)}
-  .globeState{position:absolute;left:0;bottom:-18px;font-size:9.5px;letter-spacing:.22em;
-              text-transform:uppercase;color:var(--faint);transition:color .4s}
-  .globeWrap.listening .globeState{color:var(--globe)}
-  .globeWrap.talking .globeState{color:var(--acid)}
-  @media(max-width:900px){.globeWrap{display:none}}
+  /* -------------------------------------------------------------- the orb
+     Fourteen hundred points on a canvas, redrawn every frame. A real hero
+     rather than a monospace grid pretending to be one, so the points can
+     actually be thrown apart and pulled back together. */
+  .orbWrap2{position:absolute;right:2vw;top:42%;transform:translateY(-50%);z-index:2;pointer-events:none;
+            width:min(42vw,540px);aspect-ratio:1}
+  .orbWrap2 canvas{width:100%;height:100%;display:block}
+  .orbState{position:absolute;right:8px;bottom:-2px;font-family:var(--mono);font-size:9.5px;
+            letter-spacing:normal;text-transform:uppercase;color:var(--faint);transition:color .4s}
+  .orbWrap2.talking .orbState{color:var(--acid)}
+  .orbWrap2.listening .orbState{color:var(--ink)}
+  @media(max-width:900px){.orbWrap2{display:none}}
   .heroText{position:relative;padding:0 var(--pad) clamp(20px,3vw,34px);max-width:min(760px,60%)}
   @media(max-width:900px){.heroText{max-width:100%}.heroArt{right:-18%;opacity:.42}}
   .eyebrow{display:flex;align-items:center;gap:12px;margin-bottom:clamp(14px,2vw,22px)}
@@ -601,7 +590,7 @@
      broken is the recognition service. */
   .earRow{display:flex;align-items:center;gap:8px;margin-top:6px}
   .earBar{position:relative;display:block;flex:1;height:2px;background:var(--line2);overflow:hidden;min-width:52px}
-  .earBar:after{content:"";position:absolute;left:0;top:0;bottom:0;width:100%;background:var(--globe);
+  .earBar:after{content:"";position:absolute;left:0;top:0;bottom:0;width:100%;background:var(--acid);
                 transform:scaleX(var(--lvl,0));transform-origin:0 50%;transition:transform .06s linear}
   .earRow em{font-style:normal;font-size:9px;letter-spacing:normal;text-transform:uppercase;color:var(--faint);flex:none}
   .vdock.hot .earRow em{color:var(--acid)}
@@ -609,9 +598,9 @@
           border:1px solid var(--line2);cursor:pointer;transition:.2s}
   .wakeSw:hover{border-color:var(--ink)}
   .wakeSw i{width:6px;height:6px;border-radius:50%;background:var(--faint);display:block;transition:.3s}
-  .wakeSw.on i{background:var(--globe);box-shadow:0 0 8px var(--globe);animation:pulse 2.4s infinite}
+  .wakeSw.on i{background:var(--acid);box-shadow:0 0 8px var(--acid);animation:pulse 2.4s infinite}
   .wakeSw em{font-style:normal;font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--faint)}
-  .wakeSw.on em{color:var(--globe)}
+  .wakeSw.on em{color:var(--acid)}
   .vsay u{display:block;text-decoration:none;font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);margin-bottom:8px}
   .vsay i{display:block;font-style:normal;font-size:12px;color:#b3a69f;padding:3px 0}
   .vsay i:before{content:"\201C";color:var(--faint)}
@@ -723,7 +712,8 @@
   .bleed .shotBg:after{content:"";position:absolute;inset:0;
     background:linear-gradient(180deg,rgba(10,10,10,.5),rgba(10,10,10,0) 30%,rgba(10,10,10,.55) 66%,rgba(10,10,10,.94)),
                radial-gradient(130% 100% at 68% 26%,transparent 20%,rgba(10,10,10,.6))}
-  .bleed > *:not(.shotBg){position:relative;z-index:2}
+  .bleed > *:not(.shotBg):not(.orbWrap2){position:relative;z-index:2}
+  .hero .orbWrap2{position:absolute}
 
   /* The hairline rectangle with its corners cut, drawn once and reused. */
   .edge{position:absolute;inset:clamp(10px,1.4vw,22px);z-index:3;pointer-events:none;
@@ -755,11 +745,6 @@
 
   /* The globe stops being the subject and becomes what their fan of rods is:
      an object laid over the photograph. */
-  .hero .heroGlobe.globeWrap{position:absolute;right:3.5vw;top:42%;transform:translateY(-50%);z-index:2;
-             pointer-events:none;mix-blend-mode:screen;opacity:.95;margin:0}
-  .hero .heroGlobe .globe{font-size:clamp(4.2px,.7vw,9px)}
-  .hero .heroGlobe .globeState{bottom:-16px;left:auto;right:0}
-  @media(max-width:900px){.heroGlobe{display:none}}
 
   /* Their creator grid: portraits scattered at different sizes with the
      metadata printed beside each one rather than under it. */
@@ -820,10 +805,9 @@
 
   <!-- A thousand agents, in text, laid over the photograph. It swells to his
        voice and pulses on hers, so the picture is never just a picture. -->
-  <div class="heroGlobe globeWrap idle" id="globeWrap">
-    <pre class="globe dim" id="globeDim" aria-hidden="true"></pre>
-    <pre class="globe hot" id="globeHot" aria-hidden="true"></pre>
-    <span class="globeState" id="globeState">standing by</span>
+  <div class="orbWrap2 idle" id="orbWrap2">
+    <canvas id="orb" aria-hidden="true"></canvas>
+    <span class="orbState" id="orbState">standing by</span>
   </div>
 
   <figure class="heroChar" id="heroChar" hidden>
@@ -1328,161 +1312,110 @@ const crew = (() => {
 // Raw WebGL, no library. One point per agent, twenty clusters, one per
 // department. A point lights up when that agent is awake, so the background
 // of the dashboard is a live plan of the actual office.
-// ------------------------------------------------------------- the globe
-// A thousand agents on a sphere, drawn in text. One character per point, the
-// character picked by how far away that point is, so the ball has depth
-// without a single pixel of shading.
+// ------------------------------------------------------------------ the orb
+// A real hero, drawn on a canvas: fourteen hundred points on a sphere, one per
+// agent and change, rotated and projected every frame.
 //
-// It is a readout and a face at the same time. The dim layer is the whole
-// roster; the bright layer is only the ones awake, so a busy floor visibly
-// lights up. And it listens: when Ayaan talks it swells with the actual level
-// coming off the microphone, and when Pinnacle answers it pulses on her
-// rhythm. Nothing else on the page tells you who has the floor.
-const globe = (() => {
-  const dim = $("globeDim"), hot = $("globeHot"), wrap = $("globeWrap");
-  if (!dim) return { set() {}, mode() {} };
+// It comes apart when somebody speaks and pulls itself back together when they
+// stop. Each point flies out along its own normal by an amount that is part
+// noise field and part speech energy, so it scatters unevenly the way a thing
+// breaking up actually does, then eases home. His voice and hers move it
+// differently: he makes it ripple, she makes it pulse.
+//
+// This replaces an ASCII globe made of text and CSS, which could only ever
+// wobble a monospace grid. Points on a canvas can actually be thrown.
+const orb = (() => {
+  const cv = $("orb");
+  if (!cv) return { set() {}, mode() {}, feed() {}, arm() {}, disarm() {} };
+  const ctx = cv.getContext("2d", { alpha: true });
 
-  const W = 64, H = 38, N = 1000;   // 64 x 0.6em wide reads as tall as 38 rows
-  const RAMP = " .,:;i1tfLCG08@";
-
-  // Fibonacci sphere. A naive lat/long grid bunches every point at the poles
-  // and looks like a pineapple; this spreads them evenly.
+  const N = 1400;
   const pts = Array.from({ length: N }, (_, i) => {
     const y = 1 - (i / (N - 1)) * 2;
     const r = Math.sqrt(Math.max(0, 1 - y * y));
     const t = Math.PI * (3 - Math.sqrt(5)) * i;
-    return [Math.cos(t) * r, y, Math.sin(t) * r];
+    // a fixed random per point, so each one always breaks the same way
+    const s = Math.sin(i * 12.9898) * 43758.5453;
+    return { x: Math.cos(t) * r, y, z: Math.sin(t) * r, j: s - Math.floor(s) };
   });
 
-  let spin = 0, tilt = -0.38, awake = 0, state = "idle", level = 0, beat = 0;
-  let bass = 0, mid = 0, air = 0, burst = 0;
-  let armed = false, shown = "idle";
-  let fedLevel = 0, fedLow = 0, fedHigh = 0;
-
-  // The level arrives from the one shared microphone stream rather than the
-  // globe opening a second one of its own. Two getUserMedia calls competing
-  // with the recogniser for the same device was part of why she went deaf.
-  // Three bands, not one number. Low frequencies push the belly of the sphere
-  // out, the middle drives the overall swell, and the top end scatters the
-  // poles. That split is the whole difference between a ball that throbs and a
-  // ball that looks like it is forming words.
-  function bands() {
-    if (!armed) return;
-    bass += (fedLow - bass) * 0.35;
-    mid += (fedLevel - mid) * 0.3;
-    air += (fedHigh - air) * 0.25;
+  let w = 0, h = 0, dpr = 1;
+  function size() {
+    const box = cv.getBoundingClientRect();
+    dpr = Math.min(2, devicePixelRatio || 1);
+    w = Math.max(1, Math.round(box.width)); h = Math.max(1, Math.round(box.height));
+    cv.width = w * dpr; cv.height = h * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   }
+  addEventListener("resize", size);
 
-  // Cheap 3D value noise. One hash, three axes, smoothed. Good enough to make
-  // the surface boil, and it costs nothing next to a real simplex.
-  const hash = (x, y, z) => {
-    const v = Math.sin(x * 127.1 + y * 311.7 + z * 74.7) * 43758.5453;
-    return v - Math.floor(v);
-  };
-  function noise(x, y, z) {
-    const xi = Math.floor(x), yi = Math.floor(y), zi = Math.floor(z);
-    const xf = x - xi, yf = y - yi, zf = z - zi;
-    const u = xf * xf * (3 - 2 * xf), v = yf * yf * (3 - 2 * yf), w = zf * zf * (3 - 2 * zf);
-    const l = (a, b, t) => a + (b - a) * t;
-    const c = (i, j, k) => hash(xi + i, yi + j, zi + k);
-    return l(l(l(c(0,0,0), c(1,0,0), u), l(c(0,1,0), c(1,1,0), u), v),
-             l(l(c(0,0,1), c(1,0,1), u), l(c(0,1,1), c(1,1,1), u), v), w);
-  }
+  let spin = 0, state = "idle", awake = 0, energy = 0, target = 0, burst = 0, t0 = 0;
 
-  function frame(t) {
-    beat = t / 1000;
-    bands();
-    const talking = state === "talking";
-    // Armed counts as listening the moment there is anything to hear. He should
-    // never have to tell it he is about to speak.
-    const hearing = !talking && (state === "listening" || (armed && fedLevel > 0.035));
-    const now = talking ? "talking" : hearing ? "listening" : "idle";
-    if (now !== shown) {
-      shown = now;
-      wrap.classList.remove("idle", "listening", "talking");
-      wrap.classList.add(now);
-      const label = $("globeState");
-      if (label) label.textContent = now === "talking" ? "pinnacle speaking" : now === "listening" ? "listening" : "standing by";
-    }
+  function frame(ts) {
+    if (!w) size();
+    const t = ts / 1000;
+    const dt = Math.min(0.05, t - t0 || 0.016); t0 = t;
 
-    // He drives it from the microphone. She has no waveform to read, so her
-    // rhythm is synthesised, but it is built out of three beating oscillators
-    // rather than one sine, which is why it does not read as a metronome.
-    if (hearing) level += (Math.min(1, fedLevel * 1.7) - level) * 0.32;
-    else if (talking) {
-      const sim = 0.3 + Math.sin(beat * 12.4) * 0.16 + Math.sin(beat * 7.1) * 0.11 + Math.sin(beat * 3.3) * 0.08;
-      level += (Math.max(0, sim) - level) * 0.22;
-      bass = 0.4 + Math.sin(beat * 5.5) * 0.3;
-      air = 0.3 + Math.sin(beat * 17) * 0.3;
-    } else level += (0 - level) * 0.07;
+    // He drives it from how often words are arriving. She has no waveform, so
+    // hers is three oscillators beating against each other rather than one
+    // sine, which is what stops it reading as a metronome.
+    if (state === "talking") target = 0.5 + Math.sin(t * 11.3) * 0.22 + Math.sin(t * 6.7) * 0.15 + Math.sin(t * 3.1) * 0.1;
+    else if (state === "listening") target = Math.max(target - dt * 1.1, 0);
+    else target = 0;
+    energy += (Math.max(0, target) - energy) * (target > energy ? 0.35 : 0.06);
+    burst += (energy - burst) * (energy > burst ? 0.55 : 0.035);
 
-    // Burst rises the instant somebody starts and falls away over a second or
-    // so, so the ball flies apart on the attack and gathers itself back up.
-    burst += ((talking || hearing ? level : 0) - burst) * (level > burst ? 0.5 : 0.045);
+    spin += (0.16 + energy * 0.9) * dt;
+    const tilt = -0.32 + Math.sin(t * 0.27) * 0.1;
 
-    spin += 0.0028 + level * 0.02;
-    tilt = -0.36 + Math.sin(beat * 0.3) * 0.11;
-
+    ctx.clearRect(0, 0, w, h);
+    const cx = w / 2, cy = h / 2, R = Math.min(w, h) * 0.38;
     const cs = Math.cos(spin), sn = Math.sin(spin);
     const ct = Math.cos(tilt), st = Math.sin(tilt);
-    const zbuf = new Float32Array(W * H).fill(-2);
-    const cbuf = new Uint8Array(W * H);
-    const abuf = new Uint8Array(W * H);
+    const hot = state === "talking" ? "235,251,29" : state === "listening" ? "197,182,175" : "197,182,175";
+    const lit = Math.round(awake / 1000 * N);
 
     for (let i = 0; i < N; i++) {
-      const [px, py, pz] = pts[i];
-      let x = px * cs - pz * sn, z = px * sn + pz * cs, y = py;
-      const y2 = y * ct - z * st;
-      z = y * st + z * ct;
+      const p = pts[i];
+      let x = p.x * cs - p.z * sn, z = p.x * sn + p.z * cs;
+      const y = p.y * ct - z * st;
+      z = p.y * st + z * ct;
 
-      // Displace along the normal, the way a vertex shader would. Bass swells
-      // the equator, the top end scatters the poles, and the noise field boils
-      // over the whole surface so it never looks like a wireframe pulsing.
-      const belly = 1 - Math.abs(py);
-      const pole = Math.abs(py);
-      const boil = noise(px * 2.4 + beat * 0.9, py * 2.4, pz * 2.4 + beat * 0.6) - 0.5;
-      const r = 0.86
-        + level * 0.1
-        + bass * belly * 0.22 * burst
-        + air * pole * 0.3 * burst
-        + boil * (0.1 + burst * 0.42);
+      // Break apart along the normal. The jitter per point is fixed, so the
+      // same points always fly furthest and it looks like one object coming
+      // apart rather than static.
+      const wob = Math.sin(t * 3 + p.j * 40) * 0.5 + 0.5;
+      const out = 1 + burst * (0.1 + p.j * 0.34) * wob + Math.sin(y * 5 + t * 4) * energy * 0.06;
 
-      const sx = Math.round((x * r * 0.5 + 0.5) * (W - 1));
-      const sy = Math.round((-y2 * r * 0.5 + 0.5) * (H - 1));
-      if (sx < 0 || sx >= W || sy < 0 || sy >= H) continue;
-      const k = sy * W + sx;
-      if (z <= zbuf[k]) continue;
-      zbuf[k] = z;
-      cbuf[k] = Math.max(1, Math.min(RAMP.length - 1,
-        Math.round(((z + 1) / 2) ** 1.5 * (RAMP.length - 1) + level * 2.5)));
-      abuf[k] = i < awake ? 1 : 0;
+      const sx = cx + x * R * out;
+      const sy = cy - y * R * out;
+      const depth = (z + 1) / 2;                       // 0 far, 1 near
+      const a = (0.06 + depth * 0.8) * (0.5 + energy * 0.5);
+      const rad = (0.5 + depth * 1.3) * (1 + burst * 0.35);
+
+      ctx.beginPath();
+      ctx.arc(sx, sy, rad, 0, 6.283);
+      ctx.fillStyle = i < lit ? `rgba(235,251,29,${(a * 1.1).toFixed(3)})` : `rgba(${hot},${(a * 0.7).toFixed(3)})`;
+      ctx.fill();
     }
-
-    let a = "", b = "";
-    for (let k = 0; k < W * H; k++) {
-      const lit = zbuf[k] > -2 ? RAMP[cbuf[k]] : " ";
-      a += abuf[k] ? " " : lit;
-      b += abuf[k] ? lit : " ";
-      if (k % W === W - 1) { a += "\n"; b += "\n"; }
-    }
-    dim.textContent = a;
-    hot.textContent = b;
     requestAnimationFrame(frame);
   }
   requestAnimationFrame(frame);
 
   return {
-    set(n, total) { awake = Math.min(N, Math.round((n / Math.max(total, 1)) * N)); },
-    // idle, listening while he talks, talking while she answers. The class is
-    // set inside the frame loop now, because the ball can hear him without
-    // anybody having declared that he is speaking.
-    mode(next) { state = next; },
-    // The microphone follows whether she is armed at all, not whether he has
-    // pressed a button.
-    arm() { armed = true; },
-    disarm() { armed = false; fedLevel = fedLow = fedHigh = 0; level = bass = mid = air = 0; },
-    // Handed the real level from the one microphone stream the page owns.
-    feed(lvl, low = 0, high = 0) { fedLevel = lvl; fedLow = low; fedHigh = high; },
+    set(n, total) { awake = Math.round((n / Math.max(total, 1)) * 1000); },
+    mode(next) {
+      state = next;
+      // classList, not className. Writing the whole class attribute throws
+      // away everything else on the element, including what positions it.
+      const wrap = $("orbWrap2");
+      if (wrap) { wrap.classList.remove("idle", "listening", "talking"); wrap.classList.add(next); }
+    },
+    // A word arriving is the only proof he is talking that does not need a
+    // second microphone competing with the recogniser for the device.
+    pulse(amount = 0.7) { target = Math.max(target, amount); },
+    arm() {}, disarm() { target = 0; },
+    feed() {},
   };
 })();
 
@@ -1737,7 +1670,7 @@ async function refresh() {
   $("blocked").textContent = r.office.stats.blocked || 0;
 
   const depts = Object.values(r.departments);
-  globe.set(r.awake, r.headcount);
+  orb.set(r.awake, r.headcount);
 
   // Pinnacle in the hero. Redrawn only when its state actually changes, so the
   // breathing animation is never restarted by a routine poll.
@@ -2188,6 +2121,7 @@ fetch("/api/voice").then((r) => r.json()).then((v) => {
   voiceUI(null, voiceLabel());
 }).catch(() => {});
 
+const orbSay = (w) => { const e = $("orbState"); if (e) e.textContent = w; };
 let speaking = false;
 let hushTimer = null;
 let handBack = false;      // give him the floor the moment she stops talking
@@ -2197,8 +2131,9 @@ let handBack = false;      // give him the floor the moment she stops talking
 function mouth(on) {
   speaking = on;
   clearTimeout(hushTimer);
-  if (on) { globe.mode("talking"); return; }
-  globe.mode(listening ? "listening" : "idle");
+  if (on) { orb.mode("talking"); orbSay("pinnacle speaking"); return; }
+  orb.mode(listening ? "listening" : "idle");
+  orbSay(listening ? "listening" : "standing by");
   if (handBack) { handBack = false; if (!listening) startVoice(); }
 }
 
@@ -2386,10 +2321,12 @@ if (Rec) {
     lastHeard = said;
     if (want === "wake") {
       // Waiting for one word. Nothing is shown, stored or sent until it lands.
+      orb.pulse(0.75);            // a word arriving is proof he is talking
       if (wakeHit(said)) { setEar("off"); wakeUp(afterWake(said)); }
       else earSay("armed", said ? `heard "${said.slice(0, 28)}"` : undefined);
       return;
     }
+    orb.pulse(0.85);
     $("askIn").value = said;
     voiceUI(said || "Listening");
     if (e.results[e.results.length - 1].isFinal) { stopVoice(); askPinnacle(said); }
@@ -2429,8 +2366,12 @@ if (Rec) {
 function setEar(next) {
   want = next;
   waking = next === "wake";
-  if (next === "off") { earSay("off"); meter(false); }
-  else meter(true);
+  // The recogniser gets the microphone on its own while it is waiting for her
+  // name. The meter proving the device works did not prove the recogniser was
+  // getting anything, and holding a stream open is a known way to starve it.
+  // That gap is exactly "the bar moves but she never answers".
+  if (next === "off") earSay("off");
+  meter(next === "ask");
   if (earLive) { try { rec.abort(); } catch {} return; }   // onend picks it up
   launchEar();
 }
@@ -2447,7 +2388,7 @@ const openEar = () => { if (wakeOn && !listening) setEar("wake"); };
 const sleepEar = () => setEar(listening ? "ask" : "off");
 
 // ---------------------------------------------------------- the level meter
-// One microphone stream, opened once, shared by the dock meter and the globe.
+// One microphone stream, and only while he is explicitly holding the floor.
 // Two separate getUserMedia calls competing with the recogniser was part of
 // what was breaking it.
 let micStream = null, micAnalyser = null, micBins = null, micRaf = 0;
@@ -2458,7 +2399,6 @@ async function meter(on) {
     micStream = null; micAnalyser = null;
     cancelAnimationFrame(micRaf); micRaf = 0;
     $("earBar")?.style.setProperty("--lvl", "0");
-    globe.feed(0);
     return;
   }
   if (micAnalyser || !navigator.mediaDevices?.getUserMedia) return;
@@ -2482,7 +2422,6 @@ async function meter(on) {
       }
       const lvl = Math.min(1, sum / micBins.length / 62);
       $("earBar")?.style.setProperty("--lvl", lvl.toFixed(3));
-      globe.feed(lvl, low / (micBins.length * 0.15) / 255, high / (micBins.length * 0.5) / 255);
       micRaf = requestAnimationFrame(tick);
     };
     tick();
@@ -2516,18 +2455,17 @@ function startVoice() {
   if (!rec || listening) return;
   listening = true;
   setEar("ask");
-  globe.mode("listening");
+  orb.mode("listening");
+  orbSay("listening");
   $("mic").classList.add("on");
   $("vdock").classList.add("hot");
   voiceUI("Listening", "say it how you would say it to a person");
-  $("reply").className = "reply think";
-  $("reply").textContent = "Listening.";
   try { rec.start(); } catch { stopVoice(); }
 }
 function stopVoice() {
   if (!listening) return;
   listening = false;
-  if (!speaking) globe.mode("idle");
+  if (!speaking) { orb.mode("idle"); orbSay("standing by"); }
   $("mic").classList.remove("on");
   $("vdock").classList.remove("hot");
   voiceUI(wakeOn ? "Say “Hey Pinnacle”" : "Talk to Pinnacle", voiceLabel());
