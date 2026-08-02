@@ -1,7 +1,7 @@
 # Pinnacle AI — launch notes
 
 **Live:** https://pinnacle-ai-two.vercel.app
-**Master console:** https://pinnacle-ai-two.vercel.app/summit — passcode `PEAK-2026`
+**Master console:** https://pinnacle-ai-two.vercel.app/summit — passcode is the `MASTER_PASSCODE` env var in Vercel, not written down anywhere
 
 ---
 

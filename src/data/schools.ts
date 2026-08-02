@@ -63,8 +63,8 @@ export const USERS: User[] = [
   },
 ];
 
-/** Pinnacle Master passcode — the hidden login at /summit. Change before real deployment. */
-export const MASTER_PASSCODE = "PEAK-2026";
+/** Display name for the Pinnacle Master account. The passcode itself lives only
+    server-side in the MASTER_PASSCODE env var, checked by api/master-login.ts. */
 export const MASTER_NAME = "Zainul";
 
 /** Seeded CBSE update feed. In production an automated daily job refreshes this

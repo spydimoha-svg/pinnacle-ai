@@ -485,6 +485,60 @@ Education is a subject of common interest to both the Union and the State Govern
       "Education, forest, trade unions, marriage, adoption and succession are the six Concurrent List examples in NCERT — memorise them as a set, because this 1-marker is asked directly with different subjects each year.",
   },
   {
+    id: "q-c10-sst-15-1",
+    subjectId: "c10-sst",
+    chapterId: "c10-sst-15",
+    classLevel: 10,
+    text: "Distinguish between communalism and secularism, and explain how communal politics works in India.",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer: `(i) Communalism — communalism is a belief that people belonging to a particular religion have a fundamentally different set of interests from those belonging to another religion, and that the interests of the followers of one religion are dissimilar and opposed to the interests of the followers of another. This belief is one of the bases of communal politics.
+
+(ii) How communal politics works — communal politics is based on the idea that religion is the principal basis of a social community, and it involves several things any one of which can take a communal form: the assertion of the domination of one's own religion over other religions; the desire for a nation to be based on one religion; the seeking of political dominance for the community that follows one particular religion; and the belief that followers of a particular religion belong to one community and their identity is based on their religious identification. Communal politics uses religious symbols, leaders, fears and belief for political mobilisation, and can take the form of communal prejudices, stereotypes of religious communities, communal tension, and even large-scale violence such as communal riots.
+
+(iii) Secularism, in contrast, treats religion as a private matter for the individual and does not tie political rights, duties or entitlements to a person's religion. The Indian Constitution does not give a special status to any one religion, and citizens are free to profess, practise and propagate any religion or none.
+
+Thus while secularism separates religion from the state, communalism turns religious identity into the basis of political claims, which is why the Indian state, though secular in the constitution, still has to guard against communal politics in practice.`,
+    keywords: [
+      "communalism — religion as fundamentally different set of interests",
+      "religion as the principal basis of social community",
+      "communal prejudice, stereotypes, tension, violence / riots",
+      "secularism — religion is a private matter",
+      "no special status to any one religion",
+      "religion used for political mobilisation",
+    ],
+    examinerTip:
+      "The distinction between religion IN politics (legitimate, e.g. seeking policy on religious grounds openly) and COMMUNALISM (using religion to dominate or exclude another community) is the exact hinge the marking scheme checks — do not conflate the two.",
+  },
+  {
+    id: "q-c10-sst-15-2",
+    subjectId: "c10-sst",
+    chapterId: "c10-sst-15",
+    classLevel: 10,
+    text: "How has the increasing role of women's movements changed the sexual division of labour in India? Explain with examples.",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer: `(i) Sexual division of labour — in most societies, work inside the home is traditionally treated as a woman's responsibility, involving daily domestic chores, while men are seen as breadwinners. This division often works to the disadvantage of women, since their housework is not valued and hence not counted in the calculation of the gross national product.
+
+(ii) Rise in women's political participation — women's movements have raised demands for greater representation of women in decision-making bodies. As a result of sustained efforts, the proportion of women in the legislature has slowly increased in India — for example, more than 40 per cent of the elected members in the local government bodies (panchayats and municipalities) are women, as one-third of seats in local government are now reserved for women.
+
+(iii) Legal and awareness changes — women's movements have fought for equal wages, changes to inheritance laws to give women equal rights to ancestral property, employment and education, and against the practice of dowry and violence against women, which has made society more aware of the inequality faced by women.
+
+Though women still lag far behind men despite these constitutional and legal provisions of equality — for example, the literacy rate among women is only 65.46 per cent compared to 81.03 per cent among men — the women's movement has significantly weakened the rigid sexual division of labour by bringing women into public and political life.`,
+    keywords: [
+      "sexual division of labour — housework treated as woman's responsibility",
+      "housework not valued / not counted in GNP",
+      "one-third reservation for women in local government (panchayats/municipalities)",
+      "more than 40 per cent women in local bodies",
+      "equal wages / property / education demands",
+      "literacy gap between men and women",
+    ],
+    examinerTip:
+      "The reservation figure for women in local government is a fixed NCERT statistic that examiners check for precisely — state it as 'one-third of seats reserved' and note the higher actual share (40%+), not a vague 'more women got involved'.",
+  },
+  {
     id: "q-c10-sst-16-1",
     subjectId: "c10-sst",
     chapterId: "c10-sst-16",
@@ -664,6 +718,39 @@ In this way, MNCs are not merely selling in many countries; production in distan
     ],
     examinerTip:
       "The scheme wants the MECHANISM, not a description of globalisation. Write the three routes as separate headed points and attach the NCERT example (Cargill–Parakh Foods) — a named example is worth a mark on its own.",
+  },
+
+  {
+    id: "q-c10-sst-22-1",
+    subjectId: "c10-sst",
+    chapterId: "c10-sst-22",
+    classLevel: 10,
+    text:
+      "PROJECT WORK (internal assessment only — Consumer Rights is not examined in the 80-mark theory paper). " +
+      "As part of your class project on consumer awareness, visit a local shop or interview a family member about a purchase where a product or service was found defective or unsatisfactory. Prepare a short project report covering: " +
+      "(a) the consumer rights you would invoke and why; (b) the redressal forum available (District, State or National Consumer Court) based on the value of the goods/compensation claimed; and (c) the role of the COPRA, 1986 helpline and the 'jaago grahak jaago' campaign in consumer awareness.",
+    marks: 5,
+    type: "la",
+    source: "sample",
+    answer: `This is a PROJECT WORK task for internal assessment (Consumer Rights carries no marks in the theory paper). A sample project structure:
+
+(a) Consumer rights invoked — the Right to Information (to know particulars of the good/service being bought, such as ingredients, price, batch number, date of manufacture, expiry and address of manufacturer); the Right to Seek Redressal against unfair or restrictive trade practices; and if the product endangers life or property, the Right to Safety. The report should quote the specific defect found and match it to the specific right.
+
+(b) Redressal forum — under the Consumer Protection Act (COPRA), 1986, a three-tier judicial machinery exists at the district, state and national levels. A consumer can make use of the district-level court for cases valued up to Rs 20 lakh, the state-level court for cases between Rs 20 lakh and Rs 1 crore, and the national-level court for cases above Rs 1 crore. If the first appeal does not satisfy the consumer, they can also appeal in the state and then the national court. The report should state which level applies to the case investigated, based on the value claimed.
+
+(c) COPRA and awareness — the COPRA, 1986 is popularly known as the consumer's right and enacted by the Indian parliament, and it is this act which enabled the formation of the consumer forums. It has led to the setting up of separate departments of consumer affairs in central and state governments. The 'Jaago Grahak Jaago' campaign, run by the Consumer Affairs Department of the Government of India, and other measures, along with the COPRA helpline, have taken up the cause of consumer awareness and made consumer rights more meaningful.
+
+Presentation: the project should be written up with the family/shop interview details, a photo or bill of the defective product if available, and a one-paragraph conclusion on what the consumer should have done differently, since this is scored as internal assessment on originality, presentation and correct application of the rights and redressal machinery — not recalled for the board theory exam.`,
+    keywords: [
+      "PROJECT WORK — not in the 80-mark theory paper",
+      "Right to Information / Right to Safety / Right to Seek Redressal",
+      "three-tier redressal machinery — district, state, national",
+      "COPRA, 1986",
+      "Jaago Grahak Jaago campaign",
+      "consumer awareness / helpline",
+    ],
+    examinerTip:
+      "Consumer Rights is assessed only as the 20-mark internal project, never as a theory-paper question — do not spend board-revision time memorising this as if it carries theory marks. For the project itself, the marks are for correctly matching the right and the forum to the real case investigated, not for reciting the chapter.",
   },
 
   // ==========================================================================

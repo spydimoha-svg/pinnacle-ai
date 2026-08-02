@@ -13,7 +13,7 @@ import type {
   User,
   Worksheet,
 } from "./types";
-import { MASTER_PASSCODE, MASTER_NAME, SCHOOLS, USERS } from "../data/schools";
+import { MASTER_NAME, SCHOOLS, USERS } from "../data/schools";
 import type { CloudUserData } from "./cloud";
 import type { LessonState } from "./lesson";
 import { freshProfile, type LearnerProfile } from "./learner";
@@ -62,7 +62,6 @@ interface PinnacleState {
   profiles: Record<string, LearnerProfile>;
 
   login: (email: string, password: string) => User | null;
-  masterLogin: (passcode: string) => User | null;
   logout: () => void;
   allUsers: () => User[];
   addStudent: (u: Omit<User, "id" | "role">) => User;
@@ -138,19 +137,6 @@ export const useStore = create<PinnacleState>()(
         }));
         get().touchStreak();
         return user;
-      },
-
-      masterLogin: (passcode) => {
-        if (passcode.trim().toUpperCase() !== MASTER_PASSCODE) return null;
-        const master: User = {
-          id: "u-master",
-          name: MASTER_NAME,
-          email: "master@pinnacle.ai",
-          password: "",
-          role: "master",
-        };
-        set({ currentUser: master });
-        return master;
       },
 
       logout: () => set({ currentUser: null }),

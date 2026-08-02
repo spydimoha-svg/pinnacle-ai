@@ -7,11 +7,16 @@
 // exercise: it can only work from the verbatim text we hand it.
 import type { ClassLevel } from "../../lib/types";
 import type { NcertChapter, NcertExercise } from "./types";
+import { C10_MATHS_REAL_NUMBERS } from "./c10-maths-01-real-numbers";
 import { C10_MATHS_POLYNOMIALS } from "./c10-maths-polynomials";
 import { C10_SCIENCE_CHEMICAL_REACTIONS } from "./c10-science-01-chemical-reactions";
 
 /** Every grounded chapter. Grows as the library is seeded. */
-export const NCERT: NcertChapter[] = [C10_MATHS_POLYNOMIALS, C10_SCIENCE_CHEMICAL_REACTIONS];
+export const NCERT: NcertChapter[] = [
+  C10_MATHS_REAL_NUMBERS,
+  C10_MATHS_POLYNOMIALS,
+  C10_SCIENCE_CHEMICAL_REACTIONS,
+];
 
 export interface NcertMatch {
   chapter: NcertChapter;

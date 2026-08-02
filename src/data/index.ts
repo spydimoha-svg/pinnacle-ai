@@ -11,7 +11,7 @@ export { QUESTIONS } from "./questions";
 export { RESOURCES } from "./resources";
 export { VIDEOS } from "./videos";
 export { ENTRANCE_EXAMS } from "./entrance";
-export { SCHOOLS, USERS, CBSE_UPDATES, MASTER_PASSCODE } from "./schools";
+export { SCHOOLS, USERS, CBSE_UPDATES } from "./schools";
 
 export function subjectsForClass(level: ClassLevel): Subject[] {
   return SUBJECTS.filter((s) => s.classLevel === level);
