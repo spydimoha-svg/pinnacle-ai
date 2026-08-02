@@ -11,6 +11,7 @@ import {
   currentConcept,
   detectLessonIntent,
   lessonMap,
+  lessonProgress,
   planTurn,
   readTags,
   resolveVerdict,
@@ -52,6 +53,7 @@ export default function Tutor() {
   const updateMemory = useStore((s) => s.updateMemory);
   const setLesson = useStore((s) => s.setLesson);
   const setProfile = useStore((s) => s.setProfile);
+  const recordProgress = useStore((s) => s.recordProgress);
 
   const profile: LearnerProfile = storedProfile ?? {
     level: 1,
@@ -255,6 +257,17 @@ ${FORMAT_REMINDER}`
         if (verdict.mastered) {
           addAltitude(10);
           nextProfile = { ...nextProfile, firstTimeWins: nextProfile.firstTimeWins + 1 };
+        }
+        if (moved.phase === "done") {
+          const { done, total } = lessonProgress(moved);
+          const shaky = Object.values(moved.progress).some((p) => p.status === "shaky");
+          recordProgress({
+            chapterId: moved.chapterId,
+            status: shaky ? "revising" : "mastered",
+            confidence: total ? Math.round((done / total) * 100) : 0,
+            lastStudied: new Date().toISOString(),
+            masteryAwarded: !shaky,
+          });
         }
       } else if (justStarted && active) {
         setLesson(active);
