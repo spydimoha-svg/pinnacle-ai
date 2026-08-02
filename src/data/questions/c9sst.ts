@@ -936,4 +936,762 @@ Thus the NPP 2000 sets immediate, medium-term and long-term goals, aiming at bot
     examinerTip:
       "The three time-frame objectives (immediate, medium-term, long-term) are the structure examiners look for — an answer that lists only generic 'family planning' measures without this structure misses the main scoring points.",
   },
+
+  // ==========================================================================
+  // Chapter 12 — What is Democracy? Why Democracy?
+  // ==========================================================================
+  {
+    id: "q-c9-sst-12-1",
+    subjectId: "c9-sst",
+    chapterId: "c9-sst-12",
+    classLevel: 9,
+    text: "Define democracy. State any two features of a democratic government.",
+    marks: 2,
+    type: "vsa",
+    source: "important",
+    answer: `Democracy is a form of government in which the rulers are elected by the people.
+
+(i) The final decision-making power rests with those elected by the people.
+
+(ii) The government is chosen through a free and fair electoral competition, in which every adult citizen has one vote of equal value.`,
+    keywords: [
+      "rulers elected by the people",
+      "final decision-making power with elected representatives",
+      "one person, one vote, one value",
+    ],
+    examinerTip:
+      "A definition alone without at least one distinguishing feature (free elections, one-person-one-vote) is treated as incomplete in a 'define and state features' question.",
+  },
+  {
+    id: "q-c9-sst-12-2",
+    subjectId: "c9-sst",
+    chapterId: "c9-sst-12",
+    classLevel: 9,
+    text: "Give three arguments against democracy that are raised by its critics.",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer: `Critics of democracy raise several arguments against it.
+
+(i) Instability — since leaders in a democracy keep changing, this leads to instability in government policy.
+
+(ii) Delay in decision-making — democracy is based on consultation and negotiation, which takes time, so it leads to delays in decision-making.
+
+(iii) Corruption — since elections involve a lot of money and muscle power, ordinary and less wealthy people cannot hope to become elected representatives, and this money-based electoral competition also breeds corruption.
+
+Thus critics argue that democracy is unstable, slow in decision-making and vulnerable to corruption.`,
+    keywords: [
+      "leadership changes cause instability",
+      "consultation causes delay in decisions",
+      "corruption linked to money-based elections",
+    ],
+    examinerTip:
+      "Three distinct criticisms are wanted — the chapter also allows 'elected leaders do not know the best interest of the people' and 'it is about political and not economic equality' as valid alternative points.",
+  },
+  {
+    id: "q-c9-sst-12-3",
+    subjectId: "c9-sst",
+    chapterId: "c9-sst-12",
+    classLevel: 9,
+    text: "Explain any five reasons why democracy is considered a better form of government than any other.",
+    marks: 5,
+    type: "la",
+    source: "important",
+    answer: `Democracy is considered the best form of government for the following reasons.
+
+(i) Promotes equality — democracy promotes equality among citizens; every citizen has one vote of equal value, regardless of wealth or status.
+
+(ii) Enhances dignity of the individual — democracy is based on the recognition that all individuals are equal, and this enhances the dignity and self-respect of the citizen.
+
+(iii) Improves quality of decision-making — because a democracy involves wider consultation and discussion before major decisions are taken, it improves the quality of decision-making even though it takes more time.
+
+(iv) Provides a method to deal with differences and conflicts — in a society with regional, religious and other differences, democracy is the best way to reconcile competing demands through discussion rather than force.
+
+(v) Allows room to correct mistakes — a democratic government is accountable to the people, and if a decision taken by rulers is wrong, either it can be corrected or the rulers can be replaced, which is not easily possible in a non-democratic set-up.
+
+Thus democracy scores over other forms of government mainly because it is more accountable, promotes equality, and provides peaceful means to handle differences and correct mistakes.`,
+    keywords: [
+      "promotes political equality among citizens",
+      "enhances dignity and self-respect of citizens",
+      "improves quality of decision-making through consultation",
+      "peaceful way of handling differences and conflicts",
+      "provides room to correct mistakes; accountable government",
+    ],
+    examinerTip:
+      "Five distinct reasons are expected — the exercise routinely penalises answers that restate 'people choose their leaders' five different ways instead of covering equality, dignity, decision quality, conflict-handling and accountability.",
+  },
+
+  // ==========================================================================
+  // Chapter 13 — Constitutional Design
+  // ==========================================================================
+  {
+    id: "q-c9-sst-13-1",
+    subjectId: "c9-sst",
+    chapterId: "c9-sst-13",
+    classLevel: 9,
+    text: "What was apartheid?",
+    marks: 2,
+    type: "vsa",
+    source: "important",
+    answer: `Apartheid was the system of racial discrimination practised in South Africa, under which the white European minority ruled over and discriminated against the native black African population and other non-white races.
+
+Under apartheid, non-white people could not vote, and there were separate facilities and areas for whites and blacks. It was abolished after a long struggle led by the African National Congress and Nelson Mandela, and a new democratic constitution was adopted in 1996.`,
+    keywords: [
+      "system of racial discrimination in South Africa",
+      "white minority discriminated against black majority",
+      "ended through the struggle led by the African National Congress / Nelson Mandela",
+    ],
+    examinerTip:
+      "A common error is describing apartheid as a general term for discrimination — it must be tied specifically to South Africa's racial policy for full marks.",
+  },
+  {
+    id: "q-c9-sst-13-2",
+    subjectId: "c9-sst",
+    chapterId: "c9-sst-13",
+    classLevel: 9,
+    text: "What is a constitution? Mention any three things that a constitution does for a country.",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer: `A constitution is the supreme law that lays down the fundamental principles according to which a country is governed.
+
+(i) Trust and coordination — it generates a minimum degree of trust and coordination among different sections of society, which is necessary for democratic government.
+
+(ii) Specifies who holds power — it specifies how the government will be constituted, who will have the power to take decisions in a country, and how the government will be formed.
+
+(iii) Limits and rights — it lays down limits on the powers of the government, and defines what rights citizens are entitled to.
+
+Thus the constitution provides the basic rules that allow a certain minimum of coordination among members of society while defining the powers of government and the rights of citizens.`,
+    keywords: [
+      "supreme law of the country",
+      "generates trust and coordination among people",
+      "specifies who has decision-making power / how government is formed",
+      "sets limits on government power and defines citizens' rights",
+    ],
+    examinerTip:
+      "Three separate functions are expected — 'it is the highest law' repeated three ways will not be credited as three distinct value points.",
+  },
+  {
+    id: "q-c9-sst-13-3",
+    subjectId: "c9-sst",
+    chapterId: "c9-sst-13",
+    classLevel: 9,
+    text: "Describe how the Constitution of India was made by the Constituent Assembly.",
+    marks: 5,
+    type: "la",
+    source: "important",
+    answer: `The Constitution of India was framed by a Constituent Assembly, specially elected for this purpose.
+
+(i) Formation of the Assembly — elections to the Constituent Assembly were held in 1946; after Partition, the Assembly that met for India had 299 members.
+
+(ii) First meeting — the Assembly held its first sitting on 9 December 1946, and took nearly three years to complete the historic task of drafting the constitution.
+
+(iii) Drafting Committee — a Drafting Committee was set up to prepare a draft constitution, and Dr B. R. Ambedkar was its chairman; Dr Rajendra Prasad was the President of the Constituent Assembly.
+
+(iv) Deliberation — every provision of the constitution was discussed and debated thoroughly in the Assembly, clause by clause, before it was adopted.
+
+(v) Adoption and enforcement — the Constitution was adopted on 26 November 1949, and it came into force on 26 January 1950, a day now celebrated as Republic Day.
+
+Thus the Indian Constitution was the product of nearly three years of careful, democratic deliberation by an elected Assembly rather than being imposed by any single authority.`,
+    keywords: [
+      "Constituent Assembly, 299 members, first meeting 9 December 1946",
+      "Drafting Committee chaired by Dr B. R. Ambedkar",
+      "Dr Rajendra Prasad, President of the Constituent Assembly",
+      "adopted 26 November 1949",
+      "came into force 26 January 1950 (Republic Day)",
+    ],
+    examinerTip:
+      "Both the adoption date (26 November 1949) and the enforcement date (26 January 1950) are frequently confused with each other — examiners specifically check that students do not swap them.",
+  },
+
+  // ==========================================================================
+  // Chapter 14 — Electoral Politics
+  // ==========================================================================
+  {
+    id: "q-c9-sst-14-1",
+    subjectId: "c9-sst",
+    chapterId: "c9-sst-14",
+    classLevel: 9,
+    text: "What is a reserved constituency? Give one example.",
+    marks: 2,
+    type: "vsa",
+    source: "important",
+    answer: `A reserved constituency is one where only a candidate belonging to a specific social group, such as Scheduled Castes (SC) or Scheduled Tribes (ST), is allowed to contest the election, so as to ensure their fair representation in legislatures.
+
+For example, out of the total Lok Sabha seats, a certain number are reserved for candidates from the SC and ST communities, in proportion to their share of the population.`,
+    keywords: [
+      "only candidates from a specific group (SC/ST) can contest",
+      "ensures fair representation of that social group",
+      "example — SC/ST reserved Lok Sabha seats",
+    ],
+    examinerTip:
+      "Students often confuse reservation of seats with reservation of voters — in a reserved constituency, everyone can vote, but only candidates from the reserved category can stand for election.",
+  },
+  {
+    id: "q-c9-sst-14-2",
+    subjectId: "c9-sst",
+    chapterId: "c9-sst-14",
+    classLevel: 9,
+    text: "Explain any three powers of the Election Commission of India that help it conduct free and fair elections.",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer: `The Election Commission of India (ECI) is an independent and powerful body that conducts elections in the country.
+
+(i) Full control over the election process — the ECI takes decisions on every aspect of conducting elections, from the announcement of elections to the declaration of results.
+
+(ii) Implementation of the Model Code of Conduct — it enforces the code of conduct on parties and candidates, and can impose penalties, including cancellation of the election in a constituency, for its violation.
+
+(iii) Control over government machinery on election duty — when elections are being conducted, government officers on election duty work under the control of the ECI and not the ordinary government, so that elections can be conducted in a free and fair manner.
+
+Thus the ECI's independence from the government and its wide powers over the entire election machinery allow it to ensure free and fair elections.`,
+    keywords: [
+      "conducts elections from announcement to results",
+      "enforces the Model Code of Conduct",
+      "government officials on election duty work under ECI's control",
+    ],
+    examinerTip:
+      "The independence of the ECI from the ruling government is the underlying concept examiners look for — an answer describing only 'it conducts voting' without mentioning its independent authority is incomplete.",
+  },
+  {
+    id: "q-c9-sst-14-3",
+    subjectId: "c9-sst",
+    chapterId: "c9-sst-14",
+    classLevel: 9,
+    text: "Describe the various stages involved in the election process in India.",
+    marks: 5,
+    type: "la",
+    source: "important",
+    answer: `Elections in India, held to constitute the Lok Sabha and state legislative assemblies, involve the following stages.
+
+(i) Delimitation of constituencies — the country is divided into different constituencies for the purpose of elections, and their boundaries are redrawn periodically based on population changes.
+
+(ii) Preparation of electoral rolls — a list of all those who are eligible to vote, called the voters' list or electoral roll, is prepared and revised regularly.
+
+(iii) Nomination of candidates — political parties nominate their candidates, who file their nomination papers along with a declaration of their assets and criminal cases, if any.
+
+(iv) Election campaign — candidates and parties campaign to seek votes, holding public meetings and rallies, and are bound by the Model Code of Conduct during this period.
+
+(v) Polling and counting of votes — voting takes place through Electronic Voting Machines (EVMs) on the day (or days) of polling, after which votes are counted and the result declared, with the candidate securing the highest number of votes declared elected.
+
+Thus the electoral process moves through delimitation, voter-list preparation, nomination, campaigning, and finally polling and counting, all overseen by the Election Commission.`,
+    keywords: [
+      "delimitation of constituencies",
+      "preparation of the electoral roll / voters' list",
+      "nomination of candidates with declaration of assets and criminal cases",
+      "election campaign under the Model Code of Conduct",
+      "polling by EVM, counting of votes and declaration of result",
+    ],
+    examinerTip:
+      "The stages must be in the correct sequence — delimitation and the voter list come before nomination and campaigning; jumbling the order costs marks even if all stages are named.",
+  },
+
+  // ==========================================================================
+  // Chapter 15 — Working of Institutions
+  // ==========================================================================
+  {
+    id: "q-c9-sst-15-1",
+    subjectId: "c9-sst",
+    chapterId: "c9-sst-15",
+    classLevel: 9,
+    text: "Mention any two powers of the Prime Minister of India.",
+    marks: 2,
+    type: "vsa",
+    source: "important",
+    answer: `The Prime Minister is the head of the government and the most powerful functionary in the Indian political system.
+
+(i) The Prime Minister chairs Cabinet meetings and coordinates the work of different departments.
+
+(ii) The Prime Minister allocates and reshuffles work among ministers, and can also dismiss a minister, since all ministers work under their leadership.`,
+    keywords: [
+      "chairs Cabinet meetings",
+      "coordinates the work of different ministries/departments",
+      "allocates work and can dismiss ministers",
+    ],
+    examinerTip:
+      "The Prime Minister, not the President, is the real executive head in India's parliamentary system — mixing up the two roles is a frequent error here.",
+  },
+  {
+    id: "q-c9-sst-15-2",
+    subjectId: "c9-sst",
+    chapterId: "c9-sst-15",
+    classLevel: 9,
+    text: "Distinguish between the Lok Sabha and the Rajya Sabha.",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer: `The Indian Parliament consists of two houses, the Lok Sabha and the Rajya Sabha, which differ in the following ways.
+
+(i) Method of election — members of the Lok Sabha are directly elected by the people, whereas members of the Rajya Sabha are elected indirectly, by the elected members of state legislative assemblies.
+
+(ii) Powers over the government — the Lok Sabha is more powerful; the Council of Ministers, including the Prime Minister, is responsible to the Lok Sabha and can be removed by it through a no-confidence motion, a power the Rajya Sabha does not have.
+
+(iii) Tenure — the Lok Sabha is not a permanent house and can be dissolved before the completion of its five-year term, whereas the Rajya Sabha is a permanent house that is never fully dissolved, with one-third of its members retiring every two years.
+
+Thus while both houses make laws, the Lok Sabha is directly elected and holds the government accountable, while the Rajya Sabha is an indirectly elected permanent body with lesser powers over the executive.`,
+    keywords: [
+      "Lok Sabha directly elected; Rajya Sabha indirectly elected by state legislators",
+      "only Lok Sabha can remove the government through a no-confidence motion",
+      "Lok Sabha is not permanent; Rajya Sabha is a permanent house",
+    ],
+    examinerTip:
+      "The power to make the government resign (via a no-confidence motion) belongs only to the Lok Sabha — students who claim both houses share this power lose the key distinguishing point.",
+  },
+  {
+    id: "q-c9-sst-15-3",
+    subjectId: "c9-sst",
+    chapterId: "c9-sst-15",
+    classLevel: 9,
+    text: "Explain the powers and position of the President of India.",
+    marks: 5,
+    type: "la",
+    source: "important",
+    answer: `The President of India is the head of the Indian state and the formal head of the government, executive, legislature and armed forces.
+
+(i) Election — the President is not directly elected by the people; rather, they are elected indirectly, by an electoral college consisting of elected Members of Parliament and elected members of state legislative assemblies.
+
+(ii) Nominal head — all major decisions of the government are taken in the name of the President, but almost always on the advice of the Prime Minister and the Council of Ministers, which is why the President is called a nominal or constitutional head.
+
+(iii) Formal powers — the President appoints the Prime Minister, and on the Prime Minister's advice appoints other ministers; all laws and major policies of the government are made in the President's name.
+
+(iv) Discretionary power in special situations — if no single party or coalition gets a clear majority, the President has some discretion in inviting the leader of the party best placed to form a stable government to become Prime Minister.
+
+(v) Limits on power — the President generally acts on the advice of the Council of Ministers and does not use their powers independently, except in rare and special circumstances such as a hung Parliament.
+
+Thus, though vested with vast formal powers, the President in practice acts mostly on the advice of the elected Council of Ministers, making the office largely a constitutional/nominal one, with real executive power resting with the Prime Minister.`,
+    keywords: [
+      "elected indirectly by an electoral college of MPs and MLAs",
+      "called nominal/constitutional head",
+      "acts on the advice of the Prime Minister and Council of Ministers",
+      "appoints the Prime Minister",
+      "discretionary power in a hung Parliament",
+    ],
+    examinerTip:
+      "The core scoring idea is the gap between the President's formal powers and their actual exercise on ministerial advice — an answer that lists only formal powers without this 'nominal head' concept misses the main point of the question.",
+  },
+
+  // ==========================================================================
+  // Chapter 16 — Democratic Rights
+  // ==========================================================================
+  {
+    id: "q-c9-sst-16-1",
+    subjectId: "c9-sst",
+    chapterId: "c9-sst-16",
+    classLevel: 9,
+    text: "What is the Right to Constitutional Remedies? Why is it considered important?",
+    marks: 2,
+    type: "vsa",
+    source: "important",
+    answer: `The Right to Constitutional Remedies gives citizens the right to approach the Supreme Court or a High Court directly if they believe that any of their Fundamental Rights have been violated.
+
+It is considered important because it makes the other Fundamental Rights enforceable, and Dr B. R. Ambedkar therefore called it "the heart and soul" of the Constitution.`,
+    keywords: [
+      "right to approach the Supreme Court/High Court if Fundamental Rights are violated",
+      "makes other Fundamental Rights enforceable",
+      "Ambedkar called it the heart and soul of the Constitution",
+    ],
+    examinerTip:
+      "The Ambedkar quotation ('heart and soul') is a specific keyword examiners look for when the question asks 'why is it important' — a generic answer without it scores lower.",
+  },
+  {
+    id: "q-c9-sst-16-2",
+    subjectId: "c9-sst",
+    chapterId: "c9-sst-16",
+    classLevel: 9,
+    text: "Name the six Fundamental Rights guaranteed by the Indian Constitution.",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer: `The Indian Constitution guarantees six Fundamental Rights to its citizens:
+
+(i) Right to Equality
+
+(ii) Right to Freedom
+
+(iii) Right against Exploitation
+
+(iv) Right to Freedom of Religion
+
+(v) Cultural and Educational Rights
+
+(vi) Right to Constitutional Remedies
+
+(The Right to Property was originally a Fundamental Right but was removed from this list by the 44th Constitutional Amendment of 1978, and is now a legal right under Article 300A.)`,
+    keywords: [
+      "Right to Equality",
+      "Right to Freedom, Right against Exploitation, Right to Freedom of Religion",
+      "Cultural and Educational Rights, Right to Constitutional Remedies",
+    ],
+    examinerTip:
+      "Right to Property is a common wrong addition — it was removed as a Fundamental Right by the 44th Amendment in 1978 and is now only a legal right, so it must not be listed among the six.",
+  },
+  {
+    id: "q-c9-sst-16-3",
+    subjectId: "c9-sst",
+    chapterId: "c9-sst-16",
+    classLevel: 9,
+    text: "Explain, with examples, the significance of any five Fundamental Rights guaranteed by the Indian Constitution.",
+    marks: 5,
+    type: "la",
+    source: "important",
+    answer: `Fundamental Rights are the basic rights of citizens guaranteed by the Constitution, enforceable by courts.
+
+(i) Right to Equality — this guarantees equality before the law, prohibits discrimination on grounds of religion, race, caste, sex or place of birth, and abolishes untouchability, e.g. no citizen can be denied access to shops or wells on grounds of caste.
+
+(ii) Right to Freedom — this includes freedom of speech and expression, freedom to assemble peacefully, and freedom to form associations and unions, e.g. citizens can criticise government policies publicly.
+
+(iii) Right against Exploitation — this prohibits human trafficking, forced labour (begar), and the employment of children below 14 years in hazardous work such as factories and mines.
+
+(iv) Right to Freedom of Religion — every person is free to profess, practise and propagate any religion of their choice, and the state does not favour any one religion.
+
+(v) Cultural and Educational Rights — this protects the right of minorities to conserve their language and culture, and to establish and administer their own educational institutions.
+
+Thus the Fundamental Rights together protect citizens' equality, personal liberty, dignity, religious freedom and cultural identity against arbitrary state or social action.`,
+    keywords: [
+      "Right to Equality — no discrimination, abolition of untouchability",
+      "Right to Freedom — speech, assembly, association",
+      "Right against Exploitation — bans forced labour and child labour in hazardous work",
+      "Right to Freedom of Religion — free to profess and propagate any religion",
+      "Cultural and Educational Rights — minorities can preserve language/culture and run institutions",
+    ],
+    examinerTip:
+      "Each right chosen must be paired with a concrete example — naming only the right's title without illustrating what it protects against loses the explanatory marks.",
+  },
+
+  // ==========================================================================
+  // Chapter 17 — The Story of Village Palampur
+  // ==========================================================================
+  {
+    id: "q-c9-sst-17-1",
+    subjectId: "c9-sst",
+    chapterId: "c9-sst-17",
+    classLevel: 9,
+    text: "Name the four factors of production discussed in the chapter.",
+    marks: 2,
+    type: "vsa",
+    source: "important",
+    answer: `The four factors of production needed for producing any good or service are:
+
+(i) Land (and other natural resources)
+
+(ii) Labour
+
+(iii) Physical capital
+
+(iv) Human capital`,
+    keywords: [
+      "land / natural resources",
+      "labour",
+      "physical capital",
+      "human capital",
+    ],
+    examinerTip:
+      "All four terms together are the value point — students who name only 'land, labour and capital' and omit human capital give an incomplete answer.",
+  },
+  {
+    id: "q-c9-sst-17-2",
+    subjectId: "c9-sst",
+    chapterId: "c9-sst-17",
+    classLevel: 9,
+    text: "What is multiple cropping? How have farmers in Palampur been able to practise it?",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer: `Multiple cropping is the practice of growing more than one crop on the same piece of land during the year.
+
+(i) Meaning — instead of growing a single crop, farmers grow two, three or even more crops on the same land in one farming year.
+
+(ii) Palampur's farmers — most farmers in Palampur grow at least two main crops in a year, and some, using modern methods, are able to grow a third crop of potato between the rabi and kharif seasons.
+
+(iii) Role of irrigation — this has been made possible by well-developed irrigation, since all the land in Palampur is irrigated (from wells and the electric tube well), ending the dependence on the monsoon alone.
+
+Thus assured irrigation is what allows Palampur's farmers to practise multiple cropping and raise farm production through the year.`,
+    keywords: [
+      "growing more than one crop on the same land in a year",
+      "Palampur farmers grow two crops, some grow a third crop of potato",
+      "made possible by irrigation (wells, electric tube well) rather than monsoon dependence",
+    ],
+    examinerTip:
+      "The link to irrigation is the key reasoning step — merely stating 'farmers grow many crops' without explaining that assured water supply enables this misses the underlying concept.",
+  },
+  {
+    id: "q-c9-sst-17-3",
+    subjectId: "c9-sst",
+    chapterId: "c9-sst-17",
+    classLevel: 9,
+    text: "Describe the non-farm activities found in Palampur.",
+    marks: 5,
+    type: "la",
+    source: "important",
+    answer: `Besides farming, about a fourth of the working people in Palampur are engaged in various non-farm activities.
+
+(i) Dairy — many families keep buffaloes, feeding them on farm-grown fodder, and sell the milk in the nearby town of Raiganj, providing an important non-farm income source.
+
+(ii) Small-scale manufacturing — this involves simple production methods, carried out mostly by hand, with a few workers, usually done at home or in the fields, for example, making baskets or other small goods.
+
+(iii) Shopkeeping — small shopkeepers in Palampur buy various goods from the wholesale market in the nearby town and sell them in the village.
+
+(iv) Transport — with the growth of production and other activities, a demand has arisen for a variety of transport services, and Palampur has a variety of modes of transport, from bullock carts and tongas to jeeps, tractors and trucks, and many people work as rickshaw or tempo drivers.
+
+(v) Non-agricultural labour — some families also earn a livelihood by working as labourers in the non-farm activities described above, since the fixed land in the village cannot provide work to the growing population.
+
+Thus, since farming alone cannot employ everyone in Palampur, dairy, small manufacturing, shopkeeping and transport provide the additional non-farm livelihoods.`,
+    keywords: [
+      "dairy — buffaloes fed on farm fodder, milk sold in Raiganj",
+      "small-scale manufacturing — simple, mostly by hand, at home",
+      "shopkeeping — goods bought from town wholesale market",
+      "transport — bullock carts, tongas, jeeps, tractors, trucks",
+      "growing population cannot all be absorbed by fixed farm land",
+    ],
+    examinerTip:
+      "Five marks needs multiple distinct non-farm activities named with a Palampur-specific detail each (Raiganj for dairy, for instance) — a generic 'some people do other jobs' answer scores poorly.",
+  },
+
+  // ==========================================================================
+  // Chapter 18 — People as Resource
+  // ==========================================================================
+  {
+    id: "q-c9-sst-18-1",
+    subjectId: "c9-sst",
+    chapterId: "c9-sst-18",
+    classLevel: 9,
+    text: "What is human capital?",
+    marks: 2,
+    type: "vsa",
+    source: "important",
+    answer: `Human capital refers to the stock of skill, education and abilities embodied in the people of a country, which enables them to contribute productively to the economy.
+
+Investment in education, training and health helps build human capital, just as investment in machines and buildings builds physical capital.`,
+    keywords: [
+      "stock of skill, education and ability embodied in people",
+      "built through investment in education, training and health",
+    ],
+    examinerTip:
+      "Human capital must be linked to investment in people (education/health), not simply defined as 'population' — treating the two as the same concept is a common confusion.",
+  },
+  {
+    id: "q-c9-sst-18-2",
+    subjectId: "c9-sst",
+    chapterId: "c9-sst-18",
+    classLevel: 9,
+    text: "Distinguish between economic activities and non-economic activities.",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer: `Human activities can be divided into economic and non-economic activities based on whether they contribute to the national income.
+
+(i) Economic activities — these are activities undertaken for a monetary gain and contribute to the national income; they are further divided into market activities, which involve remuneration to anyone who performs them, whether in the primary, secondary or tertiary sector.
+
+(ii) Non-economic activities — these are activities performed out of love, obligation or a sense of social/religious commitment, and are not remunerated in monetary terms, such as unpaid domestic and voluntary work.
+
+(iii) Example — a teacher's paid work at school is an economic activity, while unpaid household work done by a family member, or activities like helping neighbours or religious/charitable service, is a non-economic activity.
+
+Thus the key distinction is whether the activity generates monetary remuneration and adds to the national income (economic) or not (non-economic).`,
+    keywords: [
+      "economic activities — for monetary gain, add to national income",
+      "non-economic activities — unpaid, done out of love/obligation, not counted in national income",
+      "example distinguishing paid work from unpaid domestic/voluntary work",
+    ],
+    examinerTip:
+      "Unpaid housework is frequently miscounted by students as an economic activity because it involves 'work' — the deciding factor is the absence of monetary remuneration and its exclusion from national income.",
+  },
+  {
+    id: "q-c9-sst-18-3",
+    subjectId: "c9-sst",
+    chapterId: "c9-sst-18",
+    classLevel: 9,
+    text: "Explain the role of education and health in the formation of human capital, and describe the types of unemployment found in India.",
+    marks: 5,
+    type: "la",
+    source: "important",
+    answer: `Education and health are the two major sources of human capital formation in a country.
+
+(i) Role of education — education helps a person acquire skills, knowledge and information, improves productivity, and provides different tools to understand and reflect on social, political, and cultural changes; the country's National Policy on Education addresses issues such as poor school infrastructure and shortage of trained teachers.
+
+(ii) Role of health — a healthy individual can perform better at their work, and the ability of workers to realise their potential depends on their nutritional and health status; expenditure on health is therefore also seen as an investment.
+
+(iii) Disguised unemployment — this occurs mostly in the agricultural sector, where more people are engaged in a job than actually required, so removing them would not reduce total output at all, e.g. family members all working on a small farm that could be managed by fewer of them.
+
+(iv) Seasonal unemployment — this occurs when people are not able to find jobs during some months of the year, since agricultural activities in India are seasonal in nature, for example between the sowing and harvesting seasons.
+
+(v) Educated unemployment — a distinctive feature of India, where a large number of educated youth, including technically qualified people, are unable to find jobs matching their qualifications.
+
+Thus education and health investments build the human capital of the workforce, while unemployment in India shows up mainly in disguised, seasonal and educated forms rather than as simple joblessness alone.`,
+    keywords: [
+      "education improves skill, productivity and access to opportunity",
+      "health/nutrition affects a worker's productive capacity",
+      "disguised unemployment — agriculture, removing workers doesn't cut output",
+      "seasonal unemployment — no work in the off season for agriculture",
+      "educated unemployment — qualified youth unable to find matching jobs",
+    ],
+    examinerTip:
+      "This is a two-part question — education/health AND unemployment types — an answer covering only human capital formation without naming disguised, seasonal and educated unemployment will not score full marks.",
+  },
+
+  // ==========================================================================
+  // Chapter 19 — Poverty as a Challenge
+  // ==========================================================================
+  {
+    id: "q-c9-sst-19-1",
+    subjectId: "c9-sst",
+    chapterId: "c9-sst-19",
+    classLevel: 9,
+    text: "What is the poverty line? How is it estimated in India?",
+    marks: 2,
+    type: "vsa",
+    source: "important",
+    answer: `The poverty line is a benchmark used to define a person as poor, based on the income or consumption level needed to fulfil a minimum acceptable standard of living.
+
+In India it is estimated in monetary terms, using a minimum calorie requirement along with expenditure on items such as clothing, footwear, fuel, education and healthcare, converted into a per capita monthly expenditure figure; as per the 2011-12 estimates, this was about Rs 816 per person per month in rural areas and Rs 1,000 per person per month in urban areas.`,
+    keywords: [
+      "minimum income/consumption level needed for a minimum standard of living",
+      "based on minimum calorie requirement plus non-food expenditure, in monetary terms",
+      "2011-12 estimate — about Rs 816/month rural, Rs 1,000/month urban",
+    ],
+    examinerTip:
+      "The rural and urban poverty-line figures are examiner-specific value points, and rural is always lower than urban since cost of living is lower — reversing the two figures is a common error.",
+  },
+  {
+    id: "q-c9-sst-19-2",
+    subjectId: "c9-sst",
+    chapterId: "c9-sst-19",
+    classLevel: 9,
+    text: "Who are the poorest of the poor? Name any two social and two economic groups that are most vulnerable to poverty in India.",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer: `Poverty in India is not uniform across all groups — some social and economic groups are more vulnerable than others.
+
+(i) Social groups — Scheduled Caste (SC) and Scheduled Tribe (ST) households are among the most vulnerable social groups to poverty.
+
+(ii) Economic groups — rural agricultural labour households and urban casual labour households are the most vulnerable economic groups.
+
+(iii) Poorest of the poor — within these vulnerable groups, women, elderly people and female-headed households are generally the poorest of the poor, since they have little to fall back on when in crisis, and are often the ones facing extreme deprivation within poor households.
+
+Thus the poorest of the poor are concentrated among SC/ST families, casual/agricultural labour households, and within them, women and the elderly.`,
+    keywords: [
+      "Scheduled Castes and Scheduled Tribes as vulnerable social groups",
+      "rural agricultural labour households and urban casual labour households as vulnerable economic groups",
+      "women, children, elderly, female-headed households as the poorest of the poor",
+    ],
+    examinerTip:
+      "The distinction between 'social' groups (caste-based, SC/ST) and 'economic' groups (labour-based) is what the question is testing — mixing the two categories together loses the classification mark.",
+  },
+  {
+    id: "q-c9-sst-19-3",
+    subjectId: "c9-sst",
+    chapterId: "c9-sst-19",
+    classLevel: 9,
+    text: "Explain any three causes of poverty in India and describe any two anti-poverty measures taken by the government.",
+    marks: 5,
+    type: "la",
+    source: "important",
+    answer: `Poverty in India has deep historical and structural causes, and the government has responded with several anti-poverty programmes.
+
+Causes:
+
+(i) Colonial policies — British colonial rule, and the low level of economic development it left behind, destroyed traditional handicrafts and discouraged industrialisation, keeping incomes low.
+
+(ii) High population growth — the rapid growth of population, particularly among the poor, has added more mouths to feed and led to a fall in the per capita availability of resources.
+
+(iii) Unequal distribution — unequal distribution of land and other resources, along with the erosion of common resources like forests and water bodies that the poor depend on, has also been a major cause of poverty.
+
+Anti-poverty measures:
+
+(iv) Mahatma Gandhi National Rural Employment Guarantee Act (MGNREGA), 2005 — this act guarantees 100 days of wage employment in a year to one member of every rural household, providing a legal guarantee of work.
+
+(v) Public Distribution System (PDS) and self-employment schemes — the government runs the PDS to provide subsidised food grains to poor households, alongside self-employment programmes that provide loans at subsidised rates to encourage the poor to set up small businesses.
+
+Thus poverty in India stems from historical, demographic and distributional causes, and is being addressed through employment guarantee, food security and self-employment schemes.`,
+    keywords: [
+      "colonial policies and low economic development",
+      "high population growth reducing per capita resources",
+      "unequal distribution of land/resources; erosion of common resources",
+      "MGNREGA 2005 — 100 days guaranteed wage employment",
+      "Public Distribution System / self-employment schemes as anti-poverty measures",
+    ],
+    examinerTip:
+      "This is a two-part question — causes AND measures — an answer with five causes and no anti-poverty scheme, or vice versa, is capped well below full marks since both parts carry weight.",
+  },
+
+  // ==========================================================================
+  // Chapter 20 — Food Security in India
+  // ==========================================================================
+  {
+    id: "q-c9-sst-20-1",
+    subjectId: "c9-sst",
+    chapterId: "c9-sst-20",
+    classLevel: 9,
+    text: "What is food security? Name its three components.",
+    marks: 2,
+    type: "vsa",
+    source: "important",
+    answer: `Food security means availability, accessibility and affordability of food to all people at all times, so that no one has to live in hunger or fear of starvation.
+
+Its three components are: (i) availability of food, meaning food production within the country along with food stocks and imports; (ii) accessibility, meaning food is within reach of every person; and (iii) affordability, meaning an individual has enough money to buy sufficient, safe and nutritious food to meet their dietary needs.`,
+    keywords: [
+      "availability, accessibility and affordability of food",
+      "ensures no one goes hungry or fears starvation",
+    ],
+    examinerTip:
+      "All three components must be named together — an answer giving only 'availability of food' as the definition, without accessibility and affordability, is incomplete.",
+  },
+  {
+    id: "q-c9-sst-20-2",
+    subjectId: "c9-sst",
+    chapterId: "c9-sst-20",
+    classLevel: 9,
+    text: "What is meant by 'buffer stock'? Why does the government create it?",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer: `Buffer stock is the stock of foodgrains, namely wheat and rice, procured by the government through the Food Corporation of India (FCI).
+
+(i) Procurement — the FCI purchases wheat and rice from farmers in states where there is surplus production, at a pre-announced price called the Minimum Support Price (MSP).
+
+(ii) Purpose — the foodgrains procured are stored in granaries so that they can be distributed in the deficit areas and among the poorer sections of society at a price lower than the market price, known as the Issue Price.
+
+(iii) Meeting shortages — buffer stock also helps to resolve the problem of shortage of food during adverse weather conditions, such as a drought, or during a calamity, when production is expected to fall.
+
+Thus the buffer stock is created to ensure food security, by making surplus grain available in times and places of shortage at an affordable, subsidised price.`,
+    keywords: [
+      "stock of wheat and rice procured by the Food Corporation of India",
+      "procured at the Minimum Support Price (MSP) from farmers in surplus states",
+      "distributed at a subsidised Issue Price in deficit areas / during scarcity",
+    ],
+    examinerTip:
+      "MSP (paid to farmers) and Issue Price (charged to consumers) are two distinct terms examiners check for — using one term for both loses a mark.",
+  },
+  {
+    id: "q-c9-sst-20-3",
+    subjectId: "c9-sst",
+    chapterId: "c9-sst-20",
+    classLevel: 9,
+    text: "Explain the role of the Public Distribution System (PDS) in ensuring food security in India.",
+    marks: 5,
+    type: "la",
+    source: "important",
+    answer: `The Public Distribution System (PDS) is the government's most important instrument for ensuring food security to the poorer sections of society.
+
+(i) Ration shops — the food procured by the Food Corporation of India is distributed through government-regulated ration shops, also called Fair Price Shops, which are now present in most localities, villages, towns and cities.
+
+(ii) Items distributed — ration shops keep a stock of foodgrains such as wheat and rice, sugar and kerosene oil for cooking, which are sold to people at a price lower than the market price, against a valid ration card.
+
+(iii) Types of ration cards — the government issues Antyodaya cards for the poorest of the poor, BPL (Below Poverty Line) cards for other poor families, and APL (Above Poverty Line) cards for those above the poverty line, with different subsidised prices for each category.
+
+(iv) Related schemes — special schemes such as Antyodaya Anna Yojana (AAY) provide highly subsidised food to the poorest families, and revamped PDS schemes have been introduced to strengthen food distribution in remote and backward areas.
+
+(v) Role during crises — the PDS also helped avert famine-like conditions and stabilised prices during periods of shortage, such as during droughts, by ensuring a continuous supply of subsidised foodgrains.
+
+Thus, through a network of ration shops and categorised ration cards, the PDS makes food available, accessible and affordable to vulnerable sections of the population.`,
+    keywords: [
+      "distribution through ration shops / Fair Price Shops",
+      "sells foodgrains, sugar and kerosene below market price against a ration card",
+      "Antyodaya, BPL and APL categories of ration cards",
+      "Antyodaya Anna Yojana for the poorest families",
+      "helps avert famine and stabilise prices during shortages",
+    ],
+    examinerTip:
+      "The three ration-card categories (Antyodaya, BPL, APL) are a specific examiner keyword set — naming only 'BPL and APL cards' and omitting Antyodaya, which covers the poorest of the poor, is a common gap.",
+  },
 ];
