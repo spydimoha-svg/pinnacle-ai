@@ -96,6 +96,12 @@ export function gradeAnswer(
   const c = plain(correct);
   if (!s || s.length < 2) return { mark: "unsure", why: "empty answer" };
 
+  // A request for a hint is not an attempt at the question — grading it wrong
+  // would spend a retry on the app's own "Give me a hint" chip.
+  if (/\bhint\b/i.test(student)) {
+    return { mark: "unsure", why: "the student asked for a hint" };
+  }
+
   // "I don't know" is an answer, and an honest one.
   if (/\b(?:i don'?t know|no idea|not sure|dunno|idk|skip)\b/i.test(student)) {
     return { mark: "wrong", why: "the student said they do not know" };
@@ -215,7 +221,7 @@ export function readMark(reply: string): boolean {
  * anyway, because no student should ever see the machinery.
  */
 const LEAKED_HEADINGS =
-  /^\s{0,3}#{1,6}\s*(?:the one idea|worked example|re-?ask[^\n]*|what has to land|the idea|check question|hard rules?|shape of this reply|use this worked example|draw this figure|your reply|instructions?)\s*:?\s*$/gim;
+  /^\s{0,3}(?:#{1,6}|\*{1,3})\s*(?:the one idea|worked example|re-?ask[^\n]*|what has to land|the idea|check question|hard rules?|shape of this reply|use this worked example|draw this figure|your reply|instructions?)\s*:?\s*\*{0,3}\s*:?\s*$/gim;
 
 /** A stored answer key, printed under the question it belongs to. */
 const LEAKED_ANSWER = /^\s{0,4}[-*]?\s*\*{0,2}(?:answer|correct answer|solution|hint)\*{0,2}\s*:\s*.*$/gim;

@@ -214,6 +214,12 @@ export function readTags(reply: string, phase?: LessonPhase): Verdict {
  * forever. The correct answer is already in the concept graph, so the app marks
  * it: instantly, free, and identically on every model.
  */
+// The model is asked to tag a genuine doubt with @@VERDICT: question instead
+// of grading it, but a local 3B unreliably emits that line at all. When it
+// doesn't, this catches the obvious question shapes mechanically so a
+// clarifying question is never run through the grader and marked wrong.
+const DOUBT_RE = /^(why|what|how|does|is)\b|\?\s*$/i;
+
 export function resolveVerdict(
   concept: Concept | null,
   studentAnswer: string,
@@ -223,6 +229,7 @@ export function resolveVerdict(
   // here for the mechanical grader to mark — marking it would score a
   // clarifying question against the answer key it has nothing to do with.
   if (fromModel.isDoubt) return fromModel;
+  if (DOUBT_RE.test(studentAnswer.trim())) return { ...fromModel, isDoubt: true, mastered: undefined };
   if (!concept?.check.q || !concept.check.answer) return fromModel;
   const { mark, why } = gradeAnswer(concept.check.q, concept.check.answer, studentAnswer);
   if (mark === "unsure") return fromModel;

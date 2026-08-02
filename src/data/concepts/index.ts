@@ -15,11 +15,22 @@ import { ncertChapterById } from "../ncert";
 import type { Concept, ConceptMap, Prereq } from "./types";
 import { C10_MATHS_POLYNOMIALS_MAP } from "./c10-maths-polynomials";
 import { C10_MATHS_TRIGONOMETRY_MAP } from "./c10-maths-trigonometry";
+import { C10_MATHS_REAL_NUMBERS_MAP } from "./c10-maths-real-numbers";
+import { C10_MATHS_QUADRATIC_EQUATIONS_MAP } from "./c10-maths-quadratic-equations";
+import { C10_MATHS_ARITHMETIC_PROGRESSIONS_MAP } from "./c10-maths-arithmetic-progressions";
+import { C10_MATHS_TRIANGLES_MAP } from "./c10-maths-triangles";
 
 export type { Concept, ConceptMap, Prereq, LeadsTo } from "./types";
 
 /** Every hand-authored map. Grows as chapters are seeded. */
-const AUTHORED: ConceptMap[] = [C10_MATHS_POLYNOMIALS_MAP, C10_MATHS_TRIGONOMETRY_MAP];
+const AUTHORED: ConceptMap[] = [
+  C10_MATHS_POLYNOMIALS_MAP,
+  C10_MATHS_TRIGONOMETRY_MAP,
+  C10_MATHS_REAL_NUMBERS_MAP,
+  C10_MATHS_QUADRATIC_EQUATIONS_MAP,
+  C10_MATHS_ARITHMETIC_PROGRESSIONS_MAP,
+  C10_MATHS_TRIANGLES_MAP,
+];
 
 const STOP = new Set([
   "and", "the", "of", "in", "to", "a", "an", "with", "for", "its", "their",

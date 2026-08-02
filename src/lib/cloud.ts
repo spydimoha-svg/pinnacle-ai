@@ -31,17 +31,22 @@ export interface CloudUserData {
 // `student_state` is locked to the anon key at the database (see
 // supabase/schema.sql) — the only door in is /api/state, which trusts nothing
 // from the request body and instead verifies a Supabase-issued session token.
-// That token comes from an anonymous Supabase Auth sign-in, kept one per app
-// user (keyed by `userId`) in localStorage so the same student reusing this
-// browser reuses the same server-verified identity, and a different student
-// logging in on a shared machine gets their own. A stranger holding only the
-// public anon key can mint a session of their own, but it only ever grants
-// them their own empty row — never another student's.
+// That token comes from a Supabase Auth identity keyed to the student's own
+// email+password, so the SAME identity — and the same student_state row — is
+// reachable from any browser or after a cache clear, not just the one that
+// created it. A cached session is kept per app user (keyed by `userId`) in
+// localStorage purely to skip a network round trip on repeat visits; when it's
+// missing or stale, signing back in with the student's own credentials is what
+// recovers the original identity instead of minting a fresh, empty one.
 function sessionKey(userId: string): string {
   return `pinnacle_cloud_session_${userId}`;
 }
 
-async function authToken(userId: string): Promise<string | null> {
+async function authToken(
+  userId: string,
+  email: string,
+  password: string
+): Promise<string | null> {
   if (!supabase) return null;
   const key = sessionKey(userId);
   const stored = localStorage.getItem(key);
@@ -57,25 +62,41 @@ async function authToken(userId: string): Promise<string | null> {
       /* stored session is corrupt or expired — fall through to a fresh one */
     }
   }
-  const { data, error } = await supabase.auth.signInAnonymously();
-  if (error || !data.session) return null;
+  // No usable local session — a new device, or this one had storage cleared.
+  // Sign in with the student's own credentials first, so this lands back on
+  // the SAME Supabase identity (and student_state row) as before.
+  const signedIn = await supabase.auth.signInWithPassword({ email, password });
+  let session = signedIn.data.session;
+  if (!session) {
+    // First time this student's data has ever synced anywhere: create the
+    // identity and link these credentials to it, so the next device can
+    // find it via signInWithPassword instead of getting a fresh empty one.
+    const anon = await supabase.auth.signInAnonymously();
+    session = anon.data.session;
+    if (session) await supabase.auth.updateUser({ email, password });
+  }
+  if (!session) return null;
   localStorage.setItem(
     key,
     JSON.stringify({
-      access_token: data.session.access_token,
-      refresh_token: data.session.refresh_token,
+      access_token: session.access_token,
+      refresh_token: session.refresh_token,
     })
   );
-  return data.session.access_token;
+  return session.access_token;
 }
 
 /**
  * Load a student's saved state. Returns null when Supabase is off OR no row
  * exists yet (a brand-new student) — in both cases the caller keeps local data.
  */
-export async function loadUserData(userId: string): Promise<CloudUserData | null> {
+export async function loadUserData(
+  userId: string,
+  email: string,
+  password: string
+): Promise<CloudUserData | null> {
   if (!supabase) return null;
-  const token = await authToken(userId);
+  const token = await authToken(userId, email, password);
   if (!token) return null;
   const res = await fetch("/api/state", {
     headers: { Authorization: `Bearer ${token}` },
@@ -94,10 +115,12 @@ export async function loadUserData(userId: string): Promise<CloudUserData | null
 /** Upsert a student's full state. Safe no-op when Supabase is off. */
 export async function saveUserData(
   userId: string,
+  email: string,
+  password: string,
   payload: CloudUserData
 ): Promise<void> {
   if (!supabase) return;
-  const token = await authToken(userId);
+  const token = await authToken(userId, email, password);
   if (!token) return;
   const res = await fetch("/api/state", {
     method: "POST",

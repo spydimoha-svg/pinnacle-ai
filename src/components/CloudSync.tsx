@@ -50,15 +50,17 @@ function mergeChats(cloud: ChatMessage[], before: ChatMessage[], now: ChatMessag
 export default function CloudSync() {
   const userId = useStore((s) => s.currentUser?.id ?? null);
   const role = useStore((s) => s.currentUser?.role ?? null);
+  const email = useStore((s) => s.currentUser?.email ?? null);
+  const password = useStore((s) => s.currentUser?.password ?? null);
   const lastPushed = useRef<string>("");
 
   // Hydrate this student's state from the cloud on login / refresh.
   useEffect(() => {
-    if (!cloudEnabled() || !userId || role !== "student") return;
+    if (!cloudEnabled() || !userId || !email || !password || role !== "student") return;
     let cancelled = false;
     const before = snapshot(userId);
     (async () => {
-      const data = await loadUserData(userId);
+      const data = await loadUserData(userId, email, password);
       if (cancelled || !data) return; // no cloud row yet -> keep local, it'll push up
       const now = snapshot(userId);
       const merged: CloudUserData = {
@@ -74,11 +76,11 @@ export default function CloudSync() {
     return () => {
       cancelled = true;
     };
-  }, [userId, role]);
+  }, [userId, role, email, password]);
 
   // Push changes up (debounced) whenever the student's slice changes.
   useEffect(() => {
-    if (!cloudEnabled() || !userId || role !== "student") return;
+    if (!cloudEnabled() || !userId || !email || !password || role !== "student") return;
     let timer: ReturnType<typeof setTimeout> | undefined;
 
     const unsub = useStore.subscribe(() => {
@@ -90,7 +92,7 @@ export default function CloudSync() {
         const sig = JSON.stringify(payload);
         if (sig === lastPushed.current) return;
         lastPushed.current = sig;
-        void saveUserData(userId, payload);
+        void saveUserData(userId, email, password, payload);
       }, DEBOUNCE_MS);
     });
 
@@ -98,7 +100,7 @@ export default function CloudSync() {
       if (timer) clearTimeout(timer);
       unsub();
     };
-  }, [userId, role]);
+  }, [userId, role, email, password]);
 
   return null;
 }
