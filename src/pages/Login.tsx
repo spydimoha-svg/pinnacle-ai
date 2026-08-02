@@ -7,6 +7,10 @@ import type { ClassLevel } from "../lib/types";
 
 const CLASS_LEVELS: ClassLevel[] = [9, 10, 11, 12];
 
+/** localStorage key for the Supabase access token Protected.tsx re-verifies
+    admin routes against — see the comment in submit() below. */
+const ADMIN_TOKEN_KEY = "pinnacle-admin-token";
+
 export default function Login() {
   const navigate = useNavigate();
   const login = useStore((s) => s.login);
@@ -47,28 +51,40 @@ export default function Login() {
     setError("");
 
     // Supabase configured: the password is verified server-side by Supabase
-    // Auth. A matching local profile only supplies the role/name to display —
-    // it never gets a vote on whether the password was correct.
+    // Auth. A matching local profile supplies the name/id/school to display,
+    // but never the role — that field is just localStorage JSON and
+    // trivially editable in devtools. Admin access is only granted from
+    // Supabase's own app_metadata.role, which only a service-role key can
+    // set, never the signed-in user. Protected.tsx re-checks this same
+    // token against Supabase on every /admin visit, the same way it already
+    // re-checks the master token on every /master visit.
     if (cloudEnabled() && supabase) {
       setBusy(true);
-      const { error: authError } = await supabase.auth.signInWithPassword({
+      const { data, error: authError } = await supabase.auth.signInWithPassword({
         email: email.trim(),
         password,
       });
       setBusy(false);
-      const user = authError
+      const profile = authError
         ? undefined
         : useStore
             .getState()
             .allUsers()
             .find((u) => u.email.toLowerCase() === email.trim().toLowerCase());
-      if (!user) {
+      if (!profile || !data.user) {
         setError("That email and password don't match any account.");
         return;
       }
+      const isAdmin = data.user.app_metadata?.role === "admin";
+      if (isAdmin && data.session) {
+        localStorage.setItem(ADMIN_TOKEN_KEY, data.session.access_token);
+      } else {
+        localStorage.removeItem(ADMIN_TOKEN_KEY);
+      }
+      const user = { ...profile, role: isAdmin ? ("admin" as const) : ("student" as const) };
       useStore.setState({ currentUser: user });
       useStore.getState().touchStreak();
-      navigate(user.role === "admin" ? "/admin" : "/app");
+      navigate(isAdmin ? "/admin" : "/app");
       return;
     }
 

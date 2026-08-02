@@ -30,25 +30,27 @@ async function verifiedUserId(req: Request): Promise<string | null> {
 }
 
 // Cheap per-IP throttle so a scripted loop can't self-mint anon Supabase
-// sessions and fill the shared 500MB free-tier Postgres. Same pattern as
-// api/chat.ts and api/master-login.ts.
+// sessions and fill the shared 500MB free-tier Postgres. Backed by the
+// shared rate_limit_hit() RPC (see supabase/schema.sql) rather than an
+// in-memory Map, so the limit is atomic across every instance and survives
+// cold starts — same pattern as api/chat.ts and api/master-login.ts. Both
+// handlers already 503 before this runs if Supabase isn't configured, so
+// the RPC is always available here.
 const RATE_LIMIT_WINDOW_MS = 60_000;
 const RATE_LIMIT_MAX = 20;
-const requestTimestamps = new Map<string, number[]>();
 
-function isRateLimited(ip: string): boolean {
-  const now = Date.now();
-  for (const [key, timestamps] of requestTimestamps) {
-    if (now - timestamps[timestamps.length - 1] >= RATE_LIMIT_WINDOW_MS) {
-      requestTimestamps.delete(key);
-    }
+async function isRateLimited(ip: string): Promise<boolean> {
+  const admin = createClient(url!, serviceKey!);
+  const { data, error } = await admin.rpc("rate_limit_hit", {
+    p_key: `state:${ip}`,
+    p_window_ms: RATE_LIMIT_WINDOW_MS,
+    p_max: RATE_LIMIT_MAX,
+  });
+  if (error) {
+    console.error("rate_limit_hit error:", error.message);
+    return false;
   }
-  const recent = (requestTimestamps.get(ip) ?? []).filter(
-    (t) => now - t < RATE_LIMIT_WINDOW_MS
-  );
-  recent.push(now);
-  requestTimestamps.set(ip, recent);
-  return recent.length > RATE_LIMIT_MAX;
+  return data === true;
 }
 
 // x-forwarded-for's first hop is client-supplied and trivially spoofed.
@@ -65,7 +67,7 @@ export async function GET(req: Request): Promise<Response> {
   }
   const userId = await verifiedUserId(req);
   if (!userId) return new Response("Unauthorized", { status: 401 });
-  if (isRateLimited(clientIp(req))) {
+  if (await isRateLimited(clientIp(req))) {
     return new Response("Too many requests", { status: 429 });
   }
 
@@ -88,7 +90,7 @@ export async function POST(req: Request): Promise<Response> {
   }
   const userId = await verifiedUserId(req);
   if (!userId) return new Response("Unauthorized", { status: 401 });
-  if (isRateLimited(clientIp(req))) {
+  if (await isRateLimited(clientIp(req))) {
     return new Response("Too many requests", { status: 429 });
   }
 
