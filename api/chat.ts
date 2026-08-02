@@ -68,6 +68,11 @@ const requestTimestamps = new Map<string, number[]>();
 
 function isRateLimited(ip: string): boolean {
   const now = Date.now();
+  for (const [key, timestamps] of requestTimestamps) {
+    if (now - timestamps[timestamps.length - 1] >= RATE_LIMIT_WINDOW_MS) {
+      requestTimestamps.delete(key);
+    }
+  }
   const recent = (requestTimestamps.get(ip) ?? []).filter(
     (t) => now - t < RATE_LIMIT_WINDOW_MS
   );
