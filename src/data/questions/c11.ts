@@ -443,6 +443,57 @@ export const C11_QUESTIONS: Question[] = [
     ],
   },
   {
+    id: "q-c11-maths-09-x1",
+    subjectId: "c11-maths",
+    chapterId: "c11-maths-09",
+    classLevel: 11,
+    text: "Find the equation of the line passing through the points (2, 3) and (4, 7).",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer:
+      "Slope: m = (7 − 3)/(4 − 2) = 4/2 = 2.\n\nUsing point-slope form with (2, 3):\ny − 3 = 2(x − 2)\ny − 3 = 2x − 4\n2x − y − 1 = 0.",
+    keywords: [
+      "m = (y₂ − y₁)/(x₂ − x₁) = 2",
+      "point-slope: y − 3 = 2(x − 2)",
+      "simplify to 2x − y − 1 = 0",
+    ],
+  },
+  {
+    id: "q-c11-maths-10-x1",
+    subjectId: "c11-maths",
+    chapterId: "c11-maths-10",
+    classLevel: 11,
+    text: "Find the equation of the circle with centre (2, −3) and radius 5.",
+    marks: 2,
+    type: "sa",
+    source: "important",
+    answer:
+      "Standard form: (x − h)² + (y − k)² = r² with (h, k) = (2, −3), r = 5.\n\n(x − 2)² + (y + 3)² = 25.\n\nExpanding: x² − 4x + 4 + y² + 6y + 9 = 25 ⇒ x² + y² − 4x + 6y − 12 = 0.",
+    keywords: [
+      "(x − h)² + (y − k)² = r²",
+      "(x − 2)² + (y + 3)² = 25",
+      "expanded form: x² + y² − 4x + 6y − 12 = 0",
+    ],
+  },
+  {
+    id: "q-c11-maths-11-x1",
+    subjectId: "c11-maths",
+    chapterId: "c11-maths-11",
+    classLevel: 11,
+    text: "Find the distance between the points P(1, −3, 4) and Q(−4, 1, 2).",
+    marks: 2,
+    type: "sa",
+    source: "important",
+    answer:
+      "Distance formula: PQ = √[(x₂−x₁)² + (y₂−y₁)² + (z₂−z₁)²]\n\nPQ = √[(−4−1)² + (1−(−3))² + (2−4)²]\n= √[(−5)² + 4² + (−2)²]\n= √[25 + 16 + 4]\n= √45 = 3√5.",
+    keywords: [
+      "PQ = √[(x₂−x₁)² + (y₂−y₁)² + (z₂−z₁)²]",
+      "= √[25 + 16 + 4] = √45",
+      "= 3√5",
+    ],
+  },
+  {
     id: "q-c11-maths-12-x1",
     subjectId: "c11-maths",
     chapterId: "c11-maths-12",
@@ -460,6 +511,40 @@ export const C11_QUESTIONS: Question[] = [
     ],
     examinerTip:
       "State that direct substitution gives the 0/0 indeterminate form first — that observation is what justifies factorising, and it is marked.",
+  },
+  {
+    id: "q-c11-maths-13-x1",
+    subjectId: "c11-maths",
+    chapterId: "c11-maths-13",
+    classLevel: 11,
+    text: "Find the mean deviation about the mean for the data: 4, 7, 8, 9, 10, 12, 13, 17.",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer:
+      "Mean = (4+7+8+9+10+12+13+17)/8 = 80/8 = 10.\n\nAbsolute deviations from the mean: |4−10|=6, |7−10|=3, |8−10|=2, |9−10|=1, |10−10|=0, |12−10|=2, |13−10|=3, |17−10|=7.\n\nSum of absolute deviations = 6+3+2+1+0+2+3+7 = 24.\n\nMean deviation = 24/8 = 3.",
+    keywords: [
+      "mean = 80/8 = 10",
+      "sum of |xᵢ − mean| = 24",
+      "MD = 24/8 = 3",
+    ],
+  },
+  {
+    id: "q-c11-maths-14-x1",
+    subjectId: "c11-maths",
+    chapterId: "c11-maths-14",
+    classLevel: 11,
+    text: "A die is thrown once. Find the probability of getting (i) an even number, (ii) a number greater than 4.",
+    marks: 2,
+    type: "sa",
+    source: "important",
+    answer:
+      "Sample space S = {1, 2, 3, 4, 5, 6}, n(S) = 6.\n\n(i) Even numbers: {2, 4, 6}, so P(even) = 3/6 = 1/2.\n\n(ii) Numbers greater than 4: {5, 6}, so P(>4) = 2/6 = 1/3.",
+    keywords: [
+      "n(S) = 6",
+      "even numbers {2,4,6} ⇒ P = 1/2",
+      "numbers > 4 are {5,6} ⇒ P = 1/3",
+    ],
   },
 
   // ── BIOLOGY (NEET foundation) ──
