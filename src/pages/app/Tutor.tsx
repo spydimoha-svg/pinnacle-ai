@@ -146,10 +146,19 @@ export default function Tutor() {
         active = startLesson(intent.chapterId, memory?.classLevel ?? 10);
         justStarted = Boolean(active);
       }
-    } else if (observed.lost || observed.wantsSlower) {
-      // They said it outright, so do not wait for a wrong answer to find out.
-      if (active.phase === "teach" || active.phase === "check") {
-        active = { ...active, phase: "reteach" };
+    } else {
+      // A clear "teach me chapter X" for a DIFFERENT chapter must end the
+      // lesson in progress and start the new one — never get graded as the
+      // student's answer inside the wrong lesson.
+      const intent = detectLessonIntent(content, memory?.classLevel);
+      if (intent && intent.chapterId !== active.chapterId) {
+        active = startLesson(intent.chapterId, memory?.classLevel ?? 10);
+        justStarted = Boolean(active);
+      } else if (observed.lost || observed.wantsSlower) {
+        // They said it outright, so do not wait for a wrong answer to find out.
+        if (active.phase === "teach" || active.phase === "check") {
+          active = { ...active, phase: "reteach" };
+        }
       }
     }
 
