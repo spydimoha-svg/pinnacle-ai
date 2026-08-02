@@ -2,6 +2,7 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 import { marked } from "marked";
 import DOMPurify from "dompurify";
 import markedKatex from "marked-katex-extension";
+import { Lightbulb } from "lucide-react";
 import {
   angleAt,
   compileFn,
@@ -87,6 +88,46 @@ export function ProgressBar({
 
 export function MarksBadge({ marks }: { marks: number }) {
   return <span className="marks">[{marks}]</span>;
+}
+
+/** The revealed marking-scheme answer, examiner keywords and examiner tip for
+ * a question — shared by Chapter, Papers and Worksheets so the three stay in
+ * visual lockstep. */
+export function MarkingSchemeReveal({
+  answer,
+  keywords,
+  examinerTip,
+}: {
+  answer: string;
+  keywords: string[];
+  examinerTip?: string;
+}) {
+  return (
+    <div className="space-y-3">
+      <div>
+        <div className="eyebrow-dim mb-2">Marking-scheme answer</div>
+        <Markdown text={answer} />
+      </div>
+      {keywords.length > 0 && (
+        <div>
+          <div className="eyebrow-dim mb-2">Examiner looks for</div>
+          <div className="flex flex-wrap gap-1.5">
+            {keywords.map((k) => (
+              <span key={k} className="chip-gold">
+                {k}
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
+      {examinerTip && (
+        <p className="text-xs text-muted flex items-start gap-2">
+          <Lightbulb size={14} className="text-gold shrink-0 mt-0.5" />
+          {examinerTip}
+        </p>
+      )}
+    </div>
+  );
 }
 
 export function Empty({
