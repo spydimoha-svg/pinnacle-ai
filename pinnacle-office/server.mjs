@@ -12,6 +12,7 @@ import { ask } from "./core/talk.mjs";
 import * as skills from "./core/skills.mjs";
 import { proficiency, leaderboard, deptCard, dismiss, dismissBenched } from "./core/scorecard.mjs";
 import { openRequests, readRequests, approve, decline } from "./core/supply.mjs";
+import { publicSettings, say } from "./core/voice.mjs";
 
 const json = (res, body, code = 200) => {
   res.writeHead(code, { "content-type": "application/json", "cache-control": "no-store" });
@@ -137,6 +138,29 @@ async function route(req, res) {
   }
 
   // Plain English, typed or spoken. Pinnacle answers and may act.
+  // Which engine is doing her voice. The key itself never comes through here.
+  if (url.pathname === "/api/voice") return json(res, publicSettings());
+
+  // She speaks. If a paid engine is configured this returns real audio; if not
+  // it returns 204 and the browser uses its own neural voices, which cost
+  // nothing. Either way the key stays on this side of the wire.
+  if (url.pathname === "/api/say" && req.method === "POST") {
+    let body = "";
+    for await (const chunk of req) body += chunk;
+    let asked = {};
+    try { asked = JSON.parse(body || "{}"); } catch { return json(res, { error: "bad json" }, 400); }
+    let audio = null;
+    try {
+      audio = await say(asked.text);
+    } catch (err) {
+      emit("office.fault", { detail: `Voice engine refused: ${err.message}` });
+      return json(res, { error: err.message }, 502);
+    }
+    if (!audio) return res.writeHead(204).end();
+    res.writeHead(200, { "content-type": "audio/mpeg", "cache-control": "no-store" });
+    return res.end(audio);
+  }
+
   if (url.pathname === "/api/ask" && req.method === "POST") {
     let body = "";
     for await (const chunk of req) body += chunk;

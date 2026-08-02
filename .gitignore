@@ -11,3 +11,6 @@ dist
 pinnacle-office/state
 pinnacle-office/reports
 qa-reports
+
+# Pinnacle voice settings. Never committed: it can hold an API key.
+pinnacle-office/voice.json

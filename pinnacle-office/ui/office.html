@@ -6,11 +6,15 @@
 <link rel="icon" href="data:," />
 <title>Pinnacle Office</title>
 <style>
+  /* Lifted straight off the reference, read out of its own computed styles
+     rather than guessed at: bone on near black, one acid, one violet. Nothing
+     else. Colour is not carrying category here, the ident codes are. */
   :root{
-    --bg:#000; --ink:#f4f5f8; --accent:#c9d6fc; --dim:#6b7080; --faint:#3a3e49;
-    --line:rgba(255,255,255,.09); --line2:rgba(255,255,255,.16);
-    --warm:#ffb27d; --bad:#ff8b7d; --good:#a8e6c4;
-    --acid:#d4f24a;
+    --bg:#0a0a0a; --panel:#131313; --ink:#c5b6af; --accent:#ebfb1d;
+    --dim:rgba(197,182,175,.58); --faint:rgba(197,182,175,.34);
+    --line:rgba(197,182,175,.1); --line2:rgba(197,182,175,.2);
+    --warm:#ebfb1d; --bad:#4f009e; --good:#c5b6af;
+    --acid:#ebfb1d; --violet:#4f009e;
     --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
     --pad:clamp(18px,3.4vw,52px);
   }
@@ -61,31 +65,31 @@
     .charArt svg,.charArt .armL,.charArt .armR,.charArt .legL,.charArt .legR,.charArt .braids{animation:none}
   }
   .charPlinth{position:absolute;left:50%;bottom:-10px;width:clamp(190px,26vw,380px);height:clamp(70px,9vw,130px);transform:translateX(-58%);
-              background:radial-gradient(ellipse at 50% 100%,rgba(201,214,252,.2),transparent 66%);pointer-events:none}
+              background:radial-gradient(ellipse at 50% 100%,rgba(235,251,29,.2),transparent 66%);pointer-events:none}
   .charMeta{display:flex;flex-direction:column;gap:5px;font-size:9.5px;letter-spacing:.14em;color:var(--faint);white-space:nowrap;align-self:flex-end;padding-bottom:14%}
   .charMeta span:first-child{color:var(--accent)}
   @media(max-width:1080px){.charMeta{display:none}}
   @media(max-width:820px){.heroChar{opacity:.3;right:-6%}}
   #gl{position:absolute;inset:0;width:100%;height:100%;display:block}
-  .heroGlow{position:absolute;inset:0;pointer-events:none;background:radial-gradient(120% 90% at 78% 50%,rgba(120,140,220,.13),transparent 58%),radial-gradient(90% 70% at 0% 100%,rgba(0,0,0,.9),transparent 60%)}
+  .heroGlow{position:absolute;inset:0;pointer-events:none;background:radial-gradient(120% 90% at 78% 50%,rgba(197,182,175,.09),transparent 58%),radial-gradient(90% 70% at 0% 100%,rgba(0,0,0,.9),transparent 60%)}
   .heroText{position:relative;padding:0 var(--pad) clamp(20px,3vw,34px);max-width:min(980px,72%)}
   @media(max-width:900px){.heroText{max-width:100%}.heroArt{right:-18%;opacity:.42}}
   .eyebrow{display:flex;align-items:center;gap:12px;margin-bottom:clamp(14px,2vw,22px)}
   .eyebrow span{width:22px;height:1px;background:var(--accent);display:block}
   h1{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;font-weight:600;letter-spacing:-.045em;
      font-size:clamp(34px,5.6vw,80px);line-height:.98;margin:0}
-  h1 em{font-style:normal;color:var(--accent)}
+  h1 em{font-style:normal;color:#efe6dd}
   .sayline{margin-top:clamp(16px,2vw,26px);font-size:clamp(12.5px,1.05vw,14.5px);color:var(--dim);max-width:62ch;line-height:1.65}
   .sayline b{color:var(--ink);font-weight:400}
   .legend{display:flex;gap:20px;align-items:center;flex-wrap:wrap;margin-top:16px}
   .legend span{display:flex;gap:7px;align-items:center}
-  .legend i{width:5px;height:5px;border-radius:50%;background:#2b303c;display:block}
+  .legend i{width:5px;height:5px;border-radius:50%;background:#2a2724;display:block}
   .legend i.up{background:var(--accent);box-shadow:0 0 9px var(--accent)}
   body{font-family:var(--mono);font-size:13px;line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden}
   ::selection{background:var(--accent);color:#000}
   ::-webkit-scrollbar{width:6px;height:6px}
   ::-webkit-scrollbar-track{background:transparent}
-  ::-webkit-scrollbar-thumb{background:#20232c}
+  ::-webkit-scrollbar-thumb{background:#2a2724}
   button,input{font:inherit;color:inherit;background:none;border:0;outline:none}
   .disp{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;letter-spacing:-.035em;font-weight:500}
   .lab{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--dim)}
@@ -108,7 +112,7 @@
   .dot{width:6px;height:6px;border-radius:50%;background:var(--faint);flex:none}
   .dot.on{background:var(--accent);animation:pulse 1.8s infinite}
   .dot.warn{background:var(--warm)}
-  @keyframes pulse{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(201,214,252,.5)}50%{opacity:.55;box-shadow:0 0 0 6px rgba(201,214,252,0)}}
+  @keyframes pulse{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(235,251,29,.5)}50%{opacity:.55;box-shadow:0 0 0 6px rgba(235,251,29,0)}}
   .grow{flex:1}
   .kbd{border:1px solid var(--line2);border-radius:5px;padding:4px 8px;font-size:10.5px;color:var(--dim);white-space:nowrap}
   .pill{display:flex;align-items:center;gap:10px;background:var(--ink);color:#000;border-radius:999px;padding:6px 8px 6px 16px;font-size:12px;letter-spacing:.02em;cursor:pointer;transition:transform .18s,background .18s;white-space:nowrap}
@@ -155,8 +159,8 @@
   .faults{position:fixed;left:0;right:0;top:0;z-index:95;font-size:11.5px}
   .faults[hidden]{display:none}
   .fault{display:flex;align-items:center;gap:11px;padding:8px var(--pad)}
-  .faults.quiet .fault{background:#161821;color:var(--dim);border-bottom:1px solid var(--line2)}
-  .faults.bug .fault{background:#3a1512;color:#ffd9d3;border-bottom:1px solid #6b2620}
+  .faults.quiet .fault{background:#1a1917;color:var(--dim);border-bottom:1px solid var(--line2)}
+  .faults.bug .fault{background:#2a0b28;color:#e6d8f2;border-bottom:1px solid #4f009e}
   .fault .tag{font-size:9px;letter-spacing:.16em;text-transform:uppercase;padding:2px 7px;border-radius:3px;background:rgba(255,255,255,.1);flex:none}
   .fault .msg{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   .fault button{font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:inherit;opacity:.7;cursor:pointer;border:1px solid currentColor;border-radius:4px;padding:3px 8px;flex:none}
@@ -168,7 +172,7 @@
   .statusbar .eq b{width:2px;background:var(--dim);display:block;transition:height .5s}
   .statusbar .grp{display:flex;align-items:center;gap:11px}
   .statusbar .pulse{display:flex;gap:3px}
-  .statusbar .pulse i{width:3px;height:3px;border-radius:50%;background:rgba(201,214,252,.65);animation:blip 1.5s infinite}
+  .statusbar .pulse i{width:3px;height:3px;border-radius:50%;background:rgba(235,251,29,.65);animation:blip 1.5s infinite}
   @keyframes blip{0%,100%{opacity:.2}50%{opacity:1}}
   @media(max-width:900px){.hideS{display:none}}
   /* Clear of the status strip, the voice dock and the command bar, all three
@@ -176,7 +180,7 @@
   body{padding-bottom:112px}
 
   /* ------------------------------------------------------------ briefing */
-  .brief{font-family:system-ui,sans-serif;font-size:clamp(14px,1.15vw,16.5px);line-height:1.62;letter-spacing:-.006em;color:#d8dae2;max-width:70ch}
+  .brief{font-family:system-ui,sans-serif;font-size:clamp(14px,1.15vw,16.5px);line-height:1.62;letter-spacing:-.006em;color:#c5b6af;max-width:70ch}
   .brief h3{font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin:26px 0 9px;font-weight:400}
   .brief h3:first-child{margin-top:0}
   .brief .b{padding-left:16px;position:relative;margin:5px 0}
@@ -186,6 +190,7 @@
   .row{display:grid;grid-template-columns:1fr auto;gap:10px 16px;padding:13px 0;border-bottom:1px solid var(--line);cursor:pointer;transition:padding-left .22s ease,border-color .22s}
   .row:hover{padding-left:11px;border-color:var(--line2)}
   .row .n{display:flex;align-items:baseline;gap:11px;min-width:0}
+  .row .n .ident{color:var(--faint);font-family:var(--mono);font-size:10px;flex:none}
   .row .team{width:6px;height:6px;border-radius:50%;background:var(--team,var(--dim));flex:none;align-self:center}
   .row.sel{box-shadow:inset 2px 0 0 var(--team,var(--accent))}
   .row .n b{font-family:system-ui,sans-serif;font-weight:500;font-size:15.5px;letter-spacing:-.02em;white-space:nowrap}
@@ -215,7 +220,7 @@
   .card .sum{margin-top:6px;font-size:11.5px;color:var(--dim);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
   .tag{font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;padding:2px 7px;border:1px solid var(--line2);border-radius:3px;color:var(--dim);flex:none}
   .tag.done{color:var(--good);border-color:rgba(168,230,196,.3)}
-  .tag.running,.tag.claimed{color:var(--accent);border-color:rgba(201,214,252,.35)}
+  .tag.running,.tag.claimed{color:var(--accent);border-color:rgba(235,251,29,.35)}
   .tag.reverted,.tag.failed{color:var(--bad);border-color:rgba(255,139,125,.3)}
   .tag.blocked{color:#000;background:var(--bad);border-color:var(--bad)}
   .tag.mine{color:#000;background:var(--accent);border-color:var(--accent)}
@@ -226,7 +231,7 @@
   .rank .pos{color:var(--faint);font-size:10px;width:20px}
   .rank .who b{font-weight:400;color:var(--ink)}
   .rank .who span{color:var(--faint);font-size:10.5px;display:block;margin-top:2px}
-  .rank .bar{width:64px;height:3px;background:#1b1e25;border-radius:2px;overflow:hidden}
+  .rank .bar{width:64px;height:3px;background:#1a1917;border-radius:2px;overflow:hidden}
   .rank .bar i{display:block;height:100%;background:var(--team,var(--accent))}
   .rank .sc{font-variant-numeric:tabular-nums;color:var(--ink);min-width:26px;text-align:right}
 
@@ -236,7 +241,7 @@
   .req .what{font-family:system-ui,sans-serif;font-size:13px;color:var(--ink)}
   .req .asks{font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--acid);white-space:nowrap}
   .req .why{margin-top:4px;font-size:11.5px;color:var(--dim)}
-  .req code{display:block;margin-top:7px;padding:7px 10px;background:#0e1015;border:1px solid var(--line);border-radius:6px;font-size:11px;color:var(--accent);overflow-x:auto}
+  .req code{display:block;margin-top:7px;padding:7px 10px;background:#131313;border:1px solid var(--line);border-radius:6px;font-size:11px;color:var(--accent);overflow-x:auto}
   .req .acts{margin-top:8px;display:flex;gap:7px}
   .req button{font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;border:1px solid var(--line2);border-radius:5px;padding:4px 10px;cursor:pointer;color:var(--dim)}
   .req button:hover{border-color:var(--accent);color:var(--accent)}
@@ -255,9 +260,9 @@
      neighbours half seen at the edges and the whole scene tinted by whatever
      is centred. Same here, except the thing in frame is a department. */
   .stage{position:relative;margin-top:18px;height:clamp(320px,44vh,470px);border:1px solid var(--line);
-         background:#050506;overflow:hidden;display:flex;align-items:center;justify-content:center;user-select:none}
+         background:#0a0a0a;overflow:hidden;display:flex;align-items:center;justify-content:center;user-select:none}
   .stageGlow{position:absolute;inset:0;pointer-events:none;transition:background .7s ease;
-             background:radial-gradient(58% 68% at 50% 42%,color-mix(in srgb,var(--team,#7c9cff) 24%,transparent),transparent 70%)}
+             background:radial-gradient(58% 68% at 50% 42%,color-mix(in srgb,var(--team,#c5b6af) 24%,transparent),transparent 70%)}
   .stage .bracket{opacity:.22;width:26px;height:26px;margin:12px}
   .track{position:relative;width:100%;height:100%;display:flex;align-items:center;justify-content:center}
   .slot{position:absolute;transition:transform .72s cubic-bezier(.22,.8,.2,1),opacity .72s,filter .72s;
@@ -279,8 +284,8 @@
   .focus p{margin-top:5px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
   /* The vertical menu on the right, one mark per team. */
   .rail{position:absolute;right:18px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:6px;z-index:4}
-  .rail b{width:8px;height:8px;border-radius:50%;background:#23262e;cursor:pointer;display:block;transition:.3s;border:1px solid transparent}
-  .rail b:hover{background:#3a3f4b}
+  .rail b{width:8px;height:8px;border-radius:50%;background:#2a2724;cursor:pointer;display:block;transition:.3s;border:1px solid transparent}
+  .rail b:hover{background:#4a4641}
   .rail b.on{background:var(--team);box-shadow:0 0 10px var(--team);transform:scale(1.35)}
   @media(max-width:760px){.rail{display:none}.nudge.next{right:14px}}
 
@@ -296,10 +301,10 @@
   .cross:before{left:4px;top:0;width:1px;height:9px}
   .cross:after{top:4px;left:0;height:1px;width:9px}
 
-  .scene{position:fixed;inset:0;z-index:90;background:#050506;display:flex;align-items:center;justify-content:center}
+  .scene{position:fixed;inset:0;z-index:90;background:#0a0a0a;display:flex;align-items:center;justify-content:center}
   .scene[hidden]{display:none}
   .sceneBg{position:absolute;inset:0;transition:background .8s;
-           background:radial-gradient(62% 72% at 50% 44%,color-mix(in srgb,var(--team,#7c9cff) 26%,transparent),transparent 72%)}
+           background:radial-gradient(62% 72% at 50% 44%,color-mix(in srgb,var(--team,#c5b6af) 26%,transparent),transparent 72%)}
   .sceneX{position:absolute;top:20px;right:24px;z-index:3;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;
           color:var(--dim);border:1px solid var(--line2);border-radius:6px;padding:6px 12px;cursor:pointer}
   .sceneX:hover{color:var(--ink);border-color:var(--ink)}
@@ -317,7 +322,7 @@
   .b1{display:flex;gap:12px;align-items:center;font-size:10px;letter-spacing:.2em;text-transform:uppercase}
   .b1 .idx{color:var(--faint)} .b1 .kind{color:var(--team)}
   .scene h2{font-family:system-ui,sans-serif;font-weight:600;letter-spacing:-.045em;line-height:.96;margin:12px 0 0;
-            font-size:clamp(34px,6.4vw,86px);color:#cdc6bc}
+            font-size:clamp(34px,6.4vw,86px);color:#c5b6af}
   .scene p{margin-top:16px;font-family:system-ui,sans-serif;font-size:clamp(13px,1.15vw,16px);line-height:1.6;color:var(--dim);max-width:56ch}
   .sceneStats{margin-top:22px;display:flex;gap:clamp(16px,2.4vw,38px);flex-wrap:wrap}
   .sceneStats div{min-width:64px}
@@ -337,18 +342,18 @@
 
   /* ------------------------------------------------- ask pinnacle (hero 3) */
   .ask{position:relative;border-bottom:1px solid var(--line);padding:clamp(30px,5vw,64px) var(--pad) clamp(26px,4vw,52px);overflow:hidden}
-  .ask:before{content:"";position:absolute;inset:0;background:radial-gradient(70% 120% at 22% 0%,rgba(120,140,220,.14),transparent 62%);pointer-events:none}
+  .ask:before{content:"";position:absolute;inset:0;background:radial-gradient(70% 120% at 22% 0%,rgba(197,182,175,.08),transparent 62%);pointer-events:none}
   .askIn{position:relative;display:flex;align-items:center;gap:clamp(16px,2.4vw,32px);max-width:1180px}
   .askCopy{flex:1;min-width:0}
   .ask h2{font-family:system-ui,sans-serif;font-weight:600;letter-spacing:-.04em;font-size:clamp(26px,3.7vw,50px);line-height:1.02;margin:10px 0 0}
-  .ask h2 em{font-style:normal;color:var(--accent)}
+  .ask h2 em{font-style:normal;color:#efe6dd}
   .askBar{margin-top:clamp(16px,2vw,26px);display:flex;align-items:center;gap:10px;border:1px solid var(--line2);border-radius:999px;padding:7px 7px 7px 20px;background:rgba(10,11,15,.72);backdrop-filter:blur(14px);max-width:760px}
   .askBar input{flex:1;min-width:0;font-size:14px;padding:8px 0}
   .askBar input::placeholder{color:var(--faint)}
   .mic{width:38px;height:38px;border-radius:50%;border:1px solid var(--line2);display:grid;place-items:center;cursor:pointer;flex:none;transition:.2s}
   .mic:hover{border-color:var(--accent)}
   .mic.on{background:var(--accent);border-color:var(--accent);color:#000;animation:hot 1.1s infinite}
-  @keyframes hot{0%,100%{box-shadow:0 0 0 0 rgba(201,214,252,.45)}50%{box-shadow:0 0 0 10px rgba(201,214,252,0)}}
+  @keyframes hot{0%,100%{box-shadow:0 0 0 0 rgba(235,251,29,.45)}50%{box-shadow:0 0 0 10px rgba(235,251,29,0)}}
   .send{width:38px;height:38px;border-radius:50%;background:var(--ink);color:#000;display:grid;place-items:center;cursor:pointer;flex:none}
   .reply{margin-top:16px;font-family:system-ui,sans-serif;font-size:clamp(14px,1.15vw,17px);line-height:1.55;color:var(--ink);max-width:66ch;min-height:1.2em}
   .reply.think{color:var(--dim)}
@@ -361,15 +366,15 @@
      CSS, no React, and it only spins when Pinnacle is actually thinking. */
   .orbWrap{position:relative;width:clamp(118px,13vw,168px);height:clamp(118px,13vw,168px);flex:none;display:grid;place-items:center}
   .orb{position:absolute;inset:0;border-radius:50%;
-       box-shadow:0 10px 20px 0 #fff inset,0 20px 30px 0 #8ea2ff inset,0 60px 60px 0 #2b1e8c inset;
+       box-shadow:0 10px 20px 0 #fff inset,0 20px 30px 0 #c5b6af inset,0 60px 60px 0 #4f009e inset;
        opacity:.72;transition:opacity .5s}
   .orbWrap.live .orb{animation:orbspin 3.4s linear infinite;opacity:1}
   @keyframes orbspin{
-    0%{transform:rotate(90deg);box-shadow:0 10px 20px 0 #fff inset,0 20px 30px 0 #8ea2ff inset,0 60px 60px 0 #2b1e8c inset}
-    50%{transform:rotate(270deg);box-shadow:0 10px 20px 0 #fff inset,0 20px 10px 0 #c9d6fc inset,0 40px 60px 0 #1b2a6e inset}
-    100%{transform:rotate(450deg);box-shadow:0 10px 20px 0 #fff inset,0 20px 30px 0 #8ea2ff inset,0 60px 60px 0 #2b1e8c inset}}
-  .orbRing{position:absolute;inset:-9px;border-radius:50%;border:1px solid rgba(201,214,252,.18)}
-  .orbWord{position:relative;display:flex;gap:2px;font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;color:#eef1ff;text-shadow:0 1px 8px rgba(0,0,0,.9)}
+    0%{transform:rotate(90deg);box-shadow:0 10px 20px 0 #fff inset,0 20px 30px 0 #c5b6af inset,0 60px 60px 0 #4f009e inset}
+    50%{transform:rotate(270deg);box-shadow:0 10px 20px 0 #fff inset,0 20px 10px 0 #c5b6af inset,0 40px 60px 0 #4f009e inset}
+    100%{transform:rotate(450deg);box-shadow:0 10px 20px 0 #fff inset,0 20px 30px 0 #c5b6af inset,0 60px 60px 0 #4f009e inset}}
+  .orbRing{position:absolute;inset:-9px;border-radius:50%;border:1px solid rgba(235,251,29,.18)}
+  .orbWord{position:relative;display:flex;gap:2px;font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;color:#e8dfd8;text-shadow:0 1px 8px rgba(0,0,0,.9)}
   .orbWord span{opacity:.45;animation:letter 2.6s infinite;animation-play-state:paused}
   .orbWrap.live .orbWord span{animation-play-state:running}
   @keyframes letter{0%,100%{opacity:.35;transform:translateY(0)}20%{opacity:1;transform:scale(1.18)}40%{opacity:.7;transform:translateY(0)}}
@@ -381,7 +386,7 @@
   .msg.boss .av{background:var(--accent);color:#000;border-color:var(--accent)}
   .msg .bd{min-width:0;flex:1}
   .msg .who{font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
-  .msg .what{margin-top:4px;font-family:system-ui,sans-serif;font-size:13.5px;line-height:1.55;color:#d6d9e2}
+  .msg .what{margin-top:4px;font-family:system-ui,sans-serif;font-size:13.5px;line-height:1.55;color:#c5b6af}
   .msg.boss .what{color:var(--accent)}
   .msg .stamp{font-size:10px;color:var(--faint);flex:none}
 
@@ -398,21 +403,21 @@
   #cmdList{max-height:min(46vh,340px);overflow:auto;border-top:1px solid var(--line);display:none}
   #cmdWrap.open #cmdList{display:block}
   .opt{display:flex;gap:14px;align-items:baseline;padding:9px 18px;cursor:pointer}
-  .opt.on{background:rgba(201,214,252,.1)}
+  .opt.on{background:rgba(235,251,29,.1)}
   .opt b{font-weight:400;color:var(--ink);flex:none;min-width:132px}
   .opt i{font-style:normal;color:var(--dim);font-size:11.5px;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   .opt.on b{color:var(--accent)}
   #cmdEcho{padding:9px 18px;font-size:11.5px;color:var(--accent);border-top:1px solid var(--line);display:none}
 
-  dialog{background:#08090c;color:var(--ink);border:1px solid var(--line2);border-radius:14px;padding:0;max-width:860px;width:92vw;max-height:84vh}
+  dialog{background:#131313;color:var(--ink);border:1px solid var(--line2);border-radius:14px;padding:0;max-width:860px;width:92vw;max-height:84vh}
   dialog::backdrop{background:rgba(0,0,0,.85)}
   dialog .dh{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:16px 22px;border-bottom:1px solid var(--line)}
   dialog .dh b{font-family:system-ui,sans-serif;font-weight:500;letter-spacing:-.01em;font-size:15px}
-  dialog .db{padding:18px 22px;overflow:auto;max-height:66vh;white-space:pre-wrap;font-size:12.5px;line-height:1.7;color:#c9ccd6}
+  dialog .db{padding:18px 22px;overflow:auto;max-height:66vh;white-space:pre-wrap;font-size:12.5px;line-height:1.7;color:#b3a69f}
   .roster{display:grid;grid-template-columns:repeat(auto-fill,minmax(224px,1fr));gap:1px;background:var(--line);border:1px solid var(--line)}
-  .roster div{background:#08090c;padding:8px 10px;font-size:11px;color:var(--dim)}
+  .roster div{background:#131313;padding:8px 10px;font-size:11px;color:var(--dim)}
   .roster div b{color:var(--ink);font-weight:400}
-  .roster div.working{background:rgba(201,214,252,.09)}
+  .roster div.working{background:rgba(235,251,29,.09)}
   .roster div.working b{color:var(--accent)}
 
   /* ----------------------------------------------------------- the way in
@@ -432,7 +437,7 @@
   #boot.ready #bootPct,#boot.ready #bootWord{opacity:.16}
   #bootPct,#bootWord{transition:opacity .6s}
   .bootWelcome{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;font-weight:600;letter-spacing:-.05em;
-               line-height:.9;font-size:clamp(46px,11vw,140px);color:#cdc6bc}
+               line-height:.9;font-size:clamp(46px,11vw,140px);color:#c5b6af}
   .bootWelcome em{font-style:normal;color:var(--accent)}
   .bootSound{font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:var(--dim)}
   .bootEnter{position:relative;margin-top:8px;cursor:pointer;padding:15px 34px;font-size:11px;letter-spacing:.24em;
@@ -444,21 +449,86 @@
                    clip-path:polygon(14px 0,100% 0,100% calc(100% - 14px),calc(100% - 14px) 100%,0 100%,0 14px)}
   @keyframes knock{0%{transform:scale(.94);opacity:.45}70%,100%{transform:scale(1.1);opacity:0}}
 
+
+  /* =================================================== the reference, exactly
+     Everything below is read off neocultural-couture's own computed styles
+     rather than eyeballed: the grid it lays over every section, the notched
+     panels it cuts everything out of, the mono metadata it prints beside every
+     image, the barcode, and the crosshair it uses instead of a pointer.
+     The look is theirs. The things it is describing are ours. */
+
+  /* The grid runs under the whole document, fixed, so it reads as paper the
+     page is printed on rather than something inside any one section. */
+  html{background:var(--bg)}
+  body{background-color:transparent;
+       background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+       background-size:clamp(58px,6.6vw,104px) clamp(58px,6.6vw,104px);background-attachment:fixed}
+  .crew,.stage,.scene,.sceneBg,.ask:before,.hero .counts{background-color:transparent}
+
+  /* Its signature cut. Every panel, image and button on that site is an
+     octagon, and the big ones take a stepped notch out of two corners. */
+  .oct{clip-path:polygon(calc(100% - 18px) 0,100% 18px,100% calc(100% - 18px),calc(100% - 18px) 100%,18px 100%,0 calc(100% - 18px),0 18px,18px 0)}
+  .notch{clip-path:polygon(calc(100% - 26px) 0,100% 26px,100% calc(100% - 34px),calc(100% - 88px) calc(100% - 34px),calc(100% - 114px) 100%,26px 100%,0 calc(100% - 26px),0 34px,124px 34px,150px 0)}
+
+  /* Mono metadata, printed beside things. The reference never labels anything
+     in prose; it prints /CREATOR: and the value underneath. */
+  .meta9{font-size:9.5px;line-height:1.55;letter-spacing:.04em;text-transform:uppercase;color:var(--faint)}
+  .meta9 b{display:block;font-weight:400;color:var(--ink)}
+  .meta9 span{display:block;margin-top:9px}
+  .ident{font-size:9.5px;letter-spacing:.06em;color:var(--faint);text-transform:uppercase}
+
+  /* The barcode. Deterministic from a string, so a department's stripe is its
+     own and does not shuffle on every render. */
+  .bars{display:flex;align-items:flex-end;gap:1px;height:26px}
+  .bars i{display:block;background:var(--ink);opacity:.75}
+
+  /* The sound switch, top left, exactly where theirs is. Theirs is decoration
+     for a soundtrack. Ours is the switch that decides whether Pinnacle speaks. */
+  .sound{display:flex;align-items:center;gap:9px;padding:5px 14px 5px 6px;border:1px solid var(--line2);border-radius:999px;cursor:pointer;flex:none}
+  .sound:hover{border-color:var(--ink)}
+  .sound svg{width:44px;height:15px;display:block;overflow:visible}
+  .sound path{stroke:var(--acid);stroke-width:1.4;fill:none;stroke-linecap:round}
+  .sound.off path{stroke:var(--faint)}
+  .sound.on path{stroke-dasharray:64;animation:wave 1.6s linear infinite}
+  @keyframes wave{to{stroke-dashoffset:-64}}
+  .sound em{font-style:normal;font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--dim)}
+  .sound.on em{color:var(--acid)}
+
+  /* Display type arrives a letter at a time and some letters stay behind, which
+     is the effect the reference runs across every one of its headings. */
+  .lit i{opacity:.26;transition:opacity .5s}
+  .lit.in i{opacity:1}
+
+
+  /* One film grain over the whole page instead of one per portrait. It is what
+     the reference does, it ties every panel into the same photograph, and it is
+     twenty two fewer filters for the compositor to chew through. */
+  body:after{content:"";position:fixed;inset:0;z-index:150;pointer-events:none;opacity:.06;mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='3'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
   /* --------------------------------------------------------------- cursor
-     The acid ring lags behind the pointer and the dot does not, which is the
-     whole trick: two speeds read as weight. It also earns its keep by naming
-     what is under it, so nothing on this page needs a tooltip. */
+     Read off the reference: a 24px reticle in bone with four one pixel ticks
+     pointing inward, and a 6px ring sitting on the exact pointer. The reticle
+     lags, the ring does not, and both go acid over anything you can act on. */
   html.pointer,html.pointer *{cursor:none}
   #curDot,#curRing{position:fixed;top:0;left:0;z-index:200;pointer-events:none;will-change:transform;opacity:0;transition:opacity .3s}
   html.pointer #curDot,html.pointer #curRing{opacity:1}
-  #curDot{width:5px;height:5px;border-radius:50%;background:var(--acid);margin:-2.5px 0 0 -2.5px}
-  #curRing{width:36px;height:36px;border-radius:50%;border:1px solid var(--acid);margin:-18px 0 0 -18px;
-           display:grid;place-items:center;transition:width .28s cubic-bezier(.2,.8,.2,1),height .28s cubic-bezier(.2,.8,.2,1),
-           margin .28s cubic-bezier(.2,.8,.2,1),background .28s,opacity .3s}
-  #curRing b{font-size:8.5px;letter-spacing:.16em;text-transform:uppercase;color:#0c0f04;font-weight:500;opacity:0;transition:opacity .2s}
-  #curRing.hot{width:74px;height:74px;margin:-37px 0 0 -37px;background:var(--acid)}
+  #curDot{width:6px;height:6px;border-radius:50%;margin:-3px 0 0 -3px;border:1px solid var(--ink);
+          background:rgba(197,182,175,.05);transition:border-color .25s,background .25s,opacity .3s}
+  #curDot.hot{border-color:var(--acid);background:rgba(235,251,29,.14)}
+  #curRing{width:24px;height:24px;margin:-12px 0 0 -12px;
+           transition:width .3s cubic-bezier(.2,.8,.2,1),height .3s cubic-bezier(.2,.8,.2,1),margin .3s cubic-bezier(.2,.8,.2,1),opacity .3s}
+  #curRing i{position:absolute;background:var(--ink);transition:background .25s}
+  #curRing i:nth-child(1){left:50%;top:0;width:1px;height:8px}
+  #curRing i:nth-child(2){left:50%;bottom:0;width:1px;height:8px}
+  #curRing i:nth-child(3){top:50%;left:0;height:1px;width:8px}
+  #curRing i:nth-child(4){top:50%;right:0;height:1px;width:8px}
+  #curRing b{position:absolute;left:50%;top:calc(100% + 8px);transform:translateX(-50%);font-size:8.5px;letter-spacing:.2em;
+             text-transform:uppercase;color:var(--acid);opacity:0;transition:opacity .2s;white-space:nowrap;font-weight:400}
+  #curRing.hot{width:54px;height:54px;margin:-27px 0 0 -27px}
+  #curRing.hot i{background:var(--acid)}
   #curRing.hot b{opacity:1}
-  #curRing.down{width:26px;height:26px;margin:-13px 0 0 -13px}
+  #curRing.down{width:16px;height:16px;margin:-8px 0 0 -8px}
 
   /* ------------------------------------------------------------- arrivals
      Nothing on the reference is simply there when you get to it. Sections lift
@@ -500,7 +570,7 @@
         opacity:0;visibility:hidden;transform:translateY(6px);transition:.24s}
   .vdock:hover .vsay{opacity:1;visibility:visible;transform:none}
   .vsay u{display:block;text-decoration:none;font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);margin-bottom:8px}
-  .vsay i{display:block;font-style:normal;font-size:12px;color:#c9ccd6;padding:3px 0}
+  .vsay i{display:block;font-style:normal;font-size:12px;color:#b3a69f;padding:3px 0}
   .vsay i:before{content:"\201C";color:var(--faint)}
   .vsay i:after{content:"\201D";color:var(--faint)}
   @media(max-width:900px){.vdock{display:none}}
@@ -514,11 +584,11 @@
 
 <div id="boot">
   <div id="bootBar"></div>
-  <div class="bootTop"><span>Pinnacle office</span><span id="bootId"></span></div>
+  <div class="bootTop"><span>Pinnacle office//</span><span id="bootId"></span></div>
   <div class="bootMid">
     <div class="bootWelcome">Welcome<em>,</em><br />Ayaan</div>
     <div class="bootSound">best experienced with sound on</div>
-    <button class="bootEnter" id="bootEnter">click to enter</button>
+    <button class="bootEnter" id="bootEnter">enter the office</button>
   </div>
   <div id="bootPct">0%</div>
   <div id="bootWord">One thousand specialists standing by</div>
@@ -526,6 +596,10 @@
 
 <header>
   <div class="bar">
+    <button class="sound on" id="sound" title="whether Pinnacle speaks out loud">
+      <svg viewBox="0 0 44 15" aria-hidden="true"><path d="M0 7.5q2.75-7 5.5 0t5.5 0q2.75-7 5.5 0t5.5 0q2.75-7 5.5 0t5.5 0q2.75-7 5.5 0t5.5 0"/></svg>
+      <em id="soundWord">on</em>
+    </button>
     <div class="logo"><b>PINNACLE</b><i>office</i></div>
     <div class="live"><span class="dot" id="dot"></span><span id="status">connecting</span></div>
     <div class="grow"></div>
@@ -577,7 +651,7 @@
   <!-- The stage. One bot in focus, its neighbours peeking, the whole thing
        tinted by whichever team is centred. Taken from the way the reference
        moves its product through frame. -->
-  <div class="stage" id="stage">
+  <div class="stage notch" id="stage">
     <div class="stageGlow" id="stageGlow"></div>
     <div class="grid"></div>
     <div class="cross" style="left:11%;top:20%"></div>
@@ -590,6 +664,7 @@
     <button class="nudge next" id="nextBot" aria-label="next">&#8250;</button>
 
     <div class="focus" id="focusCopy"></div>
+    <div class="meta9" id="focusMeta" style="position:absolute;left:22px;bottom:20px;text-align:left;max-width:190px"></div>
     <div class="rail" id="rail"></div>
   </div>
 </section>
@@ -622,7 +697,7 @@
 
 <section class="ask">
   <div class="askIn">
-    <div class="orbWrap" id="orbWrap">
+    <div class="orbWrap oct" id="orbWrap">
       <div class="orbRing"></div>
       <div class="orb"></div>
       <div class="orbWord" id="orbWord"></div>
@@ -705,7 +780,7 @@
 
 <dialog id="modal"><div class="dh"><b id="modalTitle"></b><button class="kbd" onclick="modal.close()">close</button></div><div class="db" id="modalBody"></div></dialog>
 
-<b id="curDot"></b><i id="curRing"><b></b></i>
+<b id="curDot"></b><i id="curRing"><i></i><i></i><i></i><i></i><b></b></i>
 
 <!-- Voice used to be a keystroke and a small round button, so for practical
      purposes it did not exist. It lives here now: always on screen, says what
@@ -736,12 +811,27 @@ const esc = (s) => String(s == null ? "" : s).replace(/[<>&]/g, (c) => ({ "<": "
 // that colour means category and never state: the hue tells you which team,
 // brightness tells you whether they are awake. Reusing the live colour for a
 // category would make a lit dot meaningless.
-const DEPT_HUES = [
-  "#3d7bff", "#16d5e6", "#35d97b", "#ffc233", "#ff8a3d", "#ff5c7a", "#a55cff", "#4fb0ff",
-  "#14c8a8", "#a8e02c", "#ffab21", "#ff6b52", "#7b5cff", "#2ad4d4", "#4de08a", "#ffd633",
-  "#ff9642", "#ff4dae", "#8a8cff", "#22c98a", "#c9d6fc",
-];
-const hueOf = (key, list) => DEPT_HUES[Math.max(0, list.indexOf(key)) % DEPT_HUES.length];
+// The reference is bone, acid and violet, and nothing else. Twenty one rainbow
+// hues were mine, not its, so they are gone. A department is told apart by its
+// ident code and its name, the way the reference tells its collections apart.
+const DEPT_HUES = ["#c5b6af"];
+const hueOf = () => "#c5b6af";
+
+// [001] through [021], and the scrambled long form the reference prints beside
+// everything. Same seed in, same code out, so a team keeps its number.
+const identOf = (key, list) => "[" + String(Math.max(0, list.indexOf(key)) + 1).padStart(3, "0") + "]";
+function scramble(word, key) {
+  let n = 0;
+  for (const c of key) n = (n * 31 + c.charCodeAt(0)) >>> 0;
+  const pool = "0123456789+?=HKXZE";
+  // Unsigned shifts throughout. A signed >> on a seed past two billion goes
+  // negative, indexes off the front of the pool, and prints UNDEFINED in the
+  // middle of a department's name.
+  return word.toUpperCase().replace(/[^A-Z]/g, "").split("").map((c) => {
+    n = (n * 1103515245 + 12345) >>> 0;
+    return (n >>> 16) % 6 === 0 ? pool[(n >>> 8) % pool.length] : c;
+  }).join("") + pool[(n >>> 4) % pool.length] + ((n >>> 2) % 90 + 10);
+}
 const hexRgb = (h) => [parseInt(h.slice(1, 3), 16) / 255, parseInt(h.slice(3, 5), 16) / 255, parseInt(h.slice(5, 7), 16) / 255];
 
 // ------------------------------------------------------------------ the bots
@@ -840,7 +930,7 @@ const darken = (hex, amt) => mix(hex, "#05060a", amt);
 
 // A department's full scheme, built once from its single categorical hue.
 function palette(hue, { closed = false } = {}) {
-  const base = closed ? mix(hue, "#191c23", 0.8) : mix(hue, "#39404f", 0.2);
+  const base = closed ? mix(hue, "#1a1917", 0.8) : mix(hue, "#3a3733", 0.2);
   return {
     glow: closed ? mix(hue, "#20232b", 0.55) : hue,
     lit: lighten(base, 0.34),
@@ -869,112 +959,148 @@ const EYES = ["#4a3524", "#2e2019", "#5c4a30", "#3a4a3c", "#26313f", "#1f1815"];
 
 // One shared defs block per portrait. The id suffix keeps twenty two sets of
 // gradients on one screen from bleeding into each other.
+// The skull. Crown at 16, chin at 78, widest across the cheekbones. Every
+// portrait and Pinnacle herself are built on this one shape.
+const SKULL = "M48 16c12.4 0 21 10.2 21 25.4 0 6.2-.6 12-1.8 17-2.2 10.6-8.4 19.6-19.2 19.6s-17-9-19.2-19.6c-1.2-5-1.8-10.8-1.8-17C27 26.2 35.6 16 48 16z";
+
 function personDefs(u, p, skin, hair, live) {
   const shade = mix(skin, "#2a1409", 0.52);
   return `<defs>
     <linearGradient id="skin${u}" x1="0.12" y1="0.05" x2="0.92" y2="0.95">
-      <stop offset="0" stop-color="${lighten(skin, 0.3)}"/>
+      <stop offset="0" stop-color="${lighten(skin, 0.28)}"/>
       <stop offset="0.34" stop-color="${skin}"/>
       <stop offset="0.78" stop-color="${mix(skin, "#3a1e10", 0.36)}"/>
       <stop offset="1" stop-color="${shade}"/>
     </linearGradient>
     <linearGradient id="hair${u}" x1="0.2" y1="0" x2="0.85" y2="1">
-      <stop offset="0" stop-color="${lighten(hair, 0.34)}"/>
+      <stop offset="0" stop-color="${lighten(hair, 0.3)}"/>
       <stop offset="0.42" stop-color="${hair}"/>
       <stop offset="1" stop-color="${darken(hair, 0.55)}"/>
     </linearGradient>
     <linearGradient id="suit${u}" x1="0.08" y1="0" x2="0.96" y2="1">
-      <stop offset="0" stop-color="${mix(p.base, "#14161c", 0.3)}"/>
-      <stop offset="0.55" stop-color="${darken(p.base, 0.42)}"/>
-      <stop offset="1" stop-color="${darken(p.base, 0.72)}"/>
+      <stop offset="0" stop-color="#2a2724"/>
+      <stop offset="0.55" stop-color="#1b1917"/>
+      <stop offset="1" stop-color="#0d0c0b"/>
     </linearGradient>
-    <!-- the gel. A coloured light on the right edge is what makes a flat
-         drawing sit in a room, and it is how the reference lights every face. -->
+    <!-- the light in the room. Bone from the left, and the accent only when
+         this one is actually working, so the light is the live state. -->
     <linearGradient id="prim${u}" x1="1" y1="0.1" x2="0.3" y2="0.8">
-      <stop offset="0" stop-color="${lighten(p.glow, 0.4)}" stop-opacity="0.95"/>
-      <stop offset="0.4" stop-color="${p.glow}" stop-opacity="0.25"/>
-      <stop offset="1" stop-color="${p.glow}" stop-opacity="0"/>
+      <stop offset="0" stop-color="${live ? "#ebfb1d" : "#c5b6af"}" stop-opacity="0.9"/>
+      <stop offset="0.42" stop-color="${live ? "#ebfb1d" : "#c5b6af"}" stop-opacity="0.2"/>
+      <stop offset="1" stop-color="#c5b6af" stop-opacity="0"/>
     </linearGradient>
-    <radialGradient id="back${u}" cx="0.5" cy="0.34" r="0.66">
-      <stop offset="0" stop-color="${p.base}" stop-opacity="${live ? 0.55 : 0.3}"/>
-      <stop offset="0.62" stop-color="${darken(p.base, 0.6)}" stop-opacity="0.35"/>
-      <stop offset="1" stop-color="#000000" stop-opacity="0"/>
+    <radialGradient id="back${u}" cx="0.5" cy="0.34" r="0.68">
+      <stop offset="0" stop-color="#2b2724" stop-opacity="${live ? 0.9 : 0.55}"/>
+      <stop offset="1" stop-color="#0a0a0a" stop-opacity="0"/>
     </radialGradient>
     <radialGradient id="key${u}" cx="0.32" cy="0.24" r="0.62">
-      <stop offset="0" stop-color="#fff6ec" stop-opacity="0.34"/>
-      <stop offset="1" stop-color="#fff6ec" stop-opacity="0"/>
+      <stop offset="0" stop-color="#fff2e2" stop-opacity="0.3"/>
+      <stop offset="1" stop-color="#fff2e2" stop-opacity="0"/>
     </radialGradient>
-    <radialGradient id="vig${u}" cx="0.5" cy="0.42" r="0.72">
-      <stop offset="0.5" stop-color="#000000" stop-opacity="0"/>
-      <stop offset="1" stop-color="#000000" stop-opacity="0.72"/>
+    <radialGradient id="vig${u}" cx="0.5" cy="0.42" r="0.74">
+      <stop offset="0.44" stop-color="#0a0a0a" stop-opacity="0"/>
+      <stop offset="1" stop-color="#0a0a0a" stop-opacity="0.8"/>
     </radialGradient>
-    <filter id="soft${u}"><feGaussianBlur stdDeviation="2.6"/></filter>
+    <!-- ONE blur over all of the modelling, not one per shape. Twenty two of
+         these portraits are on screen at once and a filter per blob is what
+         would make the page crawl. -->
+    <filter id="paint${u}" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="6.4"/></filter>
+    <filter id="soft${u}"><feGaussianBlur stdDeviation="2.4"/></filter>
+    <filter id="hairSoft${u}"><feGaussianBlur stdDeviation="0.5"/></filter>
     <filter id="glow${u}" x="-70%" y="-70%" width="240%" height="240%">
       <feGaussianBlur stdDeviation="${live ? 2.4 : 1}" result="b"/>
       <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
     </filter>
-    <filter id="grain${u}">
-      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3"/>
-      <feColorMatrix type="saturate" values="0"/>
-      <feComponentTransfer><feFuncA type="linear" slope="0.07"/></feComponentTransfer>
-      <feBlend in2="SourceGraphic" mode="overlay"/>
-    </filter>
-    <clipPath id="frame${u}">
-      <path d="M9 0h78a9 9 0 019 9v101l-18 18H9a9 9 0 01-9-9V9a9 9 0 019-9z"/>
-    </clipPath>
+    <clipPath id="skull${u}"><path d="${SKULL}"/><ellipse cx="27.6" cy="50" rx="3.6" ry="7"/><ellipse cx="68.4" cy="50" rx="3.6" ry="7"/></clipPath>
+    <clipPath id="frame${u}"><path d="M18 0h60l18 18v92l-18 18H18L0 110V18z"/></clipPath>
   </defs>`;
 }
-
-// The skull. Crown at 16, chin at 78, widest across the cheekbones, which is
-// where most drawn faces go wrong: the eyes belong on the middle line of the
-// head, not up near the hairline.
-const SKULL = "M48 16c12.4 0 21 10.2 21 25.4 0 6.2-.6 12-1.8 17-2.2 10.6-8.4 19.6-19.2 19.6s-17-9-19.2-19.6c-1.2-5-1.8-10.8-1.8-17C27 26.2 35.6 16 48 16z";
 
 // The head, drawn once for the whole floor and for Pinnacle, so the boss is
 // unmistakably drawn by the same hand as her staff. She just gets it smaller
 // and further up, through a transform.
 //
-// Everything here is in portrait coordinates: crown at 16, chin at 78, and the
-// eyes on the middle line of the head. That last one is where most drawn faces
-// go wrong; eyes ride up near the hairline and the face turns into a cartoon.
+// This is painted rather than drawn. The skull goes down as one flat tone and
+// everything that makes it read as a head is laid over the top and blurred:
+// the form turning away from the light, blood sitting near the surface at the
+// nose and ears and cheeks, skin going cool and grey along the jaw, and
+// contact shadow under the brow, the nose and the lip. Miss those out and you
+// get a sticker of a face, which is what was here before.
+//
+// Coordinates are the portrait's: crown at 16, chin at 78, eyes on the middle
+// line of the head. That last one is where most drawn faces go wrong.
 function headOf(u, { skin, shade, lip, eye, hair, extra = "" }) {
-  const brow = darken(hair, 0.15);
+  const deep = mix(skin, "#1d0d06", 0.6);
+  const blood = mix(skin, "#c0392b", 0.44);
+  const cool = mix(skin, "#37453c", 0.36);
+  const hi = lighten(skin, 0.42);
+  const brow = darken(hair, 0.1);
+
+  // One eye, and then the same eye mirrored. A drawn eye is mostly the parts
+  // people forget: the socket it sits in, the shadow the upper lid casts on
+  // the ball, the dark ring around the iris, and the fact that the white is
+  // never white.
+  const eyeAt = (x) => `
+    <path d="M${x - 5.6} 46.8c2.2-4.2 9-4.2 11.2 0-2.2 3.8-9 3.8-11.2 0z" fill="${deep}" opacity="0.55"/>
+    <path d="M${x - 4.9} 47.1c2-3.7 7.8-3.7 9.8 0-2 3.5-7.8 3.5-9.8 0z" fill="#cec1b4"/>
+    <path d="M${x - 4.9} 47.1c2-3.7 7.8-3.7 9.8 0-1.6-1.5-8.2-1.5-9.8 0z" fill="#5f5248" opacity="0.6"/>
+    <circle cx="${x}" cy="47.2" r="2.85" fill="${eye}"/>
+    <circle cx="${x}" cy="47.2" r="2.85" fill="none" stroke="#160f0a" stroke-width="0.95" opacity="0.72"/>
+    <circle cx="${x}" cy="47.2" r="1.25" fill="#0b0705"/>
+    <circle cx="${x + 1}" cy="46.1" r="0.95" fill="#fff" opacity="0.95"/>
+    <circle cx="${x - 1.2}" cy="48.5" r="0.5" fill="#fff" opacity="0.28"/>
+    <path d="M${x - 5} 46.9c2.1-4.1 7.9-4.1 10 0" stroke="#15100c" stroke-width="1.75" stroke-linecap="round" fill="none"/>
+    <path d="M${x - 4.4} 49.9c1.9-1.5 6.9-1.5 8.8 0" stroke="${hi}" stroke-width="0.75" opacity="0.6" fill="none"/>`;
+
   return `
-    <path d="${SKULL}" fill="url(#skin${u})"/>
-    <ellipse cx="27.6" cy="50" rx="3.6" ry="7" fill="url(#skin${u})"/>
-    <ellipse cx="68.4" cy="50" rx="3.6" ry="7" fill="url(#skin${u})"/>
-    <!-- the shadow side. A face lit from one side is a face; lit from the
-         front it is a mask. -->
-    <path d="M62 22c5 4.6 7 11.4 7 19.4 0 6.2-.6 12-1.8 17-2.2 10.6-8.4 19.6-19.2 19.6 7.6-2.6 12.6-11 14.6-20.6 1.2-5.6 1.8-11.8 1.8-18 0-6.6-1-12.4-2.4-17.4z" fill="#000" opacity="0.22"/>
-    <ellipse cx="35" cy="38" rx="12" ry="13" fill="url(#key${u})"/>
-    <ellipse cx="36" cy="53" rx="6" ry="4" fill="#fff" opacity="0.07" filter="url(#soft${u})"/>
-    <ellipse cx="48" cy="26" rx="9" ry="5" fill="#fff" opacity="0.08" filter="url(#soft${u})"/>
+    <path d="${SKULL}" fill="${skin}"/>
+    <ellipse cx="27.6" cy="50" rx="3.6" ry="7" fill="${skin}"/>
+    <ellipse cx="68.4" cy="50" rx="3.6" ry="7" fill="${skin}"/>
 
-    <ellipse cx="39" cy="46" rx="7" ry="4.4" fill="${shade}" opacity="0.3" filter="url(#soft${u})"/>
-    <ellipse cx="57" cy="46" rx="7" ry="4.4" fill="${shade}" opacity="0.3" filter="url(#soft${u})"/>
-    <path d="M34.4 47.2c1.8-3.4 7.6-3.4 9.4 0-1.8 3-7.6 3-9.4 0z" fill="#efe6dc"/>
-    <path d="M52.2 47.2c1.8-3.4 7.6-3.4 9.4 0-1.8 3-7.6 3-9.4 0z" fill="#efe6dc"/>
-    <circle cx="39.4" cy="47" r="2.6" fill="${eye}"/><circle cx="56.8" cy="47" r="2.6" fill="${eye}"/>
-    <circle cx="39.4" cy="47" r="1.2" fill="#120d0a"/><circle cx="56.8" cy="47" r="1.2" fill="#120d0a"/>
-    <circle cx="40.4" cy="45.9" r="0.9" fill="#fff" opacity="0.92"/><circle cx="57.8" cy="45.9" r="0.9" fill="#fff" opacity="0.92"/>
-    <path d="M34.2 46.8c2-3.6 7.8-3.6 9.8 0" stroke="${darken(hair, 0.25)}" stroke-width="1.5" stroke-linecap="round" fill="none"/>
-    <path d="M52 46.8c2-3.6 7.8-3.6 9.8 0" stroke="${darken(hair, 0.25)}" stroke-width="1.5" stroke-linecap="round" fill="none"/>
-    <path d="M32.6 40.4c3.4-2.6 9.6-2.8 12.6-.4" stroke="${brow}" stroke-width="2" stroke-linecap="round" fill="none"/>
-    <path d="M50.8 40c3-2.4 9.2-2.2 12.6.4" stroke="${brow}" stroke-width="2" stroke-linecap="round" fill="none"/>
+    <g filter="url(#paint${u})" clip-path="url(#skull${u})" opacity="0.88">
+      <path d="M56 17c9.4 4.4 13 13.2 13 24.4 0 6.2-.6 12-1.8 17-2.2 10.6-8.4 19.6-19.2 19.6-2.8 0-5.4-.7-7.6-2 9 .2 15.6-8.6 18-19.4 1.4-6.2 2-13 2-19.6 0-7.2-1.6-14-4.4-20z" fill="${deep}" opacity="0.85"/>
+      <ellipse cx="37" cy="31" rx="14" ry="12" fill="${hi}" opacity="0.55"/>
+      <ellipse cx="47" cy="53" rx="3.4" ry="10" fill="${hi}" opacity="0.4"/>
+      <ellipse cx="35" cy="52" rx="7.4" ry="5.6" fill="${hi}" opacity="0.3"/>
+      <ellipse cx="48" cy="60.5" rx="5" ry="3.4" fill="${blood}" opacity="0.3"/>
+      <ellipse cx="33" cy="55" rx="6" ry="4" fill="${blood}" opacity="0.22"/>
+      <ellipse cx="63" cy="55" rx="5.6" ry="4" fill="${blood}" opacity="0.18"/>
+      <ellipse cx="27.6" cy="50" rx="3.6" ry="5.4" fill="${blood}" opacity="0.4"/>
+      <ellipse cx="68.4" cy="50" rx="3.6" ry="5.4" fill="${blood}" opacity="0.32"/>
+      <path d="M34 64c3 11 8 17 14 17s11-6 14-17c0 12-6 20-14 20s-14-8-14-20z" fill="${cool}" opacity="0.3"/>
+      <ellipse cx="48" cy="65.6" rx="6.4" ry="2.6" fill="${cool}" opacity="0.24"/>
+      <ellipse cx="39" cy="43" rx="7" ry="2.8" fill="${deep}" opacity="0.42"/>
+      <ellipse cx="57" cy="43" rx="7" ry="2.8" fill="${deep}" opacity="0.42"/>
+      <ellipse cx="48" cy="63.4" rx="4.6" ry="1.6" fill="${deep}" opacity="0.4"/>
+      <ellipse cx="48" cy="74.6" rx="4.2" ry="1.8" fill="${deep}" opacity="0.3"/>
+      <ellipse cx="29.5" cy="37" rx="3.6" ry="6.4" fill="${deep}" opacity="0.26"/>
+    </g>
 
-    <!-- nose: one shadowed side and a lit ridge reads better than an outline -->
-    <path d="M48 48.6c-.8 5.6-2 9.4-4 11.8" stroke="${shade}" stroke-width="1.5" stroke-linecap="round" fill="none" opacity="0.6"/>
-    <path d="M47.4 49c.4 5 .8 8.4 1.4 11" stroke="#fff" stroke-width="1.4" stroke-linecap="round" fill="none" opacity="0.13"/>
-    <path d="M43 61.6c1.8 1.8 8.2 1.8 10 0" stroke="${shade}" stroke-width="1.3" stroke-linecap="round" fill="none" opacity="0.75"/>
-    <ellipse cx="44" cy="61.2" rx="1.5" ry="1" fill="${shade}" opacity="0.7"/>
-    <ellipse cx="52" cy="61.2" rx="1.5" ry="1" fill="${shade}" opacity="0.7"/>
+    ${eyeAt(39.3)}${eyeAt(56.7)}
+    <path d="M32.4 41c2.6-2.8 9-3.4 12.6-1.2-3.4-.6-9 .2-12.6 1.2z" fill="${brow}"/>
+    <path d="M63.6 41c-2.6-2.8-9-3.4-12.6-1.2 3.4-.6 9 .2 12.6 1.2z" fill="${brow}"/>
+    <path d="M33 40.4c3.2-2.6 9.2-2.8 12.2-.6" stroke="${brow}" stroke-width="2.1" stroke-linecap="round" fill="none"/>
+    <path d="M50.8 39.8c3-2.2 9-2 12.2.6" stroke="${brow}" stroke-width="2.1" stroke-linecap="round" fill="none"/>
 
-    <!-- the gel down the right silhouette. Without it a face sits flat. -->
-    <path d="M48 16c12.4 0 21 10.2 21 25.4 0 6.2-.6 12-1.8 17-2.2 10.6-8.4 19.6-19.2 19.6" stroke="url(#prim${u})" stroke-width="2.4" fill="none"/>
-    <path d="M40.6 68.4c2.6-2.4 4.6-.8 7.4-.8s4.8-1.6 7.4.8c-2.6 3.8-4.6 5-7.4 5s-4.8-1.2-7.4-5z" fill="${lip}"/>
-    <path d="M40.6 68.4c3.2 1.4 11.6 1.4 14.8 0" stroke="${darken(lip, 0.42)}" stroke-width="1.1" stroke-linecap="round" fill="none"/>
-    <path d="M44 71.4c2 1 4 1 6 0" stroke="#fff" stroke-width="1.2" stroke-linecap="round" opacity="0.2" fill="none"/>
-    ${extra}`;
+    <!-- the nose is a ball with two wings. Draw it as an outline and it turns
+         into a cartoon, so it is a lit ball, two soft nostrils and a shadow. -->
+    <ellipse cx="48" cy="58.4" rx="3.1" ry="2.5" fill="${hi}" opacity="0.34"/>
+    <path d="M44.6 60.8c1.8 1.6 5 1.6 6.8 0" stroke="${deep}" stroke-width="1.2" stroke-linecap="round" fill="none" opacity="0.6"/>
+    <ellipse cx="43.9" cy="60.5" rx="1.75" ry="1.15" fill="#25150c" opacity="0.72" transform="rotate(-20 43.9 60.5)"/>
+    <ellipse cx="52.1" cy="60.5" rx="1.75" ry="1.15" fill="#25150c" opacity="0.72" transform="rotate(20 52.1 60.5)"/>
+    <path d="M47.3 49c.3 4.6.6 7.8 1 10" stroke="#fff" stroke-width="1.3" stroke-linecap="round" fill="none" opacity="0.12"/>
+
+    <!-- and the mouth is a soft form with a hard border, not a filled shape -->
+    <path d="M40.2 67.9c2.4-2.7 4.6-1.5 7.8-1.5s5.4-1.2 7.8 1.5c-2.6 4.1-5.1 5.5-7.8 5.5s-5.2-1.4-7.8-5.5z" fill="${lip}"/>
+    <path d="M40.2 67.9c1.8-.4 3.3-1.7 4.6-1.7 1.3 0 2 1.2 3.2 1.2s1.9-1.2 3.2-1.2c1.3 0 2.8 1.3 4.6 1.7" stroke="${darken(lip, 0.42)}" stroke-width="0.8" stroke-linejoin="round" opacity="0.7" fill="none"/>
+    <path d="M43.2 71c2.6 1.3 7 1.3 9.6 0" stroke="#fff" stroke-width="1.4" stroke-linecap="round" opacity="0.2" fill="none"/>
+    <ellipse cx="40.4" cy="68.2" rx="1.3" ry="0.9" fill="#000" opacity="0.28" filter="url(#hairSoft${u})"/>
+    <ellipse cx="55.6" cy="68.2" rx="1.3" ry="0.9" fill="#000" opacity="0.28" filter="url(#hairSoft${u})"/>
+    <path d="M46.7 62.8c.5 1.9.5 3 0 3.9M49.3 62.8c-.5 1.9-.5 3 0 3.9" stroke="${deep}" stroke-width="0.7" opacity="0.36" fill="none"/>
+    ${extra}
+
+    <!-- the light down the right edge. Without it a face has no room to be in. -->
+    <path d="M48 16c12.4 0 21 10.2 21 25.4 0 6.2-.6 12-1.8 17-2.2 10.6-8.4 19.6-19.2 19.6" stroke="url(#prim${u})" stroke-width="2.4" fill="none"/>`;
 }
 
 // Ten heads of hair, because twenty one people should look like twenty one
@@ -1067,10 +1193,11 @@ function botSvg(dept, i, { live, closed, hue }) {
   const face = beard(seed % 7 < 3 ? (seed % 3) + 1 : 0, u, hair, skin);
   const [hairBack, hairFront] = crown(seed % 10, u, hair, p, on);
 
+  const acc = live ? "#ebfb1d" : "#c5b6af";
   return `<svg viewBox="0 0 96 128" fill="none" aria-hidden="true">
     ${personDefs(u, p, skin, hair, live)}
     <g clip-path="url(#frame${u})">
-      <rect width="96" height="128" fill="#08090c"/>
+      <rect width="96" height="128" fill="#131313"/>
       <rect width="96" height="128" fill="url(#back${u})"/>
 
       ${hairBack}
@@ -1079,8 +1206,8 @@ function botSvg(dept, i, { live, closed, hue }) {
            to black so twenty one of these together do not turn into a paint
            chart. The piping carries the colour instead. -->
       <path d="M-2 128v-16c0-14.6 13.6-22.4 31-25.4h34c17.4 3 31 10.8 31 25.4v16z" fill="url(#suit${u})"/>
-      <path d="M-2 112c4-9 14-14.6 31-17.4l17 8 17-8c17 2.8 27 8.4 31 17.4" stroke="${p.glow}" stroke-opacity="${on * 0.55}" stroke-width="1.1" fill="none"/>
-      <path d="M29 86.6L48 102l19-15.4-8-3.6-11 8-11-8z" fill="${darken(p.base, 0.78)}"/>
+      <path d="M-2 112c4-9 14-14.6 31-17.4l17 8 17-8c17 2.8 27 8.4 31 17.4" stroke="${acc}" stroke-opacity="${on * 0.5}" stroke-width="1.1" fill="none"/>
+      <path d="M29 86.6L48 102l19-15.4-8-3.6-11 8-11-8z" fill="#0c0b0a"/>
 
       <!-- neck, with the head's shadow dropped across it -->
       <path d="M38 68h20v18c0 5-20 5-20 0z" fill="${shade}"/>
@@ -1095,23 +1222,22 @@ function botSvg(dept, i, { live, closed, hue }) {
       ${hairFront}
 
       <!-- on comms, because they are staff on a floor -->
-      <path d="M68 45c3.4 0 5 3 5 5.4s-1.6 5.4-5 5.4" stroke="${darken(p.base, 0.2)}" stroke-width="2.6" stroke-linecap="round" fill="none"/>
-      <circle cx="72.4" cy="50.4" r="2.4" fill="${p.glow}" opacity="${on}" filter="url(#glow${u})"/>
+      <path d="M68 45c3.4 0 5 3 5 5.4s-1.6 5.4-5 5.4" stroke="#3a3632" stroke-width="2.6" stroke-linecap="round" fill="none"/>
+      <circle cx="72.4" cy="50.4" r="2.4" fill="${acc}" opacity="${on}" filter="url(#glow${u})"/>
 
       <path d="M96 128v-16c0-14.6-13.6-22.4-31-25.4" stroke="url(#prim${u})" stroke-width="2" fill="none"/>
 
       <!-- what they do, on the collar -->
-      <g transform="translate(12 100) scale(0.6)" stroke="${p.glow}" stroke-opacity="${on}" stroke-width="2.6"
+      <g transform="translate(12 100) scale(0.6)" stroke="${acc}" stroke-opacity="${on}" stroke-width="2.6"
          stroke-linecap="round" stroke-linejoin="round" fill="none">
         <path d="${GLYPHS[dept] || "M5 5h10v10H5z"}"/>
       </g>
 
       <rect width="96" height="128" fill="url(#vig${u})"/>
-      <rect width="96" height="128" filter="url(#grain${u})" opacity="0.6" fill="transparent"/>
     </g>
-    <path d="M9 0h78a9 9 0 019 9v101l-18 18H9a9 9 0 01-9-9V9a9 9 0 019-9z"
-          fill="none" stroke="${live ? p.glow : "#262a33"}" stroke-opacity="${live ? 0.9 : 0.6}" stroke-width="1.2"/>
-    <path d="M0 22V9a9 9 0 019-9h13" stroke="${p.glow}" stroke-opacity="${on * 0.9}" stroke-width="1.6" fill="none"/>
+    <path d="M18 0h60l18 18v92l-18 18H18L0 110V18z" fill="none"
+          stroke="${acc}" stroke-opacity="${live ? 0.95 : 0.34}" stroke-width="1.1"/>
+    <path d="M0 34V18L18 0h16" stroke="${acc}" stroke-opacity="${on * 0.9}" stroke-width="1.8" fill="none"/>
   </svg>`;
 }
 
@@ -1143,12 +1269,12 @@ function cuffs(x, y, dx, n, lit, hue, u, dy = 66) {
   return out;
 }
 
-function pinnacleSvg({ live, hue = "#c9d6fc", awake = 0, total = 1000 }) {
+function pinnacleSvg({ live, hue = "#ebfb1d", awake = 0, total = 1000 }) {
   const u = "pin" + (live ? "L" : "I");
   const on = live ? 1 : 0.66;
   const skin = "#8a5735", hair = "#171110";
   const shade = mix(skin, "#2a1409", 0.5);
-  const p = palette(hue);
+  const p = palette(hue), acc = live ? "#ebfb1d" : "#c5b6af";
   // How much of her lights up is how much of the floor is working.
   const share = Math.min(1, (awake / Math.max(total, 1)) * 40);
   const litCuffs = Math.max(live ? 1 : 0, Math.round(share * 5));
@@ -1157,11 +1283,11 @@ function pinnacleSvg({ live, hue = "#c9d6fc", awake = 0, total = 1000 }) {
     ${personDefs(u, p, skin, hair, live)}
     <defs>
       <linearGradient id="cl${u}" x1="0.05" y1="0" x2="1" y2="1">
-        <stop offset="0" stop-color="#31364a"/><stop offset="0.45" stop-color="#161923"/><stop offset="1" stop-color="#07080c"/>
+        <stop offset="0" stop-color="#2c2926"/><stop offset="0.45" stop-color="#171614"/><stop offset="1" stop-color="#080807"/>
       </linearGradient>
       <radialGradient id="fl${u}" cx="0.5" cy="0.5" r="0.5">
-        <stop offset="0" stop-color="${hue}" stop-opacity="${0.18 + share * 0.42}"/>
-        <stop offset="1" stop-color="${hue}" stop-opacity="0"/>
+        <stop offset="0" stop-color="${acc}" stop-opacity="${(0.08 + share * 0.2).toFixed(3)}"/>
+        <stop offset="1" stop-color="${acc}" stop-opacity="0"/>
       </radialGradient>
       <filter id="bl${u}" x="-140%" y="-140%" width="380%" height="380%">
         <feGaussianBlur stdDeviation="1.8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
@@ -1210,12 +1336,12 @@ function pinnacleSvg({ live, hue = "#c9d6fc", awake = 0, total = 1000 }) {
          to the body underneath. The shoulders stay bare, which is most of why
          she reads as a person and not a suit standing up on its own. -->
     <path d="M50 74c5 6 11 9 16 9s11-3 16-9c4 2 6 5 6 9 0 12-6 24-7 36-1 8 1 14 3 21H45c2-7 4-13 3-21-1-12-7-24-7-36 0-4 2-7 6-9z" fill="url(#cl${u})"/>
-    <path d="M50 74c5 6 11 9 16 9s11-3 16-9" stroke="${hue}" stroke-opacity="${on * 0.65}" stroke-width="1.2" fill="none"/>
+    <path d="M50 74c5 6 11 9 16 9s11-3 16-9" stroke="${acc}" stroke-opacity="${on * 0.65}" stroke-width="1.2" fill="none"/>
     <path d="M44 136c14 4 30 4 44 0 1 10 2 18 2 26H42c0-8 1-16 2-26z" fill="url(#cl${u})"/>
-    <path d="M44 136c14 4 30 4 44 0" stroke="${hue}" stroke-opacity="${on * 0.4}" stroke-width="1" fill="none"/>
+    <path d="M44 136c14 4 30 4 44 0" stroke="${acc}" stroke-opacity="${on * 0.4}" stroke-width="1" fill="none"/>
     <!-- a chamfered panel, lifted from the futuristic reference -->
-    <path d="M56 100h16l5 5v16H56z" fill="none" stroke="${hue}" stroke-opacity="${on * 0.4}" stroke-width="1"/>
-    <path d="M60 108h10M60 114h7" stroke="${hue}" stroke-opacity="${on * 0.6}" stroke-width="1" stroke-linecap="round"/>
+    <path d="M56 100h16l5 5v16H56z" fill="none" stroke="${acc}" stroke-opacity="${on * 0.4}" stroke-width="1"/>
+    <path d="M60 108h10M60 114h7" stroke="${acc}" stroke-opacity="${on * 0.6}" stroke-width="1" stroke-linecap="round"/>
     <ellipse cx="52" cy="106" rx="7" ry="20" fill="#fff" opacity="0.05" filter="url(#soft${u})"/>
 
     <!-- neck -->
@@ -1243,7 +1369,6 @@ function pinnacleSvg({ live, hue = "#c9d6fc", awake = 0, total = 1000 }) {
     <!-- the cold rim down her right edge. This is the light that says she is
          standing in a room rather than pasted onto one. -->
     <path d="M87 67c2 12 1 12 1 20 0 12-6 24-7 36-1 14 5 22 5 34v17" stroke="url(#prim${u})" stroke-width="2" fill="none"/>
-    <rect width="132" height="214" filter="url(#grain${u})" opacity="0.5" fill="transparent"/>
   </svg>`;
 }
 
@@ -1279,7 +1404,9 @@ const crew = (() => {
     const c = cards[at];
     stage.style.setProperty("--team", c.hue);
     glow.style.background = `radial-gradient(58% 68% at 50% 42%,color-mix(in srgb,${c.hue} 24%,transparent),transparent 70%)`;
-    $("focusCopy").innerHTML = `<h3>${esc(c.name)}</h3><p>${esc(c.line)}</p>`;
+    $("focusCopy").innerHTML = `<h3 class="lit in">${esc(c.name)}</h3><p>${esc(c.line)}</p>`;
+    $("focusMeta").innerHTML = c.key === "pinnacle" ? `<b>//PINNACLE</b><span>/ROLE:<b>the authority</b></span><span>/ANSWERS TO:<b>Ayaan</b></span>`
+      : `<b>${identOf(c.key, cards.map((x) => x.key).slice(1))}</b><span>/TEAM:<b>${esc(scramble(c.name, c.key))}</b></span><span>/REMIT:<b>${c.kind === "code" ? "builds the product" : "advises the office"}</b></span>`;
     [...rail.children].forEach((b, i) => { b.classList.toggle("on", i === at); b.style.setProperty("--team", cards[i].hue); });
   }
 
@@ -1289,7 +1416,7 @@ const crew = (() => {
   // restart every animation and make the stage twitch.
   function sync(depts, keys) {
     const wanted = [
-      { key: "__pinnacle", name: "Pinnacle", hue: "#c9d6fc", kind: "assistant" },
+      { key: "__pinnacle", name: "Pinnacle", hue: "#c5b6af", kind: "assistant" },
       ...depts.map((d) => ({ key: d.key, name: d.name, hue: hueOf(d.key, keys), kind: d.kind })),
     ];
     if (cards.length !== wanted.length || cards.some((c, i) => c.key !== wanted[i].key)) {
@@ -1683,7 +1810,7 @@ const CURSOR_WORDS = [
 (function acidCursor() {
   if (!matchMedia("(pointer:fine)").matches) return;
   document.documentElement.classList.add("pointer");
-  const dot = $("curDot"), ring = $("curRing"), word = ring.firstElementChild;
+  const dot = $("curDot"), ring = $("curRing"), word = ring.querySelector("b");
   let x = innerWidth / 2, y = innerHeight / 2, rx = x, ry = y;
 
   addEventListener("pointermove", (e) => {
@@ -1695,6 +1822,7 @@ const CURSOR_WORDS = [
       if (el) { hit = el.dataset.cursor || w; break; }
     }
     ring.classList.toggle("hot", !!hit);
+    dot.classList.toggle("hot", !!hit);
     if (hit) word.textContent = hit;
   }, { passive: true });
   addEventListener("pointerdown", () => ring.classList.add("down"));
@@ -1810,7 +1938,7 @@ async function refresh() {
 
   $("depts").innerHTML = depts.map((d) => `
     <div class="row ${d.enabled ? "" : "off"} ${focusDept === d.key ? "sel" : ""}" data-dept="${d.key}" style="--team:${hueOf(d.key, keys)}">
-      <div class="n"><i class="team"></i><b>${esc(d.name)}</b><u>${d.kind === "code" ? "builds" : "advises"}</u></div>
+      <div class="n"><i class="team"></i><b class="ident">${identOf(d.key, keys)}</b><b>${esc(d.name)}</b><u>${d.kind === "code" ? "builds" : "advises"}</u></div>
       <div class="meta"><span>${d.headcount} staff</span><span>queue <i>${d.queued}</i></span><span>done <i>${d.done}</i></span><span>rejected <i>${d.failed}</i></span><span>refused <i>${d.blocked || 0}</i></span></div>
       ${d.working.length ? `<div class="doing">${esc(d.working.map((w) => w.id + " " + (w.task || "planning the next round")).join("   //   "))}</div>` : ""}
     </div>`).join("");
@@ -2092,8 +2220,60 @@ const voiceReady = () => { chosenVoice = pickVoice(); };
 voiceReady();
 if (window.speechSynthesis) speechSynthesis.onvoiceschanged = voiceReady;
 
+// Which engine she talks through is settled once, at the door, by the server.
+// The key for a paid one never comes down here: only audio does.
+let engine = { provider: "edge", ready: false };
+let her = null;                               // the clip that is talking now
+
+fetch("/api/voice").then((r) => r.json()).then((v) => {
+  engine = v;
+  if (v.provider === "responsive" && v.key) {
+    const tag = document.createElement("script");
+    tag.src = "https://code.responsivevoice.org/responsivevoice.js?key=" + encodeURIComponent(v.key);
+    tag.onerror = () => raiseFault("voice", "quiet", "ResponsiveVoice did not load. She is using the browser's own voice.");
+    document.head.append(tag);
+  }
+  voiceUI(null, voiceLabel());
+}).catch(() => {});
+
+function hush() {
+  try { speechSynthesis.cancel(); } catch {}
+  try { window.responsiveVoice?.cancel(); } catch {}
+  if (her) { her.pause(); her = null; }
+}
+
 function speak(text) {
-  if (!voiceOut || !window.speechSynthesis || !text) return;
+  if (!voiceOut || !text) return;
+  hush();
+  if (engine.provider === "elevenlabs" && engine.ready) return speakPaid(text);
+  if (engine.provider === "responsive" && window.responsiveVoice) {
+    return window.responsiveVoice.speak(String(text), engine.voice || "UK English Female", { rate: 1, pitch: 1 });
+  }
+  speakLocal(text);
+}
+
+// A real recording, fetched from whatever engine is configured. It falls back
+// rather than going quiet, because a voice that stops working without saying so
+// is worse than a plain one.
+async function speakPaid(text) {
+  try {
+    const r = await fetch("/api/say", {
+      method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ text }),
+    });
+    if (r.status === 204) return speakLocal(text);
+    if (!r.ok) throw new Error((await r.json().catch(() => ({}))).error || "http " + r.status);
+    const clip = new Audio(URL.createObjectURL(await r.blob()));
+    her = clip;
+    clip.onended = clip.onerror = () => { URL.revokeObjectURL(clip.src); if (her === clip) her = null; };
+    await clip.play();
+  } catch (err) {
+    raiseFault("voice", "quiet", `${engine.provider} would not speak (${err.message}). She is using the browser's voice instead.`);
+    speakLocal(text);
+  }
+}
+
+function speakLocal(text) {
+  if (!window.speechSynthesis || !text) return;
   speechSynthesis.cancel();
   if (!chosenVoice) chosenVoice = pickVoice();
 
@@ -2211,6 +2391,8 @@ function voiceUI(state, sub) {
   if (sub != null) $("vsub").textContent = sub;
 }
 function voiceLabel() {
+  if (engine.provider === "elevenlabs" && engine.ready) return "elevenlabs voice";
+  if (engine.provider === "responsive" && engine.ready) return "responsivevoice · " + (engine.voice || "UK English Female");
   if (!rec) return "no microphone in this browser, use Edge";
   if (!chosenVoice) return "press V, or tap her";
   const name = chosenVoice.name.replace(/^Microsoft\s+/, "").replace(/\s*[-(].*$/, "");
@@ -2237,6 +2419,13 @@ function stopVoice() {
 }
 const toggleVoice = () => (listening ? stopVoice() : startVoice());
 $("mic").onclick = toggleVoice;
+$("sound").onclick = () => {
+  voiceOut = !voiceOut;
+  if (!voiceOut) hush();
+  $("sound").className = "sound " + (voiceOut ? "on" : "off");
+  $("soundWord").textContent = voiceOut ? "on" : "off";
+  if (voiceOut) speak("Alright, I'm talking again.");
+};
 $("vbtn").onclick = toggleVoice;
 $("vdock").classList.toggle("off", !rec);
 voiceUI(null, voiceLabel());
@@ -2451,7 +2640,7 @@ const COMMANDS = [
       return stopped.length + " refused";
     } },
   { id: "back to work", hint: "clear a rate limit cooldown early", run: () => post("clearCooldown").then(() => "cooldown cleared") },
-  { id: "stop talking", hint: "Pinnacle stops reading things out loud", run: () => { voiceOut = false; speechSynthesis?.cancel(); return "voice off"; } },
+  { id: "stop talking", hint: "Pinnacle stops reading things out loud", run: () => { voiceOut = false; hush(); return "voice off"; } },
   { id: "start talking", hint: "Pinnacle reads briefings and refusals out loud", run: () => { voiceOut = true; speak("Voice is back on."); return "voice on"; } },
   { id: "listen", hint: "same as pressing V, speak to Pinnacle", run: () => { startVoice(); return "listening"; } },
 ];

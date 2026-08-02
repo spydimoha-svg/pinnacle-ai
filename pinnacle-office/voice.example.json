@@ -1,0 +1,12 @@
+{
+  "_": "Copy this to voice.json to change how Pinnacle sounds. voice.json is gitignored because it holds a key.",
+
+  "_edge": "The default. Free, no key, nothing leaves the machine. Edge exposes Microsoft's online neural voices; Chrome here does not.",
+  "provider": "edge",
+
+  "_elevenlabs": "The best of the three, and the only one that costs money past its free tier. provider: elevenlabs, then paste your own key. It stays on the server and never reaches the browser or git.",
+  "_elevenlabsExample": { "provider": "elevenlabs", "key": "sk_...", "voice": "EXAVITQu4vr4xnSDxMaL", "model": "eleven_turbo_v2_5" },
+
+  "_responsive": "responsivevoice.org. Free for personal use only, and it is a third party script that gets sent every word she says.",
+  "_responsiveExample": { "provider": "responsive", "key": "your-responsivevoice-key", "voice": "UK English Female" }
+}
