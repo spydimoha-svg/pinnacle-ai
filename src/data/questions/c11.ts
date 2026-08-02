@@ -316,6 +316,42 @@ export const C11_QUESTIONS: Question[] = [
 
   // ── MATHEMATICS ──
   {
+    id: "q-c11-maths-01-x1",
+    subjectId: "c11-maths",
+    chapterId: "c11-maths-01",
+    classLevel: 11,
+    text: "If A = {1, 2, 3, 4} and B = {3, 4, 5, 6}, find A ∪ B, A ∩ B and A − B.",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer:
+      "A ∪ B = {1, 2, 3, 4, 5, 6} (all elements in A or B).\n\nA ∩ B = {3, 4} (elements common to both).\n\nA − B = {1, 2} (elements in A but not in B).",
+    keywords: [
+      "A ∪ B = {1, 2, 3, 4, 5, 6}",
+      "A ∩ B = {3, 4}",
+      "A − B = {1, 2}",
+    ],
+  },
+  {
+    id: "q-c11-maths-02-x1",
+    subjectId: "c11-maths",
+    chapterId: "c11-maths-02",
+    classLevel: 11,
+    text: "Find the domain and range of the real function f(x) = x²/(1 + x²).",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer:
+      "Domain: 1 + x² is never zero for any real x, so f is defined for all real x. Domain = R.\n\nRange: let y = x²/(1 + x²). Then y(1 + x²) = x² ⇒ x²(1 − y) = y ⇒ x² = y/(1 − y).\n\nSince x² ≥ 0, we need y/(1 − y) ≥ 0 with y ≠ 1, which holds for 0 ≤ y < 1. Range = [0, 1).",
+    keywords: [
+      "domain: 1 + x² ≠ 0 for all real x ⇒ R",
+      "set y = x²/(1+x²), solve x² = y/(1−y)",
+      "x² ≥ 0 ⇒ range = [0, 1)",
+    ],
+    examinerTip:
+      "Don't just say 'range is between 0 and 1' — show the x² = y/(1−y) step; that algebraic justification is the method mark.",
+  },
+  {
     id: "q-c11-maths-03-x1",
     subjectId: "c11-maths",
     chapterId: "c11-maths-03",
@@ -352,6 +388,42 @@ export const C11_QUESTIONS: Question[] = [
     ],
     examinerTip:
       "Always check the quadrant from the signs of a and b before quoting the argument — tan θ = √3 alone also fits 240°, which would be wrong here.",
+  },
+  {
+    id: "q-c11-maths-05-x1",
+    subjectId: "c11-maths",
+    chapterId: "c11-maths-05",
+    classLevel: 11,
+    text: "Solve the inequality 3x − 5 < x + 7 for real x, and write the solution set.",
+    marks: 2,
+    type: "sa",
+    source: "important",
+    answer:
+      "3x − 5 < x + 7\n⇒ 3x − x < 7 + 5\n⇒ 2x < 12\n⇒ x < 6.\n\nSolution set = (−∞, 6), i.e. all real numbers less than 6.",
+    keywords: [
+      "collect x terms: 2x < 12",
+      "divide by 2: x < 6",
+      "solution set = (−∞, 6)",
+    ],
+  },
+  {
+    id: "q-c11-maths-07-x1",
+    subjectId: "c11-maths",
+    chapterId: "c11-maths-07",
+    classLevel: 11,
+    text: "Find the 4th term in the expansion of (x + 2y)⁷.",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer:
+      "General term: T(r+1) = C(7, r) x^(7−r) (2y)^r.\n\nFor the 4th term, r = 3:\nT₄ = C(7, 3) x⁴ (2y)³ = 35 × x⁴ × 8y³ = 280 x⁴y³.",
+    keywords: [
+      "T(r+1) = C(7,r) x^(7−r) (2y)^r",
+      "4th term ⇒ r = 3",
+      "T₄ = 35 × x⁴ × 8y³ = 280x⁴y³",
+    ],
+    examinerTip:
+      "The 4th term means r = 3, not r = 4 — a very common off-by-one slip in binomial expansion questions.",
   },
   {
     id: "q-c11-maths-08-x1",
