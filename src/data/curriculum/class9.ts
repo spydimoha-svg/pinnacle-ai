@@ -29,6 +29,7 @@ const maths: Subject = {
       id: "c9-maths-01",
       number: 1,
       title: "Number Systems",
+      weightage: "≈10 marks",
       keyTopics: [
         "Rational and irrational numbers on the number line",
         "Decimal expansions (terminating / recurring)",
@@ -42,6 +43,7 @@ const maths: Subject = {
       id: "c9-maths-02",
       number: 2,
       title: "Polynomials",
+      weightage: "≈12 marks",
       keyTopics: [
         "Degree, zeroes and types of polynomials",
         "Remainder Theorem",
@@ -55,6 +57,7 @@ const maths: Subject = {
       id: "c9-maths-03",
       number: 3,
       title: "Coordinate Geometry",
+      weightage: "≈4 marks",
       keyTopics: [
         "Cartesian plane, axes and origin",
         "Quadrants and sign conventions",
@@ -67,6 +70,7 @@ const maths: Subject = {
       id: "c9-maths-04",
       number: 4,
       title: "Linear Equations in Two Variables",
+      weightage: "≈8 marks",
       keyTopics: [
         "Form ax + by + c = 0",
         "A linear equation has infinitely many solutions",
@@ -79,6 +83,7 @@ const maths: Subject = {
       id: "c9-maths-05",
       number: 5,
       title: "Introduction to Euclid's Geometry",
+      weightage: "≈3 marks",
       keyTopics: [
         "Euclid's definitions, axioms and postulates",
         "The five postulates",
@@ -91,6 +96,7 @@ const maths: Subject = {
       id: "c9-maths-06",
       number: 6,
       title: "Lines and Angles",
+      weightage: "≈5 marks",
       keyTopics: [
         "Pairs of angles and linear pair",
         "Parallel lines cut by a transversal",
@@ -103,6 +109,7 @@ const maths: Subject = {
       id: "c9-maths-07",
       number: 7,
       title: "Triangles",
+      weightage: "≈7 marks",
       keyTopics: [
         "Congruence criteria: SAS, ASA, AAS, SSS, RHS",
         "Properties of an isosceles triangle",
@@ -115,6 +122,7 @@ const maths: Subject = {
       id: "c9-maths-08",
       number: 8,
       title: "Quadrilaterals",
+      weightage: "≈6 marks",
       keyTopics: [
         "Angle sum property of a quadrilateral",
         "Properties and tests for a parallelogram",
@@ -127,6 +135,7 @@ const maths: Subject = {
       id: "c9-maths-09",
       number: 9,
       title: "Circles",
+      weightage: "≈6 marks",
       keyTopics: [
         "Chords and their distance from the centre",
         "Angle subtended by an arc at the centre",
@@ -139,6 +148,7 @@ const maths: Subject = {
       id: "c9-maths-10",
       number: 10,
       title: "Heron's Formula",
+      weightage: "≈4 marks",
       keyTopics: [
         "Semi-perimeter of a triangle",
         "Area of a triangle by Heron's formula",
@@ -151,6 +161,7 @@ const maths: Subject = {
       id: "c9-maths-11",
       number: 11,
       title: "Surface Areas and Volumes",
+      weightage: "≈9 marks",
       keyTopics: [
         "Surface area of a right circular cone",
         "Surface area of a sphere and hemisphere",
@@ -164,6 +175,7 @@ const maths: Subject = {
       id: "c9-maths-12",
       number: 12,
       title: "Statistics",
+      weightage: "≈6 marks",
       keyTopics: [
         "Bar graphs",
         "Histograms with varying base lengths",
@@ -186,6 +198,7 @@ const science: Subject = {
       id: "c9-science-01",
       number: 1,
       title: "Matter in Our Surroundings",
+      weightage: "≈6 marks",
       keyTopics: [
         "Physical nature and characteristics of matter",
         "States of matter and interconversion",
@@ -199,6 +212,7 @@ const science: Subject = {
       id: "c9-science-02",
       number: 2,
       title: "Is Matter Around Us Pure?",
+      weightage: "≈6 marks",
       keyTopics: [
         "Mixtures, solutions and concentration",
         "Colloids and suspensions (Tyndall effect)",
