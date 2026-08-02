@@ -244,6 +244,8 @@ const science: Subject = {
         "Cell organelles and their functions",
         "Prokaryotic vs eukaryotic cells",
       ],
+      boardNotes:
+        "Diagram-labelling of a plant or animal cell and distinguishing diffusion from osmosis are the most repeated questions; 'why is the cell called the structural and functional unit of life' is a standard 2-3 mark reasoning question.",
     },
     {
       id: "c9-science-06",
@@ -254,6 +256,8 @@ const science: Subject = {
         "Epithelial and connective tissues",
         "Muscular and nervous tissues",
       ],
+      boardNotes:
+        "Identifying a tissue type from a description of its location and function (e.g. 'tissue at the root tip that keeps dividing') is the standard short-answer format, more often than diagram-drawing.",
     },
     {
       id: "c9-science-07",
@@ -265,6 +269,8 @@ const science: Subject = {
         "Equations of motion and graphs",
         "Uniform circular motion",
       ],
+      boardNotes:
+        "Falls in Science's heaviest-weighted unit (Motion, Force and Work — 27 of 80 marks); numericals using the three equations of motion, and reading a velocity-time graph to find distance or acceleration, are near-certain.",
     },
     {
       id: "c9-science-08",
@@ -276,6 +282,8 @@ const science: Subject = {
         "Momentum and F = ma",
         "Conservation of momentum",
       ],
+      boardNotes:
+        "Conservation of momentum is listed in the CBSE 2025-26 syllabus as assessed only formatively, so the annual exam stays on Newton's three laws and numericals on F = ma — don't over-prepare the momentum-conservation derivation for the written paper.",
     },
     {
       id: "c9-science-09",
@@ -287,6 +295,8 @@ const science: Subject = {
         "Mass vs weight",
         "Thrust, pressure, buoyancy and Archimedes' principle",
       ],
+      boardNotes:
+        "Universal-law-of-gravitation numericals (finding force, or 'g' at a given height) and Archimedes' Principle numericals on buoyant force are the two calculation types that repeat; mass vs weight is a frequent one-mark conceptual trap.",
     },
     {
       id: "c9-science-10",
@@ -298,6 +308,8 @@ const science: Subject = {
         "Law of conservation of energy",
         "Power and the commercial unit of energy",
       ],
+      boardNotes:
+        "The commercial unit of energy (kWh) is explicitly excluded from the CBSE 2025-26 syllabus, so numericals stay on work done by a constant force and the interconversion of kinetic/potential energy during free fall.",
     },
     {
       id: "c9-science-11",
@@ -309,6 +321,8 @@ const science: Subject = {
         "Reflection, echo and reverberation",
         "Structure of the human ear and SONAR",
       ],
+      boardNotes:
+        "Reflection-of-sound numericals (echo, reverberation) using speed = distance/time, and labelling the structure of the human ear, are the two most repeated question types.",
     },
     {
       id: "c9-science-12",
@@ -320,6 +334,8 @@ const science: Subject = {
         "Animal husbandry and poultry farming",
         "Fisheries and bee-keeping",
       ],
+      boardNotes:
+        "Lightest-weighted chapter in Science (Unit IV, only 6 of 80 marks); expect short definitional questions on a named method (e.g. cross-breeding, vermicompost) rather than a long derivation-style answer.",
     },
   ],
 };
