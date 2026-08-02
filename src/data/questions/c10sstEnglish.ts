@@ -1044,6 +1044,32 @@ Thus the primary sector supports the largest workforce while contributing the le
       "The definition of disguised unemployment must include the test — 'even if some workers are removed, production remains the same'. Students describe a big family on a small farm without stating that test, and lose the definition mark.",
   },
   {
+    id: "q-c10-sst-19-2",
+    subjectId: "c10-sst",
+    chapterId: "c10-sst-19",
+    classLevel: 10,
+    text: "Distinguish between the organised and unorganised sectors of the Indian economy, giving one example of each.",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer: `(i) Organised sector — covers enterprises registered by the government that pay taxes and follow the rules and regulations given in laws such as the Factories Act. Workers here enjoy security of employment, fixed working hours, overtime, paid leave, gratuity, provident fund and other benefits like medical facilities and pension, for example workers in government offices, schools or registered factories.
+
+(ii) Unorganised sector — comprises small and scattered units largely outside the control of the government, where rules and regulations are not followed, jobs are low-paid and often not regular, and there is no provision for overtime, paid leave or sick leave; employment is not secure and workers can be asked to leave without any reason, for example daily-wage workers, street vendors and small artisans.
+
+(iii) Need for protection — since a large number of people in the unorganised sector are deprived of a minimum wage and other benefits, protective measures are needed, such as the National Rural Employment Guarantee Act (NREGA), 2005, which provides 100 days of wage employment to rural households.
+
+Thus while the organised sector offers secure and regulated employment, the unorganised sector remains largely unregulated and vulnerable, requiring government protection.`,
+    keywords: [
+      "organised sector — registered, follows government rules",
+      "job security, fixed hours, paid leave, provident fund",
+      "unorganised sector — small, scattered, unregistered",
+      "no job security / no minimum wage in unorganised sector",
+      "NREGA, 2005 — 100 days of wage employment",
+    ],
+    examinerTip:
+      "'Registered vs unregistered' is the technical hinge — a vague 'organised is good jobs, unorganised is bad jobs' answer misses the actual legal distinction the marking scheme rewards.",
+  },
+  {
     id: "q-c10-sst-20-1",
     subjectId: "c10-sst",
     chapterId: "c10-sst-20",
@@ -1079,6 +1105,30 @@ Conclusion: cheap and affordable credit from formal sources is crucial for the c
     ],
     examinerTip:
       "The key awards all FOUR terms of credit — naming only interest rate and collateral caps you at half marks on part (a). In (c) name the SHG mechanism specifically; 'she should take a bank loan' alone is not enough, since her problem is that she has no collateral.",
+  },
+  {
+    id: "q-c10-sst-20-2",
+    subjectId: "c10-sst",
+    chapterId: "c10-sst-20",
+    classLevel: 10,
+    text: "Distinguish between formal and informal sources of credit, and explain why the dependence on informal sources needs to be reduced.",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer: `(i) Formal sector loans — include loans from banks and cooperatives, which are supervised by the Reserve Bank of India (RBI). The RBI monitors that banks maintain a minimum cash balance and keep track of the interest they charge and the loans they give, ensuring that they lend not just to profitable businesses but also to small cultivators and small-scale industries.
+
+(ii) Informal sector loans — include loans from moneylenders, traders, employers, relatives and friends, with no organisation supervising their credit activities; they can charge whatever interest rate they choose, and there is no one to stop them from using unfair means to recover their money.
+
+(iii) Why dependence should be reduced — the poor need credit more, but formal-sector credit is cheaper, whereas the informal sector charges very high interest rates. A higher cost of borrowing means a larger part of the borrower's earnings goes towards repaying the loan, leaving less income for other needs, and greater dependence on informal credit can push borrowers into a debt trap. Expanding formal-sector credit, especially for the rural poor, is therefore essential.`,
+    keywords: [
+      "formal sector — banks, cooperatives, supervised by RBI",
+      "informal sector — moneylenders, traders, relatives, no supervision",
+      "informal sector charges higher interest",
+      "higher cost of borrowing leads to a debt trap",
+      "RBI monitors formal credit / lending to small cultivators",
+    ],
+    examinerTip:
+      "The RBI's supervisory role (monitoring cash balance, interest rates) is the specific fact examiners check for on the formal side — do not just say 'banks are safer'.",
   },
   {
     id: "q-c10-sst-21-1",
