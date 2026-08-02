@@ -169,6 +169,13 @@ export async function POST(req: Request): Promise<Response> {
     return new Response("Invalid JSON", { status: 400 });
   }
 
+  if (
+    (body.system !== undefined && typeof body.system !== "string") ||
+    (body.reminder !== undefined && typeof body.reminder !== "string")
+  ) {
+    return new Response("Invalid request", { status: 400 });
+  }
+
   const messages = (body.messages ?? [])
     .filter(
       (m) =>
