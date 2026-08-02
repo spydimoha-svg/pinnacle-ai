@@ -8,6 +8,7 @@ import { C11_QUESTIONS } from "./questions/c11";
 import { C12_PHYSICS_QUESTIONS } from "./questions/c12physics";
 import { C12_CHEM_BIO_QUESTIONS } from "./questions/c12chemBio";
 import { C12_MATHS_C11_QUESTIONS } from "./questions/c12mathsC11";
+import { C12_ENGLISH_QUESTIONS } from "./questions/c12english";
 
 /**
  * The question bank. Every answer is written the way the CBSE marking scheme
@@ -24,4 +25,5 @@ export const QUESTIONS: Question[] = [
   ...C12_PHYSICS_QUESTIONS,
   ...C12_CHEM_BIO_QUESTIONS,
   ...C12_MATHS_C11_QUESTIONS,
+  ...C12_ENGLISH_QUESTIONS,
 ];
