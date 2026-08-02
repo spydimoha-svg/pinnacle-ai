@@ -49,6 +49,25 @@ export const C11_QUESTIONS: Question[] = [
       "State the condition 'v = 0 at the highest point' explicitly — it is the physics mark; the algebra is the method mark.",
   },
   {
+    id: "q-c11-physics-03-x1",
+    subjectId: "c11-physics",
+    chapterId: "c11-physics-03",
+    classLevel: 11,
+    text: "A ball is projected with a speed of 10 m/s at an angle of 45° with the horizontal. Find its maximum height and horizontal range. (Take g = 10 m/s².)",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer:
+      "Maximum height: H = u² sin²θ / 2g = 10² × sin²45° / (2 × 10) = 100 × 0.5 / 20 = 2.5 m.\n\nHorizontal range: R = u² sin2θ / g = 10² × sin90° / 10 = 100 × 1 / 10 = 10 m.",
+    keywords: [
+      "H = u² sin²θ / 2g = 2.5 m",
+      "R = u² sin2θ / g = 10 m",
+      "at 45°, sin2θ = 1 gives maximum range",
+    ],
+    examinerTip:
+      "45° gives the maximum range for a given speed since sin2θ is maximum (=1) at θ = 45° — a common one-mark conceptual follow-up.",
+  },
+  {
     id: "q-c11-physics-04-x1",
     subjectId: "c11-physics",
     chapterId: "c11-physics-04",
@@ -83,6 +102,23 @@ export const C11_QUESTIONS: Question[] = [
     ],
   },
   {
+    id: "q-c11-physics-06-x1",
+    subjectId: "c11-physics",
+    chapterId: "c11-physics-06",
+    classLevel: 11,
+    text: "The moment of inertia of a uniform disc of mass M and radius R about an axis passing through its centre, perpendicular to its plane, is:\n(A) MR²\n(B) ½MR²\n(C) ¼MR²\n(D) 2MR²",
+    marks: 1,
+    type: "mcq",
+    source: "pyq",
+    answer:
+      "Correct option: (B) ½MR².\n\nFor a uniform disc rotating about an axis through its centre and perpendicular to its plane, the standard result is I = ½MR², obtained by integrating dI = r² dm over the disc.",
+    keywords: [
+      "disc about central axis ⊥ to its plane",
+      "I = ½MR² (standard result)",
+      "option (B)",
+    ],
+  },
+  {
     id: "q-c11-physics-07-x1",
     subjectId: "c11-physics",
     chapterId: "c11-physics-07",
@@ -101,6 +137,128 @@ export const C11_QUESTIONS: Question[] = [
     ],
     examinerTip:
       "Escape velocity is independent of the mass and direction of projection — a favourite one-mark trap in both boards and JEE.",
+  },
+
+  {
+    id: "q-c11-physics-08-x1",
+    subjectId: "c11-physics",
+    chapterId: "c11-physics-08",
+    classLevel: 11,
+    text: "A steel wire of length 2 m and cross-sectional area 2 × 10⁻⁶ m² is stretched by 0.5 mm when a force of 100 N is applied along its length. Calculate Young's modulus of the wire.",
+    marks: 2,
+    type: "sa",
+    source: "important",
+    answer:
+      "Young's modulus Y = (F/A) / (ΔL/L) = FL / (A ΔL).\n\nY = (100 × 2) / (2 × 10⁻⁶ × 0.5 × 10⁻³) = 200 / (1 × 10⁻⁹) = 2 × 10¹¹ N/m².",
+    keywords: [
+      "Y = stress / strain = FL / (A ΔL)",
+      "substitute F = 100 N, L = 2 m, A = 2 × 10⁻⁶ m², ΔL = 0.5 × 10⁻³ m",
+      "Y = 2 × 10¹¹ N/m² (typical for steel)",
+    ],
+  },
+  {
+    id: "q-c11-physics-09-x1",
+    subjectId: "c11-physics",
+    chapterId: "c11-physics-09",
+    classLevel: 11,
+    text: "In a hydraulic lift, the smaller piston has a cross-sectional area of 5 cm² and the larger piston has an area of 500 cm². What force must be applied on the smaller piston to lift a load of 20000 N placed on the larger piston?",
+    marks: 2,
+    type: "sa",
+    source: "important",
+    answer:
+      "By Pascal's law, pressure applied at the smaller piston is transmitted equally to the larger piston: F₁/A₁ = F₂/A₂.\n\nF₁ = F₂ × A₁/A₂ = 20000 × 5/500 = 200 N.",
+    keywords: [
+      "Pascal's law: pressure transmitted equally, F₁/A₁ = F₂/A₂",
+      "F₁ = F₂ × (A₁/A₂)",
+      "F₁ = 20000 × 5/500 = 200 N",
+    ],
+    examinerTip:
+      "This is the working principle of a hydraulic lift/brake — a small force on the narrow piston produces a large force on the wide piston, at the cost of a smaller displacement on the wide side.",
+  },
+  {
+    id: "q-c11-physics-10-x1",
+    subjectId: "c11-physics",
+    chapterId: "c11-physics-10",
+    classLevel: 11,
+    text: "Calculate the heat required to raise the temperature of 2 kg of water from 20°C to 80°C. (Specific heat capacity of water = 4200 J/kg·K.)",
+    marks: 2,
+    type: "sa",
+    source: "important",
+    answer:
+      "Heat required Q = mcΔT.\n\nQ = 2 × 4200 × (80 − 20) = 2 × 4200 × 60 = 504000 J = 5.04 × 10⁵ J.",
+    keywords: [
+      "Q = mcΔT",
+      "ΔT = 80 − 20 = 60 K",
+      "Q = 2 × 4200 × 60 = 5.04 × 10⁵ J",
+    ],
+  },
+  {
+    id: "q-c11-physics-11-x1",
+    subjectId: "c11-physics",
+    chapterId: "c11-physics-11",
+    classLevel: 11,
+    text: "A gas absorbs 500 J of heat from its surroundings and does 200 J of work in expanding. Using the first law of thermodynamics, find the change in the internal energy of the gas.",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer:
+      "The first law of thermodynamics states ΔU = Q − W, where Q is the heat supplied to the system and W is the work done by the system.\n\nHere Q = +500 J (absorbed) and W = +200 J (done by the gas on expansion).\n\nΔU = Q − W = 500 − 200 = 300 J. The internal energy of the gas increases by 300 J.",
+    keywords: [
+      "first law: ΔU = Q − W",
+      "Q = +500 J, W = +200 J",
+      "ΔU = 300 J (increase)",
+    ],
+  },
+  {
+    id: "q-c11-physics-12-x1",
+    subjectId: "c11-physics",
+    chapterId: "c11-physics-12",
+    classLevel: 11,
+    text: "Calculate the rms speed of oxygen (O₂) molecules at 300 K. (Molar mass of O₂ = 32 × 10⁻³ kg/mol, R = 8.31 J/mol·K.)",
+    marks: 2,
+    type: "sa",
+    source: "important",
+    answer:
+      "The rms speed is given by v_rms = √(3RT/M).\n\nv_rms = √(3 × 8.31 × 300 / 32 × 10⁻³) = √(7479 / 0.032) = √(233718.75) ≈ 483 m/s.",
+    keywords: [
+      "v_rms = √(3RT/M)",
+      "substitute R = 8.31, T = 300 K, M = 32 × 10⁻³ kg/mol",
+      "v_rms ≈ 483 m/s",
+    ],
+  },
+  {
+    id: "q-c11-physics-13-x1",
+    subjectId: "c11-physics",
+    chapterId: "c11-physics-13",
+    classLevel: 11,
+    text: "The time period of a simple pendulum of length 1 m at a place where g = 9.8 m/s² is close to:\n(A) 1 s\n(B) 2 s\n(C) 3 s\n(D) 4 s",
+    marks: 1,
+    type: "mcq",
+    source: "pyq",
+    answer:
+      "Correct option: (B) 2 s.\n\nT = 2π√(L/g) = 2π√(1/9.8) = 2π × 0.319 ≈ 2.0 s.",
+    keywords: [
+      "T = 2π√(L/g) for a simple pendulum",
+      "T = 2π√(1/9.8) ≈ 2.0 s",
+      "option (B)",
+    ],
+  },
+  {
+    id: "q-c11-physics-14-x1",
+    subjectId: "c11-physics",
+    chapterId: "c11-physics-14",
+    classLevel: 11,
+    text: "A string of mass 0.02 kg and length 2 m is stretched under a tension of 40 N. Find the speed of a transverse wave on the string.",
+    marks: 2,
+    type: "sa",
+    source: "important",
+    answer:
+      "Linear mass density μ = mass / length = 0.02 / 2 = 0.01 kg/m.\n\nSpeed of a transverse wave on a stretched string: v = √(T/μ) = √(40 / 0.01) = √4000 ≈ 63.2 m/s.",
+    keywords: [
+      "μ = m/L = 0.01 kg/m",
+      "v = √(T/μ)",
+      "v = √4000 ≈ 63.2 m/s",
+    ],
   },
 
   // ── CHEMISTRY ──
