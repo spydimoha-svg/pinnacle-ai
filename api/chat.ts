@@ -20,12 +20,16 @@ const MAX_CHARS = 60_000;
 const DEFAULT_SYSTEM =
   "You are Pinnacle, a warm CBSE teacher for Indian school students.";
 
-// Same-origin only: a browser fetch from our own frontend sends an
-// Origin/Referer that matches the Host it's calling. A scripted call
-// (curl, node fetch) either omits Origin or sends a mismatched one.
+// Same-origin only. Sec-Fetch-Site is set by the browser itself and can't be
+// set by page JS or a fetch() call, so it's the strongest signal: trust it
+// whenever present. A script (curl, node fetch) can forge Origin/Referer by
+// hand, but rarely bothers setting both to the same value, so browsers old
+// enough to omit Sec-Fetch-Site still need Origin *and* Referer to agree.
 function isSameOrigin(req: Request): boolean {
   const host = req.headers.get("host");
   if (!host) return false;
+  const secFetchSite = req.headers.get("sec-fetch-site");
+  if (secFetchSite) return secFetchSite === "same-origin";
   const matchesHost = (value: string | null) => {
     if (!value) return false;
     try {
@@ -35,7 +39,7 @@ function isSameOrigin(req: Request): boolean {
     }
   };
   return (
-    matchesHost(req.headers.get("origin")) ||
+    matchesHost(req.headers.get("origin")) &&
     matchesHost(req.headers.get("referer"))
   );
 }

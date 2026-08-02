@@ -8,6 +8,7 @@
 // Note the two functions differ on purpose: Vercel needs a NAMED method export
 // (`export async function POST`), Netlify v2 uses a DEFAULT export. A default
 // export on Vercel is silently ignored and the request hangs — don't "unify".
+import { createClient } from "@supabase/supabase-js";
 import {
   activeProviders,
   streamLLM,
@@ -21,9 +22,81 @@ const MAX_CHARS = 60_000;
 const DEFAULT_SYSTEM =
   "You are Pinnacle, a warm CBSE teacher for Indian school students.";
 
-export default async function handler(req: Request): Promise<Response> {
+// Same abuse guards as api/chat.ts — kept identical so both deploy twins
+// enforce the same rules against the same shared free-tier quota.
+function isSameOrigin(req: Request): boolean {
+  const host = req.headers.get("host");
+  if (!host) return false;
+  const matchesHost = (value: string | null) => {
+    if (!value) return false;
+    try {
+      return new URL(value).host === host;
+    } catch {
+      return false;
+    }
+  };
+  return (
+    matchesHost(req.headers.get("origin")) ||
+    matchesHost(req.headers.get("referer"))
+  );
+}
+
+const supabaseUrl = process.env.VITE_SUPABASE_URL;
+const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+async function hasVerifiedSession(req: Request): Promise<boolean> {
+  if (!supabaseUrl || !supabaseServiceKey) return true;
+  const auth = req.headers.get("authorization") ?? "";
+  const token = auth.startsWith("Bearer ") ? auth.slice(7).trim() : "";
+  if (!token) return false;
+  const admin = createClient(supabaseUrl, supabaseServiceKey);
+  const { data, error } = await admin.auth.getUser(token);
+  return !error && !!data.user;
+}
+
+const RATE_LIMIT_WINDOW_MS = 60_000;
+const RATE_LIMIT_MAX = 20;
+const requestTimestamps = new Map<string, number[]>();
+
+function isRateLimited(ip: string): boolean {
+  const now = Date.now();
+  for (const [key, timestamps] of requestTimestamps) {
+    if (now - timestamps[timestamps.length - 1] >= RATE_LIMIT_WINDOW_MS) {
+      requestTimestamps.delete(key);
+    }
+  }
+  const recent = (requestTimestamps.get(ip) ?? []).filter(
+    (t) => now - t < RATE_LIMIT_WINDOW_MS
+  );
+  recent.push(now);
+  requestTimestamps.set(ip, recent);
+  return recent.length > RATE_LIMIT_MAX;
+}
+
+// Netlify's Context object carries the connecting client's IP directly
+// (populated by Netlify's own edge, not client-supplied), falling back to
+// the equivalent header if a future runtime stops passing it in context.
+function clientIp(req: Request, context: { ip?: string }): string {
+  return (
+    context?.ip || req.headers.get("x-nf-client-connection-ip") || "unknown"
+  );
+}
+
+export default async function handler(
+  req: Request,
+  context: { ip?: string }
+): Promise<Response> {
   if (req.method !== "POST") {
     return new Response("Method not allowed", { status: 405 });
+  }
+  if (!isSameOrigin(req)) {
+    return new Response("Forbidden", { status: 403 });
+  }
+  if (!(await hasVerifiedSession(req))) {
+    return new Response("Unauthorized", { status: 401 });
+  }
+  if (isRateLimited(clientIp(req, context))) {
+    return new Response("Too many requests", { status: 429 });
   }
   if (activeProviders().length === 0) {
     return new Response("Tutor service is not configured", { status: 503 });
