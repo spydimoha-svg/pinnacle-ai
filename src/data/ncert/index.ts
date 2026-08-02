@@ -14,6 +14,7 @@ import { C10_MATHS_QUADRATIC_EQUATIONS } from "./c10-maths-04-quadratic-equation
 import { C10_MATHS_TRIGONOMETRY } from "./c10-maths-trigonometry";
 import { C10_SCIENCE_CHEMICAL_REACTIONS } from "./c10-science-01-chemical-reactions";
 import { C10_SCIENCE_ACIDS_BASES_SALTS } from "./c10-science-02-acids-bases-salts";
+import { C10_SCIENCE_METALS_NONMETALS } from "./c10-science-03-metals-nonmetals";
 
 /** Every grounded chapter. Grows as the library is seeded. */
 export const NCERT: NcertChapter[] = [
@@ -24,6 +25,7 @@ export const NCERT: NcertChapter[] = [
   C10_MATHS_TRIGONOMETRY,
   C10_SCIENCE_CHEMICAL_REACTIONS,
   C10_SCIENCE_ACIDS_BASES_SALTS,
+  C10_SCIENCE_METALS_NONMETALS,
 ];
 
 export interface NcertMatch {

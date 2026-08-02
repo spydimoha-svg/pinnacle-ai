@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { GraduationCap, SendHorizonal, Square, Trash2 } from "lucide-react";
 import { useStore } from "../../lib/store";
 import { buildSystemPrompt, FORMAT_REMINDER, simplifyReminder } from "../../lib/persona";
-import { factualAnswer, groundingFor } from "../../lib/grounding";
+import { factualAnswer, groundingFor, groundingForChapter } from "../../lib/grounding";
 import { generateOnce, offlineTutorReply, streamChat, toWire } from "../../lib/ai";
 import { buildMarkPrompt, gradeAnswer, readMark } from "../../lib/grade";
 import {
@@ -175,9 +175,15 @@ export default function Tutor() {
     }
 
     const plan = active ? planTurn(active, nextProfile, memory) : null;
-    const system = plan
-      ? plan.system
-      : buildSystemPrompt(memory, groundingFor(content, memory?.classLevel), nextProfile);
+    // startChapterId with no plan means startLesson found no concept map for
+    // it — ground on the chapter the student actually clicked, not a fuzzy
+    // re-search of the prompt text that can match a different chapter.
+    const grounding = plan
+      ? null
+      : startChapterId
+        ? groundingForChapter(startChapterId, memory?.classLevel ?? 10)
+        : groundingFor(content, memory?.classLevel);
+    const system = plan ? plan.system : buildSystemPrompt(memory, grounding, nextProfile);
 
     // Outside a lesson there is no reteach phase, so "I don't get it" has to be
     // handled here or the next reply comes back harder than the one that just

@@ -393,6 +393,35 @@ Hence local participation, from the Chipko movement to sacred groves, shows that
       "The examples ARE the marks — 'people help conserve forests' with no named movement earns almost nothing. Name at least two of Chipko, JFM, sacred groves or the Bishnois with their location.",
   },
   {
+    id: "q-c10-sst-07-2",
+    subjectId: "c10-sst",
+    chapterId: "c10-sst-07",
+    classLevel: 10,
+    text: "What is Project Tiger? Explain any two of its measures for conserving the tiger population in India.",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer: `Project Tiger, launched in 1973, is a centrally sponsored wildlife conservation project in India aimed at ensuring a viable population of tigers in their natural habitat.
+
+(i) Reason for the project — the tiger population in India, estimated at 55,000 at the turn of the century, had dropped to 1,827 by 1973, largely due to poaching for trade, shrinking habitat and depletion of the prey base, since tiger skin had traditionally been in great demand and its parts have been used in traditional medicines in various countries.
+
+(ii) Creation of tiger reserves — the project established several tiger reserves across India (for example, Corbett National Park in Uttarakhand, Sunderbans National Park in West Bengal and Bandhavgarh National Park in Madhya Pradesh), keeping core areas free from human activities such as forestry, grazing and hunting.
+
+(iii) Poaching control and monitoring — Project Tiger involved strict anti-poaching measures, protection of the tiger's habitat and prey base, and periodic census of the tiger population, and it has been credited with stabilising and, in later years, increasing the tiger population.
+
+Thus Project Tiger combines habitat protection, anti-poaching enforcement and scientific monitoring to conserve India's tiger population.`,
+    keywords: [
+      "Project Tiger launched 1973",
+      "tiger population fell from 55,000 to 1,827",
+      "poaching / shrinking habitat / depleting prey base",
+      "tiger reserves — Corbett, Sunderbans, Bandhavgarh",
+      "core areas free from human activity",
+      "anti-poaching measures / census",
+    ],
+    examinerTip:
+      "The population figures (55,000 falling to 1,827) are a fixed NCERT statistic examiners check for — quote them, and name at least one actual tiger reserve rather than saying 'reserves were set up'.",
+  },
+  {
     id: "q-c10-sst-08-1",
     subjectId: "c10-sst",
     chapterId: "c10-sst-08",
@@ -426,6 +455,36 @@ Hence, while multi-purpose projects deliver irrigation and power, their ecologic
       "Five separate grounds are needed, one mark each. Students repeat 'displacement' three times in different words — that counts once. Mix ecological, social and hydrological grounds to earn all five.",
   },
   {
+    id: "q-c10-sst-08-2",
+    subjectId: "c10-sst",
+    chapterId: "c10-sst-08",
+    classLevel: 10,
+    text: "Describe any three traditional methods of rainwater harvesting practised in different parts of India.",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer: `In ancient India, people had an in-depth knowledge of rainwater harvesting techniques and practised it through structures suited to the local ecological conditions.
+
+(i) Guls or kuls of the Western Himalayas — in the hill and mountain regions, people built diversion channels called guls or kuls, which carried water from mountain streams to the fields for agriculture.
+
+(ii) Rooftop rainwater harvesting in Rajasthan — in the arid and semi-arid regions of Rajasthan, particularly Bikaner, Phalodi and Barmer, almost all houses had underground tanks called tankas for storing drinking water, connected to rooftop catchment areas through pipes.
+
+(iii) Khadins and johads — in western Rajasthan, embankments called khadins were built to harvest streams for irrigation, while in other regions small check dams called johads collected rainwater and improved percolation and groundwater recharge.
+
+(iv) Bamboo drip irrigation in Meghalaya — a 200-year-old system of tapping stream and spring water using bamboo pipes channels water over hundreds of metres to water the roots of a plant drop by drop.
+
+Thus rainwater harvesting methods across India were designed to suit the local terrain, rainfall and needs of the people.`,
+    keywords: [
+      "guls / kuls — Western Himalayas",
+      "rooftop harvesting / tankas — Rajasthan (Bikaner, Phalodi)",
+      "khadins — embankments for irrigation",
+      "johads — check dams",
+      "bamboo drip irrigation — Meghalaya",
+    ],
+    examinerTip:
+      "Each method needs its NAMED region attached — 'people harvested rainwater in tanks' with no place name earns almost nothing. Tankas and khadins in Rajasthan are the most commonly tested pair.",
+  },
+  {
     id: "q-c10-sst-09-1",
     subjectId: "c10-sst",
     chapterId: "c10-sst-09",
@@ -457,6 +516,35 @@ Thus wheat needs a cool, moist growing period and a warm, bright ripening period
       "'Bright sunshine at the time of ripening' is a marked point on its own — students write only 'cool climate and moderate rainfall' and lose it. Always state the crop season (rabi) first.",
   },
   {
+    id: "q-c10-sst-09-2",
+    subjectId: "c10-sst",
+    chapterId: "c10-sst-09",
+    classLevel: 10,
+    text: "Explain any three institutional and technological reforms introduced by the Government of India to modernise agriculture.",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer: `(i) Green Revolution — the government initiated the Green Revolution, based on the use of package technology (high-yielding variety seeds, chemical fertilisers, pesticides, assured irrigation), though these benefits were not spread evenly and remained concentrated in states like Punjab, Haryana and western Uttar Pradesh.
+
+(ii) Land reforms — after Independence, land reforms became the first priority, with the abolition of the zamindari system and other steps taken to change the ownership of landholdings, so that ownership rights were given to the tenants who had actual possession of the land.
+
+(iii) Minimum support price — in the 1980s and 1990s, the government provided a minimum support price (MSP) for important crops to check speculation and hoarding, and to ensure that farmers get remunerative and stable prices for their produce.
+
+(iv) Rural credit and insurance — crop insurance against drought, flood, cyclone, fire and disease, and the establishment of Grameen banks and cooperative societies that provide loans to farmers at lower rates of interest, have supported small and marginal farmers; the Kisan Credit Card (KCC) and Personal Accident Insurance Scheme (PAIS) are examples of such measures.
+
+Thus land reforms, the Green Revolution, price support and rural credit together modernised Indian agriculture, though regional disparities remain.`,
+    keywords: [
+      "Green Revolution — HYV seeds, fertilisers, irrigation",
+      "land reforms / abolition of zamindari",
+      "minimum support price (MSP)",
+      "crop insurance",
+      "Kisan Credit Card (KCC)",
+      "Grameen banks / cooperative credit",
+    ],
+    examinerTip:
+      "Name the specific instruments — MSP, KCC, crop insurance — a general line like 'the government helped farmers' earns no marks. Note that Green Revolution benefits were regionally uneven (Punjab, Haryana, western UP).",
+  },
+  {
     id: "q-c10-sst-10-1",
     subjectId: "c10-sst",
     chapterId: "c10-sst-10",
@@ -471,6 +559,34 @@ Bauxite deposits are formed by the decomposition of a wide variety of rocks rich
     keywords: ["Bauxite", "decomposition of rocks", "residual mass of weathered material", "aluminium silicates"],
     examinerTip:
       "Students confuse the four modes of mineral occurrence — veins and lodes (gold, zinc), beds and layers (coal), residual weathering (bauxite), and placer/alluvial deposits. Learn one named mineral per mode.",
+  },
+  {
+    id: "q-c10-sst-10-2",
+    subjectId: "c10-sst",
+    chapterId: "c10-sst-10",
+    classLevel: 10,
+    text: "Why is there a need to develop non-conventional sources of energy in India? Explain with any two examples.",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer: `(i) Need for non-conventional sources — growing energy consumption has made the country increasingly dependent on fossil fuels such as coal and petroleum, which are limited, non-renewable and cause pollution when used; hence there is a need to shift to non-polluting and renewable sources such as solar, wind, tidal and biogas.
+
+(ii) Solar energy — India is a tropical country with enormous possibilities of tapping solar energy, and photovoltaic technology converts sunlight directly into electricity, which is especially useful in rural and remote areas.
+
+(iii) Wind energy — India now has the largest wind energy generating programme in Asia, and the largest wind farm cluster is located in Tamil Nadu, from Nagercoil to Madurai; wind farms are also found in Andhra Pradesh, Karnataka, Gujarat, Kerala and Maharashtra.
+
+(iv) Biogas — biogas is produced from decomposing farm waste, animal and human waste, especially in rural areas where cattle dung, called gobar gas, provides both fuel and improved-quality manure enriched in nitrogen and phosphorus.
+
+Thus developing non-conventional energy reduces dependence on exhaustible fossil fuels and provides cleaner, decentralised power, especially for rural India.`,
+    keywords: [
+      "fossil fuels are limited and polluting",
+      "solar energy — photovoltaic technology",
+      "wind energy — Tamil Nadu (Nagercoil to Madurai) largest cluster",
+      "biogas / gobar gas — manure and fuel",
+      "largest wind energy programme in Asia",
+    ],
+    examinerTip:
+      "Name the Tamil Nadu wind-farm belt (Nagercoil–Madurai) and 'gobar gas' specifically — a generic 'India uses solar and wind power' answer loses the location and named-example marks.",
   },
   {
     id: "q-c10-sst-11-1",

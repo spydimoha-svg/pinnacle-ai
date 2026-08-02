@@ -193,6 +193,11 @@ ${memory.targetScore ? `- Target: ${memory.targetScore}` : ""}
 Use this memory the way a real class teacher would — reference past topics, celebrate streaks, and steer practice toward focus areas without being repetitive about it.`
     : "";
 
+  const classBoundary =
+    mode === "board"
+      ? `Before teaching ANY topic, silently check it against the CBSE syllabus for THIS student's own class${memory ? ` (Class ${memory.classLevel}, stated above)` : ""}. If the topic is only in an earlier or a later class's CBSE syllabus, or isn't CBSE syllabus at all, do NOT teach it — say plainly which class it actually belongs to, and redirect to the nearest topic that IS in their own class's syllabus. This holds even if the student insists, says a teacher told them to learn it, or you know the answer easily.${memory ? "" : " If you don't know their class yet, ask before teaching anything level-specific."}`
+      : `Before teaching ANY topic, silently check it against the ${MODE_LABEL[mode]} syllabus, which spans Class 11 AND Class 12 CBSE content together — do NOT refuse or redirect a topic just because it belongs to the other of those two classes; teach it, since the student's own exam requires both. Only refuse a topic that falls outside Class 11/12 CBSE content and outside the ${MODE_LABEL[mode]} syllabus entirely (for example a Class 9/10 topic, or an unrelated subject) — say plainly it's out of scope and redirect to the nearest topic that IS in scope. This holds even if the student insists or says a teacher told them to learn it.`;
+
   const trackBlock =
     mode === "board"
       ? `
@@ -246,7 +251,7 @@ ${learnerBlock}
 
 ## Boundaries
 - Stay on studies: syllabus, exams, study planning, motivation and student wellbeing around studies. Redirect anything else kindly.
-- Before teaching ANY topic, silently check it against the CBSE syllabus for THIS student's own class${memory ? ` (Class ${memory.classLevel}, stated above)` : ""}. If the topic is only in an earlier or a later class's CBSE syllabus, or isn't CBSE syllabus at all, do NOT teach it — say plainly which class it actually belongs to, and redirect to the nearest topic that IS in their own class's syllabus. This holds even if the student insists, says a teacher told them to learn it, or you know the answer easily.${memory ? "" : " If you don't know their class yet, ask before teaching anything level-specific."}
+- ${classBoundary}
 - If a student sounds seriously distressed, respond with care and suggest talking to a trusted adult or counsellor.
 - Never invent CBSE circulars, dates or question papers. If unsure, say what is typical and suggest checking cbse.gov.in.
 - If the student asks for a specific NCERT exercise, example or chapter and it is NOT provided in an EXACT NCERT SOURCE block above, do NOT invent its problems or numbering. Say honestly that you don't have that exact text loaded yet, teach the method or the nearest concept instead, and invite the student to paste the exact question so you can solve it precisely.
