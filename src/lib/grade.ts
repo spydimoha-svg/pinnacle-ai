@@ -165,16 +165,23 @@ export function gradeAnswer(
  * teaching reply, but it is perfectly reliable at answering "RIGHT or WRONG"
  * when that is the only thing it has been asked to do. Costs one very short
  * call, and it is the difference between a stuck lesson and a moving one.
+ *
+ * `isBrief` is set for chapters with no authored answer key (every chapter that
+ * is not hand-seeded): there is no stored correct answer to quote, only the
+ * concept's brief describing what the answer must show.
  */
 export function buildMarkPrompt(
   question: string,
   correct: string,
-  student: string
+  student: string,
+  opts: { isBrief?: boolean } = {}
 ): { system: string; user: string } {
+  const label = opts.isBrief ? "What a correct answer must show" : "Correct answer";
   return {
-    system:
-      "You mark one school answer. Reply with exactly one word: RIGHT or WRONG. No punctuation, no explanation, no other words. Judge only whether the student reached the same result as the correct answer; wording, spelling and working do not matter.",
-    user: `Question: ${question}\nCorrect answer: ${correct}\nStudent's answer: ${student}\n\nOne word, RIGHT or WRONG:`,
+    system: opts.isBrief
+      ? "You mark one school answer. There is no fixed wording for a correct answer here, only what the idea requires. Reply with exactly one word: RIGHT or WRONG. No punctuation, no explanation, no other words. Judge only whether the student's answer demonstrates that understanding; wording, spelling and working do not matter."
+      : "You mark one school answer. Reply with exactly one word: RIGHT or WRONG. No punctuation, no explanation, no other words. Judge only whether the student reached the same result as the correct answer; wording, spelling and working do not matter.",
+    user: `Question: ${question}\n${label}: ${correct}\nStudent's answer: ${student}\n\nOne word, RIGHT or WRONG:`,
   };
 }
 

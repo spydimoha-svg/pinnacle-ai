@@ -205,8 +205,18 @@ ${FORMAT_REMINDER}`
         // they may well have got right, ask the model one closed question — a
         // job even a 3B does reliably, because it is the only thing being asked.
         const concept = currentConcept(active);
-        if (verdict.mastered === undefined && concept?.check.answer) {
-          const p = buildMarkPrompt(concept.check.q, concept.check.answer, content);
+        if (verdict.mastered === undefined && concept) {
+          // Most chapters have no authored check answer to mark against — the
+          // model asked its own question, so judge it against the concept's
+          // brief instead of leaving the student stuck on a step they may
+          // well have got right.
+          const hasKey = Boolean(concept.check.answer);
+          const q = hasKey
+            ? concept.check.q
+            : chat.filter((m) => m.role === "assistant").slice(-1)[0]?.content ?? concept.title;
+          const p = buildMarkPrompt(q, hasKey ? concept.check.answer : concept.brief, content, {
+            isBrief: !hasKey,
+          });
           try {
             const word = await generateOnce(p.user, p.system, undefined, undefined, 8);
             verdict = { ...verdict, mastered: readMark(word), markedBy: "app", why: "second-pass mark" };
