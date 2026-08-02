@@ -407,6 +407,25 @@ export const C11_QUESTIONS: Question[] = [
     ],
   },
   {
+    id: "q-c11-maths-06-x1",
+    subjectId: "c11-maths",
+    chapterId: "c11-maths-06",
+    classLevel: 11,
+    text: "In how many ways can 3 letters be chosen out of 5 different letters, arranged so that a specific letter is always included?",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer:
+      "Since one specific letter must always be included, we need to choose 2 more letters from the remaining 4, then arrange all 3 chosen letters.\n\nNumber of ways to choose the remaining 2 letters: C(4, 2) = 6.\n\nEach group of 3 letters can be arranged in 3! = 6 ways.\n\nTotal arrangements = 6 × 6 = 36.",
+    keywords: [
+      "fix the specific letter, choose 2 more from remaining 4: C(4,2) = 6",
+      "arrange the 3 chosen letters: 3! = 6",
+      "total = 6 × 6 = 36",
+    ],
+    examinerTip:
+      "When a question says 'a specific item is always included', reduce it to choosing the rest from what remains, then arrange — don't recompute C(5,3) and try to filter afterward.",
+  },
+  {
     id: "q-c11-maths-07-x1",
     subjectId: "c11-maths",
     chapterId: "c11-maths-07",
