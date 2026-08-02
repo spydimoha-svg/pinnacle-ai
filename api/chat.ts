@@ -68,21 +68,44 @@ async function hasVerifiedSession(req: Request): Promise<boolean> {
 // Groq free-tier token budget and starve real students mid-lesson.
 const RATE_LIMIT_WINDOW_MS = 60_000;
 const RATE_LIMIT_MAX = 20;
-const requestTimestamps = new Map<string, number[]>();
 
-function isRateLimited(ip: string): boolean {
+// In-memory fallback only: used when Supabase isn't configured at all, so
+// there's no shared store to throttle against. When Supabase IS configured,
+// the module-level Map is not enough — Vercel resets it on every cold start
+// and keeps it separate per concurrent instance, so an attacker spread
+// across instances (or who just waits one out) gets a fresh budget for
+// free. The real counter lives in Postgres via rate_limit_hit() (see
+// supabase/schema.sql), which every instance shares and updates atomically.
+const fallbackTimestamps = new Map<string, number[]>();
+
+function isRateLimitedInMemory(ip: string): boolean {
   const now = Date.now();
-  for (const [key, timestamps] of requestTimestamps) {
+  for (const [key, timestamps] of fallbackTimestamps) {
     if (now - timestamps[timestamps.length - 1] >= RATE_LIMIT_WINDOW_MS) {
-      requestTimestamps.delete(key);
+      fallbackTimestamps.delete(key);
     }
   }
-  const recent = (requestTimestamps.get(ip) ?? []).filter(
+  const recent = (fallbackTimestamps.get(ip) ?? []).filter(
     (t) => now - t < RATE_LIMIT_WINDOW_MS
   );
   recent.push(now);
-  requestTimestamps.set(ip, recent);
+  fallbackTimestamps.set(ip, recent);
   return recent.length > RATE_LIMIT_MAX;
+}
+
+async function isRateLimited(ip: string): Promise<boolean> {
+  if (!supabaseUrl || !supabaseServiceKey) return isRateLimitedInMemory(ip);
+  const admin = createClient(supabaseUrl, supabaseServiceKey);
+  const { data, error } = await admin.rpc("rate_limit_hit", {
+    p_key: `chat:${ip}`,
+    p_window_ms: RATE_LIMIT_WINDOW_MS,
+    p_max: RATE_LIMIT_MAX,
+  });
+  if (error) {
+    console.error("rate_limit_hit error:", error.message);
+    return isRateLimitedInMemory(ip);
+  }
+  return data === true;
 }
 
 // x-forwarded-for's first hop is client-supplied and trivially spoofed.
@@ -101,7 +124,7 @@ export async function POST(req: Request): Promise<Response> {
   if (!(await hasVerifiedSession(req))) {
     return new Response("Unauthorized", { status: 401 });
   }
-  if (isRateLimited(clientIp(req))) {
+  if (await isRateLimited(clientIp(req))) {
     return new Response("Too many requests", { status: 429 });
   }
 

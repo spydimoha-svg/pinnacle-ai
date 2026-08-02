@@ -4,8 +4,11 @@
 // the MASTER_PASSCODE env var (never shipped to the client) and is also used
 // as the HMAC key for the session token, so no extra secret needs configuring.
 import { createHmac, timingSafeEqual } from "node:crypto";
+import { createClient } from "@supabase/supabase-js";
 
 const TOKEN_TTL_MS = 30 * 60 * 1000;
+const supabaseUrl = process.env.VITE_SUPABASE_URL;
+const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
 function sign(payload: string, secret: string): string {
   return createHmac("sha256", secret).update(payload).digest("base64url");
@@ -31,9 +34,17 @@ function verifyToken(token: string, secret: string): boolean {
 // forced by scripting POSTs. Same pattern as api/chat.ts's rate limit.
 const RATE_LIMIT_WINDOW_MS = 5 * 60_000;
 const RATE_LIMIT_MAX = 5;
+
+// In-memory fallback only: used when Supabase isn't configured at all, so
+// there's no shared store to throttle against. When Supabase IS configured,
+// the module-level Map is not enough — Vercel resets it on every cold start
+// and keeps it separate per concurrent instance, letting a brute-forcer get
+// a fresh attempt budget for free. The real counter lives in Postgres via
+// rate_limit_hit() (see supabase/schema.sql), shared and updated atomically
+// across every instance.
 const attemptTimestamps = new Map<string, number[]>();
 
-function isRateLimited(ip: string): boolean {
+function isRateLimitedInMemory(ip: string): boolean {
   const now = Date.now();
   const recent = (attemptTimestamps.get(ip) ?? []).filter(
     (t) => now - t < RATE_LIMIT_WINDOW_MS
@@ -41,6 +52,21 @@ function isRateLimited(ip: string): boolean {
   recent.push(now);
   attemptTimestamps.set(ip, recent);
   return recent.length > RATE_LIMIT_MAX;
+}
+
+async function isRateLimited(ip: string): Promise<boolean> {
+  if (!supabaseUrl || !supabaseServiceKey) return isRateLimitedInMemory(ip);
+  const admin = createClient(supabaseUrl, supabaseServiceKey);
+  const { data, error } = await admin.rpc("rate_limit_hit", {
+    p_key: `master-login:${ip}`,
+    p_window_ms: RATE_LIMIT_WINDOW_MS,
+    p_max: RATE_LIMIT_MAX,
+  });
+  if (error) {
+    console.error("rate_limit_hit error:", error.message);
+    return isRateLimitedInMemory(ip);
+  }
+  return data === true;
 }
 
 // x-forwarded-for's first hop is client-supplied and trivially spoofed.
@@ -64,7 +90,7 @@ export async function POST(req: Request): Promise<Response> {
     return new Response("Invalid JSON", { status: 400 });
   }
 
-  if (isRateLimited(clientIp(req))) {
+  if (await isRateLimited(clientIp(req))) {
     return new Response("Too many attempts", { status: 429 });
   }
 
