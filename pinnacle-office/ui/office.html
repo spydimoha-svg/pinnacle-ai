@@ -101,8 +101,8 @@
   @media(max-width:900px){.heroText{max-width:100%}.heroArt{right:-18%;opacity:.42}}
   .eyebrow{display:flex;align-items:center;gap:12px;margin-bottom:clamp(14px,2vw,22px)}
   .eyebrow span{width:22px;height:1px;background:var(--accent);display:block}
-  h1{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;font-weight:600;letter-spacing:-.045em;
-     font-size:clamp(34px,5.6vw,80px);line-height:.98;margin:0}
+  h1{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;font-weight:400;letter-spacing:-.05em;
+     text-transform:uppercase;font-size:clamp(34px,5.6vw,80px);line-height:.92;margin:0}
   h1 em{font-style:normal;color:#efe6dd}
   .sayline{margin-top:clamp(16px,2vw,26px);font-size:clamp(12.5px,1.05vw,14.5px);color:var(--dim);max-width:62ch;line-height:1.65}
   .sayline b{color:var(--ink);font-weight:400}
@@ -116,8 +116,8 @@
   ::-webkit-scrollbar-track{background:transparent}
   ::-webkit-scrollbar-thumb{background:#2a2724}
   button,input{font:inherit;color:inherit;background:none;border:0;outline:none}
-  .disp{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;letter-spacing:-.035em;font-weight:500}
-  .lab{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--dim)}
+  .disp{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;letter-spacing:-.05em;font-weight:400}
+  .lab{font-size:10.5px;letter-spacing:normal;text-transform:uppercase;color:var(--dim)}
   .hr{height:1px;background:var(--line)}
 
   /* ---------------------------------------------------------- boot screen */
@@ -173,10 +173,10 @@
   .bracket.bl{bottom:0;left:0;border-bottom:1px solid var(--ink);border-left:1px solid var(--ink)}
   .bracket.br{bottom:0;right:0;border-bottom:1px solid var(--ink);border-right:1px solid var(--ink)}
   .marker{display:flex;align-items:center;gap:11px;margin-bottom:15px}
-  .marker b{font-weight:400;font-size:10px;letter-spacing:.18em;color:var(--faint)}
-  .marker u{text-decoration:none;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--dim);white-space:nowrap}
+  .marker b{font-weight:400;font-size:9.8px;letter-spacing:normal;color:var(--faint)}
+  .marker u{text-decoration:none;font-size:11.8px;letter-spacing:normal;color:var(--dim);white-space:nowrap}
   .marker s{text-decoration:none;flex:1;height:1px;background:var(--line)}
-  .marker em{font-style:normal;font-size:10px;letter-spacing:.14em;color:var(--faint);text-transform:uppercase;white-space:nowrap}
+  .marker em{font-style:normal;font-size:9.8px;letter-spacing:normal;color:var(--faint);text-transform:uppercase;white-space:nowrap}
   .readout{display:none;gap:9px;align-items:center;font-size:10px;letter-spacing:.1em;color:var(--faint);white-space:nowrap}
   @media(min-width:1240px){.readout{display:flex}}
   .readout i{width:3px;height:3px;border-radius:50%;background:var(--faint);display:block}
@@ -205,7 +205,7 @@
   body{padding-bottom:112px}
 
   /* ------------------------------------------------------------ briefing */
-  .brief{font-family:system-ui,sans-serif;font-size:clamp(14px,1.15vw,16.5px);line-height:1.62;letter-spacing:-.006em;color:#c5b6af;max-width:70ch}
+  .brief{font-family:system-ui,sans-serif;font-weight:300;font-size:13.7px;line-height:1.3;color:var(--dim);max-width:52ch}
   .brief h3{font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin:26px 0 9px;font-weight:400}
   .brief h3:first-child{margin-top:0}
   .brief .b{padding-left:16px;position:relative;margin:5px 0}
@@ -305,7 +305,7 @@
   .nudge:hover{color:var(--ink);border-color:var(--ink)}
   .nudge.prev{left:14px} .nudge.next{right:64px}
   .focus{position:absolute;left:0;right:0;bottom:16px;text-align:center;pointer-events:none}
-  .focus h3{font-family:system-ui,sans-serif;font-weight:600;letter-spacing:-.03em;font-size:clamp(18px,2.4vw,30px);color:var(--ink)}
+  .focus h3{font-family:system-ui,sans-serif;font-weight:400;letter-spacing:-.05em;text-transform:uppercase;font-size:clamp(18px,2.4vw,30px);color:var(--ink)}
   .focus p{margin-top:5px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
   /* The vertical menu on the right, one mark per team. */
   .rail{position:absolute;right:18px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:6px;z-index:4}
@@ -346,8 +346,8 @@
   .scene.run .b4{animation-delay:.5s} .scene.run .b5{animation-delay:.64s} .scene.run .b6{animation-delay:.78s}
   .b1{display:flex;gap:12px;align-items:center;font-size:10px;letter-spacing:.2em;text-transform:uppercase}
   .b1 .idx{color:var(--faint)} .b1 .kind{color:var(--team)}
-  .scene h2{font-family:system-ui,sans-serif;font-weight:600;letter-spacing:-.045em;line-height:.96;margin:12px 0 0;
-            font-size:clamp(34px,6.4vw,86px);color:#c5b6af}
+  .scene h2{font-family:system-ui,sans-serif;font-weight:400;letter-spacing:-.05em;line-height:.92;margin:12px 0 0;
+            text-transform:uppercase;font-size:clamp(34px,6.4vw,86px);color:var(--ink)}
   .scene p{margin-top:16px;font-family:system-ui,sans-serif;font-size:clamp(13px,1.15vw,16px);line-height:1.6;color:var(--dim);max-width:56ch}
   .sceneStats{margin-top:22px;display:flex;gap:clamp(16px,2.4vw,38px);flex-wrap:wrap}
   .sceneStats div{min-width:64px}
@@ -370,7 +370,7 @@
   .ask:before{content:"";position:absolute;inset:0;background:radial-gradient(70% 120% at 22% 0%,rgba(197,182,175,.08),transparent 62%);pointer-events:none}
   .askIn{position:relative;display:flex;align-items:center;gap:clamp(16px,2.4vw,32px);max-width:1180px}
   .askCopy{flex:1;min-width:0}
-  .ask h2{font-family:system-ui,sans-serif;font-weight:600;letter-spacing:-.04em;font-size:clamp(26px,3.7vw,50px);line-height:1.02;margin:10px 0 0}
+  .ask h2{font-family:system-ui,sans-serif;font-weight:400;letter-spacing:-.05em;text-transform:uppercase;font-size:clamp(26px,3.7vw,50px);line-height:.94;margin:10px 0 0}
   .ask h2 em{font-style:normal;color:#efe6dd}
   .askBar{margin-top:clamp(16px,2vw,26px);display:flex;align-items:center;gap:10px;border:1px solid var(--line2);border-radius:999px;padding:7px 7px 7px 20px;background:rgba(10,11,15,.72);backdrop-filter:blur(14px);max-width:760px}
   .askBar input{flex:1;min-width:0;font-size:14px;padding:8px 0}
@@ -497,7 +497,7 @@
 
   /* Mono metadata, printed beside things. The reference never labels anything
      in prose; it prints /CREATOR: and the value underneath. */
-  .meta9{font-size:9.5px;line-height:1.55;letter-spacing:.04em;text-transform:uppercase;color:var(--faint)}
+  .meta9{font-size:9.8px;line-height:1.6;letter-spacing:normal;text-transform:uppercase;color:var(--faint)}
   .meta9 b{display:block;font-weight:400;color:var(--ink)}
   .meta9 span{display:block;margin-top:9px}
   .ident{font-size:9.5px;letter-spacing:.06em;color:var(--faint);text-transform:uppercase}
@@ -610,6 +610,89 @@
   @media(max-width:900px){.vdock{display:none}}
 
   .magnet{transition:transform .2s cubic-bezier(.2,.8,.2,1)}
+
+  /* ============================================ the reference's components
+     Read off its computed styles, not guessed: display type is weight 400,
+     uppercase, tracked in to minus five per cent. Mono runs at NORMAL letter
+     spacing, which is the opposite of what I had. Body is 13.7px at weight 300
+     on a 1.3 line. Those three numbers are most of why it did not feel right. */
+  .big{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;font-weight:400;text-transform:uppercase;
+       letter-spacing:-.05em;line-height:.92;color:var(--ink);margin:0;
+       font-size:clamp(30px,6.4vw,96px)}
+  .big.sm{font-size:clamp(24px,4.4vw,64px)}
+  /* Half the letters hang back until the block arrives, the way every heading
+     on that site does. */
+  .big i{font-style:normal;opacity:.24;transition:opacity .7s cubic-bezier(.2,.8,.2,1)}
+  .in .big i,.big.lit i{opacity:1}
+  .kick{display:block;font-family:var(--mono);font-size:11.8px;letter-spacing:normal;color:var(--dim);margin-bottom:clamp(14px,2vw,26px)}
+  .lede{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;font-weight:300;font-size:13.7px;line-height:1.3;
+        color:var(--dim);max-width:46ch;margin-top:clamp(16px,2.2vw,30px)}
+
+  /* Their section head: kicker, statement, paragraph offset to one side. */
+  .secHead{position:relative;padding:clamp(40px,7vw,110px) var(--pad) clamp(26px,4vw,56px)}
+  .secHead .lede{margin-left:auto;max-width:44ch}
+  @media(min-width:900px){.secHead .lede{width:44ch;margin-right:6vw}}
+
+  /* The barcode. Deterministic from a string so a section's stripe is its own. */
+  .bars{display:flex;align-items:flex-end;gap:1.5px;height:38px;margin-bottom:22px}
+  .bars i{display:block;background:var(--ink);opacity:.8;width:1px}
+
+  /* The sticky track. A giant word pinned while the page scrolls past it and
+     dragged sideways as it goes. This is their signature move and the page felt
+     flat without it. */
+  .track2{position:relative;height:170vh;pointer-events:none}
+  .track2 .pin{position:sticky;top:38vh;overflow:hidden;white-space:nowrap}
+  .track2 .pin b{display:inline-block;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;font-weight:400;
+                 text-transform:uppercase;letter-spacing:-.05em;line-height:.9;color:var(--ink);
+                 font-size:clamp(56px,13vw,190px);will-change:transform}
+  .track2 .pin b em{font-style:normal;color:var(--faint)}
+  @media(max-width:820px){.track2{height:90vh}}
+
+  /* Their collection card: the picture, then [NNN] and a scrambled name under
+     it in mono, alternating side to side down the page. */
+  .cards{padding:0 var(--pad) clamp(30px,5vw,80px);display:grid;gap:clamp(30px,5vw,84px)}
+  @media(min-width:900px){.cards{grid-template-columns:repeat(12,1fr)}}
+  .col{cursor:pointer;grid-column:span 12}
+  @media(min-width:900px){
+    .col{grid-column:span 5}
+    .col:nth-child(6n+1){grid-column:1/span 5}
+    .col:nth-child(6n+2){grid-column:8/span 5;margin-top:14vh}
+    .col:nth-child(6n+3){grid-column:3/span 4}
+    .col:nth-child(6n+4){grid-column:8/span 4;margin-top:8vh}
+    .col:nth-child(6n+5){grid-column:2/span 5;margin-top:4vh}
+    .col:nth-child(6n){grid-column:7/span 5;margin-top:12vh}
+  }
+  .col .shot{position:relative;overflow:hidden;background:var(--panel);
+             box-shadow:0 0 0 1px var(--line);transition:box-shadow .4s}
+  .col:hover .shot{box-shadow:0 0 0 1px var(--line2)}
+  .col.live .shot{box-shadow:0 0 0 1px var(--acid)}
+  .col .shot .face{aspect-ratio:4/3}
+  .col .cap{display:flex;gap:clamp(14px,2.4vw,40px);align-items:baseline;margin-top:14px;
+            font-family:var(--mono);font-size:11.8px;letter-spacing:normal;color:var(--ink)}
+  .col .cap u{text-decoration:none;color:var(--faint);font-size:9.8px;flex:none}
+  .col .cap b{font-weight:400;text-transform:uppercase;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .col .cap s{text-decoration:none;color:var(--faint);font-size:9.8px;flex:none;white-space:nowrap}
+  .col.shut{opacity:.34}
+
+  /* Their creator card: portrait, with the metadata printed beside it rather
+     than underneath, in the /LABEL: value form they use everywhere. */
+  .crewGrid{padding:0 var(--pad) clamp(40px,6vw,90px);display:grid;gap:clamp(24px,3.4vw,52px);
+            grid-template-columns:repeat(auto-fill,minmax(clamp(180px,20vw,260px),1fr))}
+  .crewCard{display:flex;gap:14px;align-items:flex-start;cursor:pointer}
+  .crewCard .face{width:clamp(96px,10vw,132px);flex:none}
+  .crewCard .who{min-width:0;padding-top:4px}
+  .crewCard .who b{display:block;font-family:var(--mono);font-size:11.8px;font-weight:400;color:var(--ink);
+                   text-transform:uppercase;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .crewCard .who span{display:block;font-family:var(--mono);font-size:9.8px;color:var(--faint);margin-top:9px}
+  .crewCard .who span i{font-style:normal;display:block;color:var(--dim)}
+  .crewCard:hover .who b{color:var(--acid)}
+
+  /* Their closing block: nothing but a rule, a line of credits and the time. */
+  .endBlock{border-top:1px solid var(--line);padding:clamp(30px,5vw,70px) var(--pad) 130px;
+            display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;
+            font-family:var(--mono);font-size:9.8px;color:var(--faint)}
+  .endBlock b{font-weight:400;color:var(--dim)}
+
 </style>
 </head>
 <body>
@@ -682,8 +765,16 @@
   </div>
 </div>
 
+<section class="secHead">
+  <div class="bars" id="bars1"></div>
+  <span class="kick">//the floor</span>
+  <h2 class="big">Twenty one departments.<br />One thousand specialists.<br />Nobody clocks off.</h2>
+  <p class="lede">Every one of them is a person with a name, a specialty and a record. They plan
+    their own work, argue it past Pinnacle, and only what survives her reaches your codebase.</p>
+</section>
+
 <section class="crew">
-  <div class="marker"><b>001</b><u>The crew</u><s></s><em id="crewNote"></em></div>
+  <div class="marker"><b>001</b><u>the crew</u><s></s><em id="crewNote"></em></div>
 
   <!-- The stage. One bot in focus, its neighbours peeking, the whole thing
        tinted by whichever team is centred. Taken from the way the reference
@@ -732,6 +823,10 @@
   </div>
 </div>
 
+<div class="track2" id="track2">
+  <div class="pin"><b id="pinWord">YOUR OFFICE <em>&mdash;</em> THEIR HOURS <em>&mdash;</em> YOUR CALL <em>&mdash;</em></b></div>
+</div>
+
 <section class="ask">
   <div class="askIn">
     <div class="orbWrap oct" id="orbWrap">
@@ -760,7 +855,7 @@
       <div class="brief" id="brief">No briefing yet. Pinnacle writes one after every few finished tasks. Type <b>brief</b> in the command bar to ask for one now.</div>
     </div>
     <div class="block">
-      <div class="marker"><b>004</b><u>Departments</u><s></s><em id="deptNote"></em></div>
+      <div class="marker"><b>004</b><u>departments</u><s></s><em id="deptNote"></em></div>
       <div id="depts"></div>
     </div>
     <div class="block">
@@ -799,6 +894,12 @@
     <div id="cmdEcho"></div>
     <div id="cmdList"></div>
   </div>
+</div>
+
+<div class="endBlock">
+  <span>Pinnacle office <b>v1</b> &middot; built for Ayaan Khan</span>
+  <span>one thousand specialists <b>&middot;</b> twenty one departments</span>
+  <span id="endClock">--:--:--</span>
 </div>
 
 <div class="statusbar">
@@ -1149,6 +1250,7 @@ const globe = (() => {
   let spin = 0, tilt = -0.38, awake = 0, state = "idle", level = 0, beat = 0;
   let analyser = null, bins = null, stream = null;
   let bass = 0, mid = 0, air = 0, burst = 0;
+  let armed = false, shown = "idle";
 
   // Real microphone level, so the ball moves to his actual voice rather than to
   // a timer pretending to be his voice.
@@ -1204,8 +1306,18 @@ const globe = (() => {
 
   function frame(t) {
     beat = t / 1000;
-    const talking = state === "talking", hearing = state === "listening";
     bands();
+    const talking = state === "talking";
+    // Armed counts as listening the moment there is anything to hear. He should
+    // never have to tell it he is about to speak.
+    const hearing = !talking && (state === "listening" || (armed && level > 0.04));
+    const now = talking ? "talking" : hearing ? "listening" : "idle";
+    if (now !== shown) {
+      shown = now;
+      wrap.className = "globeWrap " + now;
+      const label = $("globeState");
+      if (label) label.textContent = now === "talking" ? "pinnacle speaking" : now === "listening" ? "listening" : "standing by";
+    }
 
     // He drives it from the microphone. She has no waveform to read, so her
     // rhythm is synthesised, but it is built out of three beating oscillators
@@ -1275,13 +1387,14 @@ const globe = (() => {
 
   return {
     set(n, total) { awake = Math.min(N, Math.round((n / Math.max(total, 1)) * N)); },
-    // idle, listening while he talks, talking while she answers
-    mode(next) {
-      if (state === next) return;
-      state = next;
-      wrap.className = "globeWrap " + next;
-      if (next === "listening") ear(); else deaf();
-    },
+    // idle, listening while he talks, talking while she answers. The class is
+    // set inside the frame loop now, because the ball can hear him without
+    // anybody having declared that he is speaking.
+    mode(next) { state = next; },
+    // The microphone follows whether she is armed at all, not whether he has
+    // pressed a button.
+    arm() { armed = true; ear(); },
+    disarm() { armed = false; deaf(); level = bass = mid = air = 0; },
   };
 })();
 
@@ -1422,6 +1535,58 @@ addEventListener("pointermove", (e) => {
   m.style.transform = `translate(${((e.clientX - b.left) / b.width - 0.5) * 14}px,${((e.clientY - b.top) / b.height - 0.5) * 12}px)`;
 }, { passive: true });
 
+// ------------------------------------------------------- the reference's flow
+// A barcode, deterministic from a string so a section keeps its own stripe.
+function bars(el, seed, count = 46) {
+  let n = 0;
+  for (const c of seed) n = (n * 31 + c.charCodeAt(0)) >>> 0;
+  el.innerHTML = Array.from({ length: count }, () => {
+    n = (n * 1103515245 + 12345) >>> 0;
+    return `<i style="width:${1 + (n >>> 8) % 3}px;height:${30 + (n >>> 14) % 9}%"></i>`;
+  }).join("");
+}
+if ($("bars1")) bars($("bars1"), "pinnacle-floor");
+
+// The sticky track. A giant line pinned while the page scrolls past it and
+// dragged sideways as it goes. It is the one move that makes that site feel
+// like a place you are travelling through rather than a page you are reading.
+(function stickyTrack() {
+  const track = $("track2"), word = $("pinWord");
+  if (!track || !word || matchMedia("(prefers-reduced-motion:reduce)").matches) return;
+  word.innerHTML = word.innerHTML.repeat(3);
+  let raf = 0;
+  const draw = () => {
+    raf = 0;
+    const box = track.getBoundingClientRect();
+    const run = box.height - innerHeight;
+    if (run <= 0 || box.bottom < 0 || box.top > innerHeight) return;
+    const t = Math.min(1, Math.max(0, -box.top / run));
+    word.style.transform = `translate3d(${(0.12 - t * 0.62) * word.scrollWidth}px,0,0)`;
+  };
+  addEventListener("scroll", () => { if (!raf) raf = requestAnimationFrame(draw); }, { passive: true });
+  draw();
+})();
+
+// Their footer prints the time and lets it run.
+setInterval(() => { const e = $("endClock"); if (e) e.textContent = new Date().toTimeString().slice(0, 8); }, 1000);
+
+// Statements arrive a letter at a time. This has to walk text nodes rather
+// than run over innerHTML, or it wraps the letters of the tags too and prints
+// a literal <BR> in the middle of the sentence.
+document.querySelectorAll(".big").forEach((h) => {
+  for (const node of [...h.childNodes]) {
+    if (node.nodeType !== 3) continue;
+    const frag = document.createDocumentFragment();
+    for (const ch of node.textContent) {
+      if (ch === " ") { frag.append(" "); continue; }
+      const i = document.createElement("i");
+      i.textContent = ch;
+      frag.append(i);
+    }
+    node.replaceWith(frag);
+  }
+});
+
 // --------------------------------------------------------------- arrivals
 // Nothing on the reference is simply there when you reach it. Sections lift
 // into place as they come into view, once, and then the observer lets go.
@@ -1431,7 +1596,7 @@ addEventListener("pointermove", (e) => {
     const io = new IntersectionObserver((rows) => {
       for (const r of rows) if (r.isIntersecting) { r.target.classList.add("in"); io.unobserve(r.target); }
     }, { rootMargin: "0px 0px -12% 0px" });
-    document.querySelectorAll(".crew,.ask,.block").forEach((el, i) => {
+    document.querySelectorAll(".crew,.ask,.block,.secHead").forEach((el, i) => {
       el.classList.add("rise");
       el.style.transitionDelay = ((i % 3) * 0.08).toFixed(2) + "s";
       io.observe(el);
@@ -1931,15 +2096,16 @@ fetch("/api/voice").then((r) => r.json()).then((v) => {
 
 let speaking = false;
 let hushTimer = null;
+let handBack = false;      // give him the floor the moment she stops talking
 
 // The globe is the only thing on the page that says who has the floor, so it
 // has to be told the truth about when she starts and stops.
 function mouth(on) {
   speaking = on;
   clearTimeout(hushTimer);
-  if (on) { globe.mode("talking"); $("globeState").textContent = "pinnacle speaking"; return; }
-  if (listening) { globe.mode("listening"); $("globeState").textContent = "listening"; }
-  else { globe.mode("idle"); $("globeState").textContent = "standing by"; }
+  if (on) { globe.mode("talking"); return; }
+  globe.mode(listening ? "listening" : "idle");
+  if (handBack) { handBack = false; if (!listening) startVoice(); }
 }
 
 function hush() {
@@ -2144,7 +2310,6 @@ function startVoice() {
   listening = true;
   setEar("ask");
   globe.mode("listening");
-  $("globeState").textContent = "listening";
   $("mic").classList.add("on");
   $("vdock").classList.add("hot");
   voiceUI("Listening", "say it how you would say it to a person");
@@ -2155,7 +2320,7 @@ function startVoice() {
 function stopVoice() {
   if (!listening) return;
   listening = false;
-  if (!speaking) { globe.mode("idle"); $("globeState").textContent = "standing by"; }
+  if (!speaking) globe.mode("idle");
   $("mic").classList.remove("on");
   $("vdock").classList.remove("hot");
   voiceUI(wakeOn ? "Say “Hey Pinnacle”" : "Talk to Pinnacle", voiceLabel());
@@ -2188,6 +2353,7 @@ let earFails = 0;
 function setEar(next) {
   want = next;
   waking = next === "wake";
+  if (next === "off") globe.disarm(); else globe.arm();
   if (earLive) { try { rec.abort(); } catch {} return; }   // onend picks it up
   launchEar();
 }
@@ -2221,9 +2387,8 @@ function wakeUp(rest) {
   pushMsg({ who: "Pinnacle", what: line });
   $("reply").className = "reply";
   $("reply").textContent = line;
+  handBack = true;      // she takes the floor back the instant she stops
   speak(line);
-  // Then hand him the floor, once she has finished saying it.
-  setTimeout(() => { if (!listening) startVoice(); }, 900 + line.length * 58);
 }
 
 // Numbers get spoken, not printed, so she never reads digits at him.
