@@ -137,7 +137,8 @@ export async function POST(req: Request): Promise<Response> {
   }
   const totalChars =
     messages.reduce((n, m) => n + m.content.length, 0) +
-    (body.system?.length ?? 0);
+    (body.system?.length ?? 0) +
+    (body.reminder?.length ?? 0);
   if (totalChars > MAX_CHARS) {
     return new Response("Conversation too long", { status: 413 });
   }
