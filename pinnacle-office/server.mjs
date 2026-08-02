@@ -75,6 +75,19 @@ async function route(req, res) {
     return res.end(html);
   }
 
+  // The staff photographs. Served from disk rather than a CDN so the office
+  // still works with the network off, and confined to one folder of jpegs so a
+  // crafted path cannot walk out of it and read something else.
+  if (url.pathname.startsWith("/faces/")) {
+    const name = path.basename(url.pathname);
+    if (!/^[a-z0-9_-]+\.jpg$/i.test(name)) return res.writeHead(404).end();
+    try {
+      const img = fs.readFileSync(path.join(OFFICE_DIR, "ui", "faces", name));
+      res.writeHead(200, { "content-type": "image/jpeg", "cache-control": "public, max-age=86400" });
+      return res.end(img);
+    } catch { return res.writeHead(404).end(); }
+  }
+
   if (url.pathname === "/api/state") return json(res, snapshot());
 
   if (url.pathname === "/api/events") return json(res, recentEvents(Number(url.searchParams.get("n") || 120)));

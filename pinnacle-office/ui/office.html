@@ -14,7 +14,7 @@
     --dim:rgba(197,182,175,.58); --faint:rgba(197,182,175,.34);
     --line:rgba(197,182,175,.1); --line2:rgba(197,182,175,.2);
     --warm:#ebfb1d; --bad:#4f009e; --good:#c5b6af;
-    --acid:#ebfb1d; --violet:#4f009e;
+    --acid:#ebfb1d; --violet:#4f009e; --globe:#39ff9e;
     --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
     --pad:clamp(18px,3.4vw,52px);
   }
@@ -33,46 +33,71 @@
      underneath it. */
   .heroChar{position:absolute;right:clamp(20px,6vw,110px);top:50%;transform:translateY(-56%);
             display:flex;align-items:center;gap:clamp(12px,1.6vw,26px);margin:0;pointer-events:none;z-index:2}
-  .charArt{width:clamp(112px,14.5vw,214px);position:relative;filter:drop-shadow(0 26px 44px rgba(0,0,0,.75))}
-  .charArt svg{display:block;width:100%;height:auto;animation:breathe 5.2s ease-in-out infinite}
-  @keyframes breathe{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
-
-  /* She carries her own weight. Each limb swings on its own timing and its own
-     pivot, which is what stops it reading as one flat picture bobbing. */
-  .charArt .armL{transform-origin:46px 76px;animation:swingA 4.6s ease-in-out infinite}
-  .charArt .armR{transform-origin:86px 76px;animation:swingB 4.6s ease-in-out infinite}
-  .charArt .legL{transform-origin:56px 158px;animation:swingC 5.8s ease-in-out infinite}
-  .charArt .legR{transform-origin:78px 158px;animation:swingD 5.8s ease-in-out infinite}
-  @keyframes swingA{0%,100%{transform:rotate(-2.5deg)}50%{transform:rotate(3.5deg)}}
-  @keyframes swingB{0%,100%{transform:rotate(2.5deg)}50%{transform:rotate(-3.5deg)}}
-  @keyframes swingC{0%,100%{transform:rotate(1.2deg)}50%{transform:rotate(-1.6deg)}}
-  @keyframes swingD{0%,100%{transform:rotate(-1.2deg)}50%{transform:rotate(1.6deg)}}
-  /* Hair has weight. It lags behind her, which is most of what sells a drawn
-     figure as a body rather than a picture of one. */
-  .charArt .braids{transform-origin:66px 30px;animation:sway 6.4s ease-in-out infinite}
-  @keyframes sway{0%,100%{transform:rotate(-1.4deg)}50%{transform:rotate(1.4deg)}}
+  .charArt{width:clamp(150px,17.5vw,256px);position:relative;filter:drop-shadow(0 30px 50px rgba(0,0,0,.8));
+           animation:breathe 7s ease-in-out infinite}
+  @keyframes breathe{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
 
   /* Pick her up and put her where you want her. */
   .heroChar{cursor:grab;pointer-events:auto}
   .heroChar.held{cursor:grabbing}
-  .heroChar.held .charArt svg,.heroChar.held .charArt .armL,.heroChar.held .charArt .armR{animation-play-state:paused}
-  .heroChar.called .charArt{filter:drop-shadow(0 0 34px var(--accent)) drop-shadow(0 26px 44px rgba(0,0,0,.75))}
+  .heroChar.held .charArt{animation-play-state:paused}
+  .heroChar.called .charArt{filter:drop-shadow(0 0 40px rgba(235,251,29,.5)) drop-shadow(0 30px 50px rgba(0,0,0,.8))}
   .charHint{position:absolute;left:50%;bottom:-22px;transform:translateX(-50%);font-size:9px;letter-spacing:.16em;
             text-transform:uppercase;color:var(--faint);white-space:nowrap;opacity:0;transition:opacity .3s;pointer-events:none}
   .heroChar:hover .charHint{opacity:1}
+  @media(prefers-reduced-motion:reduce){.charArt{animation:none}}
 
-  @media(prefers-reduced-motion:reduce){
-    .charArt svg,.charArt .armL,.charArt .armR,.charArt .legL,.charArt .legR,.charArt .braids{animation:none}
-  }
+  /* --------------------------------------------------------- the people
+     One grade over all of them, which is the only reason twenty two different
+     photographs can share a screen without reading as a stock grid: contrast
+     up, colour pulled back, blacks crushed down to the page, vignette on top,
+     and the page grain over everything. A working agent comes up into colour
+     and takes the acid ring. An idle one is greyed. A closed department is
+     nearly out. So the picture is the state. */
+  .face{position:relative;margin:0;overflow:hidden;background:#131313;aspect-ratio:4/5;
+        clip-path:polygon(calc(100% - 17px) 0,100% 17px,100% calc(100% - 17px),calc(100% - 17px) 100%,17px 100%,0 calc(100% - 17px),0 17px,17px 0)}
+  .face.tall{aspect-ratio:3/4}
+  .face img{width:100%;height:100%;object-fit:cover;display:block;user-select:none;
+            filter:grayscale(.62) contrast(1.16) saturate(.78) brightness(.66);transition:filter .7s ease}
+  .face.live img{filter:grayscale(.1) contrast(1.2) saturate(1.06) brightness(.98)}
+  .face.shut img{filter:grayscale(1) contrast(1.04) brightness(.3)}
+  .face .vig{position:absolute;inset:0;pointer-events:none;
+             background:radial-gradient(76% 66% at 46% 32%,transparent,rgba(10,10,10,.88))}
+  .face .ring{position:absolute;inset:0;pointer-events:none;transition:box-shadow .45s;
+              box-shadow:inset 0 0 0 1px rgba(197,182,175,.26)}
+  .face.live .ring{box-shadow:inset 0 0 0 1px var(--acid),inset 0 0 30px rgba(235,251,29,.14)}
+
   .charPlinth{position:absolute;left:50%;bottom:-10px;width:clamp(190px,26vw,380px);height:clamp(70px,9vw,130px);transform:translateX(-58%);
               background:radial-gradient(ellipse at 50% 100%,rgba(235,251,29,.2),transparent 66%);pointer-events:none}
   .charMeta{display:flex;flex-direction:column;gap:5px;font-size:9.5px;letter-spacing:.14em;color:var(--faint);white-space:nowrap;align-self:flex-end;padding-bottom:14%}
   .charMeta span:first-child{color:var(--accent)}
   @media(max-width:1080px){.charMeta{display:none}}
   @media(max-width:820px){.heroChar{opacity:.3;right:-6%}}
-  #gl{position:absolute;inset:0;width:100%;height:100%;display:block}
+  /* ------------------------------------------------------------ the globe
+     A thousand agents on a sphere, in text. Two layers stacked exactly: the
+     dim one is the whole roster, the bright one is only who is awake, so the
+     ball lights up as the floor does. Per character colouring in one <pre> per
+     frame would need a thousand spans; two <pre>s costs two writes. */
+  .globeWrap{position:relative;display:inline-block;margin:clamp(4px,1vw,14px) 0 clamp(14px,2vw,24px);pointer-events:none}
+  .globe{margin:0;white-space:pre;font-family:var(--mono);
+         font-size:clamp(5.4px,0.95vw,11.5px);line-height:1.02;letter-spacing:0;
+         transition:color .5s,text-shadow .5s}
+  .globe.hot{position:absolute;inset:0}
+  .globe.dim{color:rgba(57,255,158,.3)}
+  .globe.hot{color:var(--globe);text-shadow:0 0 8px rgba(57,255,158,.55)}
+  /* Who has the floor is legible from across the room: she glows brighter and
+     wider while she is answering, and cools while she is listening to him. */
+  .globeWrap.listening .globe.hot{color:#eafff5;text-shadow:0 0 14px rgba(57,255,158,.9)}
+  .globeWrap.listening .globe.dim{color:rgba(57,255,158,.44)}
+  .globeWrap.talking .globe.hot{color:var(--acid);text-shadow:0 0 16px rgba(235,251,29,.75)}
+  .globeWrap.talking .globe.dim{color:rgba(235,251,29,.26)}
+  .globeState{position:absolute;left:0;bottom:-18px;font-size:9.5px;letter-spacing:.22em;
+              text-transform:uppercase;color:var(--faint);transition:color .4s}
+  .globeWrap.listening .globeState{color:var(--globe)}
+  .globeWrap.talking .globeState{color:var(--acid)}
+  @media(max-width:900px){.globeWrap{display:none}}
   .heroGlow{position:absolute;inset:0;pointer-events:none;background:radial-gradient(120% 90% at 78% 50%,rgba(197,182,175,.09),transparent 58%),radial-gradient(90% 70% at 0% 100%,rgba(0,0,0,.9),transparent 60%)}
-  .heroText{position:relative;padding:0 var(--pad) clamp(20px,3vw,34px);max-width:min(980px,72%)}
+  .heroText{position:relative;padding:0 var(--pad) clamp(20px,3vw,34px);max-width:min(760px,60%)}
   @media(max-width:900px){.heroText{max-width:100%}.heroArt{right:-18%;opacity:.42}}
   .eyebrow{display:flex;align-items:center;gap:12px;margin-bottom:clamp(14px,2vw,22px)}
   .eyebrow span{width:22px;height:1px;background:var(--accent);display:block}
@@ -267,7 +292,7 @@
   .track{position:relative;width:100%;height:100%;display:flex;align-items:center;justify-content:center}
   .slot{position:absolute;transition:transform .72s cubic-bezier(.22,.8,.2,1),opacity .72s,filter .72s;
         cursor:pointer;width:clamp(118px,13.5vw,180px);will-change:transform,opacity}
-  .slot svg{display:block;width:100%;height:auto}
+  .slot .face{width:100%}
   .slot .cap{margin-top:10px;text-align:center;font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--faint);white-space:nowrap}
   /* The focused bot's name is already set large underneath the stage, so the
      small caption on it would just be the same words twice. */
@@ -310,7 +335,7 @@
   .sceneX:hover{color:var(--ink);border-color:var(--ink)}
   .sceneStage{position:relative;display:flex;align-items:center;gap:clamp(24px,5vw,80px);padding:0 var(--pad);max-width:1200px;width:100%}
   .sceneBot{width:clamp(140px,19vw,260px);flex:none}
-  .sceneBot svg{display:block;width:100%;height:auto;animation:hover 3.4s ease-in-out infinite}
+  .sceneBot .face{width:100%;animation:hover 3.4s ease-in-out infinite}
   .sceneCopy{min-width:0;flex:1}
   /* Beats. Each line arrives on its own count, so it reads as a sequence
      rather than a wall of text appearing at once. */
@@ -569,6 +594,15 @@
         border:1px solid var(--line2);border-radius:12px;background:rgba(10,11,14,.96);backdrop-filter:blur(18px);
         opacity:0;visibility:hidden;transform:translateY(6px);transition:.24s}
   .vdock:hover .vsay{opacity:1;visibility:visible;transform:none}
+  /* The wake switch. The microphone genuinely stays open while this is on, so
+     it says so, it is always visible, and it is one tap to kill. */
+  .wakeSw{display:flex;align-items:center;gap:6px;flex:none;padding:5px 10px;border-radius:999px;
+          border:1px solid var(--line2);cursor:pointer;transition:.2s}
+  .wakeSw:hover{border-color:var(--ink)}
+  .wakeSw i{width:6px;height:6px;border-radius:50%;background:var(--faint);display:block;transition:.3s}
+  .wakeSw.on i{background:var(--globe);box-shadow:0 0 8px var(--globe);animation:pulse 2.4s infinite}
+  .wakeSw em{font-style:normal;font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--faint)}
+  .wakeSw.on em{color:var(--globe)}
   .vsay u{display:block;text-decoration:none;font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);margin-bottom:8px}
   .vsay i{display:block;font-style:normal;font-size:12px;color:#b3a69f;padding:3px 0}
   .vsay i:before{content:"\201C";color:var(--faint)}
@@ -610,9 +644,6 @@
 </header>
 
 <div class="hero">
-  <!-- The field of a thousand agents stays, but it sits behind Pinnacle now
-       rather than being the subject. The subject is the assistant. -->
-  <div class="heroArt"><canvas id="gl"></canvas></div>
   <div class="heroGlow"></div>
   <figure class="heroChar" id="heroChar">
     <div class="charPlinth"></div>
@@ -628,12 +659,18 @@
 
   <div class="heroText">
     <div class="eyebrow lab"><span></span>Autonomous engineering organisation</div>
-    <h1>One thousand specialists.<br />One product.<br /><em>No days off.</em></h1>
+    <!-- One character per agent. The dim layer is the whole roster, the bright
+         one is only who is awake, and it moves to whoever has the floor. -->
+    <div class="globeWrap idle" id="globeWrap">
+      <pre class="globe dim" id="globeDim" aria-hidden="true"></pre>
+      <pre class="globe hot" id="globeHot" aria-hidden="true"></pre>
+      <span class="globeState" id="globeState">standing by</span>
+    </div>
     <div class="sayline" id="sayline">Reading the floor.</div>
     <div class="legend lab">
       <span><i></i>at their desk</span>
       <span><i class="up"></i>awake and working</span>
-      <span>one dot is one agent, one band is one department</span>
+      <span>one character is one agent</span>
     </div>
   </div>
 
@@ -788,7 +825,7 @@
 <div class="vdock off" id="vdock">
   <div class="vsay">
     <u>things you can say</u>
-    <i>Pinnacle</i><i>what is the floor doing</i><i>tell frontend to fix the lesson player</i>
+    <i>Hey Pinnacle</i><i>Pinnacle, what is the floor doing</i><i>tell frontend to fix the lesson player</i>
     <i>brief me</i><i>who is my best agent</i><i>stop everything</i>
   </div>
   <button class="vbtn" id="vbtn" title="talk to Pinnacle (V)">
@@ -797,6 +834,9 @@
     </svg>
   </button>
   <div class="vtxt"><b id="vstate">Talk to Pinnacle</b><span id="vsub">press V, or tap her</span></div>
+  <button class="wakeSw on" id="wake" title="listen for &quot;Pinnacle&quot; without being asked. The microphone stays open while this is on.">
+    <i></i><em>wake</em>
+  </button>
 </div>
 
 <script>
@@ -942,435 +982,35 @@ function palette(hue, { closed = false } = {}) {
 }
 
 // --------------------------------------------------------- the personnel
-// Every department is a person, not a machine, and Pinnacle is a woman who
-// stands on the floor with them. Both are drawn as lit portraits: warm key
-// light from the upper left, the team's colour as a gel down the right edge,
-// shadow under the jaw and into the collar, vignette behind, grain over the
-// top. That lighting is the whole difference between a portrait and a
-// sticker, and it is how the reference lights every face in its showcase.
+// Photographs, not drawings. Twenty four portraits under the Unsplash licence,
+// free for commercial use, stored on disk so the office still works with the
+// network off. See ui/faces/sources.txt for exactly which.
 //
-// Pure SVG. No images, no generator, no spend, works offline.
+// They are cut into the reference's octagon and graded so twenty two of them
+// on one screen read as one set rather than a stock photo grid: contrast up,
+// saturation down, blacks crushed into #0a0a0a, vignette, and the page grain
+// over the top. A working agent gets the acid ring; an idle one is greyed and
+// dimmed; a closed department is nearly out.
+//
+// The reference's own creator photographs are not used. They are individual
+// artists' work, credited by name on that site, and taking them would put
+// somebody else's copyright inside Ayaan's product.
+const FACES = 24;
+const faceFor = (dept, i) => {
+  let n = 0;
+  for (const c of dept) n = (n * 31 + c.charCodeAt(0)) >>> 0;
+  return String(((n + Math.abs(i)) % FACES) + 1).padStart(2, "0");
+};
 
-// The staff are from everywhere, like the students are. Skin, hair, features
-// and dress all vary by seat so the floor never reads as one person repeated.
-const SKIN = ["#f2cfae", "#e3b083", "#cf9464", "#b0764a", "#8e5734", "#6d3f24", "#f8dcc0", "#a86a41", "#5a3320", "#d8a273"];
-const HAIR = ["#12100f", "#2a1c15", "#4a2f1e", "#6b4423", "#0d0c0c", "#3a2418", "#5c3a22", "#8a6a3a", "#241a14", "#1d1512"];
-const EYES = ["#4a3524", "#2e2019", "#5c4a30", "#3a4a3c", "#26313f", "#1f1815"];
-
-// One shared defs block per portrait. The id suffix keeps twenty two sets of
-// gradients on one screen from bleeding into each other.
-// The skull. Crown at 16, chin at 78, widest across the cheekbones. Every
-// portrait and Pinnacle herself are built on this one shape.
-const SKULL = "M48 16c12.4 0 21 10.2 21 25.4 0 6.2-.6 12-1.8 17-2.2 10.6-8.4 19.6-19.2 19.6s-17-9-19.2-19.6c-1.2-5-1.8-10.8-1.8-17C27 26.2 35.6 16 48 16z";
-
-function personDefs(u, p, skin, hair, live) {
-  const shade = mix(skin, "#2a1409", 0.52);
-  return `<defs>
-    <linearGradient id="skin${u}" x1="0.12" y1="0.05" x2="0.92" y2="0.95">
-      <stop offset="0" stop-color="${lighten(skin, 0.28)}"/>
-      <stop offset="0.34" stop-color="${skin}"/>
-      <stop offset="0.78" stop-color="${mix(skin, "#3a1e10", 0.36)}"/>
-      <stop offset="1" stop-color="${shade}"/>
-    </linearGradient>
-    <linearGradient id="hair${u}" x1="0.2" y1="0" x2="0.85" y2="1">
-      <stop offset="0" stop-color="${lighten(hair, 0.3)}"/>
-      <stop offset="0.42" stop-color="${hair}"/>
-      <stop offset="1" stop-color="${darken(hair, 0.55)}"/>
-    </linearGradient>
-    <linearGradient id="suit${u}" x1="0.08" y1="0" x2="0.96" y2="1">
-      <stop offset="0" stop-color="#2a2724"/>
-      <stop offset="0.55" stop-color="#1b1917"/>
-      <stop offset="1" stop-color="#0d0c0b"/>
-    </linearGradient>
-    <!-- the light in the room. Bone from the left, and the accent only when
-         this one is actually working, so the light is the live state. -->
-    <linearGradient id="prim${u}" x1="1" y1="0.1" x2="0.3" y2="0.8">
-      <stop offset="0" stop-color="${live ? "#ebfb1d" : "#c5b6af"}" stop-opacity="0.9"/>
-      <stop offset="0.42" stop-color="${live ? "#ebfb1d" : "#c5b6af"}" stop-opacity="0.2"/>
-      <stop offset="1" stop-color="#c5b6af" stop-opacity="0"/>
-    </linearGradient>
-    <radialGradient id="back${u}" cx="0.5" cy="0.34" r="0.68">
-      <stop offset="0" stop-color="#2b2724" stop-opacity="${live ? 0.9 : 0.55}"/>
-      <stop offset="1" stop-color="#0a0a0a" stop-opacity="0"/>
-    </radialGradient>
-    <radialGradient id="key${u}" cx="0.32" cy="0.24" r="0.62">
-      <stop offset="0" stop-color="#fff2e2" stop-opacity="0.3"/>
-      <stop offset="1" stop-color="#fff2e2" stop-opacity="0"/>
-    </radialGradient>
-    <radialGradient id="vig${u}" cx="0.5" cy="0.42" r="0.74">
-      <stop offset="0.44" stop-color="#0a0a0a" stop-opacity="0"/>
-      <stop offset="1" stop-color="#0a0a0a" stop-opacity="0.8"/>
-    </radialGradient>
-    <!-- ONE blur over all of the modelling, not one per shape. Twenty two of
-         these portraits are on screen at once and a filter per blob is what
-         would make the page crawl. -->
-    <filter id="paint${u}" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="6.4"/></filter>
-    <filter id="soft${u}"><feGaussianBlur stdDeviation="2.4"/></filter>
-    <filter id="hairSoft${u}"><feGaussianBlur stdDeviation="0.5"/></filter>
-    <filter id="glow${u}" x="-70%" y="-70%" width="240%" height="240%">
-      <feGaussianBlur stdDeviation="${live ? 2.4 : 1}" result="b"/>
-      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
-    </filter>
-    <clipPath id="skull${u}"><path d="${SKULL}"/><ellipse cx="27.6" cy="50" rx="3.6" ry="7"/><ellipse cx="68.4" cy="50" rx="3.6" ry="7"/></clipPath>
-    <clipPath id="frame${u}"><path d="M18 0h60l18 18v92l-18 18H18L0 110V18z"/></clipPath>
-  </defs>`;
+function personCard(src, { live, closed, tall = false }) {
+  return `<figure class="face ${live ? "live" : ""} ${closed ? "shut" : ""} ${tall ? "tall" : ""}">
+    <img src="/faces/${src}.jpg" alt="" draggable="false" loading="lazy" />
+    <i class="vig"></i><i class="ring"></i>
+  </figure>`;
 }
 
-// The head, drawn once for the whole floor and for Pinnacle, so the boss is
-// unmistakably drawn by the same hand as her staff. She just gets it smaller
-// and further up, through a transform.
-//
-// This is painted rather than drawn. The skull goes down as one flat tone and
-// everything that makes it read as a head is laid over the top and blurred:
-// the form turning away from the light, blood sitting near the surface at the
-// nose and ears and cheeks, skin going cool and grey along the jaw, and
-// contact shadow under the brow, the nose and the lip. Miss those out and you
-// get a sticker of a face, which is what was here before.
-//
-// Coordinates are the portrait's: crown at 16, chin at 78, eyes on the middle
-// line of the head. That last one is where most drawn faces go wrong.
-function headOf(u, { skin, shade, lip, eye, hair, extra = "" }) {
-  const deep = mix(skin, "#1d0d06", 0.6);
-  const blood = mix(skin, "#c0392b", 0.44);
-  const cool = mix(skin, "#37453c", 0.36);
-  const hi = lighten(skin, 0.42);
-  const brow = darken(hair, 0.1);
-
-  // One eye, and then the same eye mirrored. A drawn eye is mostly the parts
-  // people forget: the socket it sits in, the shadow the upper lid casts on
-  // the ball, the dark ring around the iris, and the fact that the white is
-  // never white.
-  const eyeAt = (x) => `
-    <path d="M${x - 5.6} 46.8c2.2-4.2 9-4.2 11.2 0-2.2 3.8-9 3.8-11.2 0z" fill="${deep}" opacity="0.55"/>
-    <path d="M${x - 4.9} 47.1c2-3.7 7.8-3.7 9.8 0-2 3.5-7.8 3.5-9.8 0z" fill="#cec1b4"/>
-    <path d="M${x - 4.9} 47.1c2-3.7 7.8-3.7 9.8 0-1.6-1.5-8.2-1.5-9.8 0z" fill="#5f5248" opacity="0.6"/>
-    <circle cx="${x}" cy="47.2" r="2.85" fill="${eye}"/>
-    <circle cx="${x}" cy="47.2" r="2.85" fill="none" stroke="#160f0a" stroke-width="0.95" opacity="0.72"/>
-    <circle cx="${x}" cy="47.2" r="1.25" fill="#0b0705"/>
-    <circle cx="${x + 1}" cy="46.1" r="0.95" fill="#fff" opacity="0.95"/>
-    <circle cx="${x - 1.2}" cy="48.5" r="0.5" fill="#fff" opacity="0.28"/>
-    <path d="M${x - 5} 46.9c2.1-4.1 7.9-4.1 10 0" stroke="#15100c" stroke-width="1.75" stroke-linecap="round" fill="none"/>
-    <path d="M${x - 4.4} 49.9c1.9-1.5 6.9-1.5 8.8 0" stroke="${hi}" stroke-width="0.75" opacity="0.6" fill="none"/>`;
-
-  return `
-    <path d="${SKULL}" fill="${skin}"/>
-    <ellipse cx="27.6" cy="50" rx="3.6" ry="7" fill="${skin}"/>
-    <ellipse cx="68.4" cy="50" rx="3.6" ry="7" fill="${skin}"/>
-
-    <g filter="url(#paint${u})" clip-path="url(#skull${u})" opacity="0.88">
-      <path d="M56 17c9.4 4.4 13 13.2 13 24.4 0 6.2-.6 12-1.8 17-2.2 10.6-8.4 19.6-19.2 19.6-2.8 0-5.4-.7-7.6-2 9 .2 15.6-8.6 18-19.4 1.4-6.2 2-13 2-19.6 0-7.2-1.6-14-4.4-20z" fill="${deep}" opacity="0.85"/>
-      <ellipse cx="37" cy="31" rx="14" ry="12" fill="${hi}" opacity="0.55"/>
-      <ellipse cx="47" cy="53" rx="3.4" ry="10" fill="${hi}" opacity="0.4"/>
-      <ellipse cx="35" cy="52" rx="7.4" ry="5.6" fill="${hi}" opacity="0.3"/>
-      <ellipse cx="48" cy="60.5" rx="5" ry="3.4" fill="${blood}" opacity="0.3"/>
-      <ellipse cx="33" cy="55" rx="6" ry="4" fill="${blood}" opacity="0.22"/>
-      <ellipse cx="63" cy="55" rx="5.6" ry="4" fill="${blood}" opacity="0.18"/>
-      <ellipse cx="27.6" cy="50" rx="3.6" ry="5.4" fill="${blood}" opacity="0.4"/>
-      <ellipse cx="68.4" cy="50" rx="3.6" ry="5.4" fill="${blood}" opacity="0.32"/>
-      <path d="M34 64c3 11 8 17 14 17s11-6 14-17c0 12-6 20-14 20s-14-8-14-20z" fill="${cool}" opacity="0.3"/>
-      <ellipse cx="48" cy="65.6" rx="6.4" ry="2.6" fill="${cool}" opacity="0.24"/>
-      <ellipse cx="39" cy="43" rx="7" ry="2.8" fill="${deep}" opacity="0.42"/>
-      <ellipse cx="57" cy="43" rx="7" ry="2.8" fill="${deep}" opacity="0.42"/>
-      <ellipse cx="48" cy="63.4" rx="4.6" ry="1.6" fill="${deep}" opacity="0.4"/>
-      <ellipse cx="48" cy="74.6" rx="4.2" ry="1.8" fill="${deep}" opacity="0.3"/>
-      <ellipse cx="29.5" cy="37" rx="3.6" ry="6.4" fill="${deep}" opacity="0.26"/>
-    </g>
-
-    ${eyeAt(39.3)}${eyeAt(56.7)}
-    <path d="M32.4 41c2.6-2.8 9-3.4 12.6-1.2-3.4-.6-9 .2-12.6 1.2z" fill="${brow}"/>
-    <path d="M63.6 41c-2.6-2.8-9-3.4-12.6-1.2 3.4-.6 9 .2 12.6 1.2z" fill="${brow}"/>
-    <path d="M33 40.4c3.2-2.6 9.2-2.8 12.2-.6" stroke="${brow}" stroke-width="2.1" stroke-linecap="round" fill="none"/>
-    <path d="M50.8 39.8c3-2.2 9-2 12.2.6" stroke="${brow}" stroke-width="2.1" stroke-linecap="round" fill="none"/>
-
-    <!-- the nose is a ball with two wings. Draw it as an outline and it turns
-         into a cartoon, so it is a lit ball, two soft nostrils and a shadow. -->
-    <ellipse cx="48" cy="58.4" rx="3.1" ry="2.5" fill="${hi}" opacity="0.34"/>
-    <path d="M44.6 60.8c1.8 1.6 5 1.6 6.8 0" stroke="${deep}" stroke-width="1.2" stroke-linecap="round" fill="none" opacity="0.6"/>
-    <ellipse cx="43.9" cy="60.5" rx="1.75" ry="1.15" fill="#25150c" opacity="0.72" transform="rotate(-20 43.9 60.5)"/>
-    <ellipse cx="52.1" cy="60.5" rx="1.75" ry="1.15" fill="#25150c" opacity="0.72" transform="rotate(20 52.1 60.5)"/>
-    <path d="M47.3 49c.3 4.6.6 7.8 1 10" stroke="#fff" stroke-width="1.3" stroke-linecap="round" fill="none" opacity="0.12"/>
-
-    <!-- and the mouth is a soft form with a hard border, not a filled shape -->
-    <path d="M40.2 67.9c2.4-2.7 4.6-1.5 7.8-1.5s5.4-1.2 7.8 1.5c-2.6 4.1-5.1 5.5-7.8 5.5s-5.2-1.4-7.8-5.5z" fill="${lip}"/>
-    <path d="M40.2 67.9c1.8-.4 3.3-1.7 4.6-1.7 1.3 0 2 1.2 3.2 1.2s1.9-1.2 3.2-1.2c1.3 0 2.8 1.3 4.6 1.7" stroke="${darken(lip, 0.42)}" stroke-width="0.8" stroke-linejoin="round" opacity="0.7" fill="none"/>
-    <path d="M43.2 71c2.6 1.3 7 1.3 9.6 0" stroke="#fff" stroke-width="1.4" stroke-linecap="round" opacity="0.2" fill="none"/>
-    <ellipse cx="40.4" cy="68.2" rx="1.3" ry="0.9" fill="#000" opacity="0.28" filter="url(#hairSoft${u})"/>
-    <ellipse cx="55.6" cy="68.2" rx="1.3" ry="0.9" fill="#000" opacity="0.28" filter="url(#hairSoft${u})"/>
-    <path d="M46.7 62.8c.5 1.9.5 3 0 3.9M49.3 62.8c-.5 1.9-.5 3 0 3.9" stroke="${deep}" stroke-width="0.7" opacity="0.36" fill="none"/>
-    ${extra}
-
-    <!-- the light down the right edge. Without it a face has no room to be in. -->
-    <path d="M48 16c12.4 0 21 10.2 21 25.4 0 6.2-.6 12-1.8 17-2.2 10.6-8.4 19.6-19.2 19.6" stroke="url(#prim${u})" stroke-width="2.4" fill="none"/>`;
-}
-
-// Ten heads of hair, because twenty one people should look like twenty one
-// people. Each returns two parts: the mass, which goes behind the skull, and
-// the hairline, which goes over the forehead. Drawing all of it in front puts
-// an afro over somebody's eyes; drawing all of it behind makes them bald.
-// Hair works this way on actual heads, so it works this way here.
-//
-// Nothing falls between x 34 and 62, because that is where the eyes are.
-function crown(n, u, hair, p, on) {
-  const dk = darken(hair, 0.4);
-  const cap = (d) => `<path d="${d}" fill="url(#hair${u})"/>`;
-  // The standard hairline: over the top of the skull, down to the temples.
-  const line = cap("M48 12c-14 0-22.4 9.6-22.4 27l1.6 8c1-11.4 3.4-17.4 6.4-20.2 6 4.2 23 4.2 29 0 3 2.8 5.4 8.8 6.4 20.2l1.6-8C70.4 21.6 62 12 48 12z");
-  switch (n) {
-    // long braids. The notches are a dash pattern, which is what reads as a
-    // plait without drawing every crossing.
-    case 0: return [`<g fill="none" stroke="url(#hair${u})" stroke-width="6" stroke-linecap="round">
-        <path d="M28 40c-5 22-7 48-5 72"/><path d="M34 44c-4 22-5 46-4 66"/>
-        <path d="M68 40c5 22 7 48 5 72"/><path d="M62 44c4 22 5 46 4 66"/></g>
-      <g fill="none" stroke="${dk}" stroke-width="6" stroke-linecap="butt" stroke-dasharray="1.4 6.4" opacity="0.8">
-        <path d="M28 40c-5 22-7 48-5 72"/><path d="M34 44c-4 22-5 46-4 66"/>
-        <path d="M68 40c5 22 7 48 5 72"/><path d="M62 44c4 22 5 46 4 66"/></g>`, line];
-    // a full crown of coils, built from the silhouette rather than strands
-    case 1: return [`<ellipse cx="48" cy="33" rx="28" ry="24" fill="url(#hair${u})"/>
-      <g fill="${dk}" opacity="0.45"><circle cx="25" cy="26" r="6"/><circle cx="35" cy="15" r="6.5"/><circle cx="48" cy="11" r="6.5"/>
-        <circle cx="61" cy="15" r="6.5"/><circle cx="71" cy="26" r="6"/><circle cx="22" cy="39" r="5.5"/><circle cx="74" cy="39" r="5.5"/></g>`,
-      cap("M48 17c-11.6 0-19.6 8-20.6 22.6 3-9.6 9.6-13.8 20.6-13.8s17.6 4.2 20.6 13.8C67.6 25 59.6 17 48 17z")];
-    // knot on top, pulled back tight
-    case 2: return [`<circle cx="48" cy="9" r="9.4" fill="url(#hair${u})"/>`,
-      cap("M48 15c-12.6 0-21 8.6-21 25l1.8 7c.6-13.4 7-20.6 19.2-20.6s18.6 7.2 19.2 20.6l1.8-7c0-16.4-8.4-25-21-25z")
-      + `<path d="M30 23c5-4 31-4 36 0" stroke="${dk}" stroke-width="1.2" fill="none" opacity="0.6"/>`];
-    // faded crop
-    case 3: return ["", cap("M48 15c-12.4 0-20.6 8.4-21 24.6l1.6 4c1.6-9.2 3.4-13.6 6.4-15.6 5 3.6 21 3.6 26 0 3 2 4.8 6.4 6.4 15.6l1.6-4C68.6 23.4 60.4 15 48 15z")
-      + `<path d="M28 34c2-8 8-12.4 20-12.4s18 4.4 20 12.4" stroke="${dk}" stroke-width="1.4" fill="none" opacity="0.5"/>`];
-    // shoulder length, centre parting
-    case 4: return [`<path d="M25 38c-3 22-4 46-2 68l13-3c-4-20-5-44-3-63z" fill="url(#hair${u})"/>
-      <path d="M71 38c3 22 4 46 2 68l-13-3c4-20 5-44 3-63z" fill="url(#hair${u})"/>`,
-      line + `<path d="M48 13c-3.6 6-5.6 12-5.6 18 1.8-8.4 3.6-13.4 7.6-14.6z" fill="${lighten(hair, 0.22)}" opacity="0.55"/>`];
-    // locs
-    case 5: return [`<g fill="none" stroke="url(#hair${u})" stroke-width="7" stroke-linecap="round">
-        <path d="M27 38c-3 20-4 42-3 62"/><path d="M35 43c-2 20-2.6 40-2 56"/>
-        <path d="M69 38c3 20 4 42 3 62"/><path d="M61 43c2 20 2.6 40 2 56"/></g>`, line];
-    // a wrapped headscarf, folded, in the team's colour
-    case 6: return [`<path d="M67 24c5 1 8 4 8 8s-4 6-8 5z" fill="${darken(p.base, 0.5)}"/>`,
-      `<path d="M25 40c-1.6-18 8.4-29 23-29s24.6 11 23 29c-2-5-3.6-8.6-5.6-11-8 5.4-26.8 5.4-34.8 0-2 2.4-3.6 6-5.6 11z" fill="${darken(p.base, 0.28)}"/>
-       <path d="M25 40c2-9 4.6-14.4 8-16.6 3 7 3.4 12 2 20z" fill="${darken(p.base, 0.62)}"/>
-       <path d="M30 23c8 5.4 28 5.4 36 0" stroke="${p.glow}" stroke-opacity="${on * 0.7}" stroke-width="1.4" fill="none"/>`];
-    // shaved to the skin, so this one is only a tint on the skull
-    case 7: return ["", `<path d="M48 16c12.4 0 21 10.2 21 25.4l-1.4 3c-1-14.6-8-21.6-19.6-21.6s-18.6 7-19.6 21.6l-1.4-3C27 26.2 35.6 16 48 16z" fill="${hair}" opacity="0.8"/>`];
-    // curls to the jaw
-    case 8: return [`<g fill="url(#hair${u})"><circle cx="25" cy="48" r="8"/><circle cx="27" cy="60" r="7.6"/><circle cx="31" cy="70" r="6.4"/>
-        <circle cx="71" cy="48" r="8"/><circle cx="69" cy="60" r="7.6"/><circle cx="65" cy="70" r="6.4"/></g>`,
-      cap("M48 11c-14 0-22.6 10-22.6 27.6l1.6 8c1-12 3.4-18.4 6.4-21.2 6 4.2 23.2 4.2 29.2 0 3 2.8 5.4 9.2 6.4 21.2l1.6-8C70.6 21 62 11 48 11z")];
-    // swept back, shaved at the sides
-    default: return ["", cap("M48 13c-13 0-21.4 9-21.4 26l1.6 5c1.4-10.8 3.6-16.2 6.6-18.6 5.6 4.2 21 4.2 26.6 0 3 2.4 5.2 7.8 6.6 18.6l1.6-5c0-17-8.4-26-21.6-26z")
-      + `<g stroke="${dk}" stroke-width="1.3" fill="none" opacity="0.75">
-         <path d="M34 22c-2 5-3 10-3 16"/><path d="M42 19c-1.6 6-2.4 12-2.4 18"/><path d="M54 19c1.6 6 2.4 12 2.4 18"/><path d="M62 22c2 5 3 10 3 16"/></g>`];
-  }
-}
-
-// Some of the floor has a beard. Cheap to draw, and it doubles how different
-// twenty one faces look from each other.
-function beard(n, u, hair, skin) {
-  const h = darken(hair, 0.15);
-  if (n === 1) return `<path d="M31 55c1 14 8 23 17 23s16-9 17-23c1 12-1 20-5 25-3 4-7 6-12 6s-9-2-12-6c-4-5-6-13-5-25z" fill="${h}" opacity="0.92"/>
-    <path d="M41 66c2 1.4 10 1.4 12 0" stroke="${mix(skin, "#7a2f28", 0.5)}" stroke-width="2.6" stroke-linecap="round" opacity="0.5"/>`;
-  if (n === 2) return `<path d="M40 63c2.4-1.6 10-1.6 12.4 0-1.2 2-11.2 2-12.4 0z" fill="${h}"/>
-    <path d="M38 72c3 3 5 4 10 4s7-1 10-4c-1 5-5 7.4-10 7.4S39 77 38 72z" fill="${h}" opacity="0.85"/>`;
-  if (n === 3) return `<path d="M32 57c1 15 7 22 16 22s15-7 16-22c.6 13-1.4 21-5 24-2.8 2.4-6.6 3.6-11 3.6s-8.2-1.2-11-3.6c-3.6-3-5.6-11-5-24z" fill="${h}" opacity="0.28"/>`;
-  return "";
-}
-
-// One member of staff, lit and framed. Key light warm from the upper left,
-// the department's colour as a gel down the right edge, shadow under the jaw,
-// vignette behind, grain over everything. That lighting is the whole
-// difference between a portrait and a sticker.
-function botSvg(dept, i, { live, closed, hue }) {
-  const u = "p" + Math.abs(i) + dept.replace(/[^a-z]/g, "");
-  const p = palette(hue, { closed });
-  const seed = Math.abs(i * 7 + dept.length * 3);
-  const skinBase = SKIN[seed % SKIN.length];
-  const skin = closed ? mix(skinBase, "#1a1c22", 0.55) : skinBase;
-  const hairBase = HAIR[(seed * 3 + 1) % HAIR.length];
-  const hair = closed ? mix(hairBase, "#15171c", 0.5) : hairBase;
-  const eye = EYES[seed % EYES.length];
-  const on = live ? 1 : closed ? 0.2 : 0.62;
-  const shade = mix(skin, "#2a1409", 0.5);
-  const lip = mix(skin, "#8c3a34", 0.45);
-  const face = beard(seed % 7 < 3 ? (seed % 3) + 1 : 0, u, hair, skin);
-  const [hairBack, hairFront] = crown(seed % 10, u, hair, p, on);
-
-  const acc = live ? "#ebfb1d" : "#c5b6af";
-  return `<svg viewBox="0 0 96 128" fill="none" aria-hidden="true">
-    ${personDefs(u, p, skin, hair, live)}
-    <g clip-path="url(#frame${u})">
-      <rect width="96" height="128" fill="#131313"/>
-      <rect width="96" height="128" fill="url(#back${u})"/>
-
-      ${hairBack}
-
-      <!-- shoulders. The garment is the department's colour, taken down almost
-           to black so twenty one of these together do not turn into a paint
-           chart. The piping carries the colour instead. -->
-      <path d="M-2 128v-16c0-14.6 13.6-22.4 31-25.4h34c17.4 3 31 10.8 31 25.4v16z" fill="url(#suit${u})"/>
-      <path d="M-2 112c4-9 14-14.6 31-17.4l17 8 17-8c17 2.8 27 8.4 31 17.4" stroke="${acc}" stroke-opacity="${on * 0.5}" stroke-width="1.1" fill="none"/>
-      <path d="M29 86.6L48 102l19-15.4-8-3.6-11 8-11-8z" fill="#0c0b0a"/>
-
-      <!-- neck, with the head's shadow dropped across it -->
-      <path d="M38 68h20v18c0 5-20 5-20 0z" fill="${shade}"/>
-      <path d="M38 70c4 7 16 7 20 0v6c-4 7-16 7-20 0z" fill="#000" opacity="0.4" filter="url(#soft${u})"/>
-
-      <!-- the head, same construction as Pinnacle's, squared or narrowed a
-           few per cent per seat so the floor is not one person in wigs -->
-      <g transform="translate(48 78) scale(${(1 + ((seed % 5) - 2) * 0.035).toFixed(3)} ${(1 - ((seed % 5) - 2) * 0.022).toFixed(3)}) translate(-48 -78)">
-        ${headOf(u, { skin, shade, lip, eye, hair, extra: face })}
-      </g>
-
-      ${hairFront}
-
-      <!-- on comms, because they are staff on a floor -->
-      <path d="M68 45c3.4 0 5 3 5 5.4s-1.6 5.4-5 5.4" stroke="#3a3632" stroke-width="2.6" stroke-linecap="round" fill="none"/>
-      <circle cx="72.4" cy="50.4" r="2.4" fill="${acc}" opacity="${on}" filter="url(#glow${u})"/>
-
-      <path d="M96 128v-16c0-14.6-13.6-22.4-31-25.4" stroke="url(#prim${u})" stroke-width="2" fill="none"/>
-
-      <!-- what they do, on the collar -->
-      <g transform="translate(12 100) scale(0.6)" stroke="${acc}" stroke-opacity="${on}" stroke-width="2.6"
-         stroke-linecap="round" stroke-linejoin="round" fill="none">
-        <path d="${GLYPHS[dept] || "M5 5h10v10H5z"}"/>
-      </g>
-
-      <rect width="96" height="128" fill="url(#vig${u})"/>
-    </g>
-    <path d="M18 0h60l18 18v92l-18 18H18L0 110V18z" fill="none"
-          stroke="${acc}" stroke-opacity="${live ? 0.95 : 0.34}" stroke-width="1.1"/>
-    <path d="M0 34V18L18 0h16" stroke="${acc}" stroke-opacity="${on * 0.9}" stroke-width="1.8" fill="none"/>
-  </svg>`;
-}
-
-// ------------------------------------------------------------------ Pinnacle
-// Not one of the staff, and not a machine. A woman, standing, lit the way the
-// reference lights its hero: warm key from the left, a cold rim down the right,
-// long braids, ink on her arm.
-//
-// She is built to real proportions, which is the only thing that stops a drawn
-// figure reading as a toy. Head from 6 to 51, so she is four and a half heads
-// to the crop at her thigh. Shoulders one and a half head-widths across. Waist
-// above the navel, hips below it. Arms hang beside the body, not on top of it.
-//
-// She is still a readout. The cuffs down her braids light in proportion to how
-// much of the floor is awake, and the light she stands in comes up with them.
-// So how alive she looks is how much work is actually running. Nothing about
-// her is a dial, and everything about her is telling you something.
-//
-// Drawn, not generated. No image, no model, no spend, works offline.
-
-// Braid cuffs. Lit ones are carrying work.
-function cuffs(x, y, dx, n, lit, hue, u, dy = 66) {
-  let out = "";
-  for (let i = 0; i < n; i++) {
-    const t = (i + 0.7) / n, cx = x + dx * t * t, cy = y + t * dy, on = i < lit;
-    out += `<rect x="${(cx - 2.8).toFixed(1)}" y="${cy.toFixed(1)}" width="5.6" height="2.4" rx="1.2"
-      fill="${on ? lighten(hue, 0.5) : "#6b7080"}" opacity="${on ? 0.9 : 0.4}" ${on ? `filter="url(#bl${u})"` : ""}/>`;
-  }
-  return out;
-}
-
-function pinnacleSvg({ live, hue = "#ebfb1d", awake = 0, total = 1000 }) {
-  const u = "pin" + (live ? "L" : "I");
-  const on = live ? 1 : 0.66;
-  const skin = "#8a5735", hair = "#171110";
-  const shade = mix(skin, "#2a1409", 0.5);
-  const p = palette(hue), acc = live ? "#ebfb1d" : "#c5b6af";
-  // How much of her lights up is how much of the floor is working.
-  const share = Math.min(1, (awake / Math.max(total, 1)) * 40);
-  const litCuffs = Math.max(live ? 1 : 0, Math.round(share * 5));
-
-  return `<svg viewBox="0 0 132 214" fill="none" aria-hidden="true">
-    ${personDefs(u, p, skin, hair, live)}
-    <defs>
-      <linearGradient id="cl${u}" x1="0.05" y1="0" x2="1" y2="1">
-        <stop offset="0" stop-color="#2c2926"/><stop offset="0.45" stop-color="#171614"/><stop offset="1" stop-color="#080807"/>
-      </linearGradient>
-      <radialGradient id="fl${u}" cx="0.5" cy="0.5" r="0.5">
-        <stop offset="0" stop-color="${acc}" stop-opacity="${(0.08 + share * 0.2).toFixed(3)}"/>
-        <stop offset="1" stop-color="${acc}" stop-opacity="0"/>
-      </radialGradient>
-      <filter id="bl${u}" x="-140%" y="-140%" width="380%" height="380%">
-        <feGaussianBlur stdDeviation="1.8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
-      </filter>
-    </defs>
-
-    <ellipse cx="66" cy="208" rx="46" ry="10" fill="url(#fl${u})"/>
-
-    <!-- the braids behind her. Drawn as a mass with the plait notches dashed
-         over the top, which is what reads as hair instead of cable. -->
-    <g class="braids">
-      <g fill="none" stroke="url(#hair${u})" stroke-width="10" stroke-linecap="round">
-        <path d="M52 30c-8 24-11 56-9 88"/><path d="M80 30c8 24 11 56 9 88"/>
-        <path d="M60 28c-5 26-7 58-6 86"/><path d="M72 28c5 26 7 58 6 86"/>
-      </g>
-      <g fill="none" stroke="#000" stroke-width="10" stroke-linecap="butt" stroke-dasharray="1.8 8" opacity="0.55">
-        <path d="M52 30c-8 24-11 56-9 88"/><path d="M80 30c8 24 11 56 9 88"/>
-        <path d="M60 28c-5 26-7 58-6 86"/><path d="M72 28c5 26 7 58 6 86"/>
-      </g>
-    </g>
-
-    <!-- legs, cropped at the thigh the way the reference crops its hero -->
-    <g class="legL"><path d="M55 152v62" stroke="url(#cl${u})" stroke-width="21" stroke-linecap="round"/></g>
-    <g class="legR"><path d="M79 152v62" stroke="url(#cl${u})" stroke-width="21" stroke-linecap="round"/></g>
-
-    <!-- the body, in skin, before anything is put on it. Clothes drawn over a
-         body sit on a person; clothes drawn as the body are a sack. -->
-    <path d="M66 56c11 0 19 4.6 21 11 2 12 1 12 1 20 0 12-6 24-7 36-.6 8 1 14 3 20H42c2-6 3.6-12 3-20-1-12-7-24-7-36 0-8-1-8 1-20 2-6.4 10-11 21-11z" fill="url(#skin${u})"/>
-    <path d="M56 68c5 5.6 15 5.6 20 0" stroke="${shade}" stroke-width="1.4" fill="none" opacity="0.55"/>
-    <path d="M66 74c1.4 8 1.4 16 0 24" stroke="${shade}" stroke-width="1.2" fill="none" opacity="0.35"/>
-
-    <!-- arms, each on its own pivot so she carries her own weight. They hang
-         beside the ribs, which is where arms are. -->
-    <g class="armL">
-      <path d="M47 70c-6 6-9 16-10 28l-1 32" stroke="url(#skin${u})" stroke-width="12" stroke-linecap="round"/>
-      <path d="M47 70c-6 6-9 16-10 28l-1 32" stroke="url(#prim${u})" stroke-width="1.2" fill="none" stroke-opacity="0.3"/>
-      <ellipse cx="36" cy="134" rx="5.6" ry="7.4" fill="url(#skin${u})"/>
-    </g>
-    <g class="armR">
-      <path d="M85 70c6 6 9 16 10 28l1 32" stroke="url(#skin${u})" stroke-width="12" stroke-linecap="round"/>
-      <path d="M85 70c6 6 9 16 10 28l1 32" stroke="url(#prim${u})" stroke-width="1.3" fill="none" stroke-opacity="0.45"/>
-      <ellipse cx="96" cy="134" rx="5.6" ry="7.4" fill="url(#skin${u})"/>
-    </g>
-
-    <!-- what she wears: a scoop neck sleeveless top and tapered trousers, cut
-         to the body underneath. The shoulders stay bare, which is most of why
-         she reads as a person and not a suit standing up on its own. -->
-    <path d="M50 74c5 6 11 9 16 9s11-3 16-9c4 2 6 5 6 9 0 12-6 24-7 36-1 8 1 14 3 21H45c2-7 4-13 3-21-1-12-7-24-7-36 0-4 2-7 6-9z" fill="url(#cl${u})"/>
-    <path d="M50 74c5 6 11 9 16 9s11-3 16-9" stroke="${acc}" stroke-opacity="${on * 0.65}" stroke-width="1.2" fill="none"/>
-    <path d="M44 136c14 4 30 4 44 0 1 10 2 18 2 26H42c0-8 1-16 2-26z" fill="url(#cl${u})"/>
-    <path d="M44 136c14 4 30 4 44 0" stroke="${acc}" stroke-opacity="${on * 0.4}" stroke-width="1" fill="none"/>
-    <!-- a chamfered panel, lifted from the futuristic reference -->
-    <path d="M56 100h16l5 5v16H56z" fill="none" stroke="${acc}" stroke-opacity="${on * 0.4}" stroke-width="1"/>
-    <path d="M60 108h10M60 114h7" stroke="${acc}" stroke-opacity="${on * 0.6}" stroke-width="1" stroke-linecap="round"/>
-    <ellipse cx="52" cy="106" rx="7" ry="20" fill="#fff" opacity="0.05" filter="url(#soft${u})"/>
-
-    <!-- neck -->
-    <path d="M58 40h16v20c0 5-16 5-16 0z" fill="${mix(skin, "#2a1409", 0.42)}"/>
-    <path d="M58 42c4 8 12 8 16 0v6c-4 8-12 8-16 0z" fill="#000" opacity="0.42" filter="url(#soft${u})"/>
-
-    <!-- her face, drawn by the same routine as every one of her staff -->
-    <g transform="translate(31.15 -5.6) scale(0.726)">
-      ${headOf(u, { skin, shade, lip: "#8e4038", eye: "#4a3524", hair })}
-      ${crown(0, u, hair, p, on)[1]}
-    </g>
-
-    <!-- the braids over her shoulders, in front -->
-    <g class="braidsF">
-      <g fill="none" stroke="url(#hair${u})" stroke-width="8" stroke-linecap="round">
-        <path d="M50 32c-4 22-6 46-6 70"/><path d="M82 32c4 22 6 46 6 70"/>
-      </g>
-      <g fill="none" stroke="#000" stroke-width="8" stroke-linecap="butt" stroke-dasharray="1.6 7" opacity="0.5">
-        <path d="M50 32c-4 22-6 46-6 70"/><path d="M82 32c4 22 6 46 6 70"/>
-      </g>
-      ${cuffs(50, 36, -6, 5, litCuffs, hue, u)}
-      ${cuffs(82, 36, 6, 5, litCuffs, hue, u)}
-    </g>
-
-    <!-- the cold rim down her right edge. This is the light that says she is
-         standing in a room rather than pasted onto one. -->
-    <path d="M87 67c2 12 1 12 1 20 0 12-6 24-7 36-1 14 5 22 5 34v17" stroke="url(#prim${u})" stroke-width="2" fill="none"/>
-  </svg>`;
-}
+const botSvg = (dept, i, o) => personCard(faceFor(dept, i), o);
+const pinnacleSvg = (o) => personCard("pinnacle", { ...o, tall: true });
 
 // ------------------------------------------------------------- the carousel
 // One bot in frame, its neighbours half seen, the stage tinted by whoever is
@@ -1476,244 +1116,125 @@ const crew = (() => {
 // Raw WebGL, no library. One point per agent, twenty clusters, one per
 // department. A point lights up when that agent is awake, so the background
 // of the dashboard is a live plan of the actual office.
-const floor = (() => {
-  const canvas = document.getElementById("gl");
-  const gl = canvas.getContext("webgl", { alpha: false, antialias: true });
-  if (!gl) return { seed() {}, set() {} };
+// ------------------------------------------------------------- the globe
+// A thousand agents on a sphere, drawn in text. One character per point, the
+// character picked by how far away that point is, so the ball has depth
+// without a single pixel of shading.
+//
+// It is a readout and a face at the same time. The dim layer is the whole
+// roster; the bright layer is only the ones awake, so a busy floor visibly
+// lights up. And it listens: when Ayaan talks it swells with the actual level
+// coming off the microphone, and when Pinnacle answers it pulses on her
+// rhythm. Nothing else on the page tells you who has the floor.
+const globe = (() => {
+  const dim = $("globeDim"), hot = $("globeHot"), wrap = $("globeWrap");
+  if (!dim) return { set() {}, mode() {} };
 
-  const compile = (type, src) => { const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); return s; };
-  const link = (vs, fs) => { const p = gl.createProgram(); gl.attachShader(p, compile(gl.VERTEX_SHADER, vs)); gl.attachShader(p, compile(gl.FRAGMENT_SHADER, fs)); gl.linkProgram(p); return p; };
+  const W = 64, H = 38, N = 1000;   // 64 x 0.6em wide reads as tall as 38 rows
+  const RAMP = " .,:;i1tfLCG08@";
 
-  // Grain gradient behind the globe. Layered value noise, a warm violet core
-  // bleeding into periwinkle, and film grain over the top so the darks never
-  // band on a cheap panel.
-  const amb = link(
-    `attribute vec2 p; varying vec2 v; void main(){ v = p; gl_Position = vec4(p, 0.0, 1.0); }`,
-    `precision highp float; varying vec2 v; uniform float t; uniform vec2 res;
-     float hash(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
-     float noise(vec2 p){
-       vec2 i = floor(p), f = fract(p);
-       f = f * f * (3.0 - 2.0 * f);
-       return mix(mix(hash(i), hash(i + vec2(1, 0)), f.x), mix(hash(i + vec2(0, 1)), hash(i + vec2(1, 1)), f.x), f.y);
-     }
-     float fbm(vec2 p){ return noise(p) * 0.55 + noise(p * 2.1) * 0.28 + noise(p * 4.3) * 0.17; }
-     void main(){
-       vec2 u = v * vec2(res.x / res.y, 1.0);
-       float n = fbm(u * 1.5 + vec2(t * 0.035, t * -0.022));
-       float core = smoothstep(1.25, 0.0, length(u));
-       vec3 violet = vec3(0.085, 0.055, 0.190);
-       vec3 peri   = vec3(0.180, 0.215, 0.400);
-       vec3 col = vec3(0.004, 0.005, 0.012);
-       col += mix(violet, peri, n) * core * (0.30 + 0.30 * n);
-       col += vec3(0.30, 0.34, 0.52) * pow(core, 5.0) * 0.30;
-       col += (hash(gl_FragCoord.xy * 0.7 + t) - 0.5) * 0.035;
-       gl_FragColor = vec4(col, 1.0);
-     }`);
+  // Fibonacci sphere. A naive lat/long grid bunches every point at the poles
+  // and looks like a pineapple; this spreads them evenly.
+  const pts = Array.from({ length: N }, (_, i) => {
+    const y = 1 - (i / (N - 1)) * 2;
+    const r = Math.sqrt(Math.max(0, 1 - y * y));
+    const t = Math.PI * (3 - Math.sqrt(5)) * i;
+    return [Math.cos(t) * r, y, Math.sin(t) * r];
+  });
 
-  // Shared projection. The organisation is a sphere: twenty latitude bands,
-  // one department each, biggest departments nearest the equator.
-  const CAMERA = `
-    uniform float t; uniform vec2 res; uniform float dpr;
-    vec3 spin(vec3 p){
-      float a = t * 0.075;
-      p = vec3(p.x * cos(a) - p.z * sin(a), p.y, p.x * sin(a) + p.z * cos(a));
-      float b = -0.36;
-      return vec3(p.x, p.y * cos(b) - p.z * sin(b), p.y * sin(b) + p.z * cos(b));
-    }
-    vec4 project(vec3 q, out float depth){
-      float w = 3.5 - q.z;
-      depth = 2.4 / w;
-      return vec4(q.x * depth * (res.y / res.x) * 0.86, q.y * depth * 0.86, 0.0, 1.0);
-    }`;
+  let spin = 0, tilt = -0.38, awake = 0, state = "idle", level = 0, beat = 0;
+  let analyser = null, bins = null, stream = null;
 
-  // The agents.
-  // One point per agent, sitting on the sphere.
-  const pts = link(
-    `attribute vec3 pos; attribute float seed; attribute float state; attribute vec3 tint;
-     ${CAMERA}
-     varying float v_state; varying float v_pulse; varying float v_depth; varying vec3 v_tint;
-     void main(){
-       vec3 q = spin(pos);
-       float depth;
-       gl_Position = project(q, depth);
-       v_state = state;
-       v_depth = depth;
-       v_tint = tint;
-       v_pulse = 0.5 + 0.5 * sin(t * 2.3 + seed * 6.28);
-       float size = state < 0.0 ? 1.8 : mix(3.0, 7.2, state) + state * v_pulse * 2.6;
-       gl_PointSize = size * depth * dpr;
-     }`,
-    `precision highp float; varying float v_state; varying float v_pulse; varying float v_depth; varying vec3 v_tint;
-     void main(){
-       float d = length(gl_PointCoord - 0.5);
-       if (d > 0.5) discard;
-       float core = smoothstep(0.5, 0.0, d);
-       // Hue is the department. Brightness is whether they are working.
-       vec3 idle = v_tint;
-       vec3 live = vec3(0.94, 0.96, 1.00);
-       vec3 col = v_state < 0.0 ? idle * 0.30 : mix(idle, live, v_state);
-       // Points on the far side of the globe sit back rather than disappear.
-       float far = smoothstep(0.55, 0.95, v_depth);
-       float a = (v_state < 0.0 ? 0.30 : mix(0.92, 1.0, v_state)) * mix(0.42, 1.0, far);
-       gl_FragColor = vec4(col, core * a);
-     }`);
-
-  // An awake agent fires a spoke toward the core: the office reporting in.
-  const spokes = link(
-    `attribute vec3 pos; attribute float state; attribute float outer;
-     ${CAMERA}
-     varying float v_a;
-     void main(){
-       float depth;
-       gl_Position = project(spin(pos), depth);
-       v_a = max(state, 0.0) * outer * mix(0.25, 1.0, smoothstep(0.55, 0.95, depth));
-     }`,
-    `precision highp float; varying float v_a;
-     void main(){ gl_FragColor = vec4(0.72, 0.79, 1.0, v_a * 0.42); }`);
-
-  const quad = gl.createBuffer();
-  gl.bindBuffer(gl.ARRAY_BUFFER, quad);
-  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
-
-  let states = null, lineStates = null;
-  let posBuf = null, tintBuf = null, seedBuf = null, stateBuf = null;
-  let linePosBuf = null, lineStateBuf = null, outerBuf = null;
-  let count = 0;
-  const deptRange = new Map();
-
-  const make = (data, hint) => { const b = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, b); gl.bufferData(gl.ARRAY_BUFFER, data, hint); return b; };
-
-  // Twenty latitude bands, one per department, biggest nearest the equator so
-  // the sphere reads evenly. Each agent gets a seat on its band.
-  function seed(depts) {
-    count = depts.reduce((n, d) => n + d.headcount, 0);
-    const pos = new Float32Array(count * 3);
-    const tint = new Float32Array(count * 3);
-    const seeds = new Float32Array(count);
-    const keys = depts.map((d) => d.key);
-    states = new Float32Array(count);
-    const linePos = new Float32Array(count * 6);
-    lineStates = new Float32Array(count * 2);
-    const outer = new Float32Array(count * 2);
-
-    // Biggest department at the equator, then alternate up and down.
-    const ordered = [...depts].sort((a, b) => b.headcount - a.headcount);
-    const lat = new Map();
-    ordered.forEach((d, rank) => {
-      const step = Math.ceil(rank / 2) * (rank % 2 ? 1 : -1);
-      lat.set(d.key, (step / (depts.length / 2)) * 1.17);
-    });
-
-    let i = 0;
-    for (const d of depts) {
-      const phi = lat.get(d.key);
-      const y = Math.sin(phi), ring = Math.cos(phi);
-      const phase = (d.key.charCodeAt(0) % 17) / 17 * Math.PI * 2;
-      const rgb = hexRgb(hueOf(d.key, keys));
-      deptRange.set(d.key, [i, d.headcount]);
-      for (let j = 0; j < d.headcount; j++) {
-        const a = phase + (j / d.headcount) * Math.PI * 2;
-        // A little jitter in latitude so a band reads as a crowd, not a wire.
-        const wob = (Math.sin(j * 12.9898) * 43758.5453 % 1) * 0.045;
-        const yy = y + wob, rr = ring * (1 - Math.abs(wob) * 0.6);
-        const x = Math.cos(a) * rr, z = Math.sin(a) * rr;
-        pos[i * 3] = x; pos[i * 3 + 1] = yy; pos[i * 3 + 2] = z;
-        tint.set(rgb, i * 3);
-        seeds[i] = (j * 0.6180339887) % 1;
-        // The spoke: surface point in, toward the core.
-        linePos.set([x, yy, z, x * 0.24, yy * 0.24, z * 0.24], i * 6);
-        outer[i * 2] = 1; outer[i * 2 + 1] = 0;
-        i++;
-      }
-    }
-
-    posBuf = make(pos, gl.STATIC_DRAW);
-    tintBuf = make(tint, gl.STATIC_DRAW);
-    seedBuf = make(seeds, gl.STATIC_DRAW);
-    stateBuf = make(states, gl.DYNAMIC_DRAW);
-    linePosBuf = make(linePos, gl.STATIC_DRAW);
-    outerBuf = make(outer, gl.STATIC_DRAW);
-    lineStateBuf = make(lineStates, gl.DYNAMIC_DRAW);
+  // Real microphone level, so the ball moves to his actual voice rather than to
+  // a timer pretending to be his voice.
+  async function ear() {
+    if (analyser || !navigator.mediaDevices?.getUserMedia) return;
+    try {
+      stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      const ctx = new (window.AudioContext || window.webkitAudioContext)();
+      analyser = ctx.createAnalyser();
+      analyser.fftSize = 256;
+      analyser.smoothingTimeConstant = 0.75;
+      ctx.createMediaStreamSource(stream).connect(analyser);
+      bins = new Uint8Array(analyser.frequencyBinCount);
+    } catch { analyser = null; }     // no permission, so fall back to the idle drift
+  }
+  function deaf() {
+    stream?.getTracks().forEach((t) => t.stop());
+    stream = null; analyser = null; bins = null;
   }
 
-  // Light up as many seats in a band as that department has agents awake.
-  function set(depts) {
-    if (!states) return;
-    for (const d of depts) {
-      const range = deptRange.get(d.key);
-      if (!range) continue;
-      const [start, n] = range;
-      for (let j = 0; j < n; j++) {
-        const s = !d.enabled ? -1 : j < d.working.length ? 1 : 0;
-        states[start + j] = s;
-        lineStates[(start + j) * 2] = s;
-        lineStates[(start + j) * 2 + 1] = s;
-      }
-    }
-    gl.bindBuffer(gl.ARRAY_BUFFER, stateBuf);
-    gl.bufferSubData(gl.ARRAY_BUFFER, 0, states);
-    gl.bindBuffer(gl.ARRAY_BUFFER, lineStateBuf);
-    gl.bufferSubData(gl.ARRAY_BUFFER, 0, lineStates);
+  function loudness() {
+    if (!analyser) return 0;
+    analyser.getByteFrequencyData(bins);
+    let sum = 0;
+    for (const b of bins) sum += b;
+    return Math.min(1, sum / bins.length / 70);
   }
 
-  function size() {
-    const dpr = Math.min(devicePixelRatio || 1, 2);
-    canvas.width = Math.max(1, canvas.clientWidth * dpr);
-    canvas.height = Math.max(1, canvas.clientHeight * dpr);
-    gl.viewport(0, 0, canvas.width, canvas.height);
-    return dpr;
-  }
-  let dpr = size();
-  addEventListener("resize", () => { dpr = size(); });
+  function frame(t) {
+    beat = t / 1000;
+    const talking = state === "talking", hearing = state === "listening";
 
-  gl.enable(gl.BLEND);
-  gl.blendFunc(gl.SRC_ALPHA, gl.ONE);
+    if (hearing) level += (loudness() - level) * 0.28;
+    else if (talking) level += ((0.34 + Math.sin(beat * 11) * 0.16 + Math.sin(beat * 6.3) * 0.1) - level) * 0.2;
+    else level += (0 - level) * 0.08;
 
-  const bind = (prog, name, buf, n) => {
-    const loc = gl.getAttribLocation(prog, name);
-    if (loc < 0) return;
-    gl.bindBuffer(gl.ARRAY_BUFFER, buf);
-    gl.enableVertexAttribArray(loc);
-    gl.vertexAttribPointer(loc, n, gl.FLOAT, false, 0, 0);
-  };
+    spin += 0.0032 + level * 0.019 + (talking ? 0.004 : 0);
+    tilt = -0.38 + Math.sin(beat * 0.35) * 0.12;
 
-  const start = performance.now();
-  (function frame() {
-    const t = (performance.now() - start) / 1000;
-    gl.useProgram(amb);
-    gl.uniform1f(gl.getUniformLocation(amb, "t"), t);
-    gl.uniform2f(gl.getUniformLocation(amb, "res"), canvas.width, canvas.height);
-    gl.disable(gl.BLEND);
-    bind(amb, "p", quad, 2);
-    gl.drawArrays(gl.TRIANGLES, 0, 3);
+    // Swell on his voice, and wobble on hers, so the two are told apart by how
+    // it moves and not only by colour.
+    const R = 0.9 + level * 0.16;
+    const wob = talking ? Math.sin(beat * 9) * 0.05 : 0;
 
-    if (count) {
-      gl.enable(gl.BLEND);
-      const common = (prog) => {
-        gl.useProgram(prog);
-        gl.uniform1f(gl.getUniformLocation(prog, "t"), t);
-        gl.uniform1f(gl.getUniformLocation(prog, "dpr"), dpr);
-        gl.uniform2f(gl.getUniformLocation(prog, "res"), canvas.width, canvas.height);
-      };
+    const cs = Math.cos(spin), sn = Math.sin(spin);
+    const ct = Math.cos(tilt), st = Math.sin(tilt);
+    const zbuf = new Float32Array(W * H).fill(-2);
+    const cbuf = new Uint8Array(W * H);
+    const abuf = new Uint8Array(W * H);
 
-      common(spokes);
-      bind(spokes, "pos", linePosBuf, 3);
-      bind(spokes, "state", lineStateBuf, 1);
-      bind(spokes, "outer", outerBuf, 1);
-      gl.drawArrays(gl.LINES, 0, count * 2);
-
-      common(pts);
-      bind(pts, "pos", posBuf, 3);
-      bind(pts, "tint", tintBuf, 3);
-      bind(pts, "seed", seedBuf, 1);
-      bind(pts, "state", stateBuf, 1);
-      gl.drawArrays(gl.POINTS, 0, count);
+    for (let i = 0; i < N; i++) {
+      const [px, py, pz] = pts[i];
+      let x = px * cs - pz * sn, z = px * sn + pz * cs, y = py;
+      const y2 = y * ct - z * st;
+      z = y * st + z * ct;
+      const r = R + wob * Math.sin(y2 * 6 + beat * 4);
+      const sx = Math.round((x * r * 0.5 + 0.5) * (W - 1));
+      const sy = Math.round((-y2 * r * 0.5 + 0.5) * (H - 1));
+      if (sx < 0 || sx >= W || sy < 0 || sy >= H) continue;
+      const k = sy * W + sx;
+      if (z <= zbuf[k]) continue;
+      zbuf[k] = z;
+      cbuf[k] = Math.max(1, Math.min(RAMP.length - 1, Math.round(((z + 1) / 2) ** 1.5 * (RAMP.length - 1) + level * 2)));
+      abuf[k] = i < awake ? 1 : 0;
     }
+
+    let a = "", b = "";
+    for (let k = 0; k < W * H; k++) {
+      const lit = zbuf[k] > -2 ? RAMP[cbuf[k]] : " ";
+      a += abuf[k] ? " " : lit;
+      b += abuf[k] ? lit : " ";
+      if (k % W === W - 1) { a += "\n"; b += "\n"; }
+    }
+    dim.textContent = a;
+    hot.textContent = b;
     requestAnimationFrame(frame);
-  })();
+  }
+  requestAnimationFrame(frame);
 
-  return { seed, set };
+  return {
+    set(n, total) { awake = Math.min(N, Math.round((n / Math.max(total, 1)) * N)); },
+    // idle, listening while he talks, talking while she answers
+    mode(next) {
+      if (state === next) return;
+      state = next;
+      wrap.className = "globeWrap " + next;
+      if (next === "listening") ear(); else deaf();
+    },
+  };
 })();
+
 
 let snap = null;
 let focusDept = null;   // when set, the board and feed only show this department
@@ -1785,6 +1306,7 @@ function enterOffice() {
   setTimeout(() => {
     voiceReady();
     voiceUI(null, voiceLabel());
+    warmHerUp();
     speak(["Right, I'm here. What are we doing?", "Morning. The floor's yours.", "I'm listening whenever you are."][Math.floor(Date.now() / 6e4) % 3]);
   }, 500);
 }
@@ -1866,8 +1388,10 @@ addEventListener("pointermove", (e) => {
     });
   }
 
-  // The headline sets itself a word at a time once you are through the door.
+  // A heading sets itself a word at a time once you are through the door.
+  // There may not be one: the hero carries the globe now.
   const h1 = document.querySelector("h1");
+  if (!h1) return;
   const words = [];
   (function split(node) {
     for (const n of [...node.childNodes]) {
@@ -1907,8 +1431,7 @@ async function refresh() {
   $("blocked").textContent = r.office.stats.blocked || 0;
 
   const depts = Object.values(r.departments);
-  if (!floor.seeded) { floor.seed(depts); floor.seeded = true; }
-  floor.set(depts);
+  globe.set(r.awake, r.headcount);
 
   // Pinnacle in the hero. Redrawn only when its state actually changes, so the
   // breathing animation is never restarted by a routine poll.
@@ -2201,8 +1724,10 @@ const VOICE_ORDER = [
   /Mark/i, /David/i, /Zira/i, /^en/,
 ];
 
+const FEMALE = /aria|jenny|emma|libby|sonia|natasha|clara|female|zira|hazel|susan|samantha|karen|moira|tessa|fiona|heera|neerja|catherine|linda|michelle|ana/i;
 function pickVoice() {
-  const all = speechSynthesis.getVoices().filter((v) => v.lang.startsWith("en"));
+  const all = speechSynthesis.getVoices().filter((v) => v.lang.startsWith("en"))
+    .sort((a, b) => (FEMALE.test(b.name) ? 1 : 0) - (FEMALE.test(a.name) ? 1 : 0));
   if (!all.length) return null;
   for (const want of VOICE_ORDER) {
     const hit = all.find((v) => want.test(v.name) || want.test(v.lang));
@@ -2222,6 +1747,124 @@ if (window.speechSynthesis) speechSynthesis.onvoiceschanged = voiceReady;
 
 // Which engine she talks through is settled once, at the door, by the server.
 // The key for a paid one never comes down here: only audio does.
+// ------------------------------------------------------------ her real voice
+// Kokoro. An 82 million parameter neural voice model that runs entirely in
+// this browser: no key, no account, no per-word cost, and nothing she says
+// ever leaves the machine. It is the only option that is both properly human
+// and free, which is why it is the one she uses.
+//
+// The weights are about eighty megabytes and come down once, then the browser
+// keeps them. She talks in the system voice until they land and upgrades
+// herself mid-conversation, so the office is never waiting on a download.
+const KOKORO = {
+  cdn: "https://cdn.jsdelivr.net/npm/kokoro-js@1.2.1/+esm",
+  model: "onnx-community/Kokoro-82M-v1.0-ONNX",
+  voice: "af_heart",          // she is a woman, and this is the warmest of them
+};
+let kokoro = null, kokoroState = "cold";
+
+async function warmHerUp() {
+  if (kokoroState !== "cold") return;
+  kokoroState = "warming";
+  voiceUI(null, "warming up her voice");
+  try {
+    const { KokoroTTS } = await import(KOKORO.cdn);
+    // WebGPU where it exists, because it is roughly ten times faster, and
+    // plain wasm everywhere else rather than nothing.
+    const webgpu = !!(navigator.gpu && await navigator.gpu.requestAdapter().catch(() => null));
+    kokoro = await KokoroTTS.from_pretrained(KOKORO.model, {
+      dtype: webgpu ? "fp32" : "q8",
+      device: webgpu ? "webgpu" : "wasm",
+    });
+    kokoroState = "ready";
+    voiceUI(null, voiceLabel());
+    preheat();
+  } catch (err) {
+    kokoroState = "failed";
+    raiseFault("voice", "quiet", `Her real voice would not load (${err.message}). Using the browser's until you reload.`);
+    voiceUI(null, voiceLabel());
+  }
+}
+
+// Kokoro hands back raw samples. This turns them into something an <audio> can
+// play without pulling in an encoder: a WAV header and the PCM after it.
+function wavOf(audio) {
+  const pcm = audio.audio ?? audio.data ?? audio;
+  const rate = audio.sampling_rate ?? audio.sampleRate ?? 24000;
+  const buf = new ArrayBuffer(44 + pcm.length * 2);
+  const view = new DataView(buf);
+  const tag = (at, s) => [...s].forEach((c, i) => view.setUint8(at + i, c.charCodeAt(0)));
+  tag(0, "RIFF"); view.setUint32(4, 36 + pcm.length * 2, true); tag(8, "WAVEfmt ");
+  view.setUint32(16, 16, true); view.setUint16(20, 1, true); view.setUint16(22, 1, true);
+  view.setUint32(24, rate, true); view.setUint32(28, rate * 2, true);
+  view.setUint16(32, 2, true); view.setUint16(34, 16, true);
+  tag(36, "data"); view.setUint32(40, pcm.length * 2, true);
+  for (let i = 0; i < pcm.length; i++) {
+    const v = Math.max(-1, Math.min(1, pcm[i]));
+    view.setInt16(44 + i * 2, v < 0 ? v * 0x8000 : v * 0x7fff, true);
+  }
+  return new Blob([buf], { type: "audio/wav" });
+}
+
+// Kokoro is honest but not fast: on this machine it takes about two seconds of
+// compute per second of speech. Generating a whole answer and then playing it
+// would leave her silent for ten seconds, which is worse than a robot voice.
+//
+// So: cut the answer into clauses, generate the first, start playing it, and
+// generate the rest behind it. Her opener is generated the moment the model
+// lands and kept, so "Hey Pinnacle" is answered instantly in her own voice
+// while the part that changes is still being made.
+//
+// And if she cannot keep ahead, she says so once and hands the rest to the
+// browser rather than stuttering.
+const HELLO = "Hey Ayaan. It's Pinnacle, I'm your assistant.";
+const clipCache = new Map();
+let sayQueue = 0;
+
+const clauses = (text) => String(text).replace(/\s+/g, " ")
+  .split(/(?<=[.!?])\s+/).flatMap((p) => (p.length > 90 ? p.split(/(?<=,)\s+/) : [p]))
+  .map((c) => c.trim()).filter(Boolean).slice(0, 8);
+
+async function clipFor(line) {
+  if (clipCache.has(line)) return clipCache.get(line);
+  const out = await kokoro.generate(line.slice(0, 300), { voice: KOKORO.voice });
+  const url = URL.createObjectURL(wavOf(out));
+  if (clipCache.size > 24) URL.revokeObjectURL(clipCache.get([...clipCache.keys()][0])), clipCache.delete([...clipCache.keys()][0]);
+  clipCache.set(line, url);
+  return url;
+}
+
+async function speakKokoro(text) {
+  const mine = ++sayQueue;
+  const lines = clauses(text);
+  let ahead = clipFor(lines[0]);            // the next clause is always already cooking
+  for (let i = 0; i < lines.length; i++) {
+    let url;
+    try {
+      url = await ahead;
+    } catch (err) {
+      if (i === 0) { raiseFault("voice", "quiet", `Her own voice stumbled (${err.message}). Using the browser's.`); return speakLocal(text); }
+      break;                                 // she got some of it out; let the rest go
+    }
+    if (mine !== sayQueue || !voiceOut) return;   // he interrupted, so stop talking
+    if (lines[i + 1]) ahead = clipFor(lines[i + 1]).catch(() => null);
+    const clip = new Audio(url);
+    her = clip;
+    await new Promise((done) => {
+      clip.onended = clip.onerror = done;
+      clip.play().catch(done);
+    });
+    if (mine !== sayQueue) return;
+  }
+  if (mine === sayQueue) { her = null; mouth(false); }
+}
+
+// Said so often it is worth having ready before he asks.
+function preheat() {
+  clipFor(HELLO).catch(() => {});
+  for (const line of ["What do you need?", "Go on.", "Yeah?", "I'm listening."]) clipFor(line).catch(() => {});
+}
+
 let engine = { provider: "edge", ready: false };
 let her = null;                               // the clip that is talking now
 
@@ -2236,15 +1879,34 @@ fetch("/api/voice").then((r) => r.json()).then((v) => {
   voiceUI(null, voiceLabel());
 }).catch(() => {});
 
+let speaking = false;
+let hushTimer = null;
+
+// The globe is the only thing on the page that says who has the floor, so it
+// has to be told the truth about when she starts and stops.
+function mouth(on) {
+  speaking = on;
+  clearTimeout(hushTimer);
+  if (on) { globe.mode("talking"); $("globeState").textContent = "pinnacle speaking"; return; }
+  if (listening) { globe.mode("listening"); $("globeState").textContent = "listening"; }
+  else { globe.mode("idle"); $("globeState").textContent = "standing by"; }
+}
+
 function hush() {
   try { speechSynthesis.cancel(); } catch {}
   try { window.responsiveVoice?.cancel(); } catch {}
   if (her) { her.pause(); her = null; }
+  mouth(false);
 }
 
 function speak(text) {
   if (!voiceOut || !text) return;
   hush();
+  mouth(true);
+  // Nothing reports the end of a browser utterance reliably, so the mouth is
+  // closed on a clock sized to the sentence rather than left hanging open.
+  hushTimer = setTimeout(() => mouth(false), 900 + String(text).length * 62);
+  if (kokoroState === "ready") return speakKokoro(text);
   if (engine.provider === "elevenlabs" && engine.ready) return speakPaid(text);
   if (engine.provider === "responsive" && window.responsiveVoice) {
     return window.responsiveVoice.speak(String(text), engine.voice || "UK English Female", { rate: 1, pitch: 1 });
@@ -2373,12 +2035,27 @@ if (Rec) {
   rec.continuous = false;
   rec.onresult = (e) => {
     const said = [...e.results].map((r) => r[0].transcript).join("");
+    if (waking) {
+      // While she is only waiting for her name, nothing is sent anywhere and
+      // nothing is shown. She is listening for one word, not transcribing him.
+      if (WAKE.test(said)) {
+        const after = said.replace(WAKE, "").trim();
+        sleepEar();
+        wakeUp(after);
+      }
+      return;
+    }
     $("askIn").value = said;
     voiceUI(said || "Listening");
     if (e.results[e.results.length - 1].isFinal) { stopVoice(); askPinnacle(said); }
   };
-  rec.onerror = (e) => { stopVoice(); voiceUI("Talk to Pinnacle", e.error === "not-allowed" ? "microphone blocked, allow it in the address bar" : voiceLabel()); };
-  rec.onend = () => stopVoice();
+  rec.onerror = (e) => {
+    if (e.error === "no-speech" || e.error === "aborted") return;   // ordinary silence
+    stopVoice();
+    voiceUI("Talk to Pinnacle", e.error === "not-allowed" ? "microphone blocked, allow it in the address bar" : voiceLabel());
+    if (e.error === "not-allowed") { wakeOn = false; sleepEar(); $("wake").className = "wakeSw off"; }
+  };
+  rec.onend = () => { stopVoice(); if (wakeOn && !listening) setTimeout(openEar, 350); };
 } else {
   $("mic").title = "this browser has no speech recognition, use Edge or Chrome";
 }
@@ -2391,6 +2068,8 @@ function voiceUI(state, sub) {
   if (sub != null) $("vsub").textContent = sub;
 }
 function voiceLabel() {
+  if (kokoroState === "ready") return "her own voice · kokoro, local";
+  if (kokoroState === "warming") return "warming up her voice";
   if (engine.provider === "elevenlabs" && engine.ready) return "elevenlabs voice";
   if (engine.provider === "responsive" && engine.ready) return "responsivevoice · " + (engine.voice || "UK English Female");
   if (!rec) return "no microphone in this browser, use Edge";
@@ -2401,7 +2080,10 @@ function voiceLabel() {
 
 function startVoice() {
   if (!rec || listening) return;
+  sleepEar();
   listening = true;
+  globe.mode("listening");
+  $("globeState").textContent = "listening";
   $("mic").classList.add("on");
   $("vdock").classList.add("hot");
   voiceUI("Listening", "say it how you would say it to a person");
@@ -2412,13 +2094,86 @@ function startVoice() {
 function stopVoice() {
   if (!listening) return;
   listening = false;
+  if (!speaking) { globe.mode("idle"); $("globeState").textContent = "standing by"; }
   $("mic").classList.remove("on");
   $("vdock").classList.remove("hot");
-  voiceUI("Talk to Pinnacle", voiceLabel());
+  voiceUI(wakeOn ? "Say “Hey Pinnacle”" : "Talk to Pinnacle", voiceLabel());
   try { rec.stop(); } catch {}
+  if (wakeOn) setTimeout(openEar, 400);
 }
+// --------------------------------------------------------------- "Pinnacle"
+// He should not have to click a button to talk to his own assistant. She sits
+// with the microphone open, ignoring everything, until she hears her name.
+//
+// Be honest about what that costs: the microphone genuinely stays on, and the
+// browser shows its recording dot the whole time. So it is a switch he can see
+// and turn off, not something buried. Nothing is transcribed anywhere, nothing
+// is sent, and the recogniser runs entirely in the browser.
+const WAKE = /^\s*(hey|hi|ok|okay|yo)?\s*,?\s*pinnacle\b[\s,.!?]*/i;
+let wakeOn = true, waking = false;
+
+function openEar() {
+  if (!rec || listening || waking || !wakeOn || document.hidden) return;
+  waking = true;
+  rec.continuous = true;
+  rec.interimResults = true;
+  try { rec.start(); } catch { waking = false; }
+}
+function sleepEar() {
+  if (!waking) return;
+  waking = false;
+  rec.continuous = false;
+  try { rec.abort(); } catch {}
+}
+
+// She answers by name, says who she is, and gives him the floor in one breath
+// rather than making him ask twice.
+function wakeUp(rest) {
+  const her = $("heroChar");
+  her?.classList.add("called");
+  setTimeout(() => her?.classList.remove("called"), 5000);
+  if (rest && rest.length > 2) return askPinnacle(rest);   // "Pinnacle, what's the tutor lot doing"
+
+  const s = snap?.office?.stats;
+  const awake = snap?.awake || 0;
+  const floor = !snap ? "Still reading the floor."
+    : awake ? `Right now ${awake === 1 ? "one of them is" : say(awake) + " of them are"} working.`
+    : snap.office.running ? "Nobody's mid task this second." : "Office is shut at the moment.";
+  const done = s?.done ? ` We've shipped ${say(s.done)} so far.` : "";
+  const line = `${HELLO} ${floor}${done} What do you need?`;
+  pushMsg({ who: "Pinnacle", what: line });
+  $("reply").className = "reply";
+  $("reply").textContent = line;
+  speak(line);
+  // Then hand him the floor, once she has finished saying it.
+  setTimeout(() => { if (!listening) startVoice(); }, 900 + line.length * 58);
+}
+
+// Numbers get spoken, not printed, so she never reads digits at him.
+const SAY = ["none", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten",
+             "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen", "twenty"];
+const say = (n) => SAY[n] || String(n);
+
 const toggleVoice = () => (listening ? stopVoice() : startVoice());
 $("mic").onclick = toggleVoice;
+$("wake").onclick = () => {
+  wakeOn = !wakeOn;
+  $("wake").className = "wakeSw " + (wakeOn ? "on" : "off");
+  if (wakeOn) { openEar(); voiceUI("Say \u201cHey Pinnacle\u201d"); }
+  else { sleepEar(); voiceUI("Talk to Pinnacle"); }
+};
+
+// She starts listening for her name as soon as he is through the door, because
+// that click is also the browser's permission to use a microphone at all.
+addEventListener("click", function first() {
+  removeEventListener("click", first);
+  if (wakeOn) setTimeout(openEar, 600);
+});
+document.addEventListener("visibilitychange", () => {
+  if (document.hidden) sleepEar();
+  else if (wakeOn && !listening) setTimeout(openEar, 500);
+});
+
 $("sound").onclick = () => {
   voiceOut = !voiceOut;
   if (!voiceOut) hush();
