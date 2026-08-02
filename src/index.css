@@ -666,6 +666,16 @@
     0%, 100% { opacity: 0; }
     50%      { opacity: 1; }
   }
+  /* Wrong-passcode feedback: a decisive left-right shake, ~450ms. */
+  .pnz-shake {
+    animation: pnz-shake 0.45s cubic-bezier(0.36, 0.07, 0.19, 0.97);
+  }
+  @keyframes pnz-shake {
+    10%, 90% { transform: translate3d(-1px, 0, 0); }
+    20%, 80% { transform: translate3d(2px, 0, 0); }
+    30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+    40%, 60% { transform: translate3d(4px, 0, 0); }
+  }
   /* Hover lift: only transform and the overlay's opacity animate, so the
      card never repaints on hover. */
   .pnz-card {
@@ -765,6 +775,7 @@
        pnz-pulse        -> .pnz-glow::after
        pnz-drift-a/b/c  -> .pnz-blob-a/b/c
        pnz-dna          -> .pnz-dna-spin
+       pnz-shake        -> .pnz-shake
      Stopped, each one rests on its 0% frame, which is the same picture the
      animated version starts from: the shimmer keeps its gold->cyan gradient,
      the blobs sit at their authored offsets, and the glow overlay is the one
@@ -772,7 +783,8 @@
   @media (prefers-reduced-motion: reduce) {
     .pnz-shimmer, .pnz-shimmer::after, .pnz-glow::after, .pnz-blob, .pnz-dna-spin,
     .pnz-blob-a, .pnz-blob-b, .pnz-blob-c,
-    .pnz-venom-goo, .pnz-venom-veins, .pnz-live-dot, .pnz-live-dot::after {
+    .pnz-venom-goo, .pnz-venom-veins, .pnz-live-dot, .pnz-live-dot::after,
+    .pnz-shake {
       animation: none !important;
     }
     /* Nothing is left mid-transform either. */

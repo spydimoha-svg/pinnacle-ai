@@ -52,7 +52,7 @@ export default function MasterAccess() {
     <div className="min-h-screen flex items-center justify-center bg-pit p-5">
       <form
         onSubmit={submit}
-        className={`text-center ${shake ? "animate-pulse" : ""}`}
+        className={`text-center ${shake ? "pnz-shake" : ""}`}
       >
         <div className="flex justify-center mb-6 opacity-80">
           <LogoMark size={44} />

@@ -63,6 +63,7 @@ export default function Schools() {
   /** null → adding; otherwise the school being edited */
   const [editing, setEditing] = useState<School | null>(null);
   const [form, setForm] = useState<FormState>(BLANK);
+  const [removing, setRemoving] = useState<School | null>(null);
 
   const startAdd = () => {
     setEditing(null);
@@ -114,15 +115,7 @@ export default function Schools() {
     setOpen(false);
   };
 
-  const confirmRemove = (s: School) => {
-    if (
-      window.confirm(
-        `Remove ${s.name}? Their students lose access immediately. This cannot be undone.`
-      )
-    ) {
-      removeSchool(s.id);
-    }
-  };
+  const confirmRemove = (s: School) => setRemoving(s);
 
   return (
     <div className="space-y-8">
@@ -321,6 +314,30 @@ export default function Schools() {
               Cancel
             </button>
           </div>
+        </div>
+      </Modal>
+
+      <Modal
+        open={removing !== null}
+        onClose={() => setRemoving(null)}
+        title={removing ? `Remove ${removing.name}?` : "Remove school?"}
+      >
+        <p className="text-sm text-muted mb-5">
+          Their students lose access immediately. This cannot be undone.
+        </p>
+        <div className="flex justify-end gap-2">
+          <button className="btn-ghost" onClick={() => setRemoving(null)}>
+            Keep it
+          </button>
+          <button
+            className="btn-danger"
+            onClick={() => {
+              if (removing) removeSchool(removing.id);
+              setRemoving(null);
+            }}
+          >
+            Yes, remove it
+          </button>
         </div>
       </Modal>
     </div>
