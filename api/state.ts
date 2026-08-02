@@ -33,11 +33,31 @@ async function verifiedUserId(req: Request): Promise<string | null> {
 // sessions and fill the shared 500MB free-tier Postgres. Backed by the
 // shared rate_limit_hit() RPC (see supabase/schema.sql) rather than an
 // in-memory Map, so the limit is atomic across every instance and survives
-// cold starts — same pattern as api/chat.ts and api/master-login.ts. Both
-// handlers already 503 before this runs if Supabase isn't configured, so
-// the RPC is always available here.
+// cold starts — same pattern as api/chat.ts and api/master-login.ts.
 const RATE_LIMIT_WINDOW_MS = 60_000;
 const RATE_LIMIT_MAX = 20;
+
+// In-memory fallback only, for when the RPC call itself errors (e.g. a
+// transient Postgres blip) — same pattern as api/chat.ts and
+// api/master-login.ts. Failing open here would hand an attacker an
+// unthrottled write window at exactly the moment Postgres is already under
+// strain.
+const fallbackTimestamps = new Map<string, number[]>();
+
+function isRateLimitedInMemory(key: string): boolean {
+  const now = Date.now();
+  for (const [k, timestamps] of fallbackTimestamps) {
+    if (now - timestamps[timestamps.length - 1] >= RATE_LIMIT_WINDOW_MS) {
+      fallbackTimestamps.delete(k);
+    }
+  }
+  const recent = (fallbackTimestamps.get(key) ?? []).filter(
+    (t) => now - t < RATE_LIMIT_WINDOW_MS
+  );
+  recent.push(now);
+  fallbackTimestamps.set(key, recent);
+  return recent.length > RATE_LIMIT_MAX;
+}
 
 async function isRateLimited(key: string): Promise<boolean> {
   const admin = createClient(url!, serviceKey!);
@@ -48,7 +68,7 @@ async function isRateLimited(key: string): Promise<boolean> {
   });
   if (error) {
     console.error("rate_limit_hit error:", error.message);
-    return false;
+    return isRateLimitedInMemory(key);
   }
   return data === true;
 }

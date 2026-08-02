@@ -179,6 +179,32 @@ export const useStore = create<PinnacleState>()(
         return user;
       },
 
+      // A trial/admin-enrolled student's profile (name, class, school) only
+      // ever lives in the browser that created it — extraUsers is local
+      // state. Supabase Auth itself already authenticates this student from
+      // any device (cloud.ts creates that identity), so mirroring the
+      // profile onto it as user metadata is enough for Login.tsx to rebuild
+      // the same profile after a signInWithPassword succeeds elsewhere.
+      // Best-effort: signup still works locally on this device if it fails.
+      linkCloudProfile: async (u) => {
+        if (!cloudEnabled() || !supabase) return;
+        try {
+          const { data } = await supabase.auth.signInAnonymously();
+          if (!data.session) return;
+          await supabase.auth.updateUser({
+            email: u.email,
+            password: u.password,
+            data: {
+              name: u.name,
+              classLevel: u.classLevel ?? null,
+              schoolId: u.schoolId ?? null,
+            },
+          });
+        } catch {
+          /* offline or Supabase unreachable — nothing more to do here */
+        }
+      },
+
       memory: () => {
         const u = get().currentUser;
         if (!u || u.role !== "student") return null;

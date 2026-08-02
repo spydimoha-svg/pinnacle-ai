@@ -51,33 +51,57 @@ function isSameOrigin(req: Request): boolean {
 const supabaseUrl = process.env.VITE_SUPABASE_URL;
 const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
-async function hasVerifiedSession(req: Request): Promise<boolean> {
-  if (!supabaseUrl || !supabaseServiceKey) return true;
+// Returns the verified Supabase user id, `null` if a session was required but
+// invalid/missing, or `undefined` if Supabase isn't configured — same
+// contract as api/chat.ts's verifiedUserId, kept in step so both twins key
+// their throttle the same way.
+async function verifiedUserId(req: Request): Promise<string | null | undefined> {
+  if (!supabaseUrl || !supabaseServiceKey) return undefined;
   const auth = req.headers.get("authorization") ?? "";
   const token = auth.startsWith("Bearer ") ? auth.slice(7).trim() : "";
-  if (!token) return false;
+  if (!token) return null;
   const admin = createClient(supabaseUrl, supabaseServiceKey);
   const { data, error } = await admin.auth.getUser(token);
-  return !error && !!data.user;
+  if (error || !data.user) return null;
+  return data.user.id;
 }
 
 const RATE_LIMIT_WINDOW_MS = 60_000;
 const RATE_LIMIT_MAX = 20;
-const requestTimestamps = new Map<string, number[]>();
 
-function isRateLimited(ip: string): boolean {
+// In-memory fallback only, for when Supabase isn't configured — see
+// api/chat.ts's fallbackTimestamps for why the Map alone isn't enough once
+// Supabase (and rate_limit_hit()) is available.
+const fallbackTimestamps = new Map<string, number[]>();
+
+function isRateLimitedInMemory(key: string): boolean {
   const now = Date.now();
-  for (const [key, timestamps] of requestTimestamps) {
+  for (const [k, timestamps] of fallbackTimestamps) {
     if (now - timestamps[timestamps.length - 1] >= RATE_LIMIT_WINDOW_MS) {
-      requestTimestamps.delete(key);
+      fallbackTimestamps.delete(k);
     }
   }
-  const recent = (requestTimestamps.get(ip) ?? []).filter(
+  const recent = (fallbackTimestamps.get(key) ?? []).filter(
     (t) => now - t < RATE_LIMIT_WINDOW_MS
   );
   recent.push(now);
-  requestTimestamps.set(ip, recent);
+  fallbackTimestamps.set(key, recent);
   return recent.length > RATE_LIMIT_MAX;
+}
+
+async function isRateLimited(key: string): Promise<boolean> {
+  if (!supabaseUrl || !supabaseServiceKey) return isRateLimitedInMemory(key);
+  const admin = createClient(supabaseUrl, supabaseServiceKey);
+  const { data, error } = await admin.rpc("rate_limit_hit", {
+    p_key: `chat:${key}`,
+    p_window_ms: RATE_LIMIT_WINDOW_MS,
+    p_max: RATE_LIMIT_MAX,
+  });
+  if (error) {
+    console.error("rate_limit_hit error:", error.message);
+    return isRateLimitedInMemory(key);
+  }
+  return data === true;
 }
 
 // Netlify's Context object carries the connecting client's IP directly
@@ -99,10 +123,14 @@ export default async function handler(
   if (!isSameOrigin(req)) {
     return new Response("Forbidden", { status: 403 });
   }
-  if (!(await hasVerifiedSession(req))) {
+  const userId = await verifiedUserId(req);
+  if (userId === null) {
     return new Response("Unauthorized", { status: 401 });
   }
-  if (isRateLimited(clientIp(req, context))) {
+  // Key the throttle off the verified user when there is one, same as
+  // api/chat.ts, so switching IPs or sharing a school Wi-Fi NAT doesn't
+  // dodge or pool the budget.
+  if (await isRateLimited(userId ? `user:${userId}` : `ip:${clientIp(req, context)}`)) {
     return new Response("Too many requests", { status: 429 });
   }
   if (activeProviders().length === 0) {

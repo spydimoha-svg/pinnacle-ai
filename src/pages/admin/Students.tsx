@@ -64,13 +64,16 @@ export default function Students() {
       setError("That email already has an account. Use a different one.");
       return;
     }
-    addStudent({
+    const newStudent = addStudent({
       name: cleanName,
       email: cleanEmail,
       password: cleanPassword,
       classLevel,
       schoolId: school.id,
     });
+    // Mirrors the profile onto Supabase (best-effort) so this student can
+    // sign in from their own device, not just this admin's browser.
+    void useStore.getState().linkCloudProfile(newStudent);
     setCreated({
       name: cleanName,
       email: cleanEmail,

@@ -24,7 +24,7 @@ export default function Login() {
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
 
-  function submitTrial(e: React.FormEvent) {
+  async function submitTrial(e: React.FormEvent) {
     e.preventDefault();
     setError("");
     const cleanName = name.trim();
@@ -40,7 +40,19 @@ export default function Login() {
       setError("That email already has an account. Sign in instead.");
       return;
     }
-    addStudent({ name: cleanName, email: cleanEmail, password: cleanPassword, classLevel });
+    const created = addStudent({
+      name: cleanName,
+      email: cleanEmail,
+      password: cleanPassword,
+      classLevel,
+    });
+    // Mirror the profile onto Supabase before navigating, so the student
+    // this browser is about to sign in as can also sign in from any other
+    // device (see linkCloudProfile) — CloudSync starts syncing this same
+    // student the moment /app mounts, so this has to finish first.
+    setBusy(true);
+    await useStore.getState().linkCloudProfile(created);
+    setBusy(false);
     const user = login(cleanEmail, cleanPassword);
     if (!user) {
       setError("Couldn't create your account. Try again.");
@@ -69,12 +81,35 @@ export default function Login() {
         password,
       });
       setBusy(false);
-      const profile = authError
+      const cleanEmail = email.trim().toLowerCase();
+      const localProfile = authError
         ? undefined
         : useStore
             .getState()
             .allUsers()
-            .find((u) => u.email.toLowerCase() === email.trim().toLowerCase());
+            .find((u) => u.email.toLowerCase() === cleanEmail);
+      // A trial/admin-enrolled student's profile can live only in the
+      // browser that created it (store.ts's extraUsers). linkCloudProfile
+      // mirrors it onto the Supabase user as metadata for exactly this
+      // case: Supabase Auth just confirmed the password server-side, so
+      // that metadata is enough to rebuild the same profile on a device
+      // that never saw the original signup.
+      const meta = data.user?.user_metadata as
+        | { name?: string; classLevel?: ClassLevel | null; schoolId?: string | null }
+        | undefined;
+      const profile =
+        localProfile ??
+        (data.user && meta?.name
+          ? {
+              id: data.user.id,
+              name: meta.name,
+              email: cleanEmail,
+              password,
+              role: "student" as const,
+              classLevel: meta.classLevel ?? undefined,
+              schoolId: meta.schoolId ?? undefined,
+            }
+          : undefined);
       if (!profile || !data.user) {
         setError("That email and password don't match any account.");
         return;
