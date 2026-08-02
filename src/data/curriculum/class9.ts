@@ -360,6 +360,8 @@ const sst: Subject = {
         "The Reign of Terror and rise of Napoleon",
         "Abolition of slavery",
       ],
+      boardNotes:
+        "Source-based questions quoting a primary text (a revolutionary pamphlet, the Declaration of the Rights of Man) are common; timeline-ordering of events from the Estates General to the Reign of Terror is a frequent short-answer format.",
     },
     {
       id: "c9-sst-02",
@@ -371,6 +373,8 @@ const sst: Subject = {
         "Making of a socialist society",
         "Stalinism and collectivisation",
       ],
+      boardNotes:
+        "Distinguishing the February Revolution from the October Revolution by cause and outcome is the most repeated short-answer question; collectivisation under Stalin is tested more often than the details of War Communism.",
     },
     {
       id: "c9-sst-03",
@@ -382,6 +386,8 @@ const sst: Subject = {
         "Nazi worldview, schooling and youth",
         "The Holocaust",
       ],
+      boardNotes:
+        "Value-based questions on the Holocaust and on Nazi propaganda in schools are common, alongside a straightforward timeline question tracing Hitler's rise via the Weimar Republic's economic crisis.",
     },
     {
       id: "c9-sst-04",
@@ -393,6 +399,8 @@ const sst: Subject = {
         "Rebellion in Bastar",
         "Forest transformations in Java",
       ],
+      boardNotes:
+        "Comparing colonial forest policy in India with the Bastar rebellion or with Java is the standard long-answer format; 'scientific forestry' is a term examiners specifically check students can define, not just describe.",
     },
     {
       id: "c9-sst-05",

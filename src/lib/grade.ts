@@ -18,6 +18,7 @@ function plain(s: string): string {
   return s
     .replace(/\$+/g, " ")
     .replace(/\\d?frac\s*\{([^{}]*)\}\s*\{([^{}]*)\}/g, "$1/$2")
+    .replace(/\\sqrt\s*\{([^{}]*)\}/g, "√$1")
     .replace(/\\(?:times|cdot)/g, "*")
     .replace(/\\(?:neq|ne)/g, "!=")
     .replace(/\\[a-zA-Z]+/g, " ")
@@ -137,7 +138,7 @@ export function gradeAnswer(
   const cNums = numbers(stripExponents(c));
   const essential = cNums.filter((n) => !qNums.has(n));
   if (essential.length) {
-    const sNums = new Set(numbers(s));
+    const sNums = new Set(numbers(stripExponents(s)));
     const found = essential.filter((n) => sNums.has(n));
     if (found.length === essential.length) {
       return { mark: "correct", why: `all key values present (${essential.join(", ")})` };
