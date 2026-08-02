@@ -223,7 +223,7 @@ ${FORMAT_REMINDER}`
       // and only falls back to the model's own verdict line when the answer
       // cannot be judged mechanically. Without this the lesson stalls on any
       // model that does not emit the control line — every local one, so far.
-      let verdict = plan ? readTags(full) : { clean: full };
+      let verdict = plan ? readTags(full, plan.phase) : { clean: full };
       if (plan?.phase === "check" && active) {
         verdict = resolveVerdict(currentConcept(active), content, verdict);
         // Still nothing decisive: the app could not mark it mechanically and

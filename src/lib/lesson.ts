@@ -172,7 +172,7 @@ export interface Verdict {
   isDoubt?: boolean;
 }
 
-export function readTags(reply: string): Verdict {
+export function readTags(reply: string, phase?: LessonPhase): Verdict {
   const out: Verdict = { clean: reply };
   let m: RegExpExecArray | null;
   TAG_RE.lastIndex = 0;
@@ -198,7 +198,9 @@ export function readTags(reply: string): Verdict {
       out.gaps = value === "none" ? [] : value.split(/[,\s]+/).filter(Boolean);
     }
   }
-  out.clean = stripScaffolding(reply.replace(TAG_RE, ""), { keepHint: true });
+  out.clean = stripScaffolding(reply.replace(TAG_RE, ""), {
+    keepHint: phase === "check" || phase === "reteach",
+  });
   return out;
 }
 
