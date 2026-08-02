@@ -67,6 +67,7 @@ export default function Protected({
     // token Login.tsx stored, and app_metadata can only be set with the
     // service-role key — never by the signed-in user themselves.
     if (role !== "admin" || !cloudEnabled() || !supabase) return;
+    const client = supabase;
     let cancelled = false;
     const check = () => {
       const token = localStorage.getItem(ADMIN_TOKEN_KEY);
@@ -74,7 +75,7 @@ export default function Protected({
         if (!cancelled) setServerOk(false);
         return;
       }
-      supabase.auth
+      client.auth
         .getUser(token)
         .then(({ data, error }) => {
           if (!cancelled) setServerOk(!error && data.user?.app_metadata?.role === "admin");

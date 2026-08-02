@@ -400,13 +400,31 @@ export const useStore = create<PinnacleState>()(
         }));
       },
 
-      addSchoolResource: (r) =>
-        set((s) => ({ schoolResources: [r, ...s.schoolResources] })),
+      addSchoolResource: (r) => {
+        set((s) => ({ schoolResources: [r, ...s.schoolResources] }));
+        void saveSchoolResources([r]);
+      },
 
-      removeSchoolResource: (id) =>
+      removeSchoolResource: (id) => {
         set((s) => ({
           schoolResources: s.schoolResources.filter((r) => r.id !== id),
-        })),
+        }));
+        void deleteSchoolResource(id);
+      },
+
+      hydrateSchoolResources: async () => {
+        if (!cloudEnabled()) return;
+        const cloudResources = await loadSchoolResources();
+        if (!cloudResources) return;
+        set((s) => ({
+          schoolResources: [
+            ...cloudResources,
+            ...s.schoolResources.filter(
+              (r) => !cloudResources.some((c) => c.id === r.id)
+            ),
+          ],
+        }));
+      },
 
       upsertSchool: (school) =>
         set((s) => {
@@ -435,6 +453,9 @@ export const useStore = create<PinnacleState>()(
         lessons: s.lessons,
         profiles: s.profiles,
       }),
+      onRehydrateStorage: () => (state) => {
+        if (state?.currentUser) void state.hydrateSchoolResources();
+      },
     }
   )
 );

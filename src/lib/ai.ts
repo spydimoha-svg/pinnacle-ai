@@ -1,4 +1,5 @@
 import type { ChatMessage } from "./types";
+import { supabase } from "./supabase";
 
 export interface WireMessage {
   role: "user" | "assistant";
