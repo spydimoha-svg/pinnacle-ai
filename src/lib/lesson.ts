@@ -229,7 +229,9 @@ export function resolveVerdict(
   // here for the mechanical grader to mark — marking it would score a
   // clarifying question against the answer key it has nothing to do with.
   if (fromModel.isDoubt) return fromModel;
-  if (DOUBT_RE.test(studentAnswer.trim())) return { ...fromModel, isDoubt: true, mastered: undefined };
+  if (DOUBT_RE.test(studentAnswer.trim()) || /\bhint\b/i.test(studentAnswer)) {
+    return { ...fromModel, isDoubt: true, mastered: undefined };
+  }
   if (!concept?.check.q || !concept.check.answer) return fromModel;
   const { mark, why } = gradeAnswer(concept.check.q, concept.check.answer, studentAnswer);
   if (mark === "unsure") return fromModel;

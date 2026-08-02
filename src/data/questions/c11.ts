@@ -1469,6 +1469,23 @@ export const C11_QUESTIONS: Question[] = [
     ],
   },
   {
+    id: "q-c11-english-07-x2",
+    subjectId: "c11-english",
+    chapterId: "c11-english-07",
+    classLevel: 11,
+    text: "What evidence does Palkhivala give of large-scale species extinction in 'The Ailing Planet: the Green Movement's Role'?",
+    marks: 2,
+    type: "sa",
+    source: "important",
+    answer:
+      "Palkhivala states that species of plants and animals are becoming extinct at a much faster rate today than at any time since the disappearance of the dinosaurs, largely because of the destruction of natural habitats such as tropical forests. He points to the large-scale poaching of animals for commercial gain, such as elephants killed for ivory and rhinoceroses killed for their horn, as clear evidence of how human greed is driving many species towards extinction despite international efforts to curb such trade.",
+    keywords: [
+      "species going extinct far faster than at any time since the dinosaurs disappeared",
+      "chief cause: destruction of natural habitats like tropical forests",
+      "poaching for commercial gain (e.g. elephants for ivory, rhinoceroses for their horn) cited as evidence",
+    ],
+  },
+  {
     id: "q-c11-english-08-x1",
     subjectId: "c11-english",
     chapterId: "c11-english-08",
@@ -1483,6 +1500,23 @@ export const C11_QUESTIONS: Question[] = [
       "at 11, stopped believing adults ('the wise, the good, the true') always tell the truth",
       "at 12, stopped believing heaven lies somewhere beyond the sky",
       "finally realises childhood is lost inside him, not locatable in time or place",
+    ],
+  },
+  {
+    id: "q-c11-english-08-x2",
+    subjectId: "c11-english",
+    chapterId: "c11-english-08",
+    classLevel: 11,
+    text: "What question does the poet repeatedly ask throughout 'Childhood', and how does the poem's structure reflect his search for an answer?",
+    marks: 2,
+    type: "sa",
+    source: "important",
+    answer:
+      "At the start of each of the three stanzas, the poet repeatedly asks the question 'Where did my childhood go?', signalling that he is searching backward for a single, identifiable moment when it ended. Each stanza then offers a different candidate answer — losing faith in adults' truthfulness at eleven, losing faith in heaven's location at twelve — but by the final stanza he admits that childhood was not lost at any one traceable point at all, so the poem's search keeps circling back without ever settling on a fixed answer.",
+    keywords: [
+      "poem opens each stanza with the recurring question 'Where did my childhood go?'",
+      "each stanza offers a different candidate answer to the question",
+      "final stanza admits there is no single traceable moment of loss — the search never fully resolves",
     ],
   },
   {
@@ -1503,6 +1537,23 @@ export const C11_QUESTIONS: Question[] = [
     ],
   },
   {
+    id: "q-c11-english-09-x2",
+    subjectId: "c11-english",
+    chapterId: "c11-english-09",
+    classLevel: 11,
+    text: "Describe the alternate world Professor Gaitonde finds himself in after his car accident, in 'The Adventure'.",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer:
+      "After the accident, Gaitonde regains consciousness disoriented and gradually realises he is in a world where history took a different course — the Marathas, led by Sadashiv Rao Bhau, had actually won the Third Battle of Panipat instead of losing it. As a result, the Peshwas continued to hold power and the British East India Company never got the chance to establish colonial control over India, so the India Gaitonde finds himself in shows no trace of British rule in its institutions, streets or society, forcing him to piece together, with growing unease, exactly how different this world is from the one he remembers.",
+    keywords: [
+      "Gaitonde wakes into a world where the Marathas won the Third Battle of Panipat under Sadashiv Rao Bhau",
+      "consequence: the British East India Company never colonised India in this timeline",
+      "Gaitonde notices the absence of British influence and gradually realises how altered this world is",
+    ],
+  },
+  {
     id: "q-c11-english-10-x1",
     subjectId: "c11-english",
     chapterId: "c11-english-10",
@@ -1520,6 +1571,23 @@ export const C11_QUESTIONS: Question[] = [
     ],
   },
   {
+    id: "q-c11-english-10-x2",
+    subjectId: "c11-english",
+    chapterId: "c11-english-10",
+    classLevel: 11,
+    text: "What is the historical significance of the 'Silk Road' referred to in the chapter's title, and how does the author connect her own journey to it?",
+    marks: 2,
+    type: "sa",
+    source: "important",
+    answer:
+      "The Silk Road was the ancient network of trade routes that once connected China with Europe and the rest of Asia, along which silk, spices and other goods were carried across mountains and plateaus for centuries. The region the author crosses on her way to Mount Kailash, across the Tibetan plateau, once formed a part of this historic route, and as she journeys through it she reflects on the long line of traders and pilgrims who crossed the same difficult terrain before her, connecting her own arduous but rewarding pilgrimage to that history of travel.",
+    keywords: [
+      "Silk Road = ancient trade route network linking China to Europe/Asia",
+      "the Tibetan plateau the author crosses towards Kailash once lay along this historic route",
+      "author connects her own pilgrimage to the long history of travellers who crossed this terrain",
+    ],
+  },
+  {
     id: "q-c11-english-11-x1",
     subjectId: "c11-english",
     chapterId: "c11-english-11",
@@ -1534,6 +1602,23 @@ export const C11_QUESTIONS: Question[] = [
       "father admits he does not understand his son despite their blood relationship",
       "silence and differing values have made them feel like 'strangers' to each other",
       "poem ends with the father's hope of reconciliation and a fresh start, despite the gap",
+    ],
+  },
+  {
+    id: "q-c11-english-11-x2",
+    subjectId: "c11-english",
+    chapterId: "c11-english-11",
+    classLevel: 11,
+    text: "In 'Father to Son', what does the father admit about his own share of responsibility for the distance between him and his son?",
+    marks: 2,
+    type: "sa",
+    source: "important",
+    answer:
+      "The father candidly admits that the failure of communication between them is not his son's fault alone; he confesses that he too has been unable to understand or reach out to his son over the years, and that neither of them quite knows how to bridge the divide. This honest acknowledgement of his own share of the blame, rather than holding his son entirely responsible for their estrangement, is what allows the poem to end on a note of hope, since the father is willing to try afresh himself.",
+    keywords: [
+      "father admits the communication failure is not the son's fault alone",
+      "he acknowledges his own inability to understand or reach out to his son",
+      "this self-honesty, not blame, is what opens the door to the poem's hopeful ending",
     ],
   },
 ];

@@ -49,6 +49,34 @@ Thus the Treaty of Vienna aimed at restoring the old monarchies and creating a n
       "Three DISTINCT provisions are wanted, each as a separate value point. Students write one long paragraph about Metternich and the conservative order and never get to three provisions — number them (i), (ii), (iii).",
   },
   {
+    id: "q-c10-sst-01-2",
+    subjectId: "c10-sst",
+    chapterId: "c10-sst-01",
+    classLevel: 10,
+    text: "Explain the process of unification of Germany under the leadership of Otto von Bismarck.",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer: `Nationalism in Germany was carried forward under Prussian leadership, with Prussia taking on the leadership of the movement for national unification.
+
+(i) Zollverein — in 1834, a customs union, the Zollverein, was formed at the initiative of Prussia and joined by most German states. It abolished tariff barriers and reduced the number of currencies from over thirty to two, creating a sense of economic unity among the German states even before political unification.
+
+(ii) Three wars — the architect of German unification was Prussian Chancellor Otto von Bismarck, carried out with the help of the Prussian army and bureaucracy. Prussia fought three wars — with Austria, Denmark and France — over seven years, which ended in Prussian victory and completed the process of unification.
+
+(iii) Proclamation at Versailles — on 18 January 1871, an assembly comprising princes of the German states and representatives of the army gathered at Versailles to proclaim the new German Empire headed by Kaiser William I of Prussia.
+
+Thus German unification was achieved through Prussian military strength and diplomacy rather than through a popular liberal-democratic movement.`,
+    keywords: [
+      "Zollverein customs union, 1834",
+      "Otto von Bismarck / Prussia led unification",
+      "three wars — Austria, Denmark, France",
+      "Kaiser William I proclaimed at Versailles, 1871",
+      "Prussian army and bureaucracy",
+    ],
+    examinerTip:
+      "Germany's unification is remembered for being led 'from above' by Prussian state power, unlike a popular movement — say this explicitly, and name Versailles, 1871.",
+  },
+  {
     id: "q-c10-sst-02-1",
     subjectId: "c10-sst",
     chapterId: "c10-sst-02",
@@ -133,6 +161,34 @@ Thus falling agricultural prices, the drying up of US loans and the collapse of 
       "Three DISTINCT causes are wanted, not three effects. Students describe the misery of the Depression instead of its causes — keep the answer to the agricultural, the lending and the banking factors.",
   },
   {
+    id: "q-c10-sst-03-2",
+    subjectId: "c10-sst",
+    chapterId: "c10-sst-03",
+    classLevel: 10,
+    text: "What were the Bretton Woods institutions? Explain the role of the International Monetary Fund (IMF) and the World Bank.",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer: `The Bretton Woods Conference of July 1944 established the International Monetary Fund (IMF) and the World Bank, known as the Bretton Woods institutions, to finance post-war reconstruction and manage the economic problems of the international economy.
+
+(i) International Monetary Fund (IMF) — set up to deal with external surpluses and deficits of its member nations, and to maintain stability of exchange rates between currencies as part of the international monetary system.
+
+(ii) World Bank — set up to finance the reconstruction of the war-ravaged economies of Europe, and later to finance infrastructure and development projects in developing countries.
+
+(iii) Fixed exchange rate — the Bretton Woods system was based on fixed exchange rates, in which national currencies were pegged to the US dollar at a fixed exchange rate, and the dollar itself was anchored to gold at a fixed price of $35 per ounce.
+
+The Bretton Woods institutions thus began a new phase of international economic cooperation and are today powerful institutions guiding the financial and monetary policies of the world.`,
+    keywords: [
+      "Bretton Woods Conference, July 1944",
+      "IMF — external surpluses/deficits, exchange rate stability",
+      "World Bank — reconstruction and development finance",
+      "fixed exchange rate system",
+      "dollar pegged to gold at $35 per ounce",
+    ],
+    examinerTip:
+      "State the year (1944) and both institutions by name with their DISTINCT roles — students merge the IMF and the World Bank into one vague description and lose the differentiation marks.",
+  },
+  {
     id: "q-c10-sst-04-1",
     subjectId: "c10-sst",
     chapterId: "c10-sst-04",
@@ -164,6 +220,35 @@ Thus the loss of the export market, the raw-cotton crisis caused by the American
       "The American Civil War point is the one students omit, yet it is a named value point on its own — it explains WHY raw cotton became costly in India, not just that it did.",
   },
   {
+    id: "q-c10-sst-04-2",
+    subjectId: "c10-sst",
+    chapterId: "c10-sst-04",
+    classLevel: 10,
+    text: "What is meant by proto-industrialisation? Explain with reference to Europe.",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer: `Proto-industrialisation refers to the phase of industrialisation that was not based in factories but was linked to large-scale industrial production for an international market, before the coming of factories in England and Europe.
+
+(i) Merchants moving to the countryside — merchants from towns in Europe began moving to the countryside, supplying money to peasants and artisan households and persuading them to produce for an international market, since production within towns was regulated by powerful trade guilds that controlled prices and restricted the entry of new merchants.
+
+(ii) Symbiotic relationship with agriculture — poor peasants and artisans eagerly agreed to work for the merchants because it added to their meagre income from cultivation, which was shrinking due to the subdivision of land, and allowed a fuller use of family labour resources.
+
+(iii) Town-country link — merchants were based in towns but the work was done mostly in the countryside; this decentralised production system, in which the merchant clothier controlled the market while production took place within the rural household, is what is called proto-industrialisation.
+
+Thus proto-industrialisation was a rural, household-based system that expanded production well before factories were built.`,
+    keywords: [
+      "large-scale production for an international market",
+      "before factories existed",
+      "merchants moved to the countryside",
+      "trade guilds restricted urban production",
+      "peasant households / part-time rural work",
+      "merchant clothier controlled the market",
+    ],
+    examinerTip:
+      "The definition hinges on TWO things — an international market AND no factory — losing either half is a half-mark answer. Name the trade-guild restriction as the reason merchants left the towns.",
+  },
+  {
     id: "q-c10-sst-05-1",
     subjectId: "c10-sst",
     chapterId: "c10-sst-05",
@@ -189,6 +274,34 @@ Thus print created a shared national consciousness and turned the press into an 
     ],
     examinerTip:
       "Generic answers ('print spread awareness among people') earn almost nothing. Every value point must carry a NAMED example — Kesari, the Vernacular Press Act, Sambad Kaumudi — which is what the key actually rewards.",
+  },
+  {
+    id: "q-c10-sst-05-2",
+    subjectId: "c10-sst",
+    chapterId: "c10-sst-05",
+    classLevel: 10,
+    text: "Explain how print culture created the conditions within which the French Revolution occurred.",
+    marks: 3,
+    type: "sa",
+    source: "pyq",
+    answer: `Historians have argued that print culture created the conditions within which the French Revolution occurred, in the following ways:
+
+(i) Spread of Enlightenment ideas — print popularised the ideas of thinkers such as Voltaire and Rousseau, whose writings were read widely and discussed critically. These ideas emphasised the rule of reason rather than custom, and the need to question everything through reason and rationality.
+
+(ii) A new culture of dialogue and debate — print created a new culture where ideas of individual rights and the sovereignty of the people were debated, popularising the ideas of thinkers who challenged the authority of the church and the despotic power of the state, eroding the legitimacy of the Old Regime.
+
+(iii) Common questioning of established beliefs — by the 1780s there was an outpouring of literature that mocked royalty and criticised their morality, and by the time the revolution broke out, people were convinced that their action could change society, a belief print had helped create.
+
+Thus, while it would be wrong to say print directly caused the revolution, it did create the conditions for the people to think differently and question established authority.`,
+    keywords: [
+      "Enlightenment thinkers — Voltaire and Rousseau",
+      "rule of reason",
+      "criticism of monarchy / despotism",
+      "print created conditions, did not directly cause the revolution",
+      "new culture of dialogue and debate",
+    ],
+    examinerTip:
+      "The exact CBSE phrasing is 'print did not directly cause the Revolution but created the CONDITIONS for it' — omitting this qualifying line is a common half-mark loss.",
   },
 
   // ==========================================================================

@@ -994,4 +994,129 @@ export const CLASS_11_SUBJECTS: Subject[] = [
       },
     ],
   },
+
+  // --------------------------------------------------------------- Economics
+  // Indian Economic Development — the Part B book for the Commerce/Humanities
+  // Economics paper. Part A ("Statistics for Economics") is not modelled.
+  {
+    id: "c11-economics",
+    name: "Economics",
+    classLevel: 11,
+    icon: "TrendingUp",
+    color: "gold",
+    chapters: [
+      {
+        id: "c11-economics-01",
+        number: 1,
+        title: "Indian Economy on the Eve of Independence",
+        weightage: "≈5 marks",
+        keyTopics: [
+          "Colonial economic policies",
+          "Agricultural sector under British rule",
+          "Deindustrialisation of handicrafts",
+          "Occupational structure and demographic condition",
+        ],
+        boardNotes:
+          "Explaining the low level of economic development at independence — stagnant agriculture, ruined handicrafts, and a colonial trade policy designed to serve Britain — is the standard long question; naming specific causes rather than describing poverty in general is what the marking scheme rewards.",
+      },
+      {
+        id: "c11-economics-02",
+        number: 2,
+        title: "Indian Economy 1950-1990",
+        weightage: "≈5 marks",
+        keyTopics: [
+          "Goals of five year plans",
+          "Agriculture — land reforms and the Green Revolution",
+          "Industry — Industrial Policy Resolution 1956 and licensing",
+          "Trade policy — import substitution",
+        ],
+        boardNotes:
+          "Evaluating the Green Revolution (both its yield gains and its regional/farmer-size inequities) and explaining why the licence-permit system was criticised are the two recurring long questions; a one-sided answer that omits the criticism loses marks.",
+      },
+      {
+        id: "c11-economics-03",
+        number: 3,
+        title: "Liberalisation, Privatisation and Globalisation: An Appraisal",
+        weightage: "≈5 marks",
+        keyTopics: [
+          "Background of the 1991 economic crisis",
+          "Liberalisation, privatisation and globalisation as policy",
+          "Disinvestment",
+          "Outcomes of economic reforms since 1991",
+        ],
+        boardNotes:
+          "Distinguishing the three components of the 1991 reforms — liberalisation, privatisation, globalisation — with a concrete measure under each is the anchor question; assessing reforms against both growth and equity/employment outcomes is expected, not growth figures alone.",
+      },
+      {
+        id: "c11-economics-04",
+        number: 4,
+        title: "Human Capital Formation in India",
+        weightage: "≈4 marks",
+        keyTopics: [
+          "Human capital versus physical capital",
+          "Sources of human capital formation",
+          "Growth of the education sector in India",
+          "State of health infrastructure",
+        ],
+        boardNotes:
+          "Distinguishing human capital from human development, and listing the sources of human capital formation (education, health, on-the-job training) with an example each, is the standard short question.",
+      },
+      {
+        id: "c11-economics-05",
+        number: 5,
+        title: "Rural Development",
+        weightage: "≈4 marks",
+        keyTopics: [
+          "Credit and marketing in rural development",
+          "Agricultural diversification",
+          "Sustainable development and organic farming",
+          "Rural banking and self-help groups",
+        ],
+        boardNotes:
+          "The role of institutional credit (cooperatives, regional rural banks, self-help groups) in reducing farmers' dependence on moneylenders is the recurring long question; naming the specific institution rather than 'banks' in general is where marks are actually awarded.",
+      },
+      {
+        id: "c11-economics-06",
+        number: 6,
+        title: "Employment: Growth, Informalisation and Other Issues",
+        weightage: "≈4 marks",
+        keyTopics: [
+          "Workers and employment — key concepts",
+          "Growth and changing structure of employment",
+          "Informalisation of the Indian workforce",
+          "Government schemes for employment generation",
+        ],
+        boardNotes:
+          "Distinguishing formal (organised) from informal (unorganised) sector employment by job security and social protection, not just sector name, is the concept examiners check for; naming a specific government employment scheme (like MGNREGA) is the usual follow-up.",
+      },
+      {
+        id: "c11-economics-07",
+        number: 7,
+        title: "Environment and Sustainable Development",
+        weightage: "≈4 marks",
+        keyTopics: [
+          "Functions of the environment",
+          "State of India's environment",
+          "Sustainable development",
+          "Strategies for sustainable development",
+        ],
+        boardNotes:
+          "Listing the four functions of the environment (supplying resources, assimilating waste, sustaining life, aesthetic value) and explaining why development must be sustainable across generations are the recurring short questions.",
+      },
+      {
+        id: "c11-economics-08",
+        number: 8,
+        title: "Comparative Development Experiences of India and Its Neighbours",
+        weightage: "≈7 marks",
+        keyTopics: [
+          "Development strategies of India, Pakistan and China",
+          "Demographic indicators across the three economies",
+          "GDP growth and sectoral contribution compared",
+          "Human development indicators compared",
+        ],
+        boardNotes:
+          "A tabular comparison of India, Pakistan and China on a named indicator (GDP growth rate, or a human development indicator) is the standard long question; stating the specific development strategy each country adopted, not just the outcome numbers, is what the scheme rewards.",
+      },
+    ],
+  },
 ];
