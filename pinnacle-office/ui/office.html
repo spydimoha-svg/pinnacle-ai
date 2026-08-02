@@ -279,7 +279,7 @@
      One bot per department, each spot lit in its own black cell the way Ciao
      lights a single can. The visor is live state: lit means that team has
      someone working right now. Clicking a bot puts you in front of that team. */
-  .crew{position:relative;border-bottom:1px solid var(--line);padding:clamp(26px,4vw,52px) var(--pad) clamp(22px,3vw,40px);background:#0a0a0b}
+  .crew{position:relative;border-bottom:1px solid var(--line);padding:clamp(26px,4vw,52px) var(--pad) clamp(22px,3vw,40px);background:#0a0a0a}
   /* ---------------------------------------------------- the stage (hero 2)
      The reference moves one product through frame at a time, lit, with the
      neighbours half seen at the edges and the whole scene tinted by whatever
@@ -966,13 +966,13 @@ function mix(hex, target, amt) {
   return "#" + out.map((v) => v.toString(16).padStart(2, "0")).join("");
 }
 const lighten = (hex, amt) => mix(hex, "#ffffff", amt);
-const darken = (hex, amt) => mix(hex, "#05060a", amt);
+const darken = (hex, amt) => mix(hex, "#0a0a0a", amt);
 
 // A department's full scheme, built once from its single categorical hue.
 function palette(hue, { closed = false } = {}) {
   const base = closed ? mix(hue, "#1a1917", 0.8) : mix(hue, "#3a3733", 0.2);
   return {
-    glow: closed ? mix(hue, "#20232b", 0.55) : hue,
+    glow: closed ? mix(hue, "#22201e", 0.55) : hue,
     lit: lighten(base, 0.34),
     base,
     dark: darken(base, 0.5),
@@ -996,6 +996,10 @@ function palette(hue, { closed = false } = {}) {
 // artists' work, credited by name on that site, and taking them would put
 // somebody else's copyright inside Ayaan's product.
 const FACES = 24;
+// Bump this when the photographs change. They are cached hard for a day, and
+// the filenames stay the same, so without it the browser keeps showing
+// yesterday's staff.
+const FACE_SET = 2;
 const faceFor = (dept, i) => {
   let n = 0;
   for (const c of dept) n = (n * 31 + c.charCodeAt(0)) >>> 0;
@@ -1004,7 +1008,7 @@ const faceFor = (dept, i) => {
 
 function personCard(src, { live, closed, tall = false }) {
   return `<figure class="face ${live ? "live" : ""} ${closed ? "shut" : ""} ${tall ? "tall" : ""}">
-    <img src="/faces/${src}.jpg" alt="" draggable="false" loading="lazy" />
+    <img src="/faces/${src}.jpg?v=${FACE_SET}" alt="" draggable="false" loading="lazy" />
     <i class="vig"></i><i class="ring"></i>
   </figure>`;
 }
@@ -1144,6 +1148,7 @@ const globe = (() => {
 
   let spin = 0, tilt = -0.38, awake = 0, state = "idle", level = 0, beat = 0;
   let analyser = null, bins = null, stream = null;
+  let bass = 0, mid = 0, air = 0, burst = 0;
 
   // Real microphone level, so the ball moves to his actual voice rather than to
   // a timer pretending to be his voice.
@@ -1154,7 +1159,7 @@ const globe = (() => {
       const ctx = new (window.AudioContext || window.webkitAudioContext)();
       analyser = ctx.createAnalyser();
       analyser.fftSize = 256;
-      analyser.smoothingTimeConstant = 0.75;
+      analyser.smoothingTimeConstant = 0.72;
       ctx.createMediaStreamSource(stream).connect(analyser);
       bins = new Uint8Array(analyser.frequencyBinCount);
     } catch { analyser = null; }     // no permission, so fall back to the idle drift
@@ -1162,31 +1167,63 @@ const globe = (() => {
   function deaf() {
     stream?.getTracks().forEach((t) => t.stop());
     stream = null; analyser = null; bins = null;
+    bass = mid = air = 0;
   }
 
-  function loudness() {
-    if (!analyser) return 0;
+  // Three bands, not one number. Low frequencies push the belly of the sphere
+  // out, the middle drives the overall swell, and the top end scatters the
+  // poles. That split is the whole difference between a ball that throbs and a
+  // ball that looks like it is forming words.
+  function bands() {
+    if (!analyser) return;
     analyser.getByteFrequencyData(bins);
-    let sum = 0;
-    for (const b of bins) sum += b;
-    return Math.min(1, sum / bins.length / 70);
+    const n = bins.length, avg = (from, to) => {
+      let t = 0; for (let i = from; i < to; i++) t += bins[i];
+      return t / (to - from) / 255;
+    };
+    bass += (avg(0, n * 0.12) - bass) * 0.35;
+    mid += (avg(n * 0.12, n * 0.45) - mid) * 0.3;
+    air += (avg(n * 0.45, n) - air) * 0.25;
+  }
+
+  // Cheap 3D value noise. One hash, three axes, smoothed. Good enough to make
+  // the surface boil, and it costs nothing next to a real simplex.
+  const hash = (x, y, z) => {
+    const v = Math.sin(x * 127.1 + y * 311.7 + z * 74.7) * 43758.5453;
+    return v - Math.floor(v);
+  };
+  function noise(x, y, z) {
+    const xi = Math.floor(x), yi = Math.floor(y), zi = Math.floor(z);
+    const xf = x - xi, yf = y - yi, zf = z - zi;
+    const u = xf * xf * (3 - 2 * xf), v = yf * yf * (3 - 2 * yf), w = zf * zf * (3 - 2 * zf);
+    const l = (a, b, t) => a + (b - a) * t;
+    const c = (i, j, k) => hash(xi + i, yi + j, zi + k);
+    return l(l(l(c(0,0,0), c(1,0,0), u), l(c(0,1,0), c(1,1,0), u), v),
+             l(l(c(0,0,1), c(1,0,1), u), l(c(0,1,1), c(1,1,1), u), v), w);
   }
 
   function frame(t) {
     beat = t / 1000;
     const talking = state === "talking", hearing = state === "listening";
+    bands();
 
-    if (hearing) level += (loudness() - level) * 0.28;
-    else if (talking) level += ((0.34 + Math.sin(beat * 11) * 0.16 + Math.sin(beat * 6.3) * 0.1) - level) * 0.2;
-    else level += (0 - level) * 0.08;
+    // He drives it from the microphone. She has no waveform to read, so her
+    // rhythm is synthesised, but it is built out of three beating oscillators
+    // rather than one sine, which is why it does not read as a metronome.
+    if (hearing) level += (Math.min(1, mid * 1.5 + bass) - level) * 0.3;
+    else if (talking) {
+      const sim = 0.3 + Math.sin(beat * 12.4) * 0.16 + Math.sin(beat * 7.1) * 0.11 + Math.sin(beat * 3.3) * 0.08;
+      level += (Math.max(0, sim) - level) * 0.22;
+      bass = 0.4 + Math.sin(beat * 5.5) * 0.3;
+      air = 0.3 + Math.sin(beat * 17) * 0.3;
+    } else level += (0 - level) * 0.07;
 
-    spin += 0.0032 + level * 0.019 + (talking ? 0.004 : 0);
-    tilt = -0.38 + Math.sin(beat * 0.35) * 0.12;
+    // Burst rises the instant somebody starts and falls away over a second or
+    // so, so the ball flies apart on the attack and gathers itself back up.
+    burst += ((talking || hearing ? level : 0) - burst) * (level > burst ? 0.5 : 0.045);
 
-    // Swell on his voice, and wobble on hers, so the two are told apart by how
-    // it moves and not only by colour.
-    const R = 0.9 + level * 0.16;
-    const wob = talking ? Math.sin(beat * 9) * 0.05 : 0;
+    spin += 0.0028 + level * 0.02;
+    tilt = -0.36 + Math.sin(beat * 0.3) * 0.11;
 
     const cs = Math.cos(spin), sn = Math.sin(spin);
     const ct = Math.cos(tilt), st = Math.sin(tilt);
@@ -1199,14 +1236,27 @@ const globe = (() => {
       let x = px * cs - pz * sn, z = px * sn + pz * cs, y = py;
       const y2 = y * ct - z * st;
       z = y * st + z * ct;
-      const r = R + wob * Math.sin(y2 * 6 + beat * 4);
+
+      // Displace along the normal, the way a vertex shader would. Bass swells
+      // the equator, the top end scatters the poles, and the noise field boils
+      // over the whole surface so it never looks like a wireframe pulsing.
+      const belly = 1 - Math.abs(py);
+      const pole = Math.abs(py);
+      const boil = noise(px * 2.4 + beat * 0.9, py * 2.4, pz * 2.4 + beat * 0.6) - 0.5;
+      const r = 0.86
+        + level * 0.1
+        + bass * belly * 0.22 * burst
+        + air * pole * 0.3 * burst
+        + boil * (0.1 + burst * 0.42);
+
       const sx = Math.round((x * r * 0.5 + 0.5) * (W - 1));
       const sy = Math.round((-y2 * r * 0.5 + 0.5) * (H - 1));
       if (sx < 0 || sx >= W || sy < 0 || sy >= H) continue;
       const k = sy * W + sx;
       if (z <= zbuf[k]) continue;
       zbuf[k] = z;
-      cbuf[k] = Math.max(1, Math.min(RAMP.length - 1, Math.round(((z + 1) / 2) ** 1.5 * (RAMP.length - 1) + level * 2)));
+      cbuf[k] = Math.max(1, Math.min(RAMP.length - 1,
+        Math.round(((z + 1) / 2) ** 1.5 * (RAMP.length - 1) + level * 2.5)));
       abuf[k] = i < awake ? 1 : 0;
     }
 
@@ -2040,7 +2090,7 @@ if (Rec) {
       // nothing is shown. She is listening for one word, not transcribing him.
       if (WAKE.test(said)) {
         const after = said.replace(WAKE, "").trim();
-        sleepEar();
+        setEar("off");
         wakeUp(after);
       }
       return;
@@ -2053,9 +2103,20 @@ if (Rec) {
     if (e.error === "no-speech" || e.error === "aborted") return;   // ordinary silence
     stopVoice();
     voiceUI("Talk to Pinnacle", e.error === "not-allowed" ? "microphone blocked, allow it in the address bar" : voiceLabel());
-    if (e.error === "not-allowed") { wakeOn = false; sleepEar(); $("wake").className = "wakeSw off"; }
+    if (e.error === "not-allowed" || e.error === "service-not-allowed") {
+      wakeOn = false; want = "off"; earLive = false;
+      $("wake").className = "wakeSw off";
+      raiseFault("mic", "quiet", "She cannot hear you: the microphone is blocked for this page. Allow it in the address bar, then press wake.");
+    }
+    if (e.error === "network") raiseFault("mic", "quiet", "Speech recognition needs the network and it is not answering. Type to her instead.");
   };
-  rec.onend = () => { stopVoice(); if (wakeOn && !listening) setTimeout(openEar, 350); };
+  // The browser ends a session on its own every few seconds. That is normal,
+  // not a failure, so this is the restart loop rather than a shutdown.
+  rec.onend = () => {
+    earLive = false;
+    if (listening) { stopVoice(); return; }     // she had the floor and it finished
+    setTimeout(launchEar, 250);
+  };
 } else {
   $("mic").title = "this browser has no speech recognition, use Edge or Chrome";
 }
@@ -2080,8 +2141,8 @@ function voiceLabel() {
 
 function startVoice() {
   if (!rec || listening) return;
-  sleepEar();
   listening = true;
+  setEar("ask");
   globe.mode("listening");
   $("globeState").textContent = "listening";
   $("mic").classList.add("on");
@@ -2099,7 +2160,7 @@ function stopVoice() {
   $("vdock").classList.remove("hot");
   voiceUI(wakeOn ? "Say “Hey Pinnacle”" : "Talk to Pinnacle", voiceLabel());
   try { rec.stop(); } catch {}
-  if (wakeOn) setTimeout(openEar, 400);
+  setEar(wakeOn ? "wake" : "off");
 }
 // --------------------------------------------------------------- "Pinnacle"
 // He should not have to click a button to talk to his own assistant. She sits
@@ -2112,19 +2173,35 @@ function stopVoice() {
 const WAKE = /^\s*(hey|hi|ok|okay|yo)?\s*,?\s*pinnacle\b[\s,.!?]*/i;
 let wakeOn = true, waking = false;
 
-function openEar() {
-  if (!rec || listening || waking || !wakeOn || document.hidden) return;
-  waking = true;
-  rec.continuous = true;
+// The old pair of these deadlocked. A recogniser stops itself after a few
+// seconds of silence even with continuous on, and onend restarted it by
+// calling openEar, which bailed straight back out because `waking` was still
+// true. So she listened once, for about eight seconds, and then never again.
+//
+// One recogniser, one thing we want it doing, and every restart routed through
+// onend so start() is never called on a session that has not finished
+// stopping. That was the other half of it: start-while-running throws.
+let want = "off";          // off, wake, or ask
+let earLive = false;       // whether a session is actually running right now
+let earFails = 0;
+
+function setEar(next) {
+  want = next;
+  waking = next === "wake";
+  if (earLive) { try { rec.abort(); } catch {} return; }   // onend picks it up
+  launchEar();
+}
+
+function launchEar() {
+  if (earLive || want === "off" || !rec || document.hidden) return;
+  rec.continuous = want === "wake";
   rec.interimResults = true;
-  try { rec.start(); } catch { waking = false; }
+  try { rec.start(); earLive = true; earFails = 0; }
+  catch { earLive = false; if (++earFails < 8) setTimeout(launchEar, 500); }
 }
-function sleepEar() {
-  if (!waking) return;
-  waking = false;
-  rec.continuous = false;
-  try { rec.abort(); } catch {}
-}
+
+const openEar = () => { if (wakeOn && !listening) setEar("wake"); };
+const sleepEar = () => setEar(listening ? "ask" : "off");
 
 // She answers by name, says who she is, and gives him the floor in one breath
 // rather than making him ask twice.
@@ -2159,8 +2236,8 @@ $("mic").onclick = toggleVoice;
 $("wake").onclick = () => {
   wakeOn = !wakeOn;
   $("wake").className = "wakeSw " + (wakeOn ? "on" : "off");
-  if (wakeOn) { openEar(); voiceUI("Say \u201cHey Pinnacle\u201d"); }
-  else { sleepEar(); voiceUI("Talk to Pinnacle"); }
+  if (wakeOn) { setEar("wake"); voiceUI("Say “Hey Pinnacle”"); }
+  else { setEar("off"); voiceUI("Talk to Pinnacle"); }
 };
 
 // She starts listening for her name as soon as he is through the door, because
@@ -2170,7 +2247,8 @@ addEventListener("click", function first() {
   if (wakeOn) setTimeout(openEar, 600);
 });
 document.addEventListener("visibilitychange", () => {
-  if (document.hidden) sleepEar();
+  // Nobody wants a microphone open on a tab they walked away from.
+  if (document.hidden) { want = "off"; earLive = false; try { rec?.abort(); } catch {} }
   else if (wakeOn && !listening) setTimeout(openEar, 500);
 });
 
