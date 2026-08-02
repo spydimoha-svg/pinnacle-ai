@@ -14,7 +14,7 @@ const ADMIN_TOKEN_KEY = "pinnacle-admin-token";
 // that's just localStorage JSON, trivially edited in devtools — so they need
 // a live round trip to a server the client can't spoof before every visit.
 function needsServerCheck(role: Role): boolean {
-  return role === "master" || (role === "admin" && cloudEnabled());
+  return role === "master" || role === "admin";
 }
 
 /** Route guard. Redirects to login (or home for the hidden master area). */
@@ -66,7 +66,14 @@ export default function Protected({
     // Supabase's own auth server: it confirms app_metadata.role for the
     // token Login.tsx stored, and app_metadata can only be set with the
     // service-role key — never by the signed-in user themselves.
-    if (role !== "admin" || !cloudEnabled() || !supabase) return;
+    if (role !== "admin") return;
+    if (!cloudEnabled() || !supabase) {
+      // No cloud project configured: there's no server that can vouch for
+      // this role, so a locally-persisted "admin" is unverifiable and
+      // therefore untrusted.
+      setServerOk(false);
+      return;
+    }
     const client = supabase;
     let cancelled = false;
     const check = () => {

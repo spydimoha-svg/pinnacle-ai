@@ -32,9 +32,19 @@ export async function* streamChat(
    */
   maxTokens?: number
 ): AsyncGenerator<string> {
+  // Same Supabase session cloud.ts establishes on login (that client is a
+  // shared singleton, so a session set there is already sitting in memory
+  // here) — api/chat.ts requires it whenever Supabase is configured. Skips
+  // silently when there's no session yet (Supabase off, or not logged in),
+  // and the server 401s in that case rather than this trusting a claim.
+  const headers: Record<string, string> = { "Content-Type": "application/json" };
+  if (supabase) {
+    const { data } = await supabase.auth.getSession();
+    if (data.session) headers.Authorization = `Bearer ${data.session.access_token}`;
+  }
   const res = await fetch("/api/chat", {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers,
     // Last 10 turns, not 24. Every token of history is charged against the
     // free tier's per-minute budget, and a tutor rarely needs more than the
     // last few exchanges — the durable context lives in the memory block of
