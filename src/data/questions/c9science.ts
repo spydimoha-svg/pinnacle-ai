@@ -65,6 +65,23 @@ export const C9_SCIENCE_QUESTIONS: Question[] = [
     examinerTip:
       "Present it as a two-column comparison — CBSE awards a mark per correctly paired difference, so pair each point (mixture side AND compound side).",
   },
+  {
+    id: "q-c9-science-02-2",
+    subjectId: "c9-science",
+    chapterId: "c9-science-02",
+    classLevel: 9,
+    text: "Name the technique used to separate a mixture of common salt and ammonium chloride. Explain briefly.",
+    marks: 2,
+    type: "vsa",
+    source: "important",
+    answer:
+      "Sublimation is used. The mixture is heated in a china dish covered with an inverted funnel; ammonium chloride sublimes (turns directly from solid to vapour) and re-solidifies on the cooler funnel walls, while common salt, which does not sublime, is left behind in the dish.",
+    keywords: [
+      "technique: sublimation",
+      "NH4Cl sublimes and re-deposits on cooler surface",
+      "common salt does not sublime, remains behind",
+    ],
+  },
 
   // ── CH 3 · ATOMS AND MOLECULES ──
   {
@@ -86,6 +103,23 @@ export const C9_SCIENCE_QUESTIONS: Question[] = [
     examinerTip:
       "Write the formula (n = m/M) before the numbers — the method line is a mark even if the arithmetic slips.",
   },
+  {
+    id: "q-c9-science-03-2",
+    subjectId: "c9-science",
+    chapterId: "c9-science-03",
+    classLevel: 9,
+    text: "Define 'chemical formula'. Write the chemical formula of aluminium oxide, given the valency of aluminium is 3 and of oxygen is 2.",
+    marks: 2,
+    type: "vsa",
+    source: "important",
+    answer:
+      "A chemical formula is the symbolic representation of the composition of a compound, showing the elements present and the ratio in which their atoms combine.\n\nFor aluminium oxide: criss-crossing the valencies (Al = 3, O = 2) gives the formula Al₂O₃.",
+    keywords: [
+      "chemical formula = symbolic representation of composition/ratio of atoms",
+      "criss-cross valencies 3 and 2",
+      "Al₂O₃",
+    ],
+  },
 
   // ── CH 4 · STRUCTURE OF THE ATOM ──
   {
@@ -103,6 +137,23 @@ export const C9_SCIENCE_QUESTIONS: Question[] = [
       "distribution 2, 8, 6 (K, L, M)",
       "outermost shell has 6 electrons",
       "valency = 8 − 6 = 2",
+    ],
+  },
+  {
+    id: "q-c9-science-04-2",
+    subjectId: "c9-science",
+    chapterId: "c9-science-04",
+    classLevel: 9,
+    text: "An atom has 2 electrons in its first shell, 8 in the second shell and 2 in the third shell. Find its atomic number and state the number of valence electrons.",
+    marks: 2,
+    type: "vsa",
+    source: "important",
+    answer:
+      "Atomic number = total number of electrons = 2 + 8 + 2 = 12.\n\nThe outermost (third) shell has 2 electrons, so the number of valence electrons is 2.",
+    keywords: [
+      "atomic number = 2+8+2 = 12",
+      "outermost shell electrons = valence electrons",
+      "valence electrons = 2",
     ],
   },
 
@@ -126,6 +177,23 @@ export const C9_SCIENCE_QUESTIONS: Question[] = [
     examinerTip:
       "Pair each difference (plant side and animal side). A single-sided statement like 'has a cell wall' earns only half the point.",
   },
+  {
+    id: "q-c9-science-05-2",
+    subjectId: "c9-science",
+    chapterId: "c9-science-05",
+    classLevel: 9,
+    text: "Why is the mitochondrion called the 'powerhouse of the cell'?",
+    marks: 2,
+    type: "vsa",
+    source: "important",
+    answer:
+      "The mitochondrion is called the powerhouse of the cell because cellular respiration takes place within it, breaking down food to release energy that is stored in the form of ATP (adenosine triphosphate) molecules, which the cell then uses to carry out its various activities.",
+    keywords: [
+      "site of cellular respiration",
+      "releases energy from food, stored as ATP",
+      "ATP used for cell's energy needs",
+    ],
+  },
 
   // ── CH 6 · TISSUES ──
   {
@@ -143,6 +211,23 @@ export const C9_SCIENCE_QUESTIONS: Question[] = [
       "xylem and phloem",
       "xylem — conducts water and minerals upward",
       "phloem — transports food to all parts",
+    ],
+  },
+  {
+    id: "q-c9-science-06-2",
+    subjectId: "c9-science",
+    chapterId: "c9-science-06",
+    classLevel: 9,
+    text: "What is the function of areolar tissue? Where is it found in the human body?",
+    marks: 2,
+    type: "vsa",
+    source: "important",
+    answer:
+      "Areolar tissue fills the space inside organs, supports internal organs, and helps in repair of tissues. It is found between the skin and muscles, around blood vessels and nerves, and in the bone marrow.",
+    keywords: [
+      "fills space inside organs, supports organs",
+      "helps in repair of tissues",
+      "found between skin and muscles / around vessels and nerves",
     ],
   },
 
@@ -166,6 +251,23 @@ export const C9_SCIENCE_QUESTIONS: Question[] = [
     examinerTip:
       "List the known quantities (u, a, t) first — that step is marked, and it stops sign/formula errors.",
   },
+  {
+    id: "q-c9-science-07-2",
+    subjectId: "c9-science",
+    chapterId: "c9-science-07",
+    classLevel: 9,
+    text: "Distinguish between uniform circular motion and uniform linear motion. Give one example of uniform circular motion.",
+    marks: 2,
+    type: "vsa",
+    source: "important",
+    answer:
+      "In uniform linear motion a body covers equal distances in equal intervals of time along a straight line, so its velocity stays constant. In uniform circular motion a body moves along a circular path at constant speed, but because its direction keeps changing, its velocity is not constant — the motion is accelerated.\n\nExample of uniform circular motion: the tip of the second hand of a clock (or a satellite orbiting the Earth at constant speed).",
+    keywords: [
+      "linear motion: straight line, constant velocity",
+      "circular motion: constant speed but changing direction → accelerated",
+      "example: second hand of a clock / satellite in circular orbit",
+    ],
+  },
 
   // ── CH 8 · FORCE AND LAWS OF MOTION ──
   {
@@ -188,6 +290,23 @@ export const C9_SCIENCE_QUESTIONS: Question[] = [
     examinerTip:
       "State the law in the momentum form, then reduce to F = ma — quoting only 'F = ma' without the statement loses the statement mark.",
   },
+  {
+    id: "q-c9-science-08-2",
+    subjectId: "c9-science",
+    chapterId: "c9-science-08",
+    classLevel: 9,
+    text: "Why does a passenger standing in a bus fall backward when the bus suddenly starts moving? Name the law involved.",
+    marks: 2,
+    type: "vsa",
+    source: "pyq",
+    answer:
+      "This happens because of the law of inertia (Newton's first law of motion). When the bus is at rest, the passenger's feet (in contact with the bus floor) start moving forward along with the bus, but the upper part of the body tends to remain at rest due to inertia of rest. This makes the passenger fall backward.",
+    keywords: [
+      "law: inertia / Newton's first law",
+      "feet move with bus, upper body resists change (inertia of rest)",
+      "passenger falls backward",
+    ],
+  },
 
   // ── CH 9 · GRAVITATION ──
   {
@@ -209,6 +328,23 @@ export const C9_SCIENCE_QUESTIONS: Question[] = [
     examinerTip:
       "Give the units in the definitions (kg for mass, N for weight) — that distinction is itself a value point.",
   },
+  {
+    id: "q-c9-science-09-2",
+    subjectId: "c9-science",
+    chapterId: "c9-science-09",
+    classLevel: 9,
+    text: "State the universal law of gravitation.",
+    marks: 2,
+    type: "vsa",
+    source: "important",
+    answer:
+      "Every object in the universe attracts every other object with a force that is directly proportional to the product of their masses and inversely proportional to the square of the distance between them, and this force acts along the line joining the two objects. That is, F = G m₁m₂ / d², where G is the universal gravitational constant.",
+    keywords: [
+      "F ∝ product of masses (m1 m2)",
+      "F ∝ 1/d² (inverse square of distance)",
+      "F = G m1 m2 / d²",
+    ],
+  },
 
   // ── CH 10 · WORK AND ENERGY ──
   {
@@ -226,6 +362,23 @@ export const C9_SCIENCE_QUESTIONS: Question[] = [
       "KE = ½mv² = 250 J",
       "PE = mgh = 196 J",
       "energy in joules (J)",
+    ],
+  },
+  {
+    id: "q-c9-science-10-2",
+    subjectId: "c9-science",
+    chapterId: "c9-science-10",
+    classLevel: 9,
+    text: "Define the SI unit of work. A force of 7 N displaces a body through a distance of 8 m in the direction of the force. Calculate the work done.",
+    marks: 2,
+    type: "vsa",
+    source: "important",
+    answer:
+      "The SI unit of work is the joule (J): 1 joule of work is done when a force of 1 newton displaces a body through 1 metre in the direction of the force.\n\nWork done W = F × s = 7 × 8 = 56 J.",
+    keywords: [
+      "1 J = 1 N force displacing body 1 m in direction of force",
+      "W = F × s",
+      "W = 56 J",
     ],
   },
 
@@ -247,24 +400,18 @@ export const C9_SCIENCE_QUESTIONS: Question[] = [
       "wavelength = 2 m",
     ],
   },
-
-  // ── CH 12 · IMPROVEMENT IN FOOD RESOURCES ──
   {
-    id: "q-c9-science-12-1",
+    id: "q-c9-science-11-2",
     subjectId: "c9-science",
-    chapterId: "c9-science-12",
+    chapterId: "c9-science-11",
     classLevel: 9,
-    text: "Give two differences between manure and fertiliser.",
+    text: "Why can sound not travel through vacuum? What kind of wave is a sound wave — transverse or longitudinal — and why?",
     marks: 2,
     type: "vsa",
     source: "important",
     answer:
-      "1. Nature: Manure is a natural substance made by decomposing animal and plant waste; a fertiliser is a chemical (commercially manufactured) substance.\n2. Nutrients: Manure is relatively poor in specific plant nutrients but adds a lot of humus (organic matter) to the soil; fertilisers are very rich in specific nutrients (N, P, K) but add no humus.",
+      "Sound needs a material medium (solid, liquid or gas) to travel because it propagates through the vibration and collision of the medium's particles; a vacuum has no particles to vibrate or transmit these vibrations, so sound cannot travel through it.\n\nSound is a longitudinal wave because the particles of the medium vibrate back and forth parallel to (along) the direction in which the wave travels, producing alternating compressions and rarefactions.",
     keywords: [
-      "manure = natural/organic; fertiliser = chemical/manufactured",
-      "manure adds humus; fertiliser rich in N, P, K but no humus",
-    ],
-    examinerTip:
-      "The 'humus vs nutrient-rich' contrast is the point examiners look for, not just 'natural vs chemical'.",
-  },
-];
+      "sound needs particles of a medium to vibrate/collide",
+      "vacuum has no particles → no sound",
+      "longitudinal: particle vibration parallel to wave dire

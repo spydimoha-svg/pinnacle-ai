@@ -30,6 +30,25 @@ export const C11_QUESTIONS: Question[] = [
       "In JEE, derive the dimension from the defining relation (P = F/A) rather than trying to recall it — same for any 'odd one out' dimensional MCQ.",
   },
   {
+    id: "q-c11-physics-01-x2",
+    subjectId: "c11-physics",
+    chapterId: "c11-physics-01",
+    classLevel: 11,
+    text: "The number of significant figures in the measurement 0.007080 m is:\n(A) 3\n(B) 4\n(C) 6\n(D) 7",
+    marks: 1,
+    type: "mcq",
+    source: "pyq",
+    answer:
+      "Correct option: (B) 4.\n\nLeading zeros (before the first non-zero digit) are never significant. Reading from the first non-zero digit onward, 7, 0, 8, 0 are all significant, giving 4 significant figures. The trailing zero after the last non-zero digit is significant because the number has a decimal point.",
+    keywords: [
+      "leading zeros are never significant",
+      "count from the first non-zero digit: 7, 0, 8, 0",
+      "trailing zero counts because a decimal point is present → 4 sig. figs",
+    ],
+    examinerTip:
+      "Trailing zeros are significant only when a decimal point is present in the number — that is what separates 0.007080 (4 sig. figs) from 7080 (ambiguous without a stated decimal convention).",
+  },
+  {
     id: "q-c11-physics-02-x1",
     subjectId: "c11-physics",
     chapterId: "c11-physics-02",
@@ -47,6 +66,23 @@ export const C11_QUESTIONS: Question[] = [
     ],
     examinerTip:
       "State the condition 'v = 0 at the highest point' explicitly — it is the physics mark; the algebra is the method mark.",
+  },
+  {
+    id: "q-c11-physics-02-x2",
+    subjectId: "c11-physics",
+    chapterId: "c11-physics-02",
+    classLevel: 11,
+    text: "A car moving with a speed of 30 m/s is brought to rest by applying brakes, covering a distance of 45 m. Find the acceleration of the car (assumed uniform).",
+    marks: 2,
+    type: "sa",
+    source: "important",
+    answer:
+      "Using v² = u² + 2as with u = 30 m/s, v = 0, s = 45 m:\n\n0 = 30² + 2a(45)\n0 = 900 + 90a\na = −900/90 = −10 m/s².\n\nThe acceleration is 10 m/s², directed opposite to the motion (retardation).",
+    keywords: [
+      "v² = u² + 2as",
+      "0 = 900 + 90a",
+      "a = −10 m/s² (retardation)",
+    ],
   },
   {
     id: "q-c11-physics-03-x1",
@@ -68,6 +104,23 @@ export const C11_QUESTIONS: Question[] = [
       "45° gives the maximum range for a given speed since sin2θ is maximum (=1) at θ = 45° — a common one-mark conceptual follow-up.",
   },
   {
+    id: "q-c11-physics-03-x2",
+    subjectId: "c11-physics",
+    chapterId: "c11-physics-03",
+    classLevel: 11,
+    text: "Two vectors A and B have equal magnitudes of 5 units each, and the angle between them is 60°. Find the magnitude of their resultant.",
+    marks: 2,
+    type: "sa",
+    source: "important",
+    answer:
+      "Magnitude of resultant: R = √(A² + B² + 2AB cosθ).\n\nR = √(5² + 5² + 2 × 5 × 5 × cos60°) = √(25 + 25 + 50 × 0.5) = √(25 + 25 + 25) = √75 = 5√3 units.",
+    keywords: [
+      "R = √(A² + B² + 2AB cosθ)",
+      "cos60° = 0.5",
+      "R = √75 = 5√3 units",
+    ],
+  },
+  {
     id: "q-c11-physics-04-x1",
     subjectId: "c11-physics",
     chapterId: "c11-physics-04",
@@ -82,6 +135,23 @@ export const C11_QUESTIONS: Question[] = [
       "free fall ⇒ a = g downward",
       "N = m(g − a) = 0",
       "weightlessness → option (C)",
+    ],
+  },
+  {
+    id: "q-c11-physics-04-x2",
+    subjectId: "c11-physics",
+    chapterId: "c11-physics-04",
+    classLevel: 11,
+    text: "A body of mass 5 kg is acted upon by two perpendicular forces of 8 N and 6 N. Find the magnitude of its acceleration.",
+    marks: 2,
+    type: "sa",
+    source: "important",
+    answer:
+      "Since the forces are perpendicular, the resultant force is F = √(F₁² + F₂²) = √(8² + 6²) = √(64 + 36) = √100 = 10 N.\n\nBy Newton's second law, a = F/m = 10/5 = 2 m/s².",
+    keywords: [
+      "perpendicular forces ⇒ F = √(F₁² + F₂²) = 10 N",
+      "Newton's second law: a = F/m",
+      "a = 10/5 = 2 m/s²",
     ],
   },
   {
@@ -102,6 +172,23 @@ export const C11_QUESTIONS: Question[] = [
     ],
   },
   {
+    id: "q-c11-physics-05-x2",
+    subjectId: "c11-physics",
+    chapterId: "c11-physics-05",
+    classLevel: 11,
+    text: "A ball of mass 0.5 kg moving with a speed of 6 m/s collides head-on with an identical ball at rest, and the collision is perfectly elastic. Find the velocities of both balls after the collision.",
+    marks: 2,
+    type: "sa",
+    source: "important",
+    answer:
+      "For a perfectly elastic, head-on collision between two bodies of equal mass, where the second body is initially at rest, the velocities are simply exchanged: the moving ball comes to rest and the ball that was at rest moves off with the initial velocity of the first.\n\nSo after the collision, the first ball has velocity 0 m/s and the second ball has velocity 6 m/s.",
+    keywords: [
+      "elastic collision, equal masses, second body initially at rest",
+      "velocities are exchanged between the two bodies",
+      "first ball: 0 m/s, second ball: 6 m/s",
+    ],
+  },
+  {
     id: "q-c11-physics-06-x1",
     subjectId: "c11-physics",
     chapterId: "c11-physics-06",
@@ -116,6 +203,23 @@ export const C11_QUESTIONS: Question[] = [
       "disc about central axis ⊥ to its plane",
       "I = ½MR² (standard result)",
       "option (B)",
+    ],
+  },
+  {
+    id: "q-c11-physics-06-x2",
+    subjectId: "c11-physics",
+    chapterId: "c11-physics-06",
+    classLevel: 11,
+    text: "A wheel is rotating with an angular momentum of 20 kg·m²/s. A constant torque of 5 N·m acts on it for 4 s. Find the change in its angular momentum.",
+    marks: 2,
+    type: "sa",
+    source: "important",
+    answer:
+      "By the rotational analogue of Newton's second law, torque τ = dL/dt, so the change in angular momentum ΔL = τ × Δt.\n\nΔL = 5 × 4 = 20 kg·m²/s.",
+    keywords: [
+      "τ = dL/dt ⇒ ΔL = τ × Δt",
+      "substitute τ = 5 N·m, Δt = 4 s",
+      "ΔL = 20 kg·m²/s",
     ],
   },
   {
