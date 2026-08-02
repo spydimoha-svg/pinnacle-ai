@@ -411,6 +411,8 @@ const sst: Subject = {
         "Colonial rule and grazing laws",
         "Pastoralism in Africa and the Maasai",
       ],
+      boardNotes:
+        "Naming a specific pastoral community (Gujjar Bakarwals, Raikas, Maasai) and describing its seasonal movement is the recurring short-answer format, more often than a generic definition of pastoralism.",
     },
 
     // ---- Geography: Contemporary India – I (6 chapters)
@@ -423,6 +425,8 @@ const sst: Subject = {
         "Standard Meridian (82°30'E)",
         "India's neighbours and land/water frontiers",
       ],
+      boardNotes:
+        "Map-based questions locating India's neighbouring countries or identifying the Standard Meridian are compulsory in this chapter; 82°30'E is one of the single most commonly tested facts in the whole subject.",
     },
     {
       id: "c9-sst-07",
@@ -434,6 +438,8 @@ const sst: Subject = {
         "Peninsular Plateau and the Indian Desert",
         "Coastal plains and islands",
       ],
+      boardNotes:
+        "Map-work identifying a named physiographic division (e.g. the Purvanchal hills, the Malwa Plateau) is standard, alongside a short-answer question distinguishing the Himalayas' three parallel ranges.",
     },
     {
       id: "c9-sst-08",
@@ -445,6 +451,8 @@ const sst: Subject = {
         "Lakes and their importance",
         "River pollution and river-cleaning plans",
       ],
+      boardNotes:
+        "Distinguishing a Himalayan river from a Peninsular river by origin and flow pattern is the most repeated short-answer question; naming rivers on the outline map is a compulsory map-work item.",
     },
     {
       id: "c9-sst-09",
@@ -456,6 +464,8 @@ const sst: Subject = {
         "The four seasons",
         "Distribution of rainfall; monsoon as a unifying bond",
       ],
+      boardNotes:
+        "Explaining the mechanism of monsoon onset and withdrawal is the standard long-answer question; 'monsoon as a unifying bond' is a recurring reasoning question, not just a factual recall one.",
     },
     {
       id: "c9-sst-10",
@@ -466,6 +476,8 @@ const sst: Subject = {
         "Types of vegetation, from tropical evergreen to montane",
         "Wildlife and conservation efforts",
       ],
+      boardNotes:
+        "Matching a named vegetation type (tropical evergreen, deciduous, thorn, montane) to the region and rainfall it needs is the standard short-answer format, alongside a question on a named conservation project or protected area.",
     },
     {
       id: "c9-sst-11",
@@ -477,6 +489,8 @@ const sst: Subject = {
         "Age composition, sex ratio and literacy",
         "National Population Policy",
       ],
+      boardNotes:
+        "Reading a population/age-composition graph or table is common, alongside a short-answer question distinguishing 'population growth' from 'population change' (the latter includes migration).",
     },
 
     // ---- Political Science: Democratic Politics – I (5 chapters)
@@ -489,6 +503,8 @@ const sst: Subject = {
         "Arguments for and against democracy",
         "Broader meanings of democracy",
       ],
+      boardNotes:
+        "'Give two arguments for and against democracy' is the standard long-answer format; examiners specifically credit students who cite a real example rather than a purely abstract argument.",
     },
     {
       id: "c9-sst-13",
@@ -500,6 +516,8 @@ const sst: Subject = {
         "The Constituent Assembly",
         "Philosophy of the Constitution and the Preamble",
       ],
+      boardNotes:
+        "The South Africa case study is tested as a standalone short-answer question as often as India's own Constitution-making; naming the Constituent Assembly's key features (timeframe, key debates) is a recurring factual question.",
     },
     {
       id: "c9-sst-14",
@@ -511,6 +529,8 @@ const sst: Subject = {
         "Reserved constituencies",
         "Election Commission and free and fair elections",
       ],
+      boardNotes:
+        "Explaining why India uses reserved constituencies, and describing the Election Commission's role in ensuring free and fair elections, are the two long-answer questions that repeat most.",
     },
     {
       id: "c9-sst-15",
@@ -522,6 +542,8 @@ const sst: Subject = {
         "The President's role",
         "The judiciary and judicial review",
       ],
+      boardNotes:
+        "Case-based questions describing a real or hypothetical government decision and asking which institution — Parliament, PM, President, judiciary — is responsible are the standard format in this chapter.",
     },
     {
       id: "c9-sst-16",
@@ -533,6 +555,8 @@ const sst: Subject = {
         "Right to Constitutional Remedies",
         "Expanding scope of rights",
       ],
+      boardNotes:
+        "Naming and briefly explaining the six Fundamental Rights is a compulsory short-answer question; the Right to Constitutional Remedies is specifically tested as 'the right that protects all other rights'.",
     },
 
     // ---- Economics (4 chapters)
@@ -546,6 +570,8 @@ const sst: Subject = {
         "Multiple cropping and modern farming methods",
         "Non-farm activities",
       ],
+      boardNotes:
+        "Case-based questions built around the Palampur example itself (its farming, wells, non-farm activities) are the standard format, since the chapter is written as one continuous case study rather than a set of separate facts.",
     },
     {
       id: "c9-sst-18",
@@ -557,6 +583,8 @@ const sst: Subject = {
         "Quality of population: education and health",
         "Unemployment and its types",
       ],
+      boardNotes:
+        "Distinguishing economic from non-economic activities, and describing under-employment vs disguised unemployment with an example, are the two most repeated short-answer questions.",
     },
     {
       id: "c9-sst-19",
@@ -568,6 +596,8 @@ const sst: Subject = {
         "Causes of poverty",
         "Anti-poverty measures",
       ],
+      boardNotes:
+        "Explaining the poverty line and identifying which social groups are most vulnerable to poverty is the standard long-answer question; a case-based question using a poverty-estimate table or graph is common.",
     },
     {
       id: "c9-sst-20",
@@ -579,6 +609,8 @@ const sst: Subject = {
         "Green Revolution and self-sufficiency",
         "Role of cooperatives",
       ],
+      boardNotes:
+        "Explaining the role of buffer stock and the Public Distribution System together is the standard long-answer question; the Green Revolution's link to self-sufficiency is tested more often than the PDS's implementation problems.",
     },
   ],
 };
@@ -605,6 +637,8 @@ const english: Subject = {
         "Isaac Asimov; Margie's mechanical teacher",
         "Schools of the future vs schools of the past",
       ],
+      boardNotes:
+        "Extract-based comprehension typically quotes Margie's diary entry; the paired poem is examined separately in the poetry section, most often via a value-based question on the choices we make.",
     },
     {
       id: "c9-english-02",
@@ -615,6 +649,8 @@ const english: Subject = {
         "Evelyn Glennie: deafness and percussion",
         "Bismillah Khan and the shehnai",
       ],
+      boardNotes:
+        "Character-based long-answer questions comparing Evelyn Glennie and Bismillah Khan — how each overcame a challenge to master music — are the standard format for this chapter.",
     },
     {
       id: "c9-english-03",
@@ -625,6 +661,8 @@ const english: Subject = {
         "Kezia's fear of her father",
         "A changing father-daughter relationship",
       ],
+      boardNotes:
+        "The recurring long-answer question traces how Kezia's feelings about her father change across the story — examiners specifically want the 'before and after' contrast, not just a plot summary.",
     },
     {
       id: "c9-english-04",
@@ -636,6 +674,8 @@ const english: Subject = {
         "Theory of relativity; the letter to Roosevelt",
         "Einstein as a pacifist",
       ],
+      boardNotes:
+        "Factual short-answer questions on milestones in Einstein's life (the patent office job, the theory of relativity, the Roosevelt letter) are standard, alongside a value-based question on Einstein as a pacifist.",
     },
     {
       id: "c9-english-05",
@@ -646,6 +686,8 @@ const english: Subject = {
         "The doctor's night with a snake",
         "Vanity, humour and the ironic ending",
       ],
+      boardNotes:
+        "A recurring question asks students to explain the irony or humour in the story's ending — the doctor's vanity being upstaged by the very snake he feared.",
     },
     {
       id: "c9-english-06",
@@ -656,6 +698,8 @@ const english: Subject = {
         "A. P. J. Abdul Kalam's childhood in Rameswaram",
         "Communal harmony and breaking social barriers",
       ],
+      boardNotes:
+        "Value-based questions on communal harmony, drawn from Kalam's Rameswaram childhood, are standard alongside factual recall of the people who influenced him early on.",
     },
     {
       id: "c9-english-07",
@@ -667,6 +711,8 @@ const english: Subject = {
         "Maria Sharapova's rise to world No. 1",
         "Determination against the odds",
       ],
+      boardNotes:
+        "Compare-and-contrast long-answer questions pairing Santosh Yadav and Maria Sharapova — different fields, same determination — are the standard format for this chapter.",
     },
     {
       id: "c9-english-08",

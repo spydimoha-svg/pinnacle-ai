@@ -37,9 +37,20 @@ function plain(s: string): string {
  */
 function numbers(s: string): number[] {
   const out: number[] = [];
+  // A surd's coefficient and radicand are one value, not two interchangeable
+  // ones: "5√2" and "2√5" both contain the digits 5 and 2, but only one of
+  // them equals 5*sqrt(2). Fold each match to that single number before the
+  // plain digit scan below, so it can't be split apart and reordered.
+  const withoutSurds = s.replace(
+    /(-?\d+(?:\.\d+)?)?\s*√\s*\(?(-?\d+(?:\.\d+)?)\)?/g,
+    (_m, coeff, rad) => {
+      out.push(Number(((coeff ? parseFloat(coeff) : 1) * Math.sqrt(parseFloat(rad))).toFixed(4)));
+      return " ";
+    }
+  );
   const re = /(-?\d+(?:\.\d+)?)(?:\s*\/\s*(-?\d+(?:\.\d+)?))?/g;
   let m: RegExpExecArray | null;
-  while ((m = re.exec(s)) !== null) {
+  while ((m = re.exec(withoutSurds)) !== null) {
     const a = parseFloat(m[1]);
     if (m[2]) {
       const b = parseFloat(m[2]);

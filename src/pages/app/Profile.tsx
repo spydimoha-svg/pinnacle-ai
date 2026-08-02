@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Award,
   MessageCircle,
@@ -93,6 +93,10 @@ export default function Profile() {
 
   const [target, setTarget] = useState(memory?.targetScore ?? "");
   const [confirmOpen, setConfirmOpen] = useState(false);
+
+  useEffect(() => {
+    setTarget(memory?.targetScore ?? "");
+  }, [memory?.targetScore]);
 
   if (!user || !memory) return null;
 
