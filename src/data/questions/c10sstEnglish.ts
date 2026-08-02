@@ -335,6 +335,33 @@ Therefore resource planning and equitable, sustainable use are essential, since 
       "'Haves and have-nots' and 'greed of a few' are the exact NCERT phrases the key looks for — paraphrasing them as 'some people are rich' loses the value point. End with the sustainable-development conclusion.",
   },
   {
+    id: "q-c10-sst-06-2",
+    subjectId: "c10-sst",
+    chapterId: "c10-sst-06",
+    classLevel: 10,
+    text: "Distinguish between alluvial soil and black soil with reference to their formation and distribution in India.",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer: `(i) Formation — alluvial soil is formed mainly by the deposition of silt carried by rivers, and covers the vast plains stretching from Punjab to the deltas of the eastern coast. Black soil, on the other hand, is formed from the weathering of lava rock flows and is ideal for growing cotton, hence also called regur soil or black cotton soil.
+
+(ii) Distribution — alluvial soil is found in the northern plains and river valleys, including the deltas of the eastern coast, and covers about 40 per cent of the total area of the country. Black soil is spread over the Deccan trap, covering most of the Maharashtra plateau and parts of Gujarat, Madhya Pradesh and the north-western Deccan plateau.
+
+(iii) Fertility and moisture — alluvial soils are generally very fertile and are ideal for growing sugarcane, paddy, wheat and other cereal and pulse crops. Black soils are made up of extremely fine clayey material, are well known for their capacity to hold moisture, and are rich in soil nutrients such as calcium carbonate, magnesium, potash and lime, but are poor in phosphoric content.
+
+Thus alluvial soil is river-formed and covers the northern plains, whereas black soil is lava-derived and covers the Deccan plateau.`,
+    keywords: [
+      "alluvial soil — deposited by rivers",
+      "black soil — weathering of lava / Deccan trap",
+      "black soil = regur / black cotton soil",
+      "alluvial in northern plains, about 40% of area",
+      "black soil in Maharashtra plateau / Deccan trap",
+      "black soil holds moisture, rich in lime/calcium/potash",
+    ],
+    examinerTip:
+      "'Regur' and 'black cotton soil' are the exact NCERT names for black soil — using them earns the identification mark even if the rest of the answer is thin.",
+  },
+  {
     id: "q-c10-sst-07-1",
     subjectId: "c10-sst",
     chapterId: "c10-sst-07",
