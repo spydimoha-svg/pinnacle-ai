@@ -282,6 +282,18 @@ ${FORMAT_REMINDER}`
         if (verdict.mastered) {
           addAltitude(10);
           nextProfile = { ...nextProfile, firstTimeWins: nextProfile.firstTimeWins + 1 };
+          // A concept mastered mid-lesson is real progress even if the student
+          // leaves before recap — record it now, not only at the finish line.
+          if (moved.phase !== "done") {
+            const { done, total } = lessonProgress(moved);
+            recordProgress({
+              chapterId: moved.chapterId,
+              status: "learning",
+              confidence: total ? Math.round((done / total) * 100) : 0,
+              lastStudied: new Date().toISOString(),
+              masteryAwarded: memory?.progress[moved.chapterId]?.masteryAwarded ?? false,
+            });
+          }
         }
         if (moved.phase === "done") {
           const { done, total } = lessonProgress(moved);

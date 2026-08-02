@@ -38,7 +38,10 @@ const clamp = (n: number) => Math.max(0, Math.min(100, n));
 
 export function daysSince(iso?: string): number | null {
   if (!iso) return null;
-  const d = new Date(`${iso}T00:00:00`);
+  // Two formats reach this function: a bare "YYYY-MM-DD" (store.ts's isoDay())
+  // and a full ISO datetime (Tutor.tsx / Chapter.tsx's `new Date().toISOString()`).
+  // Appending a time only to the bare form keeps both parseable.
+  const d = new Date(iso.includes("T") ? iso : `${iso}T00:00:00`);
   if (Number.isNaN(d.getTime())) return null;
   return Math.max(0, Math.floor((Date.now() - d.getTime()) / 86_400_000));
 }
