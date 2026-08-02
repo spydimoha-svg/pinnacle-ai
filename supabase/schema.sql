@@ -131,6 +131,12 @@ revoke all on public.rate_limits from anon, authenticated;
 -- once it has elapsed. The INSERT ... ON CONFLICT DO UPDATE takes a row lock
 -- on `p_key`, so concurrent hits from different serverless instances still
 -- serialize correctly instead of racing.
+--
+-- Every call also has a 1% chance of sweeping rows whose window started over
+-- an hour ago (the longest window in use is master-login's 5 minutes, so an
+-- hour is well clear of any live key). This keeps a scripted client rotating
+-- keys from growing the table without bound, without needing pg_cron or a
+-- separate scheduled job.
 create or replace function public.rate_limit_hit(p_key text, p_window_ms integer, p_max integer)
 returns boolean
 language plpgsql
@@ -139,6 +145,10 @@ declare
   v_window interval := make_interval(secs => p_window_ms / 1000.0);
   v_count integer;
 begin
+  if random() < 0.01 then
+    delete from public.rate_limits where window_start < now() - interval '1 hour';
+  end if;
+
   insert into public.rate_limits (key, window_start, count)
   values (p_key, now(), 1)
   on conflict (key) do update

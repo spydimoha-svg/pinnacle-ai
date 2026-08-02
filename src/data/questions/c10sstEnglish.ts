@@ -1159,6 +1159,32 @@ In this way, MNCs are not merely selling in many countries; production in distan
     examinerTip:
       "The scheme wants the MECHANISM, not a description of globalisation. Write the three routes as separate headed points and attach the NCERT example (Cargill–Parakh Foods) — a named example is worth a mark on its own.",
   },
+  {
+    id: "q-c10-sst-21-2",
+    subjectId: "c10-sst",
+    chapterId: "c10-sst-21",
+    classLevel: 10,
+    text: "What is meant by trade and investment liberalisation? Why did the Government of India remove trade barriers after 1991?",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer: `(i) Meaning — liberalisation refers to the removal of barriers or restrictions set by the government on foreign trade and foreign investment. Trade barriers, such as a tax on imports, are used by the government to regulate foreign trade and decide what kind of goods and how much of each should come into the country.
+
+(ii) Reasons for removal after 1991 — until 1991, the Indian government had used trade barriers to protect domestic producers from foreign competition, believing this protection was necessary for producers competing with industrialised countries. From around 1991, the government felt the time had come for Indian producers to compete with producers around the globe, since this competition would improve the quality of products as imports put pressure on domestic producers.
+
+(iii) Effect — with liberalisation of trade, businesses were allowed to make decisions freely about what to import or export, and as the government steadily reduced trade barriers, foreign trade and foreign investment increased rapidly.
+
+Thus liberalisation was adopted to expose Indian producers to global competition and integrate India more closely with world markets.`,
+    keywords: [
+      "liberalisation = removal of trade/investment barriers",
+      "tax on imports as a trade barrier",
+      "protection of domestic producers before 1991",
+      "1991 reforms exposed producers to global competition",
+      "increased foreign trade and investment",
+    ],
+    examinerTip:
+      "State BOTH halves — what liberalisation means AND the specific reason for the 1991 shift (from protecting domestic producers to exposing them to global competition) — one half alone caps the answer at half marks.",
+  },
 
   {
     id: "q-c10-sst-22-1",
@@ -1191,6 +1217,39 @@ Presentation: the project should be written up with the family/shop interview de
     ],
     examinerTip:
       "Consumer Rights is assessed only as the 20-mark internal project, never as a theory-paper question — do not spend board-revision time memorising this as if it carries theory marks. For the project itself, the marks are for correctly matching the right and the forum to the real case investigated, not for reciting the chapter.",
+  },
+  {
+    id: "q-c10-sst-22-2",
+    subjectId: "c10-sst",
+    chapterId: "c10-sst-22",
+    classLevel: 10,
+    text:
+      "PROJECT WORK (internal assessment only — Consumer Rights is not examined in the 80-mark theory paper). " +
+      "List the six rights of consumers recognised under the Consumer Protection Act, 1986, that your project report should refer to when assessing a real consumer grievance.",
+    marks: 2,
+    type: "vsa",
+    source: "important",
+    answer: `This is background for the PROJECT WORK on consumer awareness (Consumer Rights carries no marks in the theory paper). The Consumer Protection Act (COPRA), 1986 recognises six rights of consumers:
+
+(i) Right to Safety — protection against the marketing of goods and services that are hazardous to life and property.
+(ii) Right to Information — to know the particulars of goods and services, such as ingredients, date of manufacture, price and the manufacturer's address.
+(iii) Right to Choose — assured access, wherever possible, to a variety of goods and services at competitive prices.
+(iv) Right to be Heard — to be heard and to be assured that the consumer's interests will receive due consideration.
+(v) Right to Seek Redressal — against unfair or restrictive trade practices.
+(vi) Right to Consumer Education — to acquire the knowledge and skill to be an informed consumer throughout life.
+
+A project should identify which of these rights was violated in the case investigated and how the consumer could have used it to seek redressal.`,
+    keywords: [
+      "Right to Safety",
+      "Right to Information",
+      "Right to Choose",
+      "Right to be Heard",
+      "Right to Seek Redressal",
+      "Right to Consumer Education",
+      "COPRA, 1986",
+    ],
+    examinerTip:
+      "For the project, all six rights must be listed correctly by name — dropping 'Right to Consumer Education' or 'Right to Choose' is the most common omission, since students remember only four of the six.",
   },
 
   // ==========================================================================
