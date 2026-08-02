@@ -25,6 +25,9 @@ import { Logo } from "./Logo";
 import { useStore } from "../lib/store";
 import type { Role } from "../lib/types";
 
+/** localStorage key for the short-lived token api/master-login.ts issues. */
+const MASTER_TOKEN_KEY = "pinnacle-master-token";
+
 const NAV: Record<Role, { to: string; label: string; icon: typeof LayoutDashboard; end?: boolean }[]> = {
   student: [
     { to: "/app", label: "Dashboard", icon: LayoutDashboard, end: true },
@@ -73,6 +76,7 @@ export default function Layout({ role }: { role: Role }) {
 
   const signOut = () => {
     logout();
+    localStorage.removeItem(MASTER_TOKEN_KEY);
     navigate("/");
   };
 
