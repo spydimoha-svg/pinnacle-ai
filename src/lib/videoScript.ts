@@ -509,6 +509,7 @@ export function parseLessonVideo(raw: string, fallbackTitle: string, castId = "g
       caption: caps[i] || n.slice(0, 42),
       narration: n,
     }));
+    warnIfTooFewVisuals(fallbackTitle, scenes);
     return {
       castId,
       title: fallbackTitle,
