@@ -17,6 +17,7 @@ import { MASTER_NAME, SCHOOLS, USERS } from "../data/schools";
 import type { CloudUserData } from "./cloud";
 import type { LessonState } from "./lesson";
 import { freshProfile, type LearnerProfile } from "./learner";
+import { cloudEnabled } from "./supabase";
 
 const isoDay = (d = new Date()) =>
   `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(
@@ -139,7 +140,25 @@ export const useStore = create<PinnacleState>()(
         return user;
       },
 
-      logout: () => set({ currentUser: null }),
+      logout: () =>
+        set((s) => {
+          const u = s.currentUser;
+          if (!u || !cloudEnabled()) return { currentUser: null };
+          const drop = <T,>(rec: Record<string, T>): Record<string, T> => {
+            const rest = { ...rec };
+            delete rest[u.id];
+            return rest;
+          };
+          return {
+            currentUser: null,
+            memories: drop(s.memories),
+            chats: drop(s.chats),
+            blobs: drop(s.blobs),
+            worksheets: drop(s.worksheets),
+            lessons: drop(s.lessons),
+            profiles: drop(s.profiles),
+          };
+        }),
 
       allUsers: () => [...USERS, ...get().extraUsers],
 
