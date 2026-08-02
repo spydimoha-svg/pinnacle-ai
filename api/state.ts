@@ -53,6 +53,12 @@ export async function POST(req: Request): Promise<Response> {
   const userId = await verifiedUserId(req);
   if (!userId) return new Response("Unauthorized", { status: 401 });
 
+  const MAX_BODY_BYTES = 1_000_000;
+  const text = await req.text();
+  if (new TextEncoder().encode(text).length > MAX_BODY_BYTES) {
+    return new Response("Payload too large", { status: 413 });
+  }
+
   let body: {
     memory?: unknown;
     chats?: unknown;
@@ -60,7 +66,7 @@ export async function POST(req: Request): Promise<Response> {
     worksheets?: unknown;
   };
   try {
-    body = await req.json();
+    body = JSON.parse(text);
   } catch {
     return new Response("Invalid JSON", { status: 400 });
   }
