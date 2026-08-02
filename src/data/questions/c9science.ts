@@ -27,6 +27,23 @@ export const C9_SCIENCE_QUESTIONS: Question[] = [
     examinerTip:
       "The word 'latent heat' (or 'heat absorbed from the surroundings') is the key value point — 'particles escape' alone is not enough for full marks.",
   },
+  {
+    id: "q-c9-science-01-2",
+    subjectId: "c9-science",
+    chapterId: "c9-science-01",
+    classLevel: 9,
+    text: "Convert 25°C to the kelvin scale. Why is the kelvin scale preferred in scientific work?",
+    marks: 2,
+    type: "vsa",
+    source: "important",
+    answer:
+      "K = °C + 273, so 25°C = 25 + 273 = 298 K.\n\nThe kelvin scale is preferred because 0 K (−273°C) is the absolute zero, the lowest possible temperature at which molecular motion theoretically stops, so kelvin readings are never negative and relate directly to the kinetic energy of particles.",
+    keywords: [
+      "K = °C + 273",
+      "298 K",
+      "0 K = absolute zero, no negative readings",
+    ],
+  },
 
   // ── CH 2 · IS MATTER AROUND US PURE? ──
   {
