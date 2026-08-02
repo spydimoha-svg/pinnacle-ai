@@ -31,6 +31,10 @@ export default function Login() {
     const cleanEmail = email.trim().toLowerCase();
     const cleanPassword = password.trim();
     if (!cleanName || !cleanEmail || !cleanPassword) return;
+    if (cleanPassword.length < 6) {
+      setError("Password must be at least 6 characters.");
+      return;
+    }
     const taken = allUsers().some((u) => u.email.toLowerCase() === cleanEmail);
     if (taken) {
       setError("That email already has an account. Sign in instead.");
