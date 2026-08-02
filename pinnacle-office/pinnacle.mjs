@@ -15,7 +15,10 @@ import { state, setOffice, flush, bus } from "./core/store.mjs";
 import { startOffice, stopOffice, writeBriefing, runOnce } from "./core/chief.mjs";
 import { serve } from "./server.mjs";
 
-const [cmd = "start", arg] = process.argv.slice(2);
+// The default is deliberately not "start". It used to be, and adding a case
+// with that name silently made the bare command put a thousand agents to work
+// again, which is the one thing here that spends his money.
+const [cmd = "dashboard", arg] = process.argv.slice(2);
 
 if (!existsSync(claudeBin()) && claudeBin() !== "claude") {
   console.error("Claude Code binary not found. Set PINNACLE_CLAUDE_BIN to its full path.");
