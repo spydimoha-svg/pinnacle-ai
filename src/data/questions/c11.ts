@@ -242,7 +242,23 @@ export const C11_QUESTIONS: Question[] = [
     examinerTip:
       "Escape velocity is independent of the mass and direction of projection — a favourite one-mark trap in both boards and JEE.",
   },
-
+  {
+    id: "q-c11-physics-07-x2",
+    subjectId: "c11-physics",
+    chapterId: "c11-physics-07",
+    classLevel: 11,
+    text: "Two satellites A and B orbit the Earth at radii r_A and r_B = 4r_A. If satellite A takes 8 hours to complete one orbit, find the time period of satellite B.",
+    marks: 2,
+    type: "sa",
+    source: "important",
+    answer:
+      "By Kepler's third law, T² ∝ r³, so (T_B/T_A)² = (r_B/r_A)³.\n\n(T_B/T_A)² = (4)³ = 64 ⇒ T_B/T_A = 8.\n\nT_B = 8 × T_A = 8 × 8 = 64 hours.",
+    keywords: [
+      "Kepler's third law: T² ∝ r³",
+      "(T_B/T_A)² = (r_B/r_A)³ = 4³ = 64",
+      "T_B = 8 × 8 = 64 hours",
+    ],
+  },
   {
     id: "q-c11-physics-08-x1",
     subjectId: "c11-physics",
@@ -258,6 +274,23 @@ export const C11_QUESTIONS: Question[] = [
       "Y = stress / strain = FL / (A ΔL)",
       "substitute F = 100 N, L = 2 m, A = 2 × 10⁻⁶ m², ΔL = 0.5 × 10⁻³ m",
       "Y = 2 × 10¹¹ N/m² (typical for steel)",
+    ],
+  },
+  {
+    id: "q-c11-physics-08-x2",
+    subjectId: "c11-physics",
+    chapterId: "c11-physics-08",
+    classLevel: 11,
+    text: "Define stress and strain, and state Hooke's law relating them within the elastic limit.",
+    marks: 2,
+    type: "sa",
+    source: "important",
+    answer:
+      "Stress is the internal restoring force set up per unit cross-sectional area of a deformed body, measured in N/m² (Pa). Strain is the fractional change produced in the dimensions of the body (e.g. change in length divided by original length), and it is dimensionless.\n\nHooke's law states that, within the elastic limit, stress is directly proportional to strain: stress = E × strain, where E is a constant of proportionality (the modulus of elasticity) for the material.",
+    keywords: [
+      "stress = restoring force / area (N/m²)",
+      "strain = fractional change in dimension (dimensionless)",
+      "Hooke's law: stress ∝ strain within the elastic limit",
     ],
   },
   {
@@ -280,6 +313,23 @@ export const C11_QUESTIONS: Question[] = [
       "This is the working principle of a hydraulic lift/brake — a small force on the narrow piston produces a large force on the wide piston, at the cost of a smaller displacement on the wide side.",
   },
   {
+    id: "q-c11-physics-09-x2",
+    subjectId: "c11-physics",
+    chapterId: "c11-physics-09",
+    classLevel: 11,
+    text: "State Bernoulli's principle and name one everyday application based on it.",
+    marks: 2,
+    type: "sa",
+    source: "important",
+    answer:
+      "Bernoulli's principle states that for the streamline (non-viscous, incompressible) flow of a fluid, the sum of pressure energy, kinetic energy and potential energy per unit volume remains constant along a streamline: P + ½ρv² + ρgh = constant.\n\nApplication: it explains the lift on an aircraft wing — air flows faster over the curved upper surface than under the flatter lower surface, so the pressure above is lower than below, producing a net upward force (lift).",
+    keywords: [
+      "Bernoulli's principle: P + ½ρv² + ρgh = constant along a streamline",
+      "applies to non-viscous, incompressible streamline flow",
+      "application: lift on an aircraft wing (faster flow over the wing ⇒ lower pressure above)",
+    ],
+  },
+  {
     id: "q-c11-physics-10-x1",
     subjectId: "c11-physics",
     chapterId: "c11-physics-10",
@@ -297,6 +347,23 @@ export const C11_QUESTIONS: Question[] = [
     ],
   },
   {
+    id: "q-c11-physics-10-x2",
+    subjectId: "c11-physics",
+    chapterId: "c11-physics-10",
+    classLevel: 11,
+    text: "A metal rod of length 2 m at 20°C has a coefficient of linear expansion of 1.2 × 10⁻⁵ /°C. Find its length when heated to 120°C.",
+    marks: 2,
+    type: "sa",
+    source: "important",
+    answer:
+      "Change in length ΔL = L₀αΔT, where L₀ = 2 m, α = 1.2 × 10⁻⁵ /°C, ΔT = 120 − 20 = 100°C.\n\nΔL = 2 × 1.2 × 10⁻⁵ × 100 = 2.4 × 10⁻³ m.\n\nNew length = L₀ + ΔL = 2 + 0.0024 = 2.0024 m.",
+    keywords: [
+      "ΔL = L₀αΔT",
+      "ΔL = 2 × 1.2×10⁻⁵ × 100 = 2.4×10⁻³ m",
+      "new length = 2.0024 m",
+    ],
+  },
+  {
     id: "q-c11-physics-11-x1",
     subjectId: "c11-physics",
     chapterId: "c11-physics-11",
@@ -311,6 +378,23 @@ export const C11_QUESTIONS: Question[] = [
       "first law: ΔU = Q − W",
       "Q = +500 J, W = +200 J",
       "ΔU = 300 J (increase)",
+    ],
+  },
+  {
+    id: "q-c11-physics-11-x2",
+    subjectId: "c11-physics",
+    chapterId: "c11-physics-11",
+    classLevel: 11,
+    text: "Distinguish between an isothermal process and an adiabatic process, and state the change in internal energy for each when a gas expands.",
+    marks: 2,
+    type: "sa",
+    source: "important",
+    answer:
+      "An isothermal process occurs at constant temperature; the system is in thermal contact with a reservoir and heat is exchanged slowly enough to keep T constant. Since internal energy of an ideal gas depends only on temperature, ΔU = 0 for any isothermal process.\n\nAn adiabatic process occurs with no heat exchange with the surroundings (Q = 0). By the first law, ΔU = Q − W = −W, so when the gas expands adiabatically (W positive, done by the gas), its internal energy decreases and its temperature falls.",
+    keywords: [
+      "isothermal: constant temperature, ΔU = 0 (since U depends only on T for an ideal gas)",
+      "adiabatic: Q = 0, no heat exchange with surroundings",
+      "adiabatic expansion ⇒ ΔU = −W < 0, temperature falls",
     ],
   },
   {

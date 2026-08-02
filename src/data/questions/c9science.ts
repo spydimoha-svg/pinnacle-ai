@@ -414,4 +414,44 @@ export const C9_SCIENCE_QUESTIONS: Question[] = [
     keywords: [
       "sound needs particles of a medium to vibrate/collide",
       "vacuum has no particles → no sound",
-      "longitudinal: particle vibration parallel to wave dire
+      "longitudinal: particle vibration parallel to wave direction, compressions and rarefactions",
+    ],
+  },
+
+  // ── CH 12 · IMPROVEMENT IN FOOD RESOURCES ──
+  {
+    id: "q-c9-science-12-1",
+    subjectId: "c9-science",
+    chapterId: "c9-science-12",
+    classLevel: 9,
+    text: "Give two differences between manure and fertiliser.",
+    marks: 2,
+    type: "vsa",
+    source: "important",
+    answer:
+      "1. Nature: Manure is a natural substance made by decomposing animal and plant waste; a fertiliser is a chemical (commercially manufactured) substance.\n2. Nutrients: Manure is relatively poor in specific plant nutrients but adds a lot of humus (organic matter) to the soil; fertilisers are very rich in specific nutrients (N, P, K) but add no humus.",
+    keywords: [
+      "manure = natural/organic; fertiliser = chemical/manufactured",
+      "manure adds humus; fertiliser rich in N, P, K but no humus",
+    ],
+    examinerTip:
+      "The 'humus vs nutrient-rich' contrast is the point examiners look for, not just 'natural vs chemical'.",
+  },
+  {
+    id: "q-c9-science-12-2",
+    subjectId: "c9-science",
+    chapterId: "c9-science-12",
+    classLevel: 9,
+    text: "What is mixed cropping? How is it different from intercropping?",
+    marks: 2,
+    type: "vsa",
+    source: "important",
+    answer:
+      "Mixed cropping is growing two or more crops simultaneously on the same piece of land, mixing the seeds before sowing, to minimise the risk of total crop failure due to unfavourable weather.\n\nIt differs from intercropping, where two or more crops are grown in a definite pattern of alternating rows (in a fixed ratio), which allows better use of resources like nutrients, water and sunlight and enables inputs to be applied to one crop without affecting the other.",
+    keywords: [
+      "mixed cropping = two/more crops sown together, mixed seeds, to reduce risk of crop failure",
+      "intercropping = crops grown in definite alternating row pattern",
+      "intercropping allows better resource use / selective input application",
+    ],
+  },
+];
