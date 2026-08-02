@@ -80,7 +80,19 @@ async function authToken(
       }
       const anon = await supabase.auth.signInAnonymously();
       session = anon.data.session;
-      if (session) await supabase.auth.updateUser({ email, password });
+      if (session) {
+        const { error: linkError } = await supabase.auth.updateUser({
+          email,
+          password,
+        });
+        if (linkError) {
+          console.warn(
+            `cloud authToken: linking credentials to new anonymous identity for user ${userId} failed — refusing to persist an orphaned session:`,
+            linkError.message
+          );
+          return null;
+        }
+      }
     }
     if (!session) return null;
     localStorage.setItem(
