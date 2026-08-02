@@ -81,20 +81,29 @@ function buildCurriculumGrounding(subject: Subject, chapter: Chapter): string {
   // budget. Six is still plenty of ground truth to teach and mark from.
   const qs = questionsFor({ chapterId: chapter.id }).slice(0, 6);
   if (qs.length) {
-    lines.push("");
-    lines.push(
-      "REAL EXAM QUESTIONS FROM THIS CHAPTER (with marking-scheme answers) — use these as ground truth for questions, worked examples and the way marks are awarded:"
-    );
+    const header = [
+      "",
+      "REAL EXAM QUESTIONS FROM THIS CHAPTER (with marking-scheme answers) — use these as ground truth for questions, worked examples and the way marks are awarded:",
+    ];
+    const questionLines: string[] = [];
     for (const question of qs) {
-      lines.push(
-        `[${question.marks}-mark ${question.type}, ${question.source}] ${question.text}`
-      );
-      if (question.answer) lines.push(`   Answer: ${question.answer}`);
+      const block = [
+        `[${question.marks}-mark ${question.type}, ${question.source}] ${question.text}`,
+      ];
+      if (question.answer) block.push(`   Answer: ${question.answer}`);
       if (question.keywords?.length) {
-        lines.push(`   Examiner keywords: ${question.keywords.join(", ")}`);
+        block.push(`   Examiner keywords: ${question.keywords.join(", ")}`);
       }
-      if (question.examinerTip) lines.push(`   Examiner tip: ${question.examinerTip}`);
+      if (question.examinerTip) block.push(`   Examiner tip: ${question.examinerTip}`);
+
+      // A question and its marking-scheme answer travel together or not at
+      // all. Char-truncating mid-block would strand the question with no
+      // ground truth for its answer, inviting the model to invent one.
+      const next = [...lines, ...header, ...questionLines, ...block].join("\n");
+      if (next.length > MAX_GROUNDING_CHARS) break;
+      questionLines.push(...block);
     }
+    if (questionLines.length) lines.push(...header, ...questionLines);
   }
   return lines.join("\n");
 }

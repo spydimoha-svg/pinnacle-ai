@@ -65,6 +65,9 @@ export async function GET(req: Request): Promise<Response> {
   }
   const userId = await verifiedUserId(req);
   if (!userId) return new Response("Unauthorized", { status: 401 });
+  if (isRateLimited(clientIp(req))) {
+    return new Response("Too many requests", { status: 429 });
+  }
 
   const admin = createClient(url, serviceKey);
   const { data, error } = await admin
