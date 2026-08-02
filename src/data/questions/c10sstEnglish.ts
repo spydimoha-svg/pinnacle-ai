@@ -104,6 +104,66 @@ Hence the Chauri Chaura incident and the fear of losing the non-violent characte
       "Naming Chauri Chaura alone is only half the answer — the second mark is for Gandhiji's REASON (the movement was turning violent and satyagrahis were untrained), which most students omit.",
   },
   {
+    id: "q-c10-sst-03-1",
+    subjectId: "c10-sst",
+    chapterId: "c10-sst-03",
+    classLevel: 10,
+    text: "Explain any three factors that led to the Great Depression of 1929.",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer: `The Great Depression began around 1929 and lasted till the mid-1930s, and no single factor caused it.
+
+(i) Agricultural overproduction — agricultural economies were the worst hit, since prices fell even more than those of industrial goods. As agricultural prices fell sharply and unevenly, farm produce prices fell so much that in order to maintain their overall income rural households sold more, which caused prices to fall even further.
+
+(ii) US overseas lending withdrawn — many countries financed their investments through loans from the USA. American overseas lenders panicked at the first sign of trouble and reduced their overseas loans in the first half of 1928. Countries that depended on US loans faced an acute crisis, for example in Latin America and Central Europe.
+
+(iii) Collapse of the US banking system — the withdrawal of loans affected the rest of the world in different ways; the US banking system itself collapsed. As agricultural and industrial businesses were badly hit and unable to repay what they had borrowed, many banks went bankrupt and closed down, forcing farmers to sell their assets for very little to meet debt and repay loans.
+
+Thus falling agricultural prices, the drying up of US loans and the collapse of banks together produced the worldwide depression.`,
+    keywords: [
+      "agricultural overproduction",
+      "prices of agricultural goods fell sharply",
+      "US overseas lending withdrawn / reduced",
+      "countries dependent on US loans faced crisis",
+      "collapse of the US banking system",
+      "banks went bankrupt / closed down",
+    ],
+    examinerTip:
+      "Three DISTINCT causes are wanted, not three effects. Students describe the misery of the Depression instead of its causes — keep the answer to the agricultural, the lending and the banking factors.",
+  },
+  {
+    id: "q-c10-sst-04-1",
+    subjectId: "c10-sst",
+    chapterId: "c10-sst-04",
+    classLevel: 10,
+    text: "Explain any three problems faced by the Indian handloom weavers by the end of the nineteenth century.",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer: `By the end of the nineteenth century, weavers all over India faced a series of problems.
+
+(i) Decline of export market — first, the export market collapsed and the local market shrank, being glutted with cheap machine-made imported goods from Manchester, which flooded Indian markets with imported cotton textiles.
+
+(ii) Shortage and high cost of raw cotton — as raw cotton exports from India increased and prices rose, weavers were starved of raw material and had to buy raw cotton at exorbitant prices, and this cost could not be met by weavers.
+
+(iii) Effect of the American Civil War — then the American Civil War broke out and cotton supplies from the US were cut off, so Britain turned to India for raw cotton. As raw cotton exports from India increased, the price of raw cotton shot up within India itself, and weavers were starved of raw material and had to buy cotton at very high prices.
+
+(iv) Decline of quality — by the twentieth century, weavers and other craftspeople faced yet another problem — the yarn made in Indian spinning mills was often of poor quality, so weavers had to import both fine yarn (mostly from Britain) and lower-quality yarn produced in Indian mills, which affected the quality of the final woven product.
+
+Thus the loss of the export market, the raw-cotton crisis caused by the American Civil War, and the flood of Manchester imports together devastated the weavers.`,
+    keywords: [
+      "collapse of export market",
+      "flood of Manchester imports",
+      "American Civil War cut cotton supply to Britain",
+      "raw cotton exports from India increased / price of raw cotton shot up",
+      "weavers starved of raw material",
+      "poor quality yarn from Indian spinning mills",
+    ],
+    examinerTip:
+      "The American Civil War point is the one students omit, yet it is a named value point on its own — it explains WHY raw cotton became costly in India, not just that it did.",
+  },
+  {
     id: "q-c10-sst-05-1",
     subjectId: "c10-sst",
     chapterId: "c10-sst-05",
@@ -160,6 +220,37 @@ Therefore resource planning and equitable, sustainable use are essential, since 
     ],
     examinerTip:
       "'Haves and have-nots' and 'greed of a few' are the exact NCERT phrases the key looks for — paraphrasing them as 'some people are rich' loses the value point. End with the sustainable-development conclusion.",
+  },
+  {
+    id: "q-c10-sst-07-1",
+    subjectId: "c10-sst",
+    chapterId: "c10-sst-07",
+    classLevel: 10,
+    text: "Describe how local communities are involved in the conservation of forests and wildlife in India, with examples.",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer: `In India, local communities have been at the forefront of conservation, often protecting habitats in sacred groves called sarnas, devarakudu, kan, rai and others.
+
+(i) Chipko Movement — the Chipko movement in the Himalayas has not only successfully resisted deforestation in several areas but has also shown that community afforestation with indigenous species can be enormously successful. Villagers, especially women, hugged the trees to prevent them from being felled.
+
+(ii) Joint Forest Management — the Joint Forest Management (JFM) programme, which began in Odisha in 1988, provides a good example of the government (forest department) collaborating with local communities to protect and manage forests, and to share the benefits arising from it.
+
+(iii) Beej Bachao Andolan and Navdanya — in many cases, people's participation has also relied on the indigenous species for conservation, for example the initiatives of the Beej Bachao Andolan in Tehri and Navdanya, that have shown that a large number of indigenous crop varieties are being cultivated using organic methods without pesticides and fertilisers.
+
+(iv) Sacred groves — certain societies revere a particular tree that they have preserved from time immemorial, for example the Mundas and the Santhal worship mahua and kadamba trees, and the Sarna at Chipko in the Bishnoi villages of Rajasthan, where the Bishnoi community members refused to cut trees even at the cost of their lives, protecting blackbucks, chinkaras, peacocks and other creatures.
+
+Hence local participation, from the Chipko movement to sacred groves, shows that community involvement is central to sustainable conservation in India.`,
+    keywords: [
+      "Chipko Movement",
+      "Joint Forest Management (JFM) — began in Odisha, 1988",
+      "sacred groves — sarnas, devarakudu, kan, rai",
+      "Bishnoi community of Rajasthan",
+      "Beej Bachao Andolan / Navdanya",
+      "indigenous species conservation",
+    ],
+    examinerTip:
+      "The examples ARE the marks — 'people help conserve forests' with no named movement earns almost nothing. Name at least two of Chipko, JFM, sacred groves or the Bishnois with their location.",
   },
   {
     id: "q-c10-sst-08-1",
@@ -267,6 +358,50 @@ Hence a combination of treatment, technology and legal regulation is needed for 
     ],
     examinerTip:
       "Vague appeals like 'factories should not pollute the environment' score zero. The key rewards NAMED technical measures — precipitators, scrubbers, silencers, three-phase effluent treatment. Organise by water, air, noise.",
+  },
+
+  {
+    id: "q-c10-sst-12-1",
+    subjectId: "c10-sst",
+    chapterId: "c10-sst-12",
+    classLevel: 10,
+    text: "Why is transportation called the lifeline of a nation and its economy? Explain with reference to the Golden Quadrilateral.",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer: `(i) Transport as a lifeline — efficient means of transport are prerequisites for fast development. Today, India is well netted with various modes of transport, and it is the network of transport that has made it possible to conquer distances, bringing different parts of the country closer together, so that goods produced in one part of the country can reach markets in other parts, and mobility of people and goods across the country becomes possible.
+
+(ii) Golden Quadrilateral — with a view to reduce the time and distance between the mega cities of Delhi, Mumbai, Chennai and Kolkata, the government has built the Golden Quadrilateral Super Highways to connect these four cities. The North–South corridor, linking Srinagar and Kanyakumari, and the East–West corridor, connecting Silchar and Porbandar, are part of the same project. This project is being implemented by the National Highways Authority of India (NHAI).
+
+(iii) Effect on the economy — these highway projects are aimed at reducing the time and distance between the mega cities of India, and will improve the quality of national highways and rationalise the freight and passenger traffic, thereby aiding industrial growth and trade.
+
+Since no other network can substitute for the movement of raw materials, finished goods, and people that transport provides, it is rightly called the lifeline of the national economy.`,
+    keywords: [
+      "network of transport connects different parts of the country",
+      "Golden Quadrilateral — Delhi, Mumbai, Chennai, Kolkata",
+      "North-South and East-West corridors",
+      "National Highways Authority of India (NHAI)",
+      "reduces time and distance",
+      "aids industrial growth and trade",
+    ],
+    examinerTip:
+      "Name all four cities of the Golden Quadrilateral and both corridors (North-South, East-West) — a general answer about 'good roads help the economy' without these named details loses the specific value points.",
+  },
+  {
+    id: "q-c10-sst-12-2",
+    subjectId: "c10-sst",
+    chapterId: "c10-sst-12",
+    classLevel: 10,
+    text: "Which one of the following provides the cheapest mode of transport, particularly for bulky and heavy goods, over long distances?\n(a) Roadways\n(b) Airways\n(c) Waterways\n(d) Pipelines",
+    marks: 1,
+    type: "mcq",
+    source: "sample",
+    answer: `(c) Waterways.
+
+Water transport is the cheapest means of transport for bulky and heavy goods carried over long distances, since it is fuel-efficient and environment friendly. India has an extensive network of inland waterways in the form of rivers, canals, backwaters and creeks, in addition to a long coastline used for coastal shipping. (Roadways suit short distances and door-to-door service; airways are the fastest but costliest; pipelines carry liquids and gases, not general bulky goods.)`,
+    keywords: ["waterways", "cheapest for bulky/heavy goods", "long distances", "fuel-efficient"],
+    examinerTip:
+      "Match each mode to its distinguishing feature: roadways — door-to-door and short distance; railways — bulk goods over medium/long land distance; waterways — cheapest, bulky goods; airways — fastest, costliest; pipelines — liquids and gases only.",
   },
 
   // ==========================================================================

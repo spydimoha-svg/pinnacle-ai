@@ -232,4 +232,315 @@ The ambiguous ending, where Sophie sits alone by the canal waiting for a meeting
     examinerTip:
       "The whole question is fantasy vs reality — name Sophie's daydreaming as escapism from her working-class limits and use Jansie's realism as the deliberate contrast, rather than simply narrating the Danny Casey episode.",
   },
+
+  // ==========================================================================
+  // Ch 9 — My Mother at Sixty-six
+  // ==========================================================================
+  {
+    id: "q-c12-english-09-1",
+    subjectId: "c12-english",
+    chapterId: "c12-english-09",
+    classLevel: 12,
+    text: "Explain the two similes Kamala Das uses for her mother in 'My Mother at Sixty-six', and how the poem's ending reflects the poet's feelings.",
+    marks: 4,
+    type: "sa",
+    source: "important",
+    answer: `Driving to the airport, the poet looks at her mother dozing beside her and sees her face "ashen like that of a corpse" — a simile that startles the poet into suddenly realising, with pain, that her mother truly is as old as she looks. She quickly pushes the thought away and looks instead at young trees "sprinting" past and merry children spilling out of their homes, images of youth and vitality that contrast with her mother's ageing.
+
+After the security check at the airport, she looks at her mother again and this time compares her wan, pale face to "a late winter's moon" — a second simile that, unlike the first, is gentler but still carries the same fading, dwindling quality, deepening the poet's "old familiar ache," the childhood fear of losing a parent.
+
+Despite this ache, all the poet says aloud is "See you soon, Amma," and all she does is "smile and smile and smile" — the repetition making the smile sound forced and hollow rather than happy. This ironic parting gesture, hiding real fear and pain behind a brave, reassuring face, is the poem's closing comment on how people often mask their deepest anxieties about ageing and mortality in ordinary partings.`,
+    keywords: [
+      "ashen like that of a corpse",
+      "as a late winter's moon",
+      "old familiar ache / childhood's fear",
+      "smile and smile and smile — irony",
+    ],
+    examinerTip:
+      "Quote the image first, then explain it — bare explanation of the similes without the actual quoted phrase loses a mark; the ironic repetition in 'smile and smile and smile' must be named as masking fear, not real happiness.",
+  },
+
+  // ==========================================================================
+  // Ch 10 — Keeping Quiet
+  // ==========================================================================
+  {
+    id: "q-c12-english-10-1",
+    subjectId: "c12-english",
+    chapterId: "c12-english-10",
+    classLevel: 12,
+    text: "What does Pablo Neruda mean by 'keeping quiet' in the poem, and why does he say this stillness should not be confused with death?",
+    marks: 4,
+    type: "sa",
+    source: "important",
+    answer: `Neruda invites the whole world to count to twelve and keep still for once, without the usual rush of languages, engines and hurried activity. He extends this stillness to fishermen who would stop harming whales, and to men gathering salt or waging war, imagining a moment of universal pause and introspection that could bring about a rare, unaccustomed sense of human brotherhood — a moment of feeling "a sudden strangeness" together.
+
+Neruda is explicit that this stillness must not be confused with total inactivity or with death — he states directly, "I want no truck with death," making clear that keeping quiet is not about giving up on life or stopping altogether. Instead, it is a temporary, deliberate pause: life goes on, but for once without the ceaseless motion and aggression that keep people from ever reflecting on what they are doing to each other and to the earth.
+
+The poem's underlying idea is that this stillness offers a chance for self-introspection and for humanity to save itself from the very "sadness" of never understanding itself or threatening its own survival — Neruda even suggests that perhaps the earth itself can teach us this lesson, since in nature things seem dead in winter and later come back to life.`,
+    keywords: [
+      "counting to twelve and keeping still",
+      "no truck with death",
+      "stillness is not total inactivity",
+      "universal brotherhood / introspection",
+      "earth as teacher — apparent death and renewal",
+    ],
+    examinerTip:
+      "The marks turn on one distinction: state explicitly that Neruda wants stillness, not death or idleness — an answer that reads the poem as wishing for inactivity or death loses the central point.",
+  },
+
+  // ==========================================================================
+  // Ch 11 — A Thing of Beauty
+  // ==========================================================================
+  {
+    id: "q-c12-english-11-1",
+    subjectId: "c12-english",
+    chapterId: "c12-english-11",
+    classLevel: 12,
+    text: "How does John Keats develop the idea that 'a thing of beauty is a joy forever' in the poem, with reference to the catalogue of beautiful things he lists?",
+    marks: 4,
+    type: "sa",
+    source: "important",
+    answer: `Keats opens the excerpt from Endymion with the famous line, "A thing of beauty is a joy forever," and immediately explains why: its loveliness increases with time and it never passes into nothingness, so it will always remain a quiet, peaceful bower for us to sleep in, full of sweet dreams, good health and calm breathing.
+
+To support this, Keats lists a wide catalogue of beautiful, everyday things that keep a wreath of flowers binding us to the earth despite life's despondence — the sun, the moon, trees young and old giving shade to simple sheep, daffodils growing among green surroundings, clear cool streams making a cooling shelter against the hot summer heat, and the musk-rose blooms among the thick undergrowth of the forest. He calls this abundance of natural beauty "an endless fountain of immortal drink, pouring unto us from the heaven's brink."
+
+The poem's deeper claim is that in spite of all the pain, suffering, and lack of noble qualities among humankind, some shape of beauty is always at work to move away the pall — the dark cloud — from our spirits, which is why Keats values beauty as something that outlasts and outweighs human suffering.`,
+    keywords: [
+      "a thing of beauty is a joy forever",
+      "catalogue of beautiful things — sun, moon, trees, daffodils, musk-rose",
+      "endless fountain of immortal drink",
+      "excerpt from Endymion",
+      "beauty moves away the pall from dark spirits",
+    ],
+    examinerTip:
+      "The chapter is short and heavily quoted — name it as an excerpt from Endymion and quote at least one image from the catalogue rather than only paraphrasing 'beauty makes us happy'.",
+  },
+
+  // ==========================================================================
+  // Ch 12 — A Roadside Stand
+  // ==========================================================================
+  {
+    id: "q-c12-english-12-1",
+    subjectId: "c12-english",
+    chapterId: "c12-english-12",
+    classLevel: 12,
+    text: "'A Roadside Stand' is a poem of social protest. Discuss with reference to the rural-urban divide Robert Frost presents.",
+    marks: 4,
+    type: "sa",
+    source: "important",
+    answer: `Robert Frost's poem describes a small, shabby roadside stand set up by poor rural people beside a highway, hoping for a little money from the wealthy city folk speeding past in their cars. The stand's crude, pleading signboard begs passers-by to stop and buy their produce or crafts, but the cars merely glance and speed away, sometimes even scornful of the "childish" landscape the villagers offer.
+
+Frost turns the poem into social protest by attacking the false promises made to the rural poor — politicians and city planners promise to move them to "villages in the city's edge," provide them with movies and the "throngs of artists" for entertainment, and modernise their lives, but these promises never materialise, leaving the villagers poorer and more neglected than before. Frost bitterly calls such reformers "greedy good-doers" and "beneficent beasts of prey," accusing them of exploiting the poor in the very act of claiming to help them.
+
+The poem's anger is directed squarely at this economic and social injustice — the money that never reaches the rural poor and the empty promises of progress — rather than at the beauty or hardship of country life itself; the speaker even imagines, in his frustration, that it would be kinder to put the roadside sellers "out of their pain" than to let false hope of the city's wealth go on tormenting them.`,
+    keywords: [
+      "roadside stand and the passing cars",
+      "false promises of the city's wealth",
+      "greedy good-doers, beneficent beasts of prey",
+      "money the villagers never see",
+      "Frost's anger — social protest, not scenery",
+    ],
+    examinerTip:
+      "Keep the answer on the money the villagers never see and the politicians' hollow promises — writing about the beauty or hardship of the countryside instead of the economic injustice misses Frost's protest entirely.",
+  },
+
+  // ==========================================================================
+  // Ch 13 — Aunt Jennifer's Tigers
+  // ==========================================================================
+  {
+    id: "q-c12-english-13-1",
+    subjectId: "c12-english",
+    chapterId: "c12-english-13",
+    classLevel: 12,
+    text: "Bring out the contrast between the tigers and Aunt Jennifer in Adrienne Rich's 'Aunt Jennifer's Tigers', and explain how the poem comments on marriage.",
+    marks: 5,
+    type: "sa",
+    source: "important",
+    answer: `Aunt Jennifer embroiders a panel of tigers that prance across the screen with "sleek chivalric certainty" — bold, bright, fearless creatures who "do not fear the men beneath the tree" and move with a confident, prancing pride. They represent everything Aunt Jennifer herself is denied: freedom, fearlessness and untroubled self-assurance.
+
+Aunt Jennifer herself is presented in sharp contrast — her fingers, as she works the wool, flutter nervously through her needle, and even "the ivory needle" feels hard for her to pull, showing her physical weakness and fatigue. The reason is made explicit: "the massive weight of Uncle's wedding band sits heavily upon Aunt Jennifer's hand," the wedding ring standing as a symbol of a controlling, oppressive marriage that has drained her of vitality and confidence.
+
+In the final stanza, Rich extends this contrast beyond Aunt Jennifer's life: when she is dead, her hands, "terrified," will finally lie still, "ringed with ordeals she was mastered by" — the ordeals of her marriage will only end with her death. Yet the tigers she created "will go on prancing, proud and unafraid," continuing to embody the freedom she never had. The poem is thus a feminist reading of marriage as confinement, where art created by an oppressed woman outlives and transcends the very oppression that produced it.`,
+    keywords: [
+      "tigers' sleek chivalric certainty",
+      "fluttering fingers, ivory needle hard to pull",
+      "massive weight of Uncle's wedding band",
+      "ringed with ordeals she was mastered by",
+      "the tigers will go on prancing",
+    ],
+    examinerTip:
+      "A feminist reading is expected — the tigers' fearlessness against the weight of Uncle's wedding band IS the answer, and closing on 'the tigers will go on prancing' after Aunt Jennifer's death is the point examiners look for.",
+  },
+
+  // ==========================================================================
+  // Ch 14 — The Third Level
+  // ==========================================================================
+  {
+    id: "q-c12-english-14-1",
+    subjectId: "c12-english",
+    chapterId: "c12-english-14",
+    classLevel: 12,
+    text: "What is the 'third level' in Jack Finney's story, and how does Sam's letter prove that Charley's experience was more than a personal fantasy?",
+    marks: 4,
+    type: "sa",
+    source: "important",
+    answer: `Charley, the narrator, claims to have stumbled onto a third level at Grand Central Station — a level that officially does not exist, since the station has only two — which turns out to be a gateway back to the year 1894. He tries to buy tickets there to escape with his wife Louisa to a simpler, calmer past, away from the anxieties of modern life such as the threat of nuclear war, high taxes and constant tension.
+
+Charley's psychiatrist friend dismisses this as a "waking-dream wish fulfillment," a symptom of Charley's own insecurity, and Charley himself briefly doubts his own experience after he fails to find the third level again despite repeated searching.
+
+The final twist, however, is Sam's letter: Sam, a friend of Charley's who vanished mysteriously, is discovered to have actually reached 1894 and settled there — Charley finds a first-day-cover envelope, addressed to him and postmarked in the past, tucked inside his father's stamp collection, in which Sam writes that he found the third level too and is now happily living in Galesburg in 1894. This proves the third level was not just Charley's private fantasy but a real, shared escape from modern-day anxiety.`,
+    keywords: [
+      "third level does not officially exist",
+      "escape from modern anxiety",
+      "waking-dream wish fulfillment",
+      "Sam's first-day-cover letter",
+      "reality versus fantasy — the letter as proof",
+    ],
+    examinerTip:
+      "Read the third level as a psychological escape from the insecurity of modern life, not literal time travel — Sam's letter is the proof that the escape was shared and real within the story, not unique to Charley alone.",
+  },
+
+  // ==========================================================================
+  // Ch 15 — The Tiger King
+  // ==========================================================================
+  {
+    id: "q-c12-english-15-1",
+    subjectId: "c12-english",
+    chapterId: "c12-english-15",
+    classLevel: 12,
+    text: "How is the title 'The Tiger King' ironic? Discuss with reference to the prophecy and the Maharaja's death.",
+    marks: 5,
+    type: "la",
+    source: "important",
+    answer: `At birth, astrologers prophesy that the Maharaja of Pratibandapuram will one day die at the hands of a tiger, specifically the hundredth tiger he encounters. Determined to defy this prophecy, the young king declares he will personally kill a hundred tigers and vows to marry only into a family that owns plenty of tigers for him to hunt, becoming obsessively devoted to tiger-hunting as a means of controlling his fate.
+
+Kalki uses this obsession to satirise the vanity and irresponsible autocracy of India's princely rulers — the Maharaja hunts recklessly, bans anyone else from hunting tigers in his kingdom, even risking a high British officer's displeasure and bribing him with diamond rings to avoid a hunt that might let the officer kill "his" tigers, showing how petty self-interest outweighs any real concern for his subjects or the state.
+
+The irony sharpens when, after killing ninety-nine tigers, the Maharaja's hundredth hunt only wounds an old, weak tiger, which he claims is dead — but the tiger merely faints from shock and does not actually die from his shot, meaning the king unknowingly fails to complete his hundred. To keep up the appearance of having fulfilled his vow, the dead body of a tiger is quietly substituted. The prophecy is finally, ironically, fulfilled when the Maharaja gifts his son a cheap wooden toy tiger for his birthday; a splinter from its rough surface pierces his hand, the wound turns septic, and the great slayer of ninety-nine real tigers dies from an infection caused by a toy — the hundredth "tiger" getting him after all.`,
+    keywords: [
+      "prophecy of the hundredth tiger",
+      "satire on autocracy and vanity",
+      "hundredth tiger only fainted, not killed",
+      "wooden toy tiger causes fatal infection",
+      "mock-heroic, Kalki's ironic style",
+    ],
+    examinerTip:
+      "'How is the title ironic?' is asked repeatedly — the answer's spine is that a wooden toy tiger kills the man who slaughtered ninety-nine real ones; frame this explicitly as satire of autocratic power and vanity, not just a plot summary.",
+  },
+
+  // ==========================================================================
+  // Ch 16 — Journey to the end of the Earth
+  // ==========================================================================
+  {
+    id: "q-c12-english-16-1",
+    subjectId: "c12-english",
+    chapterId: "c12-english-16",
+    classLevel: 12,
+    text: "What does Tishani Doshi's account of her voyage to Antarctica reveal about the continent's geological history and its relevance to climate change today?",
+    marks: 5,
+    type: "la",
+    source: "important",
+    answer: `Tishani Doshi travels to Antarctica aboard the Russian research vessel Akademik Shokalskiy as part of the "Students on Ice" programme, which takes high school students from around the world to Antarctica to educate them about the continent's fragile environment and the urgency of climate change, so that they can return home as ambassadors for the planet.
+
+In Antarctica, she learns that 650 million years ago all the continents were part of one giant supercontinent called Gondwana, which included Antarctica, India, Australia, Africa and South America joined together; only 3.5 million years ago did Antarctica assume its current icy, isolated position. This deep geological history explains why Antarctica alone, among the continents, has never sustained a single human being, yet still shares a distant common origin with the warmer lands humans now inhabit.
+
+Doshi presents Antarctica as a giant "heat sink" that reflects sunlight and helps keep the earth's temperature regulated, and as a crucial storehouse of scientific evidence for climate change — ice cores and geological layers preserve a record of the earth's past climate, while microscopic organisms called phytoplankton, at the base of the food chain, are shown to be extremely sensitive to rising carbon dioxide levels, making them an early-warning indicator of global warming's effects on ocean ecosystems.`,
+    keywords: [
+      "Gondwana supercontinent, 650 million years ago",
+      "Students on Ice programme",
+      "Antarctica as a heat sink",
+      "ice cores and climate record",
+      "phytoplankton and carbon dioxide",
+    ],
+    examinerTip:
+      "This is the most fact-heavy chapter in Vistas — precise names and figures (Gondwana, 650 million years, phytoplankton, Students on Ice) are exactly what earns the marks, not general description of the scenery.",
+  },
+
+  // ==========================================================================
+  // Ch 17 — The Enemy
+  // ==========================================================================
+  {
+    id: "q-c12-english-17-1",
+    subjectId: "c12-english",
+    chapterId: "c12-english-17",
+    classLevel: 12,
+    text: "Describe Dr Sadao Hoki's moral conflict in 'The Enemy', and how Hana's role helps resolve it.",
+    marks: 6,
+    type: "la",
+    source: "important",
+    answer: `Dr Sadao Hoki, a Japanese surgeon trained in America, finds a badly wounded American soldier washed up on the private beach behind his house during the Second World War. As a doctor bound by his professional oath, Sadao feels compelled to save the wounded man's life, but as a loyal Japanese citizen in wartime, sheltering an enemy soldier is treasonous and could endanger his family and his own position, since Japanese servants leave the household in silent disapproval and a general is soon expected to send assassins.
+
+This is the story's central moral conflict: duty to a professional, humane oath to heal versus the pressure of nationalism and wartime hatred that brands the American simply as "the enemy." Sadao operates on the soldier in his own home, using his surgical skill to remove a bullet and save his life, even while privately unsure whether he is doing right by his country.
+
+Hana, his wife, plays a crucial role in resolving this conflict — though she is initially repulsed by touching the enemy soldier's wound and fears for her family's safety and reputation, she overcomes her own prejudice and revulsion to assist Sadao throughout the surgery and the soldier's recovery, showing that compassion can triumph over both fear and hatred.
+
+In the end, Sadao helps the recovering soldier escape by boat to a nearby uninhabited island, giving him supplies and a lit lantern signal for a passing fishing boat, choosing humanity over reporting him despite the risk. The general who was to send assassins forgets amid his own preoccupations, and the assassins never come — the story closes on the idea that humanity and individual conscience can transcend nationalism and the hatred bred by war.`,
+    keywords: [
+      "duty of the doctor's oath versus patriotism",
+      "Sadao shelters and operates on the American soldier",
+      "Hana overcomes her own revulsion and prejudice",
+      "helps the soldier escape by boat",
+      "humanity transcends war and nationalism",
+    ],
+    examinerTip:
+      "The guaranteed long answer is Sadao's conflict between patriotism and the doctor's oath — frame it as duty versus prejudice, credit Hana's part in overcoming her own revulsion, and conclude that humanity transcends war.",
+  },
+
+  // ==========================================================================
+  // Ch 18 — On the Face of It
+  // ==========================================================================
+  {
+    id: "q-c12-english-18-1",
+    subjectId: "c12-english",
+    chapterId: "c12-english-18",
+    classLevel: 12,
+    text: "What theme does Susan Hill develop through Derry and Mr Lamb's friendship in 'On the Face of It'?",
+    marks: 4,
+    type: "sa",
+    source: "important",
+    answer: `Derry, a teenage boy whose face has been badly disfigured and scarred by acid on one side, has withdrawn into himself, avoiding people because of the way they stare, mock or pity him — he hides in his mother's garden shed to escape being seen. There he meets Mr Lamb, an elderly man with an artificial leg who lives alone in a house with an orchard whose gate, unlike everyone else's, is always open to all — children, bees and strangers alike.
+
+Mr Lamb, who is also treated as an outsider by the village because of his disability and his eccentric openness, refuses to let his own impairment define or limit him, and through easy, accepting conversation he gradually persuades Derry that it is not the burnt face itself that is the real problem, but the alienation and self-pity that Derry's own fear of others' reactions has caused him.
+
+The story's theme, made explicit through Mr Lamb's words and example, is that the actual physical pain of a disability or disfigurement is far less than the sense of isolation and alienation it can cause if a person lets other people's reactions define their own sense of self — friendship and acceptance, as Mr Lamb offers Derry, can heal that alienation even though they cannot heal the physical scar itself.`,
+    keywords: [
+      "Derry's disfigured face and self-isolation",
+      "Mr Lamb's open orchard gate",
+      "alienation greater than physical pain",
+      "acceptance versus prejudice",
+      "perception versus reality",
+    ],
+    examinerTip:
+      "State the theme examiners want: the actual pain of a physical impairment is far less than the sense of alienation it causes — the answer is about being an outsider and Mr Lamb's healing acceptance, not a description of the burnt face.",
+  },
+
+  // ==========================================================================
+  // Ch 19 — Memories of Childhood
+  // ==========================================================================
+  {
+    id: "q-c12-english-19-1",
+    subjectId: "c12-english",
+    chapterId: "c12-english-19",
+    classLevel: 12,
+    text: "Compare the experiences of racial discrimination and caste discrimination described by Zitkala-Sa and Bama in 'Memories of Childhood'.",
+    marks: 6,
+    type: "la",
+    source: "important",
+    answer: `"Memories of Childhood" brings together two separate autobiographical accounts of oppression suffered in childhood, one racial and one based on caste, and questions on this chapter expect both to be discussed together.
+
+In "The Cutting of My Long Hair," Zitkala-Sa, a young Native American girl forced into an American boarding school, describes how the school authorities decide to cut her long hair without her consent — among her people, short, "shingled" hair was worn only by mourners and unshingled hair by the brave, so losing her hair by force feels like an assault on her identity and dignity. She resists, hiding under a bed, but is dragged out, tied to a chair, and her hair is shingled despite her protest, leaving her feeling like "one of many little animals driven by a herder," her individuality and culture forcibly erased by an institution meant to "civilise" her.
+
+In "We Too Are Human Beings," Bama, a Dalit child in Tamil Nadu, recounts watching an elderly man from her community carry a packet of snacks by its string, without touching it directly, to his upper-caste landlord, and walking in a comic, servile manner to entertain the upper-caste onlookers on the way. When Bama's brother explains that this humiliation is because of the elder's "untouchable" caste, Bama is shocked and angered, and resolves that the only way out of this discrimination is through education, hard work and self-respect — earning power and status that caste alone denies her people.
+
+Both accounts show a child's growing awareness of institutionalised prejudice — racial in Zitkala-Sa's case, caste-based in Bama's — and both end not in despair but in the seeds of resistance: Zitkala-Sa's account exposes the cruelty of forced assimilation, while Bama's ends with her personal resolve to fight caste oppression through education rather than accept it as fate.`,
+    keywords: [
+      "Zitkala-Sa — forced cutting of hair, racial assimilation",
+      "Bama — the elder carrying the packet by its string",
+      "caste-based untouchability",
+      "resistance — Bama's resolve through education",
+      "both halves of the chapter must be compared",
+    ],
+    examinerTip:
+      "Two separate autobiographical accounts in one chapter — questions ask you to compare racial oppression (Zitkala-Sa) with caste oppression (Bama), so answering from only one half is the most common way marks are lost here.",
+  },
 ];
