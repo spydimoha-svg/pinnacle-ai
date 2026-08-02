@@ -120,7 +120,7 @@ export default function Tutor() {
     setDraft("");
 
     const myGen = genRef.current;
-    const history = [...chat, userMsg];
+    let history = [...chat, userMsg];
 
     // Some questions are matters of fact the app already holds, and the honest
     // answer costs nothing to produce and cannot be got wrong. Asking a model
@@ -173,6 +173,12 @@ export default function Tutor() {
         }
       }
     }
+
+    // A freshly started lesson (or a chapter switch) must not carry the prior
+    // free-chat transcript into the model's context — a new placement check
+    // has to read as a clean conversation, not a continuation of whatever was
+    // discussed before it.
+    if (justStarted) history = [userMsg];
 
     const plan = active ? planTurn(active, nextProfile, memory) : null;
     // startChapterId with no plan means startLesson found no concept map for

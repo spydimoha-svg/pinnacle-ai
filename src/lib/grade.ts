@@ -240,7 +240,14 @@ const LEAKED_HEADINGS =
   /^\s{0,3}(?:#{1,6}|\*{1,3})\s*(?:the one idea|worked example|re-?ask[^\n]*|what has to land|the idea|check question|hard rules?|shape of this reply|use this worked example|draw this figure|your reply|instructions?)\s*:?\s*\*{0,3}\s*:?\s*$/gim;
 
 /** A stored answer key, printed under the question it belongs to. */
-const LEAKED_ANSWER = /^\s{0,4}[-*]?\s*\*{0,2}(?:answer|correct answer|solution|hint)\*{0,2}\s*:\s*.*$/gim;
+const LEAKED_ANSWER = /^\s{0,4}[-*]?\s*\*{0,2}(?:answer|correct answer|hint)\*{0,2}\s*:\s*.*$/gim;
+
+/**
+ * "Solution:" introduces the mandated worked-example step, not a leaked key —
+ * only the bare label is scaffolding. Strip the label, keep whatever working
+ * follows it on the line.
+ */
+const LEAKED_SOLUTION_LABEL = /^(\s{0,4}[-*]?\s*)\*{0,2}solution\*{0,2}\s*:\s*/gim;
 
 const LEAKED_TAGS = /^\s*@@[A-Z]+\s*:.*$/gim;
 
@@ -256,5 +263,6 @@ export function stripScaffolding(text: string, opts: { keepHint?: boolean } = {}
   out = out.replace(LEAKED_ANSWER, (line) =>
     opts.keepHint && /^\s{0,4}[-*]?\s*\*{0,2}hint/i.test(line) ? line : ""
   );
+  out = out.replace(LEAKED_SOLUTION_LABEL, "$1");
   return out.replace(/\n{3,}/g, "\n\n").trim();
 }

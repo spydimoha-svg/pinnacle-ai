@@ -142,6 +142,10 @@ export function factualAnswer(
 ): string | null {
   const ncert = findNcertForQuery(message, classLevel);
   if (!ncert?.missingExercise) return null;
+  // findNcertForQuery falls back to matching a bare "N.N" (e.g. a student's own
+  // answer, "I got 1.5"), which is not a claim about an exercise number. Only
+  // report a missing exercise when the student actually named one.
+  if (!/\b(?:exercise|example|ex\.?)\s*\.?\s*\d+\.\d+\b/i.test(message)) return null;
   const have = ncert.chapter.exercises.map((e) => e.exercise);
   return [
     `There is no **Exercise ${ncert.missingExercise}** in ${ncert.chapter.title} (${ncert.chapter.book}).`,
