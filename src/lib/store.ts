@@ -71,6 +71,9 @@ interface PinnacleState {
   logout: () => void;
   allUsers: () => User[];
   addStudent: (u: Omit<User, "id" | "role">) => User;
+  /** Mirrors a locally-created student's profile onto their Supabase user so
+   *  Login.tsx can rebuild it on a different device (see linkCloudProfile). */
+  linkCloudProfile: (u: User) => Promise<void>;
 
   memory: () => StudentMemory | null;
   updateMemory: (patch: Partial<StudentMemory>) => void;
