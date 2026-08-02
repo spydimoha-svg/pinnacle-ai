@@ -21,7 +21,7 @@
 import type { ClassLevel, StudentMemory } from "./types";
 import { SUBJECTS } from "../data/curriculum";
 import { conceptMapFor, roadmapDiagram, type Concept, type ConceptMap } from "../data/concepts";
-import { groundingFor } from "./grounding";
+import { groundingForChapter } from "./grounding";
 import { describeLearner, type LearnerProfile } from "./learner";
 import { gradeAnswer, stripScaffolding } from "./grade";
 import { FORMAT_CONTRACT, FORMAT_REMINDER } from "./persona";
@@ -251,8 +251,8 @@ function header(map: ConceptMap, memory: StudentMemory | null, profile: LearnerP
   ].join("\n");
 }
 
-function groundedSource(text: string, classLevel: ClassLevel): string {
-  const g = groundingFor(text, classLevel);
+function groundedSource(chapterId: string, classLevel: ClassLevel): string {
+  const g = groundingForChapter(chapterId, classLevel);
   return g
     ? `\n## THE REAL SOURCE — teach only from this\n<<<NCERT\n${g}\nNCERT>>>\nDo not substitute a different problem, exercise or number. If something is not in here, say so instead of inventing it.\n`
     : "";
@@ -426,7 +426,7 @@ function planTeach(
       FORMAT_CONTRACT,
       "",
       header(map, memory, profile),
-      groundedSource(`${map.chapterTitle} ${concept.title}`, map.classLevel),
+      groundedSource(map.chapterId, map.classLevel),
       `## THIS REPLY ONLY: teach step ${n} of ${total}. Nothing else in the chapter exists right now.`,
       "",
       "Everything below describes what to SAY. None of it is a template. Never print these descriptions, never print a heading like \"The one idea\" or \"Worked example\", and never print the word \"Answer\" followed by the solution. You are talking to a student, so write what a teacher would actually say out loud.",
@@ -484,7 +484,7 @@ function planCheck(
       FORMAT_CONTRACT,
       "",
       header(map, memory, profile),
-      groundedSource(`${map.chapterTitle} ${concept.title}`, map.classLevel),
+      groundedSource(map.chapterId, map.classLevel),
       `## THIS REPLY ONLY: mark the answer they just gave on "${concept.title}".`,
       "",
       "What follows is private. It is the marking key, not a template. NEVER print the correct answer as an \"Answer:\" line, never print these headings, and never re-state the instructions — the student sees only your reply to them.",
@@ -564,7 +564,7 @@ function planReteach(
       FORMAT_CONTRACT,
       "",
       header(map, memory, profile),
-      groundedSource(`${map.chapterTitle} ${concept.title}`, map.classLevel),
+      groundedSource(map.chapterId, map.classLevel),
       `## THIS REPLY ONLY: they did not understand "${concept.title}". Explain it again, DIFFERENTLY.`,
       "",
       "These are instructions, not a form to fill in. Do not print any heading from them, do not print an \"Answer:\" line, and do not repeat the instructions back. Write only what you would say aloud to the student.",

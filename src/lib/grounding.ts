@@ -8,7 +8,7 @@
 // nothing matches, we return null and the persona's honesty rule kicks in.
 import type { ClassLevel, Chapter, Subject } from "./types";
 import { SUBJECTS, questionsFor } from "../data";
-import { findNcertForQuery, buildGroundingContent } from "../data/ncert";
+import { findNcertForQuery, buildGroundingContent, ncertChapterById } from "../data/ncert";
 
 const STOP = new Set([
   "the", "a", "an", "of", "to", "me", "my", "is", "in", "on", "and", "for",
@@ -155,5 +155,26 @@ export function groundingFor(
   const cc = findCurriculumChapter(message, classLevel);
   if (cc) return capped(buildCurriculumGrounding(cc.subject, cc.chapter));
 
+  return null;
+}
+
+/**
+ * Ground on a chapter that is already known, not guessed. A structured lesson
+ * always knows exactly which chapter it is teaching, so it must never fall
+ * back to the fuzzy keyword search above — a wrong-chapter match there is the
+ * one grounding failure that actively teaches the wrong thing.
+ */
+export function groundingForChapter(
+  chapterId: string,
+  classLevel?: ClassLevel
+): string | null {
+  const ncert = ncertChapterById(chapterId);
+  if (ncert) return capped(buildGroundingContent({ chapter: ncert }));
+
+  for (const s of SUBJECTS) {
+    if (classLevel && s.classLevel !== classLevel) continue;
+    const c = s.chapters.find((ch) => ch.id === chapterId);
+    if (c) return capped(buildCurriculumGrounding(s, c));
+  }
   return null;
 }

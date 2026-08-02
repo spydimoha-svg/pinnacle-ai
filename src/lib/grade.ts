@@ -132,8 +132,9 @@ export function gradeAnswer(
   //    Exponents (the "2" in "x^2") are stripped first: they are not values a
   //    student could copy as a coefficient, so they must not shadow a genuine
   //    answer value that happens to share the same digit (e.g. a root of 2).
-  const qNums = new Set(numbers(plain(question).replace(/\^\s*-?\d+(?:\.\d+)?/g, " ")));
-  const cNums = numbers(c);
+  const stripExponents = (s: string) => s.replace(/\^\s*-?\d+(?:\.\d+)?/g, " ");
+  const qNums = new Set(numbers(stripExponents(plain(question))));
+  const cNums = numbers(stripExponents(c));
   const essential = cNums.filter((n) => !qNums.has(n));
   if (essential.length) {
     const sNums = new Set(numbers(s));
