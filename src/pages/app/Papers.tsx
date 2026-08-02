@@ -6,13 +6,12 @@ import {
   ChevronUp,
   ClipboardCheck,
   Library,
-  Lightbulb,
   MessageCircle,
 } from "lucide-react";
 import type { Question, QuestionSource } from "../../lib/types";
 import { useStore } from "../../lib/store";
 import { getSubject, questionsFor, subjectsForClass } from "../../data";
-import { Empty, MarksBadge, Markdown } from "../../components/ui";
+import { Empty, MarkingSchemeReveal, MarksBadge } from "../../components/ui";
 
 const SOURCE_META: Record<QuestionSource, { label: string; chip: string }> = {
   pyq: { label: "PYQ", chip: "chip-sky" },
@@ -358,27 +357,12 @@ function PaperQuestion({
       </div>
 
       {open && (
-        <div className="card-inset mt-4 space-y-3">
-          <div className="eyebrow-dim">Marking scheme answer</div>
-          <Markdown text={q.answer} />
-          {q.keywords.length > 0 && (
-            <div>
-              <div className="eyebrow-dim mb-2">Examiner looks for</div>
-              <div className="flex flex-wrap gap-1.5">
-                {q.keywords.map((k) => (
-                  <span key={k} className="chip-gold">
-                    {k}
-                  </span>
-                ))}
-              </div>
-            </div>
-          )}
-          {q.examinerTip && (
-            <p className="text-xs text-muted flex items-start gap-2">
-              <Lightbulb size={14} className="text-gold shrink-0 mt-0.5" />
-              {q.examinerTip}
-            </p>
-          )}
+        <div className="card-inset mt-4">
+          <MarkingSchemeReveal
+            answer={q.answer}
+            keywords={q.keywords}
+            examinerTip={q.examinerTip}
+          />
         </div>
       )}
     </div>

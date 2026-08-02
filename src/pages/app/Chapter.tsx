@@ -14,7 +14,7 @@ import {
 import { useStore } from "../../lib/store";
 import { getChapter, questionsFor, videosForClass } from "../../data";
 import type { ProgressStatus, Question } from "../../lib/types";
-import { Empty, MarksBadge, ProgressBar, SectionHead } from "../../components/ui";
+import { Empty, MarkingSchemeReveal, MarksBadge, ProgressBar, SectionHead } from "../../components/ui";
 
 const STATUS_OPTIONS: { value: ProgressStatus; label: string }[] = [
   { value: "not-started", label: "Not started" },
@@ -65,38 +65,12 @@ function QuestionCard({ q, index }: { q: Question; index: number }) {
         </button>
       </div>
       {open && (
-        <div className="border-t border-line bg-ink/60 p-5 space-y-3">
-          <div>
-            <div className="eyebrow-dim mb-1.5">Marking-scheme answer</div>
-            <p className="text-sm text-muted leading-relaxed whitespace-pre-line">
-              {q.answer}
-            </p>
-          </div>
-          {q.keywords.length > 0 && (
-            <div>
-              <div className="eyebrow-dim mb-1.5">Examiner looks for</div>
-              <div className="flex flex-wrap gap-1.5">
-                {q.keywords.map((kw) => (
-                  <span key={kw} className="chip-gold">
-                    {kw}
-                  </span>
-                ))}
-              </div>
-            </div>
-          )}
-          {q.examinerTip && (
-            <div className="flex items-start gap-2.5 card-inset !border-gold-dim/40">
-              <Lightbulb
-                size={16}
-                strokeWidth={1.8}
-                className="text-gold mt-0.5 shrink-0"
-              />
-              <p className="text-xs text-muted leading-relaxed">
-                <span className="font-semibold text-gold">Examiner tip · </span>
-                {q.examinerTip}
-              </p>
-            </div>
-          )}
+        <div className="border-t border-line bg-ink/60 p-5">
+          <MarkingSchemeReveal
+            answer={q.answer}
+            keywords={q.keywords}
+            examinerTip={q.examinerTip}
+          />
         </div>
       )}
     </div>

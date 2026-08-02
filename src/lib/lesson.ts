@@ -319,6 +319,7 @@ function planPlacement(map: ConceptMap, memory: StudentMemory | null, profile: L
       "- No figure in this reply.",
       "- Under 120 words in total.",
       "- End after the last question. Nothing follows it.",
+      syllabusGuard(map.classLevel),
     ].join("\n"),
     reminder:
       "Remember: this reply asks the questions and stops. No teaching, no definitions, no examples, no answering your own questions. Under 120 words.",
@@ -357,6 +358,8 @@ function planGrade(
       "- Do NOT start teaching the first concept. The next message does that.",
       "- Do NOT list the chapter contents — the app draws the route map itself, right under your reply.",
       "- Under 130 words.",
+      "",
+      syllabusGuard(map.classLevel),
       "",
       "Then, as the very last lines, output these two control lines exactly (the student never sees them):",
       "@@PLACEMENT: beginner|developing|strong",

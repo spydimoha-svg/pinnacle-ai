@@ -7,7 +7,6 @@ import {
   FilePlus2,
   FileText,
   Info,
-  Lightbulb,
   Mountain,
   Sparkles,
 } from "lucide-react";
@@ -15,7 +14,7 @@ import type { Question, Worksheet, WorksheetItem } from "../../lib/types";
 import { useStore } from "../../lib/store";
 import { getSubject, questionsFor, subjectsForClass } from "../../data";
 import { generateOnce } from "../../lib/ai";
-import { Empty, MarksBadge, Markdown, SectionHead } from "../../components/ui";
+import { Empty, MarkingSchemeReveal, MarksBadge, SectionHead } from "../../components/ui";
 
 const MARKS_OPTIONS = [1, 2, 3, 5] as const;
 const COUNT_OPTIONS = [5, 10, 15] as const;
@@ -625,27 +624,12 @@ function QuestionAttempt({
           <Eye size={14} /> Reveal marking scheme
         </button>
       ) : (
-        <div className="card-inset mt-3 space-y-3">
-          <div className="eyebrow-dim">Marking scheme answer</div>
-          <Markdown text={q.answer} />
-          {q.keywords.length > 0 && (
-            <div>
-              <div className="eyebrow-dim mb-2">Examiner looks for</div>
-              <div className="flex flex-wrap gap-1.5">
-                {q.keywords.map((k) => (
-                  <span key={k} className="chip-gold">
-                    {k}
-                  </span>
-                ))}
-              </div>
-            </div>
-          )}
-          {q.examinerTip && (
-            <p className="text-xs text-muted flex items-start gap-2">
-              <Lightbulb size={14} className="text-gold shrink-0 mt-0.5" />
-              {q.examinerTip}
-            </p>
-          )}
+        <div className="card-inset mt-3">
+          <MarkingSchemeReveal
+            answer={q.answer}
+            keywords={q.keywords}
+            examinerTip={q.examinerTip}
+          />
         </div>
       )}
     </div>
