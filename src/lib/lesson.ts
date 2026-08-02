@@ -321,8 +321,10 @@ function planPlacement(map: ConceptMap, memory: StudentMemory | null, profile: L
       "- End after the last question. Nothing follows it.",
       syllabusGuard(map.classLevel),
     ].join("\n"),
-    reminder:
+    reminder: [
       "Remember: this reply asks the questions and stops. No teaching, no definitions, no examples, no answering your own questions. Under 120 words.",
+      FORMAT_REMINDER,
+    ].join("\n\n"),
     maxTokens: 300,
   };
 }
@@ -365,8 +367,10 @@ function planGrade(
       "@@PLACEMENT: beginner|developing|strong",
       `@@GAPS: comma-separated ids of the prerequisites they missed (from: ${probes.map((p) => p.id).join(", ") || "none"}), or the word none`,
     ].join("\n"),
-    reminder:
+    reminder: [
       "Mark the answers, say where you'll start, stop. No teaching yet. Finish with the two @@ control lines.",
+      FORMAT_REMINDER,
+    ].join("\n\n"),
     maxTokens: 340,
     appendAfter: buildRoadmapMessage(map, state),
   };
@@ -519,8 +523,10 @@ function planCheck(
     ]
       .filter(Boolean)
       .join("\n"),
-    reminder:
+    reminder: [
       "First check: is this an attempt at the answer, or a genuine doubt? A doubt gets answered directly, not graded — end that reply with @@VERDICT: question and put the check question back to them. Otherwise mark it: if wrong, name the cause, hint, re-ask smaller — do not give the answer away. Finish with the @@VERDICT line.",
+      FORMAT_REMINDER,
+    ].join("\n\n"),
     maxTokens: 260,
   };
 }
@@ -584,8 +590,10 @@ function planReteach(
       "",
       "End with ONE very small question — smaller than the last one — that they can almost certainly get right. Confidence first, difficulty after.",
     ].join("\n"),
-    reminder:
+    reminder: [
       "Different words, different example, different angle from your last explanation. Simpler and shorter. End on one very easy question.",
+      FORMAT_REMINDER,
+    ].join("\n\n"),
     // Deliberately tighter than the teach budget: a re-explanation that runs
     // longer than the explanation that already failed is not a simplification.
     maxTokens: attempt <= 1 ? 320 : 240,
@@ -606,7 +614,7 @@ function planRecap(
       FORMAT_CONTRACT,
       "",
       header(map, memory, profile),
-      "",
+      groundedSource(map.chapterId, map.classLevel),
       `## THIS REPLY ONLY: close out ${map.chapterTitle}.`,
       `They have worked through every step:\n${done}`,
       "",
@@ -614,7 +622,7 @@ function planRecap(
       "1. One line of genuine, specific praise — name what they actually did, not 'well done'.",
       "2. The chapter in five lines: one line per step, the idea only, as a revision card they can re-read in a minute.",
       "3. The one mistake most likely to cost them marks in the board exam on this chapter.",
-      "4. Two real board-style questions to try now, with marks shown. Questions only — no answers.",
+      "4. Two board-style questions to try now, with marks shown. Take them from THE REAL SOURCE above — reuse or lightly adapt its exercises and examples, never a question you recall from elsewhere. If the source above does not give you enough to build two, say plainly you're short one instead of inventing it. Questions only — no answers.",
       "",
       syllabusGuard(map.classLevel),
       "",
