@@ -73,6 +73,8 @@ export function buildVideoJsonPrompt(opts: {
     `Narration language: ${opts.language} (write every spoken line and caption in this language)`,
     `Depth: ${depthLine}`,
     "",
+    `Stay strictly inside the CBSE Class ${opts.classLevel} syllabus. If "${opts.topic}" is not part of that syllabus, or belongs to a different class, do NOT teach it — instead pick the nearest topic that IS in the Class ${opts.classLevel} CBSE syllabus and have the character gently say so before teaching that instead (e.g. "That's not on your Class ${opts.classLevel} syllabus, but here's something close that is...").`,
+    "",
     `## The character speaking. This is not a style note — it is who is on screen.`,
     `Name: ${c.name}`,
     `Who they are: ${c.persona}`,
