@@ -270,12 +270,13 @@ ${FORMAT_REMINDER}`
         if (moved.phase === "done") {
           const { done, total } = lessonProgress(moved);
           const shaky = Object.values(moved.progress).some((p) => p.status === "shaky");
+          const alreadyAwarded = memory?.progress[moved.chapterId]?.masteryAwarded ?? false;
           recordProgress({
             chapterId: moved.chapterId,
             status: shaky ? "revising" : "mastered",
             confidence: total ? Math.round((done / total) * 100) : 0,
             lastStudied: new Date().toISOString(),
-            masteryAwarded: !shaky,
+            masteryAwarded: alreadyAwarded || !shaky,
           });
         }
       } else if (justStarted && active) {

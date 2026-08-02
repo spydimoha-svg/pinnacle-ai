@@ -176,6 +176,7 @@ export function LessonPlayer({
   }
   function togglePlay() {
     if (!started) return begin();
+    if (atEnd && !playing) return replay();
     setPlaying((p) => !p);
   }
   function go(delta: number) {
