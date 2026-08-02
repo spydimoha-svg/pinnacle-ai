@@ -15,6 +15,11 @@ import type {
 } from "./types";
 import { MASTER_NAME, SCHOOLS, USERS } from "../data/schools";
 import type { CloudUserData } from "./cloud";
+import {
+  deleteSchoolResource,
+  loadSchoolResources,
+  saveSchoolResources,
+} from "./cloud";
 import type { LessonState } from "./lesson";
 import { freshProfile, type LearnerProfile } from "./learner";
 import { cloudEnabled } from "./supabase";
@@ -101,6 +106,8 @@ interface PinnacleState {
 
   addSchoolResource: (r: Resource) => void;
   removeSchoolResource: (id: string) => void;
+  /** Pull every school's materials from the cloud DB (cloud wins per id). */
+  hydrateSchoolResources: () => Promise<void>;
 
   upsertSchool: (s: School) => void;
   removeSchool: (id: string) => void;
@@ -137,6 +144,7 @@ export const useStore = create<PinnacleState>()(
               : s.memories,
         }));
         get().touchStreak();
+        void get().hydrateSchoolResources();
         return user;
       },
 

@@ -35,22 +35,29 @@ export default function Protected({
 
   useEffect(() => {
     if (role !== "master") return;
-    const token = localStorage.getItem(MASTER_TOKEN_KEY);
-    if (!token) {
-      setServerOk(false);
-      return;
-    }
     let cancelled = false;
-    fetch("/api/master-login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ verify: token }),
-    })
-      .then((r) => (r.ok ? r.json() : { valid: false }))
-      .then((d) => !cancelled && setServerOk(!!d.valid))
-      .catch(() => !cancelled && setServerOk(false));
+    const check = () => {
+      const token = localStorage.getItem(MASTER_TOKEN_KEY);
+      if (!token) {
+        if (!cancelled) setServerOk(false);
+        return;
+      }
+      fetch("/api/master-login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ verify: token }),
+      })
+        .then((r) => (r.ok ? r.json() : { valid: false }))
+        .then((d) => !cancelled && setServerOk(!!d.valid))
+        .catch(() => !cancelled && setServerOk(false));
+    };
+    check();
+    // The token is a 30-minute TTL server-side; re-verify periodically so a
+    // console left open in a tab loses access without needing a page reload.
+    const interval = setInterval(check, 60_000);
     return () => {
       cancelled = true;
+      clearInterval(interval);
     };
   }, [role]);
 
@@ -60,20 +67,25 @@ export default function Protected({
     // token Login.tsx stored, and app_metadata can only be set with the
     // service-role key — never by the signed-in user themselves.
     if (role !== "admin" || !cloudEnabled() || !supabase) return;
-    const token = localStorage.getItem(ADMIN_TOKEN_KEY);
-    if (!token) {
-      setServerOk(false);
-      return;
-    }
     let cancelled = false;
-    supabase.auth
-      .getUser(token)
-      .then(({ data, error }) => {
-        if (!cancelled) setServerOk(!error && data.user?.app_metadata?.role === "admin");
-      })
-      .catch(() => !cancelled && setServerOk(false));
+    const check = () => {
+      const token = localStorage.getItem(ADMIN_TOKEN_KEY);
+      if (!token) {
+        if (!cancelled) setServerOk(false);
+        return;
+      }
+      supabase.auth
+        .getUser(token)
+        .then(({ data, error }) => {
+          if (!cancelled) setServerOk(!error && data.user?.app_metadata?.role === "admin");
+        })
+        .catch(() => !cancelled && setServerOk(false));
+    };
+    check();
+    const interval = setInterval(check, 60_000);
     return () => {
       cancelled = true;
+      clearInterval(interval);
     };
   }, [role]);
 

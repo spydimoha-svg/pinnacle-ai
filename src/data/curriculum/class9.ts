@@ -736,6 +736,8 @@ const english: Subject = {
         "Gerrard outwits the Intruder",
         "Presence of mind and wit as weapons",
       ],
+      boardNotes:
+        "Being the only play in Beehive, this chapter is tested through a character/plot question on how Gerrard outwits the Intruder, and occasionally through a short extract from the dialogue.",
     },
 
     // ---- Moments (supplementary reader)
@@ -748,6 +750,8 @@ const english: Subject = {
         "The village fair and a child's desires",
         "Security of parents over every temptation",
       ],
+      boardNotes:
+        "The standard question asks what the ending reveals about a child's priorities — security with parents over any single temptation — rather than simply listing what he wanted to buy at the fair.",
     },
     {
       id: "c9-english-11",
@@ -758,6 +762,8 @@ const english: Subject = {
         "Toto the mischievous monkey",
         "Humour and the cost of keeping a pet",
       ],
+      boardNotes:
+        "A lighter, humour-based chapter — questions usually ask students to narrate a specific incident (the train journey, the biscuit tin) rather than analyse a theme.",
     },
     {
       id: "c9-english-12",
@@ -768,6 +774,8 @@ const english: Subject = {
         "Iswaran's exaggerated tall tales",
         "The ghost story and its twist ending",
       ],
+      boardNotes:
+        "The standard question asks students to describe the twist in the ghost story and what it reveals about Iswaran's storytelling, not just to retell the tale.",
     },
     {
       id: "c9-english-13",
@@ -779,6 +787,8 @@ const english: Subject = {
         "The guru and disciple's presence of mind",
         "Justice turned upside down",
       ],
+      boardNotes:
+        "Being a folk tale, this chapter is tested through a moral/value-based question on what the story satirises — a kingdom where justice is upside down — more often than plain plot recall.",
     },
     {
       id: "c9-english-14",
@@ -789,6 +799,8 @@ const english: Subject = {
         "The statue and the swallow",
         "Sacrifice, compassion and true beauty",
       ],
+      boardNotes:
+        "Value-based questions on sacrifice and true beauty — contrasting the statue's gold exterior with its selfless acts — are the standard long-answer format for this chapter.",
     },
     {
       id: "c9-english-15",
@@ -799,6 +811,8 @@ const english: Subject = {
         "Johnsy's illness and the ivy leaf",
         "Behrman's masterpiece and his sacrifice",
       ],
+      boardNotes:
+        "The recurring long-answer question asks why Behrman's painted leaf is called his 'masterpiece' — testing whether students connect the sacrifice to the definition of true art, not just recall the plot twist.",
     },
     {
       id: "c9-english-16",
@@ -810,6 +824,8 @@ const english: Subject = {
         "Kindness of classmates and the cat's return",
         "Home is people, not a building",
       ],
+      boardNotes:
+        "The standard question asks what the chapter means by 'home is people, not a building' — a direct value-based prompt tied to the title itself.",
     },
     {
       id: "c9-english-17",
@@ -821,6 +837,8 @@ const english: Subject = {
         "Sergei's firmness and Olga's compassion",
         "Dignity of labour",
       ],
+      boardNotes:
+        "The recurring question traces Lushkoff's transformation and asks who is really responsible for it — Sergei's firmness or Olga's compassion — a two-part reasoning question rather than a single-answer one.",
     },
   ],
 };
