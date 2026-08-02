@@ -314,6 +314,117 @@ export const C11_QUESTIONS: Question[] = [
     ],
   },
 
+  {
+    id: "q-c11-chemistry-04-x1",
+    subjectId: "c11-chemistry",
+    chapterId: "c11-chemistry-04",
+    classLevel: 11,
+    text: "Using VSEPR theory, predict the shape of the ammonia (NH₃) molecule and explain why its bond angle (107°) is slightly less than the tetrahedral angle (109.5°).",
+    marks: 2,
+    type: "sa",
+    source: "important",
+    answer:
+      "Nitrogen in NH₃ has 3 bond pairs (N–H) and 1 lone pair, giving a total of 4 electron pairs arranged tetrahedrally, so the molecule is pyramidal (trigonal pyramidal) in shape.\n\nThe lone pair occupies more space than a bond pair and exerts a greater repulsion on the bonding pairs, pushing the N–H bonds slightly closer together. This lone pair–bond pair repulsion compresses the angle from 109.5° to about 107°.",
+    keywords: [
+      "4 electron pairs (3 bond pairs + 1 lone pair) → tetrahedral arrangement",
+      "shape is pyramidal (trigonal pyramidal)",
+      "lone pair–bond pair repulsion > bond pair–bond pair repulsion",
+      "angle reduced from 109.5° to 107°",
+    ],
+    examinerTip:
+      "Always state the repulsion order lp–lp > lp–bp > bp–bp when explaining any bond-angle deviation — this is the value point examiners look for.",
+  },
+  {
+    id: "q-c11-chemistry-05-x1",
+    subjectId: "c11-chemistry",
+    chapterId: "c11-chemistry-05",
+    classLevel: 11,
+    text: "For a reaction, ΔH = 30 kJ/mol and ΔS = 100 J/K/mol at 300 K. Calculate ΔG and predict whether the reaction is spontaneous at this temperature.",
+    marks: 2,
+    type: "sa",
+    source: "important",
+    answer:
+      "ΔG = ΔH − TΔS.\n\nΔS = 100 J/K/mol = 0.1 kJ/K/mol.\n\nΔG = 30 − (300 × 0.1) = 30 − 30 = 0 kJ/mol.\n\nSince ΔG = 0, the reaction is at equilibrium at 300 K (neither spontaneous nor non-spontaneous).",
+    keywords: [
+      "ΔG = ΔH − TΔS",
+      "convert ΔS to kJ/K/mol: 0.1 kJ/K/mol",
+      "ΔG = 30 − 300(0.1) = 0",
+      "ΔG = 0 ⇒ system at equilibrium",
+    ],
+  },
+  {
+    id: "q-c11-chemistry-06-x1",
+    subjectId: "c11-chemistry",
+    chapterId: "c11-chemistry-06",
+    classLevel: 11,
+    text: "Calculate the pH of a 0.001 M HCl solution, assuming complete dissociation.",
+    marks: 2,
+    type: "sa",
+    source: "important",
+    answer:
+      "HCl is a strong acid and dissociates completely: HCl → H⁺ + Cl⁻.\n\n[H⁺] = 0.001 M = 10⁻³ M.\n\npH = −log[H⁺] = −log(10⁻³) = 3.",
+    keywords: [
+      "HCl dissociates completely, [H⁺] = 0.001 M",
+      "pH = −log[H⁺]",
+      "pH = 3",
+    ],
+    examinerTip:
+      "Do not confuse concentration of acid with [H⁺] for weak acids — this shortcut only works because HCl is a strong acid with 100% dissociation.",
+  },
+  {
+    id: "q-c11-chemistry-07-x1",
+    subjectId: "c11-chemistry",
+    chapterId: "c11-chemistry-07",
+    classLevel: 11,
+    text: "Assign oxidation numbers to manganese in KMnO₄ and to chromium in K₂Cr₂O₇.",
+    marks: 2,
+    type: "sa",
+    source: "important",
+    answer:
+      "KMnO₄: K is +1, O is −2 (×4 = −8). Let oxidation number of Mn = x.\n(+1) + x + (−8) = 0 ⇒ x = +7. So Mn is in the +7 oxidation state.\n\nK₂Cr₂O₇: K is +1 (×2 = +2), O is −2 (×7 = −14). Let oxidation number of Cr = y.\n(+2) + 2y + (−14) = 0 ⇒ 2y = 12 ⇒ y = +6. So Cr is in the +6 oxidation state.",
+    keywords: [
+      "sum of oxidation numbers in a neutral compound = 0",
+      "KMnO₄: (+1) + x + 4(−2) = 0 ⇒ Mn = +7",
+      "K₂Cr₂O₇: 2(+1) + 2y + 7(−2) = 0 ⇒ Cr = +6",
+    ],
+  },
+  {
+    id: "q-c11-chemistry-08-x1",
+    subjectId: "c11-chemistry",
+    chapterId: "c11-chemistry-08",
+    classLevel: 11,
+    text: "Write the IUPAC name of CH₃–CH(CH₃)–CH₂–CH₃ and identify the type of isomerism it shows with n-pentane.",
+    marks: 2,
+    type: "sa",
+    source: "important",
+    answer:
+      "The longest continuous carbon chain is 4 carbons long, with a methyl group attached at C2, so the IUPAC name is 2-methylbutane.\n\n2-Methylbutane and n-pentane have the same molecular formula, C₅H₁₂, but differ only in how the carbon atoms are arranged (branched vs straight chain). This is chain (skeletal) isomerism.",
+    keywords: [
+      "identify the longest continuous carbon chain and number for the lowest locant",
+      "IUPAC name: 2-methylbutane",
+      "same molecular formula C₅H₁₂, different carbon skeleton = chain (skeletal) isomerism",
+    ],
+    examinerTip:
+      "For nomenclature questions, first find the longest chain containing the branch point, then number it to give the substituent the lowest possible locant.",
+  },
+  {
+    id: "q-c11-chemistry-09-x1",
+    subjectId: "c11-chemistry",
+    chapterId: "c11-chemistry-09",
+    classLevel: 11,
+    text: "Write the IUPAC name and one method of preparation of ethyne (acetylene) from calcium carbide.",
+    marks: 2,
+    type: "sa",
+    source: "important",
+    answer:
+      "IUPAC name of acetylene (HC≡CH) is ethyne.\n\nPreparation from calcium carbide: calcium carbide reacts with water to give ethyne and calcium hydroxide.\n\nCaC₂ + 2H₂O → Ca(OH)₂ + C₂H₂↑",
+    keywords: [
+      "IUPAC name: ethyne",
+      "CaC₂ + 2H₂O → Ca(OH)₂ + C₂H₂",
+      "this is the standard laboratory method for preparing ethyne",
+    ],
+  },
+
   // ── MATHEMATICS ──
   {
     id: "q-c11-maths-01-x1",

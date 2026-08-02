@@ -464,6 +464,8 @@ function planTeach(
       concept.check.q ? `End with exactly this question and nothing after it: "${concept.check.q}"` : "End with one short check question and nothing after it.",
       FORMAT_REMINDER,
     ].join("\n\n"),
+    // 170 words of prose plus room for a worked example and a figure block.
+    maxTokens: 340,
   };
 }
 
