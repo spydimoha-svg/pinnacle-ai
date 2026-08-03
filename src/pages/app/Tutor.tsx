@@ -226,10 +226,12 @@ ${FORMAT_REMINDER}`
     } catch (err) {
       if ((err as Error)?.name === "AbortError" || controller.signal.aborted) {
         cancelled = true;
-      } else if (!full) {
-        // A dropped connection mid check-phase turn is not the student
-        // getting it wrong — treat it like a cancel so advance() never
-        // sees an undefined verdict and burns a retry on our outage.
+      } else {
+        // A dropped connection mid-turn — with or without partial text
+        // already streamed — is not the student getting it wrong, and a
+        // half-formed worked example is not a finished one. Treat it like a
+        // cancel so the partial text is never pushed as final and advance()
+        // never sees an undefined verdict and burns a retry on our outage.
         full = offlineTutorReply(content);
         cancelled = true;
       }

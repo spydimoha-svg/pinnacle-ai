@@ -8,6 +8,7 @@ import { C10_SCIENCE_QUESTIONS } from "./questions/c10science";
 import { C10_SST_ENGLISH_QUESTIONS } from "./questions/c10sstEnglish";
 import { C11_QUESTIONS } from "./questions/c11";
 import { C11_ECONOMICS_QUESTIONS } from "./questions/c11economics";
+import { C11_STATISTICS_QUESTIONS } from "./questions/c11statistics";
 import { C12_PHYSICS_QUESTIONS } from "./questions/c12physics";
 import { C12_CHEM_BIO_QUESTIONS } from "./questions/c12chemBio";
 import { C12_MATHS_C11_QUESTIONS } from "./questions/c12mathsC11";
@@ -28,6 +29,7 @@ export const QUESTIONS: Question[] = [
   ...C10_SST_ENGLISH_QUESTIONS,
   ...C11_QUESTIONS,
   ...C11_ECONOMICS_QUESTIONS,
+  ...C11_STATISTICS_QUESTIONS,
   ...C12_PHYSICS_QUESTIONS,
   ...C12_CHEM_BIO_QUESTIONS,
   ...C12_MATHS_C11_QUESTIONS,
