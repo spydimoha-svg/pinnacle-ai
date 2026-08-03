@@ -56,6 +56,13 @@ export function LessonRail({
           const current = i === state.index;
           const mastered = p?.status === "mastered";
           const shaky = p?.status === "shaky";
+          const statusLabel = mastered
+            ? "Mastered"
+            : shaky
+              ? "Needs another look"
+              : current
+                ? "Current step"
+                : "Locked";
           return (
             <li
               key={c.id}
@@ -73,6 +80,7 @@ export function LessonRail({
                 ) : (
                   <Lock size={13} className="opacity-40" />
                 )}
+                <span className="sr-only">{statusLabel}</span>
               </span>
               <span className={current ? "font-medium" : ""}>{c.title}</span>
             </li>
