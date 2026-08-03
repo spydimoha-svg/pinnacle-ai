@@ -1,0 +1,10 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "env": {
+    "ANTHROPIC_API_KEY": "",
+    "ANTHROPIC_AUTH_TOKEN": "",
+    "ANTHROPIC_BASE_URL": "",
+    "CLAUDE_CODE_USE_BEDROCK": "",
+    "CLAUDE_CODE_USE_VERTEX": ""
+  }
+}
