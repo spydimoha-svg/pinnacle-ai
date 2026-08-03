@@ -1424,6 +1424,29 @@ The whole poem rests on a single sustained metaphor in which Carl Sandburg compa
       "Extract MCQs on 'Fog' test the metaphor, not vocabulary. If asked to name the device, write METAPHOR, not simile — there is no 'like' or 'as' anywhere in the poem, and calling it a simile costs the mark outright.",
   },
   {
+    id: "q-c10-english-14-2",
+    subjectId: "c10-english",
+    chapterId: "c10-english-14",
+    classLevel: 10,
+    text: "Why does Carl Sandburg choose the image of a cat, rather than any other animal, to describe the fog? (30–40 words)",
+    marks: 2,
+    type: "sa",
+    source: "important",
+    answer: `Sandburg chooses a cat because cats are known for moving silently, stealthily and unpredictably — qualities that precisely match how fog behaves. A cat arrives without any sound on its soft paws ('little cat feet'), settles quietly and watches without disturbing anything ('sits looking...on silent haunches'), and leaves as suddenly and indifferently as it came ('and then moves on'), just as fog silently covers a harbour and city and then lifts away without warning.
+
+No other common animal combines silence, softness and sudden, unannounced arrival and departure the way a cat does, which is why the extended metaphor works so precisely to capture fog's mysterious, noiseless behaviour.`,
+    keywords: [
+      "cat is silent, stealthy, soft-footed",
+      "matches fog's noiseless arrival and departure",
+      "extended/sustained metaphor",
+      "'little cat feet', 'silent haunches', 'moves on'",
+      "cat watches without disturbing",
+      "precision of the comparison",
+    ],
+    examinerTip:
+      "The answer must justify WHY a cat specifically (silence plus soft, unpredictable movement), not just restate that fog is compared to a cat.",
+  },
+  {
     id: "q-c10-english-19-1",
     subjectId: "c10-english",
     chapterId: "c10-english-19",
@@ -1830,6 +1853,28 @@ The poet contrasts Amanda's real life, filled with continuous scolding printed i
       "Identify the typography before interpreting: plain text is the mother nagging, italics are Amanda's daydream. Missing this structural cue is the commonest reason students misattribute lines to the wrong speaker.",
   },
   {
+    id: "q-c10-english-10-2",
+    subjectId: "c10-english",
+    chapterId: "c10-english-10",
+    classLevel: 10,
+    text: "Why is Robin Klein's poem titled 'Amanda!' with an exclamation mark? What does this suggest about how Amanda is addressed at home? (30–40 words)",
+    marks: 2,
+    type: "sa",
+    source: "important",
+    answer: `The exclamation mark in the title 'Amanda!' imitates the sharp, impatient tone in which Amanda is repeatedly called at home — not as an affectionate use of her name, but as another instruction to obey. It immediately signals the poem's central concern: a child so constantly nagged and scolded that even her own name has become a trigger for correction.
+
+This is reinforced through the poem, where every appearance of ordinary type carries another command — sit up straight, don't slouch, stop biting your nails — turning 'Amanda' into a summons rather than a name, and explaining why she escapes into fantasies of freedom as a mermaid, an orphan and Rapunzel.`,
+    keywords: [
+      "exclamation mark mimics a scolding/reprimanding tone",
+      "name used as another instruction, not affection",
+      "constant nagging turns her name into a trigger for correction",
+      "explains her escape into fantasy",
+      "title reflects the poem's central concern",
+    ],
+    examinerTip:
+      "The exclamation mark is not decorative — it recreates the tone of the mother's voice calling out to correct her, which is what a 'why this title' question is testing.",
+  },
+  {
     id: "q-c10-english-11-1",
     subjectId: "c10-english",
     chapterId: "c10-english-11",
@@ -1851,6 +1896,29 @@ The Kodavus, the people of Coorg, are a martial race — independent, unique and
     ],
     examinerTip:
       "'Glimpses of India' has three unrelated sub-texts (baker, Coorg, tea) — a Coorg question answered with baker or tea details earns nothing. Name at least one theory of Kodavu ancestry, since it is a distinctive, markable fact.",
+  },
+  {
+    id: "q-c10-english-11-2",
+    subjectId: "c10-english",
+    chapterId: "c10-english-11",
+    classLevel: 10,
+    text: "In 'Glimpses of India', how does Lucio Rodrigues show that the baker was an important part of traditional Goan life? (40–50 words)",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer: `In 'A Baker from Goa', Lucio Rodrigues describes the baker, traditionally called the 'pader', as a figure central to Goan life since Portuguese times, still remembered fondly decades later. Every morning the baker announced his arrival by jingling the bells of his bamboo cane basket, and villagers, especially children, listened eagerly for the sound, since it meant fresh bread, particularly the sweet bread called 'bol', had arrived.
+
+The baker's visits were tied to every important occasion in Goan life, such as marriages, where the quantity of bread ordered was a matter of prestige and pride, showing that bread-making was not merely a trade but an inseparable part of Goan culture and tradition — one so deeply loved that it survived long after other symbols of the old times had faded.`,
+    keywords: [
+      "baker traditionally called 'pader' in Goa",
+      "announced arrival by jingling bells of the bamboo basket",
+      "bread called 'bol'",
+      "bread central to marriages and festivals",
+      "quantity of bread ordered was a matter of prestige",
+      "tradition survives even as other old customs fade",
+    ],
+    examinerTip:
+      "For the baker section, the jingling bells and the word 'bol' are the specific, markable details — not just 'people liked fresh bread'.",
   },
   {
     id: "q-c10-english-12-1",
@@ -1876,6 +1944,29 @@ Symbolically, the trees represent people, and especially women, who have long be
       "A literal answer about houseplants growing outward scores nothing on its own — the marking key wants the extended-metaphor reading (confinement to freedom) stated explicitly.",
   },
   {
+    id: "q-c10-english-12-2",
+    subjectId: "c10-english",
+    chapterId: "c10-english-12",
+    classLevel: 10,
+    text: "How does Adrienne Rich describe the trees' movement out of the house in 'The Trees', and what does this suggest about the nature of liberation? (40–50 words)",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer: `Adrienne Rich describes the trees' movement out of the house as slow, difficult and disorienting rather than triumphant. She writes of leaves that are 'half-dazed' and describes the trees moving out 'stumbling' and groping toward the glass 'like newly discharged patients', still recovering from the long confinement of being kept indoors.
+
+This imagery suggests that liberation, even when desired and necessary, is not easy or instantaneous — it is disorienting and painful, much as a patient recovering from a long illness must relearn to move in the world outside. The poet implies that breaking free of long confinement always carries this note of hesitant, halting difficulty rather than an easy, joyful escape.`,
+    keywords: [
+      "trees move 'stumbling'",
+      "leaves described as 'half-dazed'",
+      "'newly discharged patients' simile",
+      "liberation is difficult, not instantaneous",
+      "confinement compared to illness/recovery",
+      "change requires painful adjustment",
+    ],
+    examinerTip:
+      "The 'newly discharged patients' simile is the specific textual detail examiners check for — a vague 'the trees slowly left' misses that liberation is shown as difficult, not easy.",
+  },
+  {
     id: "q-c10-english-13-1",
     subjectId: "c10-english",
     chapterId: "c10-english-13",
@@ -1897,6 +1988,29 @@ The journey to England was eventful. On the flight from Basra, Mij was confined 
     ],
     examinerTip:
       "Questions on this chapter want specific INCIDENTS with detail (the wash-basin, the baby-seal remark), not a general 'the otter was loved' summary — the events themselves are the value points.",
+  },
+  {
+    id: "q-c10-english-13-2",
+    subjectId: "c10-english",
+    chapterId: "c10-english-13",
+    classLevel: 10,
+    text: "What does Gavin Maxwell's account of Mijbil the otter suggest about the possibility of a deep bond between humans and wild animals? (40–50 words)",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer: `Maxwell's account suggests that even an animal taken directly from the wild, with no history of domestication, can form as deep and affectionate a bond with a human being as any traditional pet. Mij follows the author about 'like a dog', sleeps curled against him, and shows visible distress and loud, chirming cries whenever he is frightened or separated, echoing the loyalty usually associated with dogs.
+
+At the same time, Maxwell never disguises Mij's wild, untrained nature — his chaotic escape from the cabin bag, his fascination with water, his total lack of house manners — showing that the bond does not depend on the animal being tamed or obedient. The story suggests that patience and affection can bridge the gap between a wild creature and a human companion.`,
+    keywords: [
+      "Mij follows the author 'like a dog'",
+      "sleeps curled against him",
+      "chirming cries of distress",
+      "bond does not require the animal to be tame or trained",
+      "wild, chaotic nature retained (escape, water fascination)",
+      "patience and affection bridge the gap",
+    ],
+    examinerTip:
+      "Do not claim Mij became 'tame' or 'obedient' — the story's point is the opposite: real affection can exist alongside completely wild, untrained behaviour.",
   },
   {
     id: "q-c10-english-15-1",

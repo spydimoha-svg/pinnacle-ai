@@ -519,6 +519,23 @@ export const C11_QUESTIONS: Question[] = [
     ],
   },
   {
+    id: "q-c11-chemistry-01-x2",
+    subjectId: "c11-chemistry",
+    chapterId: "c11-chemistry-01",
+    classLevel: 11,
+    text: "A compound contains 40% carbon, 6.7% hydrogen and 53.3% oxygen by mass. Determine its empirical formula. (Atomic masses: C = 12, H = 1, O = 16.)",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer:
+      "Moles of each element (mass % / atomic mass): C = 40/12 = 3.33, H = 6.7/1 = 6.7, O = 53.3/16 = 3.33.\n\nDivide by the smallest value (3.33): C = 1, H = 2, O = 1.\n\nSimplest whole-number ratio C:H:O = 1:2:1, so the empirical formula is CH₂O.",
+    keywords: [
+      "moles = mass % / atomic mass",
+      "divide each by the smallest value (3.33)",
+      "empirical formula = CH₂O",
+    ],
+  },
+  {
     id: "q-c11-chemistry-02-x1",
     subjectId: "c11-chemistry",
     chapterId: "c11-chemistry-02",
@@ -536,6 +553,23 @@ export const C11_QUESTIONS: Question[] = [
     ],
   },
   {
+    id: "q-c11-chemistry-02-x2",
+    subjectId: "c11-chemistry",
+    chapterId: "c11-chemistry-02",
+    classLevel: 11,
+    text: "Write the electronic configuration of the chromium atom (Z = 24) and explain why it does not follow the configuration expected from the Aufbau principle.",
+    marks: 2,
+    type: "sa",
+    source: "important",
+    answer:
+      "The Aufbau principle would predict [Ar] 3d⁴ 4s² for chromium (Z = 24). The actual configuration is [Ar] 3d⁵ 4s¹.\n\nThis is because a half-filled d-subshell (3d⁵) combined with a half-filled s-subshell (4s¹) is more stable than 3d⁴4s², due to the extra exchange energy and symmetrical distribution of electrons associated with a half-filled configuration.",
+    keywords: [
+      "Aufbau prediction: [Ar] 3d⁴ 4s²",
+      "actual configuration: [Ar] 3d⁵ 4s¹",
+      "half-filled 3d⁵ + half-filled 4s¹ is extra stable (exchange energy)",
+    ],
+  },
+  {
     id: "q-c11-chemistry-03-x1",
     subjectId: "c11-chemistry",
     chapterId: "c11-chemistry-03",
@@ -550,6 +584,23 @@ export const C11_QUESTIONS: Question[] = [
       "atomic radius decreases across a period",
       "increasing nuclear charge pulls electrons in",
       "Na (leftmost) is largest → option (A)",
+    ],
+  },
+  {
+    id: "q-c11-chemistry-03-x2",
+    subjectId: "c11-chemistry",
+    chapterId: "c11-chemistry-03",
+    classLevel: 11,
+    text: "Mg has a higher first ionisation enthalpy than Al, even though Al comes after Mg in Period 3. Explain why.",
+    marks: 2,
+    type: "sa",
+    source: "important",
+    answer:
+      "Mg has the electronic configuration [Ne] 3s², a fully filled and hence extra stable subshell, so removing an electron from it requires more energy.\n\nAl has the configuration [Ne] 3s² 3p¹. Its single 3p electron is at a higher energy than the 3s electrons and is shielded by them, so it is easier to remove. This makes the first ionisation enthalpy of Al lower than that of Mg, an exception to the general increase in ionisation enthalpy across a period.",
+    keywords: [
+      "Mg = [Ne]3s² — fully filled subshell, extra stable",
+      "Al = [Ne]3s²3p¹ — the single 3p electron is shielded and higher in energy",
+      "IE(Al) < IE(Mg): exception to the general periodic trend",
     ],
   },
 
@@ -574,6 +625,23 @@ export const C11_QUESTIONS: Question[] = [
       "Always state the repulsion order lp–lp > lp–bp > bp–bp when explaining any bond-angle deviation — this is the value point examiners look for.",
   },
   {
+    id: "q-c11-chemistry-04-x2",
+    subjectId: "c11-chemistry",
+    chapterId: "c11-chemistry-04",
+    classLevel: 11,
+    text: "Using molecular orbital theory, write the electronic configuration of the O₂ molecule, calculate its bond order, and state what it predicts about O₂'s magnetic behaviour.",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer:
+      "O₂ has 16 electrons in total. Its MO configuration is:\nσ1s² σ*1s² σ2s² σ*2s² σ2pz² π2px² π2py² π*2px¹ π*2py¹.\n\nBonding electrons (Nb) = 10, antibonding electrons (Na) = 6.\nBond order = (Nb − Na)/2 = (10 − 6)/2 = 2.\n\nThe configuration shows two unpaired electrons, one each in the π*2px and π*2py orbitals, so O₂ is paramagnetic — a result MOT predicts correctly but simple Lewis/VBT structures do not.",
+    keywords: [
+      "MO configuration ends in π*2px¹ π*2py¹",
+      "bond order = (Nb − Na)/2 = (10 − 6)/2 = 2",
+      "two unpaired electrons in π* orbitals ⇒ O₂ is paramagnetic",
+    ],
+  },
+  {
     id: "q-c11-chemistry-05-x1",
     subjectId: "c11-chemistry",
     chapterId: "c11-chemistry-05",
@@ -589,6 +657,23 @@ export const C11_QUESTIONS: Question[] = [
       "convert ΔS to kJ/K/mol: 0.1 kJ/K/mol",
       "ΔG = 30 − 300(0.1) = 0",
       "ΔG = 0 ⇒ system at equilibrium",
+    ],
+  },
+  {
+    id: "q-c11-chemistry-05-x2",
+    subjectId: "c11-chemistry",
+    chapterId: "c11-chemistry-05",
+    classLevel: 11,
+    text: "Given the following enthalpy data:\nC(s) + O₂(g) → CO₂(g), ΔH = −393.5 kJ/mol\nH₂(g) + ½O₂(g) → H₂O(l), ΔH = −285.8 kJ/mol\nC₂H₂(g) + 5/2 O₂(g) → 2CO₂(g) + H₂O(l), ΔH = −1299.6 kJ/mol\nUsing Hess's law, calculate the enthalpy of formation of C₂H₂(g).",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer:
+      "The formation reaction is 2C(s) + H₂(g) → C₂H₂(g).\n\nBy Hess's law, ΔH_f(C₂H₂) = [2 × ΔH_f(CO₂) + ΔH_f(H₂O)] − ΔH_combustion(C₂H₂), since combusting the formation elements and combusting C₂H₂ both end at 2CO₂ + H₂O.\n\nΔH_f(C₂H₂) = [2(−393.5) + (−285.8)] − (−1299.6)\n= (−787.0 − 285.8) + 1299.6\n= −1072.8 + 1299.6 = +226.8 kJ/mol.",
+    keywords: [
+      "Hess's law: total enthalpy change is path-independent",
+      "ΔH_f(C₂H₂) = [2ΔH_f(CO₂) + ΔH_f(H₂O)] − ΔH_combustion(C₂H₂)",
+      "ΔH_f(C₂H₂) = −1072.8 + 1299.6 = +226.8 kJ/mol",
     ],
   },
   {
@@ -609,6 +694,23 @@ export const C11_QUESTIONS: Question[] = [
     ],
     examinerTip:
       "Do not confuse concentration of acid with [H⁺] for weak acids — this shortcut only works because HCl is a strong acid with 100% dissociation.",
+  },
+  {
+    id: "q-c11-chemistry-06-x2",
+    subjectId: "c11-chemistry",
+    chapterId: "c11-chemistry-06",
+    classLevel: 11,
+    text: "For the reaction N₂(g) + 3H₂(g) ⇌ 2NH₃(g), 2 mol of N₂ and 2 mol of H₂ are mixed in a 1 L vessel. If 0.5 mol of NH₃ is present at equilibrium, find the equilibrium concentrations of N₂ and H₂.",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer:
+      "From the stoichiometry, 1 mol N₂ and 3 mol H₂ are consumed for every 2 mol NH₃ formed.\n\nFor 0.5 mol NH₃ formed: N₂ consumed = (1/2) × 0.5 = 0.25 mol; H₂ consumed = (3/2) × 0.5 = 0.75 mol.\n\n[N₂]eq = (2 − 0.25) mol / 1 L = 1.75 M.\n[H₂]eq = (2 − 0.75) mol / 1 L = 1.25 M.",
+    keywords: [
+      "ICE table using the stoichiometric ratio N₂ : H₂ : NH₃ = 1 : 3 : 2",
+      "N₂ consumed = 0.25 mol, H₂ consumed = 0.75 mol",
+      "[N₂]eq = 1.75 M, [H₂]eq = 1.25 M",
+    ],
   },
   {
     id: "q-c11-chemistry-07-x1",
