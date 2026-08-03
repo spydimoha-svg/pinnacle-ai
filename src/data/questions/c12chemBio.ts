@@ -317,6 +317,32 @@ Conclusion: the difference arises solely from the ligand field strength — CN�
     examinerTip:
       "Find the oxidation state and the d-configuration FIRST — students who jump straight to hybridisation usually use Fe⁰ or Fe²⁺ and lose the whole question. Magnetic moment must carry the unit BM.",
   },
+  {
+    id: "q-c12-chemistry-05-2",
+    subjectId: "c12-chemistry",
+    chapterId: "c12-chemistry-05",
+    classLevel: 12,
+    text: "(a) Write the IUPAC name of [Pt(NH₃)₂Cl₂]. (b) This complex shows two geometrical isomers — name them and state which one is used as an anticancer drug. (c) What type of isomerism is shown by [Co(NH₃)₅(NO₂)]Cl₂ because of the NO₂⁻ ligand?",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer: `(a) IUPAC name of [Pt(NH₃)₂Cl₂]: diamminedichloridoplatinum(II).
+
+(b) Being a square planar complex of the type [Ma₂b₂], it shows geometrical (cis-trans) isomerism:
+- cis-isomer: the two NH₃ groups (and the two Cl⁻ groups) occupy adjacent positions. This is CIS-PLATIN, and it is the isomer used as an anticancer drug — it binds to DNA in cancer cells and prevents replication.
+- trans-isomer: the two NH₃ groups (and the two Cl⁻ groups) are opposite each other. TRANS-PLATIN is therapeutically inactive.
+
+(c) NO₂⁻ is an ambidentate ligand — it can coordinate to the metal either through the nitrogen atom (as –NO₂, nitro) or through an oxygen atom (as –ONO, nitrito). Because the same ligand can bind through two different donor atoms, [Co(NH₃)₅(NO₂)]Cl₂ shows LINKAGE ISOMERISM.`,
+    keywords: [
+      "diamminedichloridoplatinum(II)",
+      "square planar — cis-trans (geometrical) isomerism",
+      "cis-platin is the anticancer drug, trans-platin is inactive",
+      "NO₂⁻ is an ambidentate ligand",
+      "linkage isomerism",
+    ],
+    examinerTip:
+      "Students frequently swap the two isomers — it is the CIS form (identical ligands adjacent) that is the anticancer drug; say so explicitly rather than just naming both isomers.",
+  },
 
   // ---------------------------------------------- 06 Haloalkanes and Haloarenes
   {
@@ -349,6 +375,34 @@ bromomethane < 1-bromobutane < 2-bromobutane < 2-bromo-2-methylpropane`,
     ],
     examinerTip:
       "The stereochemistry mark is the one everyone forgets — you must state that SN2 gives inversion of configuration, not merely draw the arrows.",
+  },
+  {
+    id: "q-c12-chemistry-06-2",
+    subjectId: "c12-chemistry",
+    chapterId: "c12-chemistry-06",
+    classLevel: 12,
+    text: "(a) Chlorobenzene has a much lower dipole moment than cyclohexyl chloride. Explain why. (b) Chlorobenzene is extremely unreactive towards nucleophilic substitution reactions even though chlorine is an ortho/para directing group in electrophilic substitution. Explain why.",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer: `(a) In chlorobenzene, chlorine is attached to an sp² hybridised carbon of the benzene ring. A lone pair on chlorine is delocalised into the ring by RESONANCE, giving the C–Cl bond partial double bond character; this pulls electron density away from chlorine towards the ring and reduces the polarity of the C–Cl bond, so chlorobenzene has a low dipole moment.
+In cyclohexyl chloride, chlorine is attached to an sp³ hybridised carbon with no such resonance possible, so the C–Cl bond remains fully polar and the dipole moment is higher.
+
+(b) Reasons for the low reactivity of chlorobenzene towards nucleophilic substitution:
+1. Resonance effect: as in (a), the partial double bond character makes the C–Cl bond shorter and stronger than a normal C–Cl single bond, so it is much harder to break.
+2. The carbon bearing Cl is sp² hybridised; sp² carbon is more electronegative than sp³ carbon and holds the bonding electron pair of the C–Cl bond more tightly, resisting attack by a nucleophile.
+3. Any nucleophile approaching the ring is repelled by the high electron density of the ring (itself increased by the resonance donation from Cl), which further discourages nucleophilic attack.
+
+Conclusion: the very resonance that makes chlorine an o/p-director in electrophilic substitution is what makes the C–Cl bond too strong for nucleophilic substitution.`,
+    keywords: [
+      "resonance gives C–Cl partial double bond character in chlorobenzene",
+      "lower dipole moment than cyclohexyl chloride",
+      "sp² carbon holds C–Cl electron pair more tightly",
+      "shorter, stronger C–Cl bond resists nucleophilic attack",
+      "electron-rich ring repels the incoming nucleophile",
+    ],
+    examinerTip:
+      "The same resonance argument answers both parts — examiners want the SAME reason (delocalisation of Cl lone pair into the ring) applied twice, to dipole moment and to reactivity, not two unrelated explanations.",
   },
 
   // ---------------------------------------------- 07 Alcohols, Phenols and Ethers
@@ -386,6 +440,40 @@ The electrophile is dichlorocarbene, :CCl₂.`,
     ],
     examinerTip:
       "Justify with the stability of the ANION (phenoxide), not of the acid molecule — and both named reactions need the reagent AND the condition (400 K/4–7 atm; CHCl₃ + NaOH at 340 K) written on the arrow.",
+  },
+  {
+    id: "q-c12-chemistry-07-2",
+    subjectId: "c12-chemistry",
+    chapterId: "c12-chemistry-07",
+    classLevel: 12,
+    text: "Write the mechanism of acid-catalysed dehydration of ethanol to ethene using concentrated H₂SO₄. Name the type of mechanism involved.",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer: `Dehydration of ethanol with concentrated H₂SO₄ at 443 K proceeds by an E1 (unimolecular elimination) mechanism, in three steps:
+
+Step 1 — Protonation of the –OH group:
+CH₃CH₂OH + H₂SO₄ → CH₃CH₂O⁺H₂ + HSO₄⁻
+The oxygen of ethanol is protonated, converting the poor leaving group (OH⁻) into a good leaving group (H₂O).
+
+Step 2 — Formation of the carbocation (slow, rate-determining step):
+CH₃CH₂O⁺H₂ → CH₃CH₂⁺ + H₂O
+The protonated alcohol loses a water molecule to form a carbocation.
+
+Step 3 — Elimination of a β-hydrogen (fast step):
+CH₃CH₂⁺ → CH₂=CH₂ + H⁺
+The HSO₄⁻ (or another base) removes a proton from the carbon adjacent to the carbocation, forming the C=C double bond and regenerating H⁺, which is why the acid is a catalyst.
+
+Conclusion: overall, CH₃CH₂OH --(conc. H₂SO₄, 443 K)--> CH₂=CH₂ + H₂O, proceeding through an E1 pathway with a carbocation intermediate.`,
+    keywords: [
+      "protonation of –OH gives a good leaving group",
+      "loss of water forms a carbocation — rate determining step",
+      "loss of β-hydrogen forms the C=C bond",
+      "E1 (unimolecular elimination) mechanism",
+      "conc. H₂SO₄, 443 K",
+    ],
+    examinerTip:
+      "Label the carbocation step as the RATE DETERMINING STEP and name the mechanism as E1 explicitly — a mechanism drawn correctly but left unnamed loses a mark in the CBSE scheme.",
   },
 
   // ---------------------------------------------- 08 Aldehydes, Ketones and Carboxylic Acids
