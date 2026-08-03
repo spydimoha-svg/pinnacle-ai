@@ -730,6 +730,25 @@ export const C11_QUESTIONS: Question[] = [
     ],
   },
   {
+    id: "q-c11-chemistry-07-x2",
+    subjectId: "c11-chemistry",
+    chapterId: "c11-chemistry-07",
+    classLevel: 11,
+    text: "Balance the following redox reaction in acidic medium by the ion-electron (half-reaction) method:\nMnO₄⁻ + Fe²⁺ → Mn²⁺ + Fe³⁺",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer:
+      "Oxidation half-reaction: Fe²⁺ → Fe³⁺ + e⁻.\n\nReduction half-reaction: MnO₄⁻ + 8H⁺ + 5e⁻ → Mn²⁺ + 4H₂O.\n\nTo equalise electrons, multiply the oxidation half-reaction by 5:\n5Fe²⁺ → 5Fe³⁺ + 5e⁻.\n\nAdding the two half-reactions:\nMnO₄⁻ + 8H⁺ + 5Fe²⁺ → Mn²⁺ + 4H₂O + 5Fe³⁺.",
+    keywords: [
+      "oxidation half: Fe²⁺ → Fe³⁺ + e⁻",
+      "reduction half: MnO₄⁻ + 8H⁺ + 5e⁻ → Mn²⁺ + 4H₂O",
+      "equalise electrons (×5) and add: MnO₄⁻ + 8H⁺ + 5Fe²⁺ → Mn²⁺ + 4H₂O + 5Fe³⁺",
+    ],
+    examinerTip:
+      "Balance O atoms with H₂O and H atoms with H⁺ in acidic medium before balancing charge with electrons — doing it in this order avoids most half-reaction errors.",
+  },
+  {
     id: "q-c11-chemistry-08-x1",
     subjectId: "c11-chemistry",
     chapterId: "c11-chemistry-08",
@@ -749,6 +768,23 @@ export const C11_QUESTIONS: Question[] = [
       "For nomenclature questions, first find the longest chain containing the branch point, then number it to give the substituent the lowest possible locant.",
   },
   {
+    id: "q-c11-chemistry-08-x2",
+    subjectId: "c11-chemistry",
+    chapterId: "c11-chemistry-08",
+    classLevel: 11,
+    text: "What is the inductive effect? Using it, explain why chloroacetic acid (ClCH₂COOH) is a stronger acid than acetic acid (CH₃COOH).",
+    marks: 2,
+    type: "sa",
+    source: "important",
+    answer:
+      "The inductive effect is the permanent displacement of σ-bond electrons along a chain of atoms caused by the presence of an electronegative or electropositive atom/group, which weakens with distance from that atom.\n\nChlorine is electronegative and withdraws electron density through the σ-bonds of chloroacetic acid (−I effect). This stabilises the conjugate base (ClCH₂COO⁻) by dispersing its negative charge, and also weakens the O–H bond, making it easier to lose H⁺. Acetic acid has no such electron-withdrawing group, so it is the weaker acid.",
+    keywords: [
+      "inductive effect: permanent displacement of σ-electrons along a chain, decreasing with distance",
+      "Cl is electron-withdrawing (−I effect), stabilises the conjugate base ClCH₂COO⁻",
+      "stabilised conjugate base ⇒ chloroacetic acid is the stronger acid",
+    ],
+  },
+  {
     id: "q-c11-chemistry-09-x1",
     subjectId: "c11-chemistry",
     chapterId: "c11-chemistry-09",
@@ -764,6 +800,25 @@ export const C11_QUESTIONS: Question[] = [
       "CaC₂ + 2H₂O → Ca(OH)₂ + C₂H₂",
       "this is the standard laboratory method for preparing ethyne",
     ],
+  },
+  {
+    id: "q-c11-chemistry-09-x2",
+    subjectId: "c11-chemistry",
+    chapterId: "c11-chemistry-09",
+    classLevel: 11,
+    text: "Markovnikov's rule predicts the major product formed when HBr adds to propene (CH₃–CH=CH₂). State the rule and give the major product.",
+    marks: 2,
+    type: "sa",
+    source: "important",
+    answer:
+      "Markovnikov's rule states that when an unsymmetrical reagent HX adds to an unsymmetrical alkene, the negative part (X) of the reagent attaches to the carbon atom that already has fewer hydrogen atoms, i.e. H goes to the carbon with more hydrogens.\n\nIn propene, C1 (=CH₂) has more H atoms than C2. So H adds to C1 and Br adds to C2, giving 2-bromopropane, CH₃–CHBr–CH₃, as the major product.",
+    keywords: [
+      "Markovnikov's rule: X of HX attaches to the carbon with fewer H atoms",
+      "H adds to the CH₂ end (more H), Br adds to the CH end (fewer H)",
+      "major product: 2-bromopropane, CH₃–CHBr–CH₃",
+    ],
+    examinerTip:
+      "State the rule in words before applying it to the specific alkene — examiners give a mark for the statement separately from the correct product.",
   },
 
   // ── MATHEMATICS ──
