@@ -266,9 +266,23 @@ function groundedSource(chapterId: string, classLevel: ClassLevel): string {
  * "Boundaries" section, but every lesson phase below builds its system prompt
  * from scratch and never sees that function. Without this line repeated here,
  * the guardrail goes silent for the whole time a lesson is actually teaching.
+ *
+ * Every call site passes map.classLevel — the concept map's own class — so a
+ * check against that same value is a tautology; it never catches a student who
+ * reached an out-of-class chapter directly (a shared link, a stale bookmark
+ * after a class change). This checks the map's class against the STUDENT's own
+ * remembered class instead, the same mismatch persona.ts's classBoundary
+ * guards against outside a lesson. Entrance tracks (jee/neet/cuet/sat) are
+ * exempt, mirroring persona.ts's classBoundary: their syllabus spans Class 11
+ * AND 12 together, so a Class 11 student on a Class 12 concept map is correct,
+ * not a mismatch.
  */
-function syllabusGuard(classLevel: ClassLevel): string {
-  return `- Never invent an NCERT exercise number, formula or marking scheme: if it was not given to you above, say plainly you don't have that exact one instead of making it up. Silently confirm this concept genuinely belongs to the Class ${classLevel} CBSE syllabus before teaching it; if it does not, say which class it actually belongs to and redirect instead of teaching it.`;
+function syllabusGuard(map: ConceptMap, memory: StudentMemory | null): string {
+  const mismatch =
+    memory && memory.mode === "board" && memory.classLevel !== map.classLevel
+      ? ` This student is in Class ${memory.classLevel}, but this chapter is Class ${map.classLevel} CBSE syllabus — that is NOT their own class. Say so plainly, name the class it actually belongs to, and redirect instead of teaching it.`
+      : "";
+  return `- Never invent an NCERT exercise number, formula or marking scheme: if it was not given to you above, say plainly you don't have that exact one instead of making it up. Silently confirm this concept genuinely belongs to the Class ${map.classLevel} CBSE syllabus before teaching it; if it does not, say which class it actually belongs to and redirect instead of teaching it.${mismatch}`;
 }
 
 export interface TurnPlan {
@@ -321,7 +335,7 @@ function planPlacement(map: ConceptMap, memory: StudentMemory | null, profile: L
       "- No figure in this reply.",
       "- Under 120 words in total.",
       "- End after the last question. Nothing follows it.",
-      syllabusGuard(map.classLevel),
+      syllabusGuard(map, memory),
     ].join("\n"),
     reminder: [
       "Remember: this reply asks the questions and stops. No teaching, no definitions, no examples, no answering your own questions. Under 120 words.",
@@ -363,7 +377,7 @@ function planGrade(
       "- Do NOT list the chapter contents — the app draws the route map itself, right under your reply.",
       "- Under 130 words.",
       "",
-      syllabusGuard(map.classLevel),
+      syllabusGuard(map, memory),
       "",
       "Then, as the very last lines, output these two control lines exactly (the student never sees them):",
       "@@PLACEMENT: beginner|developing|strong",
@@ -461,7 +475,7 @@ function planTeach(
       "- Do NOT answer your own check question.",
       "- Do NOT summarise the chapter, and do not preview what is next.",
       "- No 'in conclusion', no motivational sign-off. End on the question.",
-      syllabusGuard(map.classLevel),
+      syllabusGuard(map, memory),
     ]
       .filter(Boolean)
       .join("\n"),
@@ -518,7 +532,7 @@ function planCheck(
       "",
       "Either way, never say 'good question' or 'great job' unless they earned it.",
       "",
-      syllabusGuard(map.classLevel),
+      syllabusGuard(map, memory),
       "",
       "Last line of your reply, exactly, and never anything after it:",
       "@@VERDICT: mastered|not-yet|question",
@@ -588,7 +602,7 @@ function planReteach(
       "- Re-using the sentences, the example or the framing you used last time.",
       "- 'As I said', 'like I explained', 'simply put', 'basically' — all of them mean you are about to repeat yourself.",
       "- Any hint that they are slow for not getting it.",
-      syllabusGuard(map.classLevel),
+      syllabusGuard(map, memory),
       "",
       "End with ONE very small question — smaller than the last one — that they can almost certainly get right. Confidence first, difficulty after.",
     ].join("\n"),
@@ -626,7 +640,7 @@ function planRecap(
       "3. The one mistake most likely to cost them marks in the board exam on this chapter.",
       "4. Two board-style questions to try now, with marks shown. Take them from THE REAL SOURCE above — reuse or lightly adapt its exercises and examples, never a question you recall from elsewhere. If the source above does not give you enough to build two, say plainly you're short one instead of inventing it. Questions only — no answers.",
       "",
-      syllabusGuard(map.classLevel),
+      syllabusGuard(map, memory),
       "",
       "Under 220 words.",
     ].join("\n"),

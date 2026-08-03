@@ -33,6 +33,30 @@ This is also why Franz's change of heart matters: his sudden regret at not havin
     examinerTip:
       "Name linguistic chauvinism and the pain of losing a mother tongue explicitly — retelling the plot of the last class without stating this idea caps the answer at half marks.",
   },
+  {
+    id: "q-c12-english-01-2",
+    subjectId: "c12-english",
+    chapterId: "c12-english-01",
+    classLevel: 12,
+    text: "What was unusual about the atmosphere in M. Hamel's classroom on the day of the last lesson, and what did the presence of the village elders at the back of the room signify?",
+    marks: 4,
+    type: "sa",
+    source: "important",
+    answer: `On an ordinary day the classroom would be noisy at the start of school, with desks banging and lessons repeated aloud, but on this day Franz finds an unusual, solemn stillness — no noise at all, and M. Hamel walking up and down instead with a terrible ruler under his arm, gentle rather than angry even though Franz arrives late.
+
+M. Hamel is also dressed unusually, in his best clothes reserved for inspection days or prize-giving — his beautiful green coat, frilled shirt, and the little black silk cap — signalling that he treats this ordinary Monday lesson with the same solemnity as the most important occasions of the school year.
+
+Most striking of all, the back benches, usually empty, are filled with village elders — old Hauser with his spectacles and his old primer, the former mayor, the former postmaster, and other older people of the village — sitting quietly through the lesson. Their presence is a silent tribute to M. Hamel's forty years of service and an expression of regret at not having valued their own language and schooling enough while they could still choose it; it shows that the loss of the last French lesson is felt by the whole community, not just by the schoolchildren.`,
+    keywords: [
+      "unusual stillness instead of the daily noise",
+      "M. Hamel's best clothes",
+      "village elders on the back benches",
+      "old Hauser and his primer",
+      "community's silent tribute and regret",
+    ],
+    examinerTip:
+      "List the specific unusual details — M. Hamel's clothes and the elders at the back — and state plainly that they signify the whole village's tribute, not just describe the classroom.",
+  },
 
   // ==========================================================================
   // Ch 2 — Lost Spring
