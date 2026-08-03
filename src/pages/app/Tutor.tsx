@@ -142,6 +142,11 @@ export default function Tutor() {
     // Starting a lesson, or continuing one.
     let active: LessonState | null = lesson;
     let justStarted = false;
+    // The exact chapterId a lesson intent resolved to, kept even when
+    // startLesson finds no concept map for it — so the grounding fallback
+    // below can still ground on that chapter instead of fuzzy-searching the
+    // raw message and risking a different chapter's content.
+    let groundChapterId: string | null = startChapterId ?? null;
     // "Teach me this chapter" carries the exact chapter clicked, so it is
     // trusted directly — never re-matched against the prompt text, which
     // detectLessonIntent scopes to the student's stored class and can miss
@@ -155,6 +160,7 @@ export default function Tutor() {
     } else if (!active) {
       const intent = detectLessonIntent(content, memory?.classLevel);
       if (intent) {
+        groundChapterId = intent.chapterId;
         active = startLesson(intent.chapterId, memory?.classLevel ?? 10);
         justStarted = Boolean(active);
       }
@@ -164,6 +170,7 @@ export default function Tutor() {
       // student's answer inside the wrong lesson.
       const intent = detectLessonIntent(content, memory?.classLevel);
       if (intent && intent.chapterId !== active.chapterId) {
+        groundChapterId = intent.chapterId;
         active = startLesson(intent.chapterId, memory?.classLevel ?? 10);
         justStarted = Boolean(active);
       } else if (observed.lost || observed.wantsSlower) {
@@ -181,13 +188,14 @@ export default function Tutor() {
     if (justStarted) history = [userMsg];
 
     const plan = active ? planTurn(active, nextProfile, memory) : null;
-    // startChapterId with no plan means startLesson found no concept map for
-    // it — ground on the chapter the student actually clicked, not a fuzzy
-    // re-search of the prompt text that can match a different chapter.
+    // A known chapterId with no plan means startLesson found no concept map
+    // for it — ground on that exact chapter (clicked or matched by intent),
+    // not a fuzzy re-search of the prompt text that can match a different
+    // chapter.
     const grounding = plan
       ? null
-      : startChapterId
-        ? groundingForChapter(startChapterId, memory?.classLevel ?? 10)
+      : groundChapterId
+        ? groundingForChapter(groundChapterId, memory?.classLevel ?? 10)
         : groundingFor(content, memory?.classLevel);
     const system = plan ? plan.system : buildSystemPrompt(memory, grounding, nextProfile);
 
