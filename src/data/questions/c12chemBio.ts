@@ -584,6 +584,39 @@ C₆H₅N₂⁺Cl⁻ --(CuCl / HCl)--> C₆H₅Cl + N₂↑`,
     examinerTip:
       "Quoting only the +I effect gives the GAS-PHASE order and loses the mark when the question says 'in aqueous solution' — you must bring in solvation and steric hindrance.",
   },
+  {
+    id: "q-c12-chemistry-09-2",
+    subjectId: "c12-chemistry",
+    chapterId: "c12-chemistry-09",
+    classLevel: 12,
+    text: "Describe Hinsberg's test used to distinguish between primary, secondary and tertiary amines.",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer: `Hinsberg's reagent is benzenesulfonyl chloride, C₆H₅SO₂Cl. Each class of amine is treated with it and the product is then tested with KOH.
+
+Primary amine (1°):
+RNH₂ + C₆H₅SO₂Cl → C₆H₅SO₂NHR + HCl
+The product, N-alkylbenzenesulfonamide, still has a hydrogen atom on nitrogen. This hydrogen is made ACIDIC by the adjacent electron-withdrawing SO₂ group, so the sulfonamide dissolves in KOH to give a clear solution (as its potassium salt). Acidifying this solution reprecipitates the sulfonamide.
+
+Secondary amine (2°):
+R₂NH + C₆H₅SO₂Cl → C₆H₅SO₂NR₂ + HCl
+The product has NO hydrogen left on nitrogen, so it cannot form an acidic N–H and is INSOLUBLE in KOH — it separates out directly as a precipitate/oily layer that does not dissolve on adding KOH.
+
+Tertiary amine (3°):
+R₃N does not have any hydrogen on nitrogen to be substituted, so it DOES NOT REACT with benzenesulfonyl chloride at all. It remains as an insoluble oily layer, but this layer dissolves on adding dilute HCl (as the tertiary amine forms a water-soluble ammonium salt).
+
+Conclusion: 1° amine → clear solution in KOH; 2° amine → insoluble precipitate in KOH; 3° amine → does not react with the reagent but dissolves in dilute HCl. This sequence of observations identifies the class of amine.`,
+    keywords: [
+      "benzenesulfonyl chloride (Hinsberg's reagent)",
+      "1° amine — sulfonamide with acidic N–H, soluble in KOH",
+      "2° amine — sulfonamide with no N–H, insoluble in KOH",
+      "3° amine — does not react, dissolves in dilute HCl",
+      "acidic N–H due to electron-withdrawing SO₂ group",
+    ],
+    examinerTip:
+      "The distinguishing observation is solubility in KOH, not merely 'reacts or does not react' — state clearly which class gives a clear solution and which gives an insoluble layer.",
+  },
 
   // ---------------------------------------------- 10 Biomolecules
   {
@@ -613,6 +646,34 @@ In short: nucleotide = nucleoside + phosphate group.`,
     ],
     examinerTip:
       "Name the sugars exactly (2-deoxy-D-ribose, not 'deoxy sugar') — this chapter is a recall chapter and the key awards the precise NCERT term, not a paraphrase.",
+  },
+  {
+    id: "q-c12-chemistry-10-2",
+    subjectId: "c12-chemistry",
+    chapterId: "c12-chemistry-10",
+    classLevel: 12,
+    text: "(a) What is meant by denaturation of a protein? Give one example. (b) Distinguish between fibrous and globular proteins, giving one example of each.",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer: `(a) Denaturation of protein:
+Every protein in its native (biologically active) form has a specific three-dimensional shape held together by hydrogen bonds and other weak interactions. When the protein is subjected to a physical change such as a change in temperature, or a chemical change such as a change in pH, these hydrogen bonds are disturbed. As a result the globules unfold and the helical secondary structure is destroyed — the protein uncoils into a random coil, and it LOSES its biological activity. This loss of secondary and tertiary structure (without breaking the primary structure / peptide bonds) is called denaturation.
+Example: coagulation of egg white on boiling an egg; curdling of milk into curd.
+
+(b) Fibrous proteins: the polypeptide chains run parallel to one another and are held together by hydrogen bonds and disulphide bonds, giving a thread-like (fibre-like) structure. They are generally INSOLUBLE in water.
+Example: keratin (present in hair, wool and nails), myosin (present in muscles).
+
+Globular proteins: the polypeptide chains coil around themselves to give a nearly spherical shape. They are generally SOLUBLE in water.
+Example: insulin, albumin.`,
+    keywords: [
+      "denaturation — H-bonds disturbed, helix unfolds to random coil",
+      "biological activity is lost",
+      "example: coagulation of egg white / curdling of milk",
+      "fibrous protein — thread-like, insoluble, e.g. keratin/myosin",
+      "globular protein — spherical, soluble, e.g. insulin/albumin",
+    ],
+    examinerTip:
+      "The key point examiners check is that denaturation destroys the secondary/tertiary structure while the primary structure (the sequence of amino acids joined by peptide bonds) stays intact — say this explicitly, not just 'the protein changes shape'.",
   },
 
   // ==========================================================================
