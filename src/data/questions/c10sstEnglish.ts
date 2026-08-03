@@ -1471,6 +1471,29 @@ The farce is complete at the end: Chubukov thrusts their hands together and hurr
     examinerTip:
       "Both quarrels must be named with their subjects (Oxen Meadows AND the dogs) — one example is not a justification. The clinching detail is that they are still quarrelling after Chubukov marries them off.",
   },
+  {
+    id: "q-c10-english-19-2",
+    subjectId: "c10-english",
+    chapterId: "c10-english-19",
+    classLevel: 10,
+    text: "Sketch the character of Chubukov as portrayed in Anton Chekhov's 'The Proposal'. (40–50 words)",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer: `Stepan Stepanovitch Chubukov, Natalya's father and a landowner, is a comic, hypocritical figure whose moods swing wildly within minutes. He welcomes Lomov warmly as a prospective son-in-law, calling him a treasure and the best of neighbours, but the instant the quarrel over Oxen Meadows breaks out he turns on Lomov, hurling insults and abuse and calling him and his family names.
+
+When the second quarrel, over the dogs Guess and Squeezer, erupts after Lomov's return, Chubukov again joins in furiously against the very man he wants as a son-in-law. Yet self-interest wins in the end — anxious to see his daughter married, he thrusts Lomov's and Natalya's hands together and hurries the marriage through the moment he learns Lomov had come to propose, showing him to be excitable, quarrelsome and hypocritical, but ultimately a practical father.`,
+    keywords: [
+      "landowner, Natalya's father",
+      "flatters Lomov as a prospective son-in-law",
+      "turns abusive during the Oxen Meadows quarrel",
+      "joins the quarrel over the dogs Guess and Squeezer",
+      "hypocritical, excitable, quarrelsome",
+      "self-interest — hurries the marriage through regardless",
+    ],
+    examinerTip:
+      "Chubukov's contradictions ARE the character sketch — praising Lomov one moment and abusing him the next — so the answer must show both sides, not settle on him as simply 'kind' or simply 'rude'.",
+  },
 
   // ==========================================================================
   // ENGLISH — Footprints Without Feet (jefp1)
@@ -1501,6 +1524,29 @@ What it teaches: Wells shows that scientific genius without moral responsibility
       "The question has two halves — brilliance AND lawlessness — plus a value conclusion. Students narrate the Iping episodes only; you must first prove the brilliance (the drugs, the transparency) and then list at least three separate crimes, closing with the science-and-ethics point.",
   },
   {
+    id: "q-c10-english-24-2",
+    subjectId: "c10-english",
+    chapterId: "c10-english-24",
+    classLevel: 10,
+    text: "Why does Griffin, the invisible man, end up homeless and friendless in the village of Iping? (30–40 words)",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer: `Griffin's invisibility, rather than giving him power or comfort, leaves him with no money and no way to earn any, since an invisible man cannot easily be employed or seen to work. Having set fire to his own lodgings and fled London after a string of thefts to survive, he arrives at Iping as a stranger wrapped in bandages, dark glasses and a false nose, hiding his true condition from everyone he meets.
+
+When his stolen money runs out he is forced to burgle the local clergyman's study, and when Mrs Hall and Constable Jaffers confront him, he has no choice but to reveal himself and flee once again. His invisibility, meant to be a triumph of science, instead cuts him off from ordinary human society and forces him into a life of crime, secrecy and homelessness.`,
+    keywords: [
+      "invisibility leaves him with no way to earn money",
+      "arrives at Iping in disguise — bandages, dark glasses, false nose",
+      "burgles the clergyman's study when money runs out",
+      "confronted by Mrs Hall and Constable Jaffers",
+      "forced to flee again",
+      "invisibility isolates him rather than empowering him",
+    ],
+    examinerTip:
+      "The irony to bring out is that invisibility, which should be a scientific triumph, actually traps Griffin in poverty and crime — a plain plot summary without naming this irony reads as narration, not analysis.",
+  },
+  {
     id: "q-c10-english-26-1",
     subjectId: "c10-english",
     chapterId: "c10-english-26",
@@ -1524,6 +1570,29 @@ Instead, false pride and the fear of being thought dishonest made the Loisels re
     ],
     examinerTip:
       "This is a value-based question: the marked answer is 'confess immediately', and it must be JUSTIFIED from the text. Answers that only retell the twist, or that praise Matilda's hard work without naming her pride, miss the value point.",
+  },
+  {
+    id: "q-c10-english-26-2",
+    subjectId: "c10-english",
+    chapterId: "c10-english-26",
+    classLevel: 10,
+    text: "Describe Matilda's character at the start of 'The Necklace'. How does her longing for a better life set the story's events in motion? (40–50 words)",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer: `Matilda is a pretty, charming woman married to a minor clerk, and she is deeply dissatisfied with her modest, ordinary life, believing she was meant for luxury, elegance and admiration rather than a plain apartment and a plain husband. She suffers constantly, feeling humiliated by her poverty and by having no fine dresses or jewels to wear in society.
+
+When her husband secures an invitation to a grand ball, Matilda first refuses to go for want of an appropriate dress and then jewellery, and only agrees once she borrows a diamond necklace from her wealthy friend Madame Forestier to look as elegant as the rich women she envies. It is this very craving to appear wealthier than she is that leads her to borrow, and then lose, the necklace, setting off ten years of poverty and drudgery.`,
+    keywords: [
+      "pretty but discontented with her modest life",
+      "feels she deserves luxury and admiration",
+      "suffers/feels humiliated by her poverty",
+      "borrows the necklace to look elegant at the ball",
+      "vanity/craving for a better life drives the plot",
+      "leads directly to losing the necklace",
+    ],
+    examinerTip:
+      "The character sketch must connect DIRECTLY to the plot — Matilda's vanity is not incidental colour, it is the stated reason she borrows a necklace she cannot afford to lose, and the key rewards drawing that link explicitly.",
   },
 
   // ==========================================================================
@@ -2038,6 +2107,29 @@ Thus the journey, which began as an adventure driven by curiosity and a desire f
       "The calf's death is the hinge of the whole answer — before-and-after must be shown as a contrast (talkative and fearless, then silent and subdued), not just narrated as one more event in the journey.",
   },
   {
+    id: "q-c10-english-15-2",
+    subjectId: "c10-english",
+    chapterId: "c10-english-15",
+    classLevel: 10,
+    text: "How did Valli behave towards her fellow passengers and the conductor on her bus ride, and what does this reveal about her character? (40–50 words)",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer: `Once on the bus, Valli refused every offer of help from the other passengers — she would not let an elderly woman hold her hand, insisted on buying her own ticket, and firmly told a fellow passenger not to fuss over her as if she were a baby. When she suspected the conductor of trying to shortchange her on the fare, she argued with him sharply until she was satisfied she had paid correctly.
+
+Throughout the journey she watched everything with sharp, unblinking attention — the paddy fields, canals and cattle — determined to notice every detail herself rather than be told about them. This shows Valli to be an unusually independent, alert, and self-assured eight-year-old, unwilling to be treated as a helpless child, which makes her sudden silence after the calf's death all the more striking a change.`,
+    keywords: [
+      "refuses help from fellow passengers",
+      "insists on buying her own ticket",
+      "argues with the conductor over the fare",
+      "watches paddy fields, canals, cattle keenly",
+      "independent and self-assured for her age",
+      "sets up the contrast with her later silence",
+    ],
+    examinerTip:
+      "This question is about the OUTWARD journey only — do not drift into the calf's death here, since that is what makes the contrast in a separate question about change work.",
+  },
+  {
     id: "q-c10-english-16-1",
     subjectId: "c10-english",
     chapterId: "c10-english-16",
@@ -2059,6 +2151,29 @@ The irony unfolds when a real pirate climbs in through the window: the 'brave' B
     ],
     examinerTip:
       "The word IRONY (or 'reversal') should appear explicitly in the answer — describing the plot without naming the device is treated as a narration, not the analysis the question actually asks for.",
+  },
+  {
+    id: "q-c10-english-16-2",
+    subjectId: "c10-english",
+    chapterId: "c10-english-16",
+    classLevel: 10,
+    text: "How is Custard the dragon described in appearance, and how does this description contrast with the way he behaves for most of the poem? (30–40 words)",
+    marks: 2,
+    type: "sa",
+    source: "important",
+    answer: `Custard is described in fearsome terms — he has 'big sharp teeth' and 'spikes on top of him', a mouth like a fireplace and eyes that flash like fire, making him look every bit the terrifying dragon of storybooks kept as a household pet alongside Belinda, Ink, Blink and Mustard.
+
+Yet for most of the poem his behaviour flatly contradicts this fierce appearance: he weeps for a nice safe cage and is mocked by the others as a coward, since he alone shows no wish for adventure or a fight. This mismatch between a dragon-like body and a timid nature is the poem's central joke, and it is precisely reversed once the real pirate appears.`,
+    keywords: [
+      "big sharp teeth, spikes, mouth like a fireplace, fiery eyes",
+      "looks fearsome",
+      "cries for a nice safe cage",
+      "mocked as a coward by Belinda, Ink, Blink, Mustard",
+      "appearance versus behaviour mismatch",
+      "sets up the poem's central irony",
+    ],
+    examinerTip:
+      "Name at least two physical details (teeth, spikes, fiery eyes) to earn the description marks, then state plainly that this fierce look contradicts his cowardly behaviour — the mismatch itself is the point being tested.",
   },
   {
     id: "q-c10-english-17-1",
@@ -2084,6 +2199,29 @@ Kisa Gotami went from house to house; every family readily gave her mustard seed
       "The value the examiner wants is that Kisa Gotami discovers the truth HERSELF through the failed search, not that the Buddha simply tells her death is universal — the parable's method (self-realisation) is as markable as its content.",
   },
   {
+    id: "q-c10-english-17-2",
+    subjectId: "c10-english",
+    chapterId: "c10-english-17",
+    classLevel: 10,
+    text: "Why does the Buddha ask Kisa Gotami to fetch the mustard seed herself, instead of simply telling her that death is universal? What does this teach us about the way true wisdom is gained? (40–50 words)",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer: `The Buddha could easily have told Kisa Gotami directly that everyone dies and that her son's death was nothing unusual, but such a statement, however true, would not have touched her grief-blinded heart. By sending her from house to house on an apparently simple errand, he lets her discover the truth of universal death through her own repeated, exhausting experience, rather than through his authority.
+
+Only when every household she visits confesses a death of its own does the fact truly sink in for her, and she accepts her loss with calm understanding rather than mere obedience to a teacher's words. The episode teaches that wisdom which is realised through one's own experience takes root far more deeply than wisdom that is merely told, which is why the Buddha, as a teacher, guides rather than preaches at her.`,
+    keywords: [
+      "Buddha could have stated the truth directly but chose not to",
+      "sends her to search rather than preach at her",
+      "she discovers universal death through her own experience",
+      "truth realised firsthand is accepted more deeply than truth merely told",
+      "Buddha guides her to self-realisation",
+      "acceptance follows genuine understanding, not just obedience",
+    ],
+    examinerTip:
+      "This question is about the Buddha's METHOD of teaching, not the content of the message — answers that simply repeat 'death is universal' without addressing WHY he used the mustard-seed errand miss the actual ask.",
+  },
+  {
     id: "q-c10-english-18-1",
     subjectId: "c10-english",
     chapterId: "c10-english-18",
@@ -2105,6 +2243,29 @@ Anne protests that she could dye or change her hair colour to test whether men w
     ],
     examinerTip:
       "Identify the SPEAKER of each stanza first — this is a two-voice dialogue and misattributing a line to the wrong speaker is the commonest error the marking scheme penalises.",
+  },
+  {
+    id: "q-c10-english-18-2",
+    subjectId: "c10-english",
+    chapterId: "c10-english-18",
+    classLevel: 10,
+    text: "What does Anne Gregory offer to do in reply to the young man, and why does he say it would still not make men love her for herself alone? (40–50 words)",
+    marks: 2,
+    type: "sa",
+    source: "important",
+    answer: `Anne Gregory replies that she can get a hair-dye and colour her famous yellow hair brown, black or carrot, as if changing her most admired feature would prove whether men could love her for her true self rather than her looks.
+
+The young man insists this would not work, because human love is naturally drawn to whatever outward beauty is in front of it — if her hair changed colour, men would simply be attracted to that new colour instead, still respond to appearance rather than to her inner self. Only God, who looks into the heart and not at the surface, is capable of loving her, unconditionally, for herself alone.`,
+    keywords: [
+      "Anne offers to dye her hair brown, black or carrot",
+      "testing whether men love her true self",
+      "young man says love always follows outward appearance",
+      "men would simply love the new colour instead",
+      "human love is appearance-based, not identity-based",
+      "only God loves the inner self unconditionally",
+    ],
+    examinerTip:
+      "Anne's proposal (the dye) and the young man's rebuttal (attraction shifts to whatever the new appearance is) are two separate value points — giving only one halves the mark.",
   },
   {
     id: "q-c10-english-20-1",
@@ -2130,6 +2291,29 @@ Dr Herriot's 'cure' was simply to admit Tricki to the surgery for a fortnight, c
       "State explicitly that NO surgery took place — the irony of the title is a separately marked point, and an answer that only describes the diagnosis and recovery without naming the irony is incomplete.",
   },
   {
+    id: "q-c10-english-20-2",
+    subjectId: "c10-english",
+    chapterId: "c10-english-20",
+    classLevel: 10,
+    text: "What kind of person is Mrs Pumphrey, and how does her nature affect Tricki's health in 'A Triumph of Surgery'? (40–50 words)",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer: `Mrs Pumphrey is a rich, generous, elderly and lonely widow who treats her pet dog Tricki not as an animal but as a beloved child, addressing him in baby talk and worrying over his every mood. Her affection is genuine, but it takes the form of constant overindulgence — she feeds him rich food, cream cakes, chocolates and titbits at every hour of the day, and lets him take no exercise at all.
+
+This unregulated love makes Tricki dangerously overweight, listless and unable even to stand, since Mrs Pumphrey cannot see that her kindness is actually harming him. It is only when Dr Herriot takes over Tricki's care, cutting off the excess food, that the real cause of his illness — indulgence rather than disease — becomes clear.`,
+    keywords: [
+      "rich, generous, lonely widow",
+      "treats Tricki like a spoilt child",
+      "overfeeds him rich food, chocolates, cream cakes",
+      "gives him no exercise",
+      "unaware her indulgence is harmful",
+      "affection versus actual neglect of his health",
+    ],
+    examinerTip:
+      "The point to make explicit is that Mrs Pumphrey's love, though sincere, is the actual CAUSE of Tricki's illness — an answer that only calls her 'kind' without naming the harm of her overindulgence misses the chapter's irony.",
+  },
+  {
     id: "q-c10-english-21-1",
     subjectId: "c10-english",
     chapterId: "c10-english-21",
@@ -2151,6 +2335,29 @@ One night, after Anil receives a large sum of money from selling a story, Hari S
     ],
     examinerTip:
       "The reform happens BEFORE Hari knows Anil is aware of the theft — his change of heart is driven by his own conscience and Anil's earlier kindness, not by fear of being caught. Anil's silence afterward is the confirming, not the causing, act.",
+  },
+  {
+    id: "q-c10-english-21-2",
+    subjectId: "c10-english",
+    chapterId: "c10-english-21",
+    classLevel: 10,
+    text: "What kind of life did Hari Singh lead before he met Anil in 'The Thief's Story'? (30–40 words)",
+    marks: 2,
+    type: "sa",
+    source: "important",
+    answer: `Hari Singh was a fifteen-year-old orphan and a practised petty thief who drifted from job to job and town to town, feeling no guilt about his small thefts since he saw them as a way of surviving on his own. He was proud of one particular skill — his ability to forget a face quickly, which he considered essential to a thief's trade, so that no victim's memory of him could ever catch up with him.
+
+He could not read or write, went by several different names in different places, including Hari Kishan and Hari Kumar, and had never before had anyone place real trust in him.`,
+    keywords: [
+      "orphan, fifteen years old, practised thief",
+      "no guilt about petty thefts",
+      "proud of forgetting faces quickly",
+      "used several different names",
+      "could not read or write",
+      "had never been trusted before meeting Anil",
+    ],
+    examinerTip:
+      "'Forgetting faces quickly' is Hari's own point of pride and a specific, named skill the key checks for — a generic 'he was a thief' answer without this detail loses marks.",
   },
   {
     id: "q-c10-english-22-1",
@@ -2176,6 +2383,29 @@ When a knock comes at the door, Ausable claims it is the waiter with dinner, and
       "The 'balcony' is fictional — the twist is that Ausable's room has NO balcony, and the whole story is a lie constructed on the spot. Missing that the balcony does not exist is the single most common error in retellings.",
   },
   {
+    id: "q-c10-english-22-2",
+    subjectId: "c10-english",
+    chapterId: "c10-english-22",
+    classLevel: 10,
+    text: "Who is Fowler, and how is his idea of a secret agent contradicted by Ausable in 'The Midnight Visitor'? (30–40 words)",
+    marks: 2,
+    type: "sa",
+    source: "important",
+    answer: `Fowler is a young, aspiring writer who has come to interview Ausable, a famous secret agent, hoping to gather material for an exciting story of spies and adventure. He expects Ausable to look and act like the glamorous, dashing secret agents of popular fiction — lean, alert, and dramatic.
+
+Instead, Fowler is disappointed to find Ausable fat, dull and unglamorous, living in a small, plainly furnished hotel room, nothing like the romantic image he had imagined. It is only when Max breaks in at gunpoint that Fowler sees Ausable's true value — not physical daring, but calm wit and quick invention, a far more effective 'secret agent' quality than any storybook glamour.`,
+    keywords: [
+      "Fowler — young writer hoping to write about a secret agent",
+      "expects a glamorous, dashing secret agent",
+      "Ausable is fat, dull, unglamorous",
+      "plain, small hotel room",
+      "deflates the romantic spy-fiction image",
+      "wit proves more valuable than physical daring",
+    ],
+    examinerTip:
+      "The contrast between Fowler's storybook expectation and Ausable's ordinary appearance is the joke the question wants named explicitly, not just a description of what Ausable looks like.",
+  },
+  {
     id: "q-c10-english-23-1",
     subjectId: "c10-english",
     chapterId: "c10-english-23",
@@ -2197,6 +2427,29 @@ Planning to rob Shotover Grange while its owner was away, he unexpectedly encoun
     ],
     examinerTip:
       "'A Question of Trust' is about trust misplaced twice — Horace trusts Elizabeth, and the title's irony is that the very question of trust defeats the trusting thief himself. State this irony explicitly, not just the plot sequence.",
+  },
+  {
+    id: "q-c10-english-23-2",
+    subjectId: "c10-english",
+    chapterId: "c10-english-23",
+    classLevel: 10,
+    text: "Why did Horace Danby consider himself an honest man in spite of being a safe-breaker? (30–40 words)",
+    marks: 2,
+    type: "sa",
+    source: "important",
+    answer: `Horace Danby ran a respectable locksmith's business, paid his bills promptly, gave generously to charities, and was kind and helpful to old people, which made him regard himself as a fundamentally honest and law-abiding man.
+
+He broke into a safe only once a year, and only for one reason — to fund his secret passion for collecting rare, expensive books he could never otherwise afford, never for general profit or greed. This limited, purposeful, non-violent theft let him see his crime as a private, harmless hobby rather than real dishonesty, which is why the woman calling herself Elizabeth catches him so completely off guard.`,
+    keywords: [
+      "respectable locksmith, pays bills promptly",
+      "generous to charities and old people",
+      "steals only once a year, purely for rare books",
+      "non-violent, purposeful thefts",
+      "sees his crime as a harmless private hobby",
+      "self-image of honesty despite the theft",
+    ],
+    examinerTip:
+      "The point is Horace's own self-image — he genuinely believes he is honest — which is exactly why being outwitted by Elizabeth is such a shock to him; the answer should name this self-belief, not just list his good habits.",
   },
   {
     id: "q-c10-english-25-1",
@@ -2224,6 +2477,29 @@ Ebright's own explanation for his success combined native intelligence, an inher
       "The examiner wants the CHAIN of causes — childhood curiosity, then his mother's specific encouragement, then formal research — not just a list of his achievements. Ebright's own stated combination (intelligence, competitiveness, hard work) is a value point worth quoting directly.",
   },
   {
+    id: "q-c10-english-25-2",
+    subjectId: "c10-english",
+    chapterId: "c10-english-25",
+    classLevel: 10,
+    text: "What role did the seventh-grade science fair play in turning Richard Ebright towards genuine scientific research? (30–40 words)",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer: `In the seventh grade, Richard Ebright entered a science fair with a project built on his own hypothesis about what disease was killing monarch caterpillars he had been raising. His hypothesis turned out to be wrong, and by itself the project did not win a top prize.
+
+However, a scientist he met at the fair suggested that the deaths might be caused by a virus rather than the cause Ebright had assumed, redirecting his research towards virology. Investigating this new lead over the following years became an award-winning project, and the episode taught Ebright that real science means testing a hypothesis, accepting when it is disproved, and following the evidence to a new question rather than giving up.`,
+    keywords: [
+      "seventh-grade science fair project on monarch caterpillar disease",
+      "his original hypothesis was disproved",
+      "a scientist suggests the cause could be a virus",
+      "redirects his research towards virology",
+      "later becomes an award-winning project",
+      "learns that science means testing and revising a hypothesis",
+    ],
+    examinerTip:
+      "The value point is that his FIRST hypothesis was wrong — students who only mention the eventual award skip the lesson the chapter is actually teaching, that failure redirected rather than ended his research.",
+  },
+  {
     id: "q-c10-english-27-1",
     subjectId: "c10-english",
     chapterId: "c10-english-27",
@@ -2249,6 +2525,29 @@ The turning point comes years later, when Bholi is to be married to Bishamber, a
       "The dowry-demanding groom's decayed teeth and his greed for more money AT the wedding are the specific, named details the key checks for — a vague 'she refused to marry him' without this context loses marks.",
   },
   {
+    id: "q-c10-english-27-2",
+    subjectId: "c10-english",
+    chapterId: "c10-english-27",
+    classLevel: 10,
+    text: "How was Bholi treated by her own family before she began going to school? (30–40 words)",
+    marks: 2,
+    type: "sa",
+    source: "important",
+    answer: `Bholi, the fourth daughter of Numberdar Ramlal, had been disfigured by an attack of smallpox at ten months and was slow to speak and learn as a child, which led her family and neighbours to dismiss her as ugly and stupid.
+
+At home she was neglected and treated unkindly, mocked and looked down upon by her own brothers and sisters, and her father himself considered her a burden he would struggle to marry off. It was only because no better prospect seemed likely for her that Ramlal reluctantly agreed to send her to the newly opened girls' school in the village.`,
+    keywords: [
+      "disfigured by smallpox as an infant",
+      "slow to speak and learn",
+      "considered ugly and stupid by her family",
+      "neglected and mocked by siblings",
+      "father sees her as a burden",
+      "sent to school only because marriage seemed unlikely",
+    ],
+    examinerTip:
+      "Name the specific cause (smallpox at ten months) and the family's specific attitude (ugly, stupid, a burden) — a vague 'her family did not treat her well' loses the identification marks the key wants.",
+  },
+  {
     id: "q-c10-english-28-1",
     subjectId: "c10-english",
     chapterId: "c10-english-28",
@@ -2270,5 +2569,28 @@ For example, 'Hey diddle diddle, the cat and the fiddle, the cow jumped over the
     ],
     examinerTip:
       "At least two named misreadings (the cow-over-the-moon and Miss Muffet's spider are the most-asked) should be given with what the Martians wrongly concluded — a general 'they got scared of the book' answer misses the specific humour the key rewards.",
+  },
+  {
+    id: "q-c10-english-28-2",
+    subjectId: "c10-english",
+    chapterId: "c10-english-28",
+    classLevel: 10,
+    text: "Who are Think-Tank and Captain Omega in 'The Book That Saved the Earth', and what role does each play in the invasion plan? (30–40 words)",
+    marks: 2,
+    type: "sa",
+    source: "important",
+    answer: `Think-Tank is the giant, all-powerful Martian supercomputer directing the invasion of Earth from Mars, who considers himself infallible and demands that every fact discovered about Earth be reported to him for interpretation. Captain Omega is the Chief Investigator sent to examine the ruins of Earth's libraries, and it is she who reads out the Mother Goose rhymes and passes their contents on to Think-Tank.
+
+Together, Think-Tank's overconfident, absurd theorising about the rhymes and Omega's straight-faced reporting of them build the comedy of the play, since the supposedly superior Martian intelligence badly misjudges the harmless nursery verses as proof of a dangerous, advanced Earth civilisation, ultimately frightening off the whole invasion.`,
+    keywords: [
+      "Think-Tank — Martian supercomputer directing the invasion, believes himself infallible",
+      "Captain Omega — Chief Investigator who reads the Mother Goose book",
+      "Omega reports the rhymes to Think-Tank",
+      "Think-Tank misinterprets them as advanced Earth technology",
+      "comedy from Martian overconfidence and error",
+      "misjudgement leads to the invasion being called off",
+    ],
+    examinerTip:
+      "Keep the two characters' roles distinct — Omega reads and reports, Think-Tank interprets and decides — conflating them into one 'the Martians' loses the identification marks for each named character.",
   },
 ];
