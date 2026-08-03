@@ -519,6 +519,36 @@ CH₃CH(OH)CH₂CHO --(Δ, –H₂O)--> CH₃CH=CHCHO  (but-2-enal)
     examinerTip:
       "For a distinguishing test you must name the reagent AND the observation for BOTH compounds — 'benzaldehyde gives silver mirror' alone is half a mark; you have to add that acetophenone does not.",
   },
+  {
+    id: "q-c12-chemistry-08-2",
+    subjectId: "c12-chemistry",
+    chapterId: "c12-chemistry-08",
+    classLevel: 12,
+    text: "(a) Arrange acetaldehyde, acetone and benzaldehyde in increasing order of their reactivity towards nucleophilic addition with HCN, giving reason. (b) Write the chemical equation for the Hell–Volhard–Zelinsky reaction of acetic acid.",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer: `(a) Increasing order of reactivity towards nucleophilic addition:
+acetone < benzaldehyde < acetaldehyde
+
+Reason:
+- Aldehydes are more reactive than ketones for two reasons: (i) STERIC — a ketone carbonyl carbon carries two bulky alkyl/aryl groups, which hinder the approach of the nucleophile more than the one alkyl group (and small H atom) on an aldehyde carbon; (ii) ELECTRONIC — the two electron-releasing (+I) alkyl groups on a ketone reduce the electrophilicity of the carbonyl carbon more than the single alkyl group of an aldehyde does, so the ketone carbon is less attractive to the nucleophile.
+- Benzaldehyde is less reactive than acetaldehyde because the phenyl ring can donate electron density into the carbonyl group by RESONANCE, reducing the positive character (electrophilicity) of the carbonyl carbon; the bulky phenyl group also hinders the nucleophile sterically.
+- Acetone remains the least reactive because it has TWO electron-releasing alkyl groups (a stronger electronic effect than benzaldehyde's one aryl group) as well as greater steric hindrance.
+
+(b) Hell–Volhard–Zelinsky reaction: a carboxylic acid with an α-hydrogen is α-halogenated using Cl₂ or Br₂ in the presence of red phosphorus.
+CH₃COOH --(Cl₂ / red P)--> ClCH₂COOH + HCl
+(acetic acid → chloroacetic acid, via the acid chloride intermediate formed in situ with red phosphorus)`,
+    keywords: [
+      "aldehydes more reactive than ketones — steric and electronic (+I) factors",
+      "benzaldehyde less reactive than acetaldehyde — resonance donation from the ring",
+      "acetone least reactive — two +I alkyl groups",
+      "Hell–Volhard–Zelinsky — Cl₂/Br₂ with red phosphorus, α-hydrogen required",
+      "CH₃COOH → ClCH₂COOH",
+    ],
+    examinerTip:
+      "Give BOTH the steric and the electronic reason for aldehyde vs ketone reactivity — a marking scheme awards them as separate points, not one combined 'ketones are less reactive' statement.",
+  },
 
   // ---------------------------------------------- 09 Amines
   {
