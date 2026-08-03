@@ -196,7 +196,7 @@ export default function Tutor() {
       ? null
       : groundChapterId
         ? groundingForChapter(groundChapterId, memory?.classLevel ?? 10)
-        : groundingFor(content, memory?.classLevel);
+        : groundingFor(content, memory?.classLevel, memory?.mode);
     const system = plan ? plan.system : buildSystemPrompt(memory, grounding, nextProfile);
 
     // Outside a lesson there is no reteach phase, so "I don't get it" has to be

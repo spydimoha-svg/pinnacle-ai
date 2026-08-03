@@ -6,7 +6,7 @@
 //      chapters with curated concept/board notes and real marking-scheme answers.
 // Whichever matches becomes the grounded source the tutor must teach from. If
 // nothing matches, we return null and the persona's honesty rule kicks in.
-import type { ClassLevel, Chapter, Subject } from "./types";
+import type { ClassLevel, Chapter, Subject, Mode } from "./types";
 import { SUBJECTS, questionsFor } from "../data";
 import { findNcertForQuery, buildGroundingContent, ncertChapterById } from "../data/ncert";
 
@@ -44,14 +44,25 @@ function scoreChapter(q: string, subject: Subject, chapter: Chapter): number {
   return score;
 }
 
+// persona.ts's classBoundary tells an entrance student (jee/neet/cuet/sat) that
+// their syllabus spans Class 11 AND 12 together, whichever of the two they are
+// registered in. Grounding search must honour that or the tutor silently falls
+// back to unsourced teaching for half the student's own syllabus.
+const ENTRANCE_CLASS_LEVELS: ClassLevel[] = [11, 12];
+
+function classLevelsFor(classLevel?: ClassLevel, mode?: Mode): ClassLevel[] | null {
+  if (mode && mode !== "board") return ENTRANCE_CLASS_LEVELS;
+  return classLevel ? [classLevel] : null;
+}
+
 function findCurriculumChapter(
   query: string,
-  classLevel?: ClassLevel
+  classLevel?: ClassLevel,
+  mode?: Mode
 ): { subject: Subject; chapter: Chapter } | null {
   const q = query.toLowerCase();
-  const scoped = classLevel
-    ? SUBJECTS.filter((s) => s.classLevel === classLevel)
-    : SUBJECTS;
+  const levels = classLevelsFor(classLevel, mode);
+  const scoped = levels ? SUBJECTS.filter((s) => levels.includes(s.classLevel)) : SUBJECTS;
   const pool = scoped.length ? scoped : SUBJECTS;
   let best: { subject: Subject; chapter: Chapter; score: number } | null = null;
   for (const s of pool) {
@@ -160,12 +171,16 @@ export function factualAnswer(
 
 export function groundingFor(
   message: string,
-  classLevel?: ClassLevel
+  classLevel?: ClassLevel,
+  mode?: Mode
 ): string | null {
-  const ncert = findNcertForQuery(message, classLevel);
+  const levels = classLevelsFor(classLevel, mode);
+  const ncert = levels
+    ? (levels.map((lvl) => findNcertForQuery(message, lvl)).find(Boolean) ?? null)
+    : findNcertForQuery(message, classLevel);
   if (ncert) return capped(buildGroundingContent(ncert));
 
-  const cc = findCurriculumChapter(message, classLevel);
+  const cc = findCurriculumChapter(message, classLevel, mode);
   if (cc) return capped(buildCurriculumGrounding(cc.subject, cc.chapter));
 
   return null;
