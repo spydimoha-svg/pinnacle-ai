@@ -126,6 +126,26 @@ export const C9_MATHS_QUESTIONS: Question[] = [
     examinerTip:
       "A point with a zero coordinate is ON an axis, not in a quadrant — a common slip that loses an easy mark.",
   },
+  {
+    id: "q-c9-maths-03-2",
+    subjectId: "c9-maths",
+    chapterId: "c9-maths-03",
+    classLevel: 9,
+    text: "Plot the points P(3, 2), Q(−3, 2), R(−3, −2) and S(3, −2) on a graph. Name the figure PQRS and find its area.",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer:
+      "Plotting: P(3, 2) lies in Quadrant I, Q(−3, 2) in Quadrant II, R(−3, −2) in Quadrant III, S(3, −2) in Quadrant IV.\n\nPQ is the horizontal segment from x = −3 to x = 3 at y = 2, so PQ = 6 units.\nQR is the vertical segment from y = 2 to y = −2 at x = −3, so QR = 4 units.\n\nAll angles are right angles and opposite sides are equal, so PQRS is a rectangle.\nArea = PQ × QR = 6 × 4 = 24 square units.",
+    keywords: [
+      "one point plotted correctly in each quadrant",
+      "PQ = 6 units, QR = 4 units",
+      "figure PQRS is a rectangle",
+      "area = 6 × 4 = 24 square units",
+    ],
+    examinerTip:
+      "Read side lengths directly off the axes (difference of x-coordinates or y-coordinates) — there is no need for the distance formula, which isn't part of this chapter.",
+  },
 
   // ── CH 4 · LINEAR EQUATIONS IN TWO VARIABLES ──
   {
@@ -143,6 +163,23 @@ export const C9_MATHS_QUESTIONS: Question[] = [
       "2x + 3y − 6 = 0 (a = 2, b = 3, c = −6)",
       "x = 0 gives (0, 2)",
       "y = 0 gives (3, 0)",
+    ],
+  },
+  {
+    id: "q-c9-maths-04-2",
+    subjectId: "c9-maths",
+    chapterId: "c9-maths-04",
+    classLevel: 9,
+    text: "If (2, 0) is a solution of the equation 2x + 3y = k, find the value of k.",
+    marks: 2,
+    type: "vsa",
+    source: "important",
+    answer:
+      "Since (2, 0) is a solution, it must satisfy 2x + 3y = k.\nSubstitute x = 2, y = 0:\n2(2) + 3(0) = k\n4 + 0 = k\n⇒ k = 4.",
+    keywords: [
+      "substitute x = 2, y = 0 into 2x + 3y = k",
+      "4 + 0 = k",
+      "k = 4",
     ],
   },
 
@@ -208,6 +245,24 @@ export const C9_MATHS_QUESTIONS: Question[] = [
     examinerTip:
       "Each linear-pair statement is a mark; the final cancellation is the third. Always name the pair of angles you are equating.",
   },
+  {
+    id: "q-c9-maths-06-2",
+    subjectId: "c9-maths",
+    chapterId: "c9-maths-06",
+    classLevel: 9,
+    text: "Two supplementary angles are in the ratio 4 : 5. Find the two angles.",
+    marks: 2,
+    type: "vsa",
+    source: "important",
+    answer:
+      "Let the angles be 4x and 5x.\nSince they are supplementary, 4x + 5x = 180°.\n9x = 180°\n⇒ x = 20°.\n\nSo the angles are 4x = 80° and 5x = 100°.",
+    keywords: [
+      "let angles be 4x and 5x",
+      "4x + 5x = 180°",
+      "x = 20°",
+      "angles are 80° and 100°",
+    ],
+  },
 
   // ── CH 7 · TRIANGLES ──
   {
@@ -229,6 +284,26 @@ export const C9_MATHS_QUESTIONS: Question[] = [
     ],
     examinerTip:
       "Name the congruence rule (SAS) and end with CPCT — examiners award a mark specifically for quoting CPCT, not just 'so the angles are equal'.",
+  },
+  {
+    id: "q-c9-maths-07-2",
+    subjectId: "c9-maths",
+    chapterId: "c9-maths-07",
+    classLevel: 9,
+    text: "ABC is an isosceles triangle with AB = AC. The bisectors of ∠B and ∠C intersect each other at O. Show that BO = CO.",
+    marks: 3,
+    type: "sa",
+    source: "pyq",
+    answer:
+      "Given: AB = AC, and BO, CO bisect ∠B and ∠C respectively.\nTo prove: BO = CO.\n\nSince AB = AC, the angles opposite them are equal: ∠B = ∠C (angles opposite equal sides).\n\nSince BO bisects ∠B, ∠OBC = ½∠B.\nSince CO bisects ∠C, ∠OCB = ½∠C.\nAs ∠B = ∠C, it follows that ∠OBC = ∠OCB.\n\nIn △OBC, since ∠OBC = ∠OCB, the sides opposite these equal angles are equal:\n∴ OC = OB, i.e. BO = CO.",
+    keywords: [
+      "∠B = ∠C since AB = AC (angles opposite equal sides)",
+      "∠OBC = ½∠B and ∠OCB = ½∠C",
+      "∠OBC = ∠OCB",
+      "BO = CO (sides opposite equal angles in △OBC)",
+    ],
+    examinerTip:
+      "The final step uses the converse of the isosceles triangle theorem (equal angles ⇒ equal sides) — name it, don't just assert BO = CO.",
   },
 
   // ── CH 8 · QUADRILATERALS ──
@@ -292,6 +367,26 @@ export const C9_MATHS_QUESTIONS: Question[] = [
       "∠AOB = ∠COD by CPCT",
     ],
   },
+  {
+    id: "q-c9-maths-09-2",
+    subjectId: "c9-maths",
+    chapterId: "c9-maths-09",
+    classLevel: 9,
+    text: "Prove that equal chords of a circle are equidistant from the centre.",
+    marks: 3,
+    type: "sa",
+    source: "pyq",
+    answer:
+      "Given: A circle with centre O, and chords AB = CD. OM ⊥ AB at M and ON ⊥ CD at N.\nTo prove: OM = ON.\n\nThe perpendicular from the centre to a chord bisects the chord, so:\nAM = AB/2 and CN = CD/2.\nSince AB = CD, AM = CN.\n\nIn right triangles OMA and ONC:\nOA = OC (radii of the same circle)\nAM = CN (shown above)\n∠OMA = ∠ONC = 90°\n∴ △OMA ≅ △ONC (RHS)\n\nBy CPCT, OM = ON.\nHence equal chords are equidistant from the centre.",
+    keywords: [
+      "perpendicular from centre bisects the chord: AM = AB/2, CN = CD/2",
+      "AB = CD ⇒ AM = CN",
+      "△OMA ≅ △ONC by RHS (OA = OC, AM = CN, right angle)",
+      "OM = ON by CPCT",
+    ],
+    examinerTip:
+      "State the 'perpendicular from the centre bisects the chord' property explicitly before using AM = CN — it is a separate mark from the RHS congruence.",
+  },
 
   // ── CH 10 · HERON'S FORMULA ──
   {
@@ -314,6 +409,24 @@ export const C9_MATHS_QUESTIONS: Question[] = [
     examinerTip:
       "Show the s(s − a)(s − b)(s − c) substitution fully before taking the root — the marks are for the setup, not just the final number.",
   },
+  {
+    id: "q-c9-maths-10-2",
+    subjectId: "c9-maths",
+    chapterId: "c9-maths-10",
+    classLevel: 9,
+    text: "Find the area of a triangle whose sides are 13 cm, 14 cm and 15 cm using Heron's formula.",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer:
+      "Sides a = 13, b = 14, c = 15.\nSemi-perimeter s = (13 + 14 + 15)/2 = 42/2 = 21 cm.\n\nHeron's formula: Area = √[s(s − a)(s − b)(s − c)]\n= √[21 × (21 − 13) × (21 − 14) × (21 − 15)]\n= √[21 × 8 × 7 × 6]\n= √7056\n= 84 cm².",
+    keywords: [
+      "s = 21 cm",
+      "Area = √[s(s − a)(s − b)(s − c)]",
+      "√[21 × 8 × 7 × 6]",
+      "84 cm²",
+    ],
+  },
 
   // ── CH 11 · SURFACE AREAS AND VOLUMES ──
   {
@@ -335,6 +448,26 @@ export const C9_MATHS_QUESTIONS: Question[] = [
     examinerTip:
       "Units are marked: area in cm², volume in cm³. Mixing them up, or dropping them, costs a mark even when the number is right.",
   },
+  {
+    id: "q-c9-maths-11-2",
+    subjectId: "c9-maths",
+    chapterId: "c9-maths-11",
+    classLevel: 9,
+    text: "A cone has radius 7 cm and slant height 25 cm. Find its curved surface area and volume. (Take π = 22/7.)",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer:
+      "Curved surface area = πrl = (22/7) × 7 × 25 = 22 × 25 = 550 cm².\n\nHeight h = √(l² − r²) = √(25² − 7²) = √(625 − 49) = √576 = 24 cm.\n\nVolume = (1/3)πr²h = (1/3) × (22/7) × 7² × 24 = (1/3) × 22 × 7 × 24 = (1/3) × 3696 = 1232 cm³.",
+    keywords: [
+      "CSA = πrl = 550 cm²",
+      "h = √(l² − r²) = 24 cm",
+      "Volume = (1/3)πr²h",
+      "Volume = 1232 cm³",
+    ],
+    examinerTip:
+      "The slant height is not the height — find h from l² = r² + h² before using the volume formula, which needs h, not l.",
+  },
 
   // ── CH 12 · STATISTICS ──
   {
@@ -353,5 +486,25 @@ export const C9_MATHS_QUESTIONS: Question[] = [
       "80 = 62 + x",
       "x = 18",
     ],
+  },
+  {
+    id: "q-c9-maths-12-2",
+    subjectId: "c9-maths",
+    chapterId: "c9-maths-12",
+    classLevel: 9,
+    text: "Find the median of the data: 24, 36, 46, 17, 18, 25, 35.",
+    marks: 2,
+    type: "vsa",
+    source: "important",
+    answer:
+      "Arrange the data in ascending order:\n17, 18, 24, 25, 35, 36, 46.\n\nNumber of observations n = 7 (odd), so the median is the value of the ((n + 1)/2)th term = 4th term.\n\nThe 4th term is 25.\n∴ Median = 25.",
+    keywords: [
+      "arrange data in ascending order",
+      "n = 7 is odd, median is the ((n+1)/2)th term",
+      "4th term = 25",
+      "median = 25",
+    ],
+    examinerTip:
+      "Forgetting to sort the data first is the most common error — the median formula only works on ordered data.",
   },
 ];
