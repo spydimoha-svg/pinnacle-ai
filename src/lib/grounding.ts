@@ -36,9 +36,11 @@ function scoreChapter(q: string, subject: Subject, chapter: Chapter): number {
   for (const t of chapter.keyTopics) {
     if (t.length > 3 && hasWord(q, t.toLowerCase())) score += 3;
   }
-  const hay = (title + " " + chapter.keyTopics.join(" ")).toLowerCase();
+  // Title only: keyTopics already scored above, so including them here would
+  // let a single shared keyTopic word double-count (+3 then +1) and cross the
+  // score>=4 grounding threshold on its own.
   const words = q.split(/[^a-z0-9]+/).filter((w) => w.length > 3 && !STOP.has(w));
-  for (const w of words) if (hasWord(hay, w)) score += 1;
+  for (const w of words) if (hasWord(title, w)) score += 1;
   const chNo = q.match(/\bchapter\s*(\d+)\b/);
   if (chNo && parseInt(chNo[1], 10) === chapter.number) score += 4;
   return score;
