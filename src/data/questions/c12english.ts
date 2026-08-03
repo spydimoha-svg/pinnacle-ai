@@ -396,6 +396,30 @@ The ambiguous ending, where Sophie sits alone by the canal waiting for a meeting
     examinerTip:
       "The whole question is fantasy vs reality — name Sophie's daydreaming as escapism from her working-class limits and use Jansie's realism as the deliberate contrast, rather than simply narrating the Danny Casey episode.",
   },
+  {
+    id: "q-c12-english-08-2",
+    subjectId: "c12-english",
+    chapterId: "c12-english-08",
+    classLevel: 12,
+    text: "What role does Sophie's younger brother Derek play in the story, and what does her confiding in him reveal about the extent of her fantasy?",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer: `Derek is Sophie's younger brother, the one person she chooses to confide in about her supposed encounter with the famous footballer Danny Casey outside a boutique, swearing him to secrecy. Unlike Jansie, who openly doubts and mocks Sophie's claims, Derek neither fully believes nor directly challenges her — he simply keeps her confidence, giving her story a sympathetic listener within her own family.
+
+That Sophie needs even a family member to witness and validate her fantasy shows how completely she has come to depend on it — the claim of meeting Casey is not a passing daydream she can let go of, but something she needs to maintain even in private, among people who know her ordinary, unglamorous daily life.
+
+This need eventually blurs into her actual behaviour: the story closes with Sophie sitting alone by the canal, waiting for a meeting with Casey that was never really promised, showing that her fantasy has moved beyond words shared with Derek into a private, self-deceiving reality she is now living out.`,
+    keywords: [
+      "Derek — Sophie's younger brother and confidant",
+      "sworn to secrecy about the Danny Casey story",
+      "keeps her confidence, half-believing",
+      "contrast with Jansie's open disbelief",
+      "fantasy extending into Sophie's real behaviour",
+    ],
+    examinerTip:
+      "Use Derek's silent, uncritical belief as a contrast to Jansie's scepticism, and link it forward to the canal ending — the point is that Sophie needs her fantasy validated even in private, not just that Derek exists.",
+  },
 
   // ==========================================================================
   // Ch 9 — My Mother at Sixty-six
