@@ -121,15 +121,12 @@ export default function ChapterPage() {
     if (nextStatus === "not-started" && nextConfidence > 0) {
       nextStatus = "learning";
     }
-    const statusChanged = nextStatus !== status;
     const award = nextStatus === "mastered" && !masteryAwarded;
     recordProgress({
       chapterId: chapter.id,
       status: nextStatus,
       confidence: nextConfidence,
-      lastStudied: statusChanged
-        ? new Date().toISOString()
-        : progress?.lastStudied,
+      lastStudied: new Date().toISOString(),
       masteryAwarded: masteryAwarded || nextStatus === "mastered",
     });
     if (award) {

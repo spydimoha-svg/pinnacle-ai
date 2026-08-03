@@ -88,6 +88,30 @@ Thus, both boys are victims of the same web of poverty, but Saheb accepts his fa
     examinerTip:
       "The comparison itself is the answer — a summary of only one boy's story, without setting it against the other, is the most common way marks are lost here.",
   },
+  {
+    id: "q-c12-english-02-2",
+    subjectId: "c12-english",
+    chapterId: "c12-english-02",
+    classLevel: 12,
+    text: "Why does Anees Jung title her essay 'Lost Spring'? What, according to her, keeps children like Saheb and Mukesh from ever escaping the poverty they are born into?",
+    marks: 4,
+    type: "sa",
+    source: "important",
+    answer: `The title 'Lost Spring' uses spring as a symbol of childhood — the season of hope, growth and carefree play — and calls it "lost" because the children Anees Jung writes about are robbed of exactly this: Saheb and the ragpickers of Seemapuri, and Mukesh and the bangle makers of Firozabad, never get to experience a real childhood free of labour and want, growing old before their years in the struggle simply to survive.
+
+Jung is careful to identify what keeps this poverty a "web" rather than a passing hardship: for Saheb's community, it is the absence of an identity — as migrants from Bangladesh they have no proper documentation or rights, only ration cards that let them buy grain but nothing else, so their poverty is structural, not accidental. For Mukesh's community in Firozabad, it is a combination of the "stigma of caste" that ties bangle-making families to their inherited trade, the crushing grip of moneylenders (sahukars), apathetic parents worn down by tradition, and an indifferent administration and police force who exploit the workers rather than protect them, including from illegal, hazardous glass furnaces that ruin their eyesight.
+
+Jung's underlying argument is that poverty here is not simply a lack of money but a "vicious circle" maintained by social apathy — of parents, garib nawaz (self-styled patrons), bureaucrats and law-enforcers alike — so that even children who dare to dream, like Mukesh, face structures deliberately or carelessly built to keep them exactly where they are.`,
+    keywords: [
+      "spring as symbol of childhood, lost to poverty",
+      "Seemapuri — no identity, only ration cards",
+      "Firozabad — stigma of caste, sahukars",
+      "vicious circle of poverty",
+      "apathy of parents, bureaucrats, police",
+    ],
+    examinerTip:
+      "Explain the title's symbolism first, then name the structural causes — identity-lessness in Seemapuri and caste plus moneylenders in Firozabad — rather than a general statement that 'poverty is bad'.",
+  },
 
   // ==========================================================================
   // Ch 3 — Deep Water
@@ -116,6 +140,28 @@ The life lesson Douglas draws is that fear is often worse than the danger itself
     examinerTip:
       "The marking scheme rewards the terror → systematic training → triumph sequence plus the stated life lesson — a narration of the swimming-pool incident alone, without this arc, loses marks.",
   },
+  {
+    id: "q-c12-english-03-2",
+    subjectId: "c12-english",
+    chapterId: "c12-english-03",
+    classLevel: 12,
+    text: "Describe exactly what happened when the boy threw Douglas into the YMCA pool, and explain why the psychological effects of the experience outlasted any physical harm.",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer: `A boy about eighteen years old came to the pool one day, picked Douglas up bodily and threw him into the deep end as a joke, expecting him, like most boys, to know how to swim. Douglas, only about ten or eleven and unable to swim, sank straight to the bottom, and in that instant of terror planned to make one big jump and spring to the surface like a cork — but his legs would not move, and he went down again and again, swallowing water each time, his lungs aching, his senses blurring, until he passed into a kind of paralysed unconsciousness before someone finally pulled him out.
+
+Physically, Douglas recovered within minutes — he was back on his feet with no lasting injury. But the psychological effect proved far more lasting: for years afterward, even the sight of a swimming pool, lake or placid creek could bring back a wave of the same paralysing terror, and it kept him from canoeing, boating and fishing trips he would otherwise have enjoyed. Douglas himself makes the point directly — the physical danger passed in minutes, but the fear it planted took years of deliberate, systematic effort to remove, showing that trauma can outlast the incident that caused it by a very long margin.`,
+    keywords: [
+      "boy of eighteen throws Douglas in as a joke",
+      "sinks, plans a jump, legs paralysed with fear",
+      "swallows water repeatedly, loses consciousness",
+      "no lasting physical injury",
+      "psychological terror outlasts the physical danger",
+    ],
+    examinerTip:
+      "Narrate the pool incident in sequence and then explicitly contrast the brief physical danger with the years-long psychological fear — the contrast itself is the value point examiners look for.",
+  },
 
   // ==========================================================================
   // Ch 4 — The Rattrap
@@ -143,6 +189,29 @@ The rattrap thus moves from being the peddler's cynical metaphor for a world des
     ],
     examinerTip:
       "The arc from the peddler's own cynical idea to his escape from it IS the answer — naming Edla's compassion as the agent of that redemption is the value point to state explicitly.",
+  },
+  {
+    id: "q-c12-english-04-2",
+    subjectId: "c12-english",
+    chapterId: "c12-english-04",
+    classLevel: 12,
+    text: "How does the crofter's hospitality towards the peddler, and the peddler's betrayal of it, set up the theme of trust in 'The Rattrap'?",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer: `Early in the story, a lonely old crofter takes the wandering peddler into his cottage for the night, sharing his food and tobacco freely and treating him as a welcome guest rather than a stranger to be feared. In his loneliness, the crofter grows confiding and even boastful, telling the peddler that he sold his cow for thirty kronor and keeps the money hidden in the cottage — an act of trust extended to a man he has known for only an evening.
+
+The peddler repays this trust with theft: once the crofter is asleep, he steals the thirty kronor and slips away into the forest, later losing his way among the trees exactly as if he himself had wandered into the great rattrap he keeps comparing the world to.
+
+This early episode matters because it seems to confirm the peddler's own cynical philosophy — that the world is a trap baited with money and comfort, and that anyone, given the chance, will take the bait — before the story goes on to overturn that philosophy through Edla's very different, sustained trust in him at the ironmaster's house, which the peddler this time does not betray.`,
+    keywords: [
+      "crofter's hospitality and confided savings",
+      "peddler steals the thirty kronor",
+      "confirms the peddler's cynical rattrap philosophy",
+      "sets up the later contrast with Edla's trust",
+    ],
+    examinerTip:
+      "Frame the crofter episode as proof of the peddler's cynicism first — the marks come from linking it forward to how Edla's trust later reverses this same pattern, not just narrating the theft.",
   },
 
   // ==========================================================================
@@ -175,6 +244,30 @@ Thus Champaran reveals Gandhi's leadership as one built on personal example, cou
     examinerTip:
       "Cite the refund compromise explicitly and state that the amount mattered less than the landlords surrendering prestige — this is the near-certain long answer and self-reliance is the lasting lesson examiners expect named.",
   },
+  {
+    id: "q-c12-english-05-2",
+    subjectId: "c12-english",
+    chapterId: "c12-english-05",
+    classLevel: 12,
+    text: "How did Rajkumar Shukla persuade Gandhi to visit Champaran, and what does his persistence reveal about him?",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer: `Rajkumar Shukla was a poor, unlettered but resolute peasant from Champaran who had heard about the injustice of the indigo sharecropping system and was determined to bring it to Gandhi's attention. He first approached Gandhi at the Lucknow session of the Congress in 1916 and pleaded with him to visit Champaran, though Gandhi at the time knew nothing about indigo and had no plans to go there.
+
+Shukla did not give up after this one meeting — he followed Gandhi to Cawnpore and then all the way to Gandhi's ashram near Ahmedabad, staying there for weeks, patiently waiting until Gandhi's other engagements were done, and gently but persistently reminding him of his promise to visit Champaran.
+
+Gandhi himself admits he agreed largely because of Shukla's sheer tenacity rather than any prior conviction about the cause, calling him steadfast in his own quiet, illiterate way. This persistence reveals Shukla as a man of unwavering determination and courage, willing to travel and wait indefinitely for a cause larger than himself, and it is this very quality — an ordinary peasant's refusal to be brushed aside — that set in motion the entire Champaran campaign.`,
+    keywords: [
+      "meets Gandhi at the Lucknow Congress session, 1916",
+      "follows Gandhi to Cawnpore and then to the ashram",
+      "waits patiently for weeks",
+      "Gandhi agrees because of Shukla's tenacity",
+      "illiterate peasant's determination",
+    ],
+    examinerTip:
+      "The value point is Shukla's persistence itself, not the indigo issue — trace the specific stages (Lucknow, Cawnpore, the ashram) to show it was sustained pursuit, not a single request, that convinced Gandhi.",
+  },
 
   // ==========================================================================
   // Ch 6 — Poets and Pancakes
@@ -202,6 +295,30 @@ Through this understated, often self-deprecating tone, Asokamitran exposes how a
     examinerTip:
       "The question is about the satire on the hierarchy, not the events themselves — quote or point to specific instances of understatement rather than summarising who did what at the studio.",
   },
+  {
+    id: "q-c12-english-06-2",
+    subjectId: "c12-english",
+    chapterId: "c12-english-06",
+    classLevel: 12,
+    text: "What does Asokamitran mean when he says Gemini Studios achieved 'national integration' quite unselfconsciously, and how is this an example of his ironic style?",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer: `Asokamitran notes that Gemini Studios drew together people from every corner of India — Bengal, Maharashtra, Andhra, Punjab, Tamil Nadu and elsewhere — who worked side by side on films, with English becoming the practical, functional language that let them communicate across their many mother tongues.
+
+He points out, with quiet irony, that this coming together of people from different linguistic and regional backgrounds happened simply because a film studio needed it to run smoothly, not because of any deliberate ideology — yet it achieved, in ordinary daily practice, exactly what the "socially conscious" intelligentsia of the time spoke about earnestly, with "knitted eyebrows," as the lofty goal of "national integration."
+
+The irony lies in this contrast between effortless, practical unity at Gemini Studios and the self-important rhetoric about national integration current elsewhere — Asokamitran's understated observation suggests that genuine integration is often achieved through shared, ordinary work rather than through solemn public discourse about it.`,
+    keywords: [
+      "people from many regions working together at Gemini Studios",
+      "English as the functional common language",
+      "achieved unselfconsciously, not by design",
+      "contrast with the 'socially conscious' intelligentsia's rhetoric",
+      "irony of practical unity versus lofty talk",
+    ],
+    examinerTip:
+      "Name the phrase 'national integration' and state explicitly that it happened by practical necessity, not design — the irony against the intelligentsia's rhetoric is the point being tested.",
+  },
 
   // ==========================================================================
   // Ch 7 — The Interview
@@ -228,6 +345,29 @@ The chapter's structure deliberately contrasts these two positions: the celebrit
     ],
     examinerTip:
       "This is a two-part chapter and questions exploit that — answering only from Part I's celebrity hostility, without Eco's contrasting ease and his 'empty spaces' idea, is the standard way marks are lost.",
+  },
+  {
+    id: "q-c12-english-07-2",
+    subjectId: "c12-english",
+    chapterId: "c12-english-07",
+    classLevel: 12,
+    text: "According to Christopher Silvester, what value does the interview hold as a historical record, even for those who publicly despised it — with reference to Lenin?",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer: `Christopher Silvester argues that despite the hostility many writers and public figures expressed towards being interviewed, the interview form has become an indispensable source of historical and biographical record — preserving, in a subject's own words, opinions, character and detail that formal writing or official records often do not capture.
+
+He offers Lenin as a striking example: Lenin dismissed the interview as a "bourgeois" medium, unworthy of a serious revolutionary and beneath the dignity of his cause. Yet he still gave a number of interviews during his political life, recognising their practical value as a tool for reaching a wider public and shaping opinion in favour of his revolution.
+
+Silvester uses this example to make his larger point — that even public figures who condemned the interview in principle relied on it in practice, which is exactly why the form has endured as a valuable record of how significant people actually spoke, thought and represented themselves to the world, regardless of their stated contempt for it.`,
+    keywords: [
+      "interview as an important historical/biographical record",
+      "Lenin calls it a 'bourgeois' medium",
+      "Lenin still gives interviews for propaganda value",
+      "hostility in principle versus reliance in practice",
+    ],
+    examinerTip:
+      "Name Lenin specifically and the contradiction between his stated contempt and his actual use of interviews — this contradiction is exactly what the question is testing.",
   },
 
   // ==========================================================================
