@@ -15,13 +15,15 @@ import { createClient } from "@supabase/supabase-js";
 const url = process.env.VITE_SUPABASE_URL;
 const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
-// Same-origin only. Sec-Fetch-Site is set by the browser itself and can't be
-// set by page JS or a fetch() call — but a raw HTTP client (curl, node fetch)
-// can set it by hand too, since nothing stops a script from sending any
-// header it likes. So it's never trusted alone: Origin *and* Referer must
-// also genuinely match Host, which a script can forge individually but
-// rarely bothers matching both to the real Host at once. Same check as
-// api/chat.ts and api/state.ts.
+// Same-origin only. Origin can't be set by page JS or a fetch() call, so it
+// already blocks browser-forged cross-site requests on its own — a raw HTTP
+// client (curl, node fetch) can still forge it, but that's true of every
+// header. Referer is checked too when the browser sends one, since a script
+// forging Origin alone rarely bothers matching Referer to the real Host too
+// — but Referer isn't required, since privacy browsers and extensions
+// (Brave, Firefox strict mode, many ad-blockers) strip it by default and
+// would otherwise lock real students out for a header their own browser
+// removed. Same check as api/chat.ts and api/state.ts.
 function isSameOrigin(req: Request): boolean {
   const host = req.headers.get("host");
   if (!host) return false;
@@ -33,9 +35,9 @@ function isSameOrigin(req: Request): boolean {
       return false;
     }
   };
+  const referer = req.headers.get("referer");
   return (
-    matchesHost(req.headers.get("origin")) &&
-    matchesHost(req.headers.get("referer"))
+    matchesHost(req.headers.get("origin")) && (!referer || matchesHost(referer))
   );
 }
 
