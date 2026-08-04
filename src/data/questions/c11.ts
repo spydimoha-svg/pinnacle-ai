@@ -840,6 +840,23 @@ export const C11_QUESTIONS: Question[] = [
     ],
   },
   {
+    id: "q-c11-maths-01-x2",
+    subjectId: "c11-maths",
+    chapterId: "c11-maths-01",
+    classLevel: 11,
+    text: "If n(A) = 20, n(B) = 28 and n(A ∪ B) = 36, find n(A ∩ B).",
+    marks: 2,
+    type: "sa",
+    source: "important",
+    answer:
+      "By the formula for the union of two finite sets, n(A ∪ B) = n(A) + n(B) − n(A ∩ B).\n\nSo n(A ∩ B) = n(A) + n(B) − n(A ∪ B) = 20 + 28 − 36 = 12.",
+    keywords: [
+      "n(A ∪ B) = n(A) + n(B) − n(A ∩ B)",
+      "n(A ∩ B) = 20 + 28 − 36",
+      "n(A ∩ B) = 12",
+    ],
+  },
+  {
     id: "q-c11-maths-02-x1",
     subjectId: "c11-maths",
     chapterId: "c11-maths-02",
@@ -857,6 +874,23 @@ export const C11_QUESTIONS: Question[] = [
     ],
     examinerTip:
       "Don't just say 'range is between 0 and 1' — show the x² = y/(1−y) step; that algebraic justification is the method mark.",
+  },
+  {
+    id: "q-c11-maths-02-x2",
+    subjectId: "c11-maths",
+    chapterId: "c11-maths-02",
+    classLevel: 11,
+    text: "If A = {1, 2, 3} and B = {4, 5}, find the Cartesian product A × B and state the number of elements it has.",
+    marks: 2,
+    type: "sa",
+    source: "important",
+    answer:
+      "A × B is the set of all ordered pairs (a, b) with a ∈ A and b ∈ B:\n\nA × B = {(1,4), (1,5), (2,4), (2,5), (3,4), (3,5)}.\n\nSince n(A) = 3 and n(B) = 2, n(A × B) = n(A) × n(B) = 3 × 2 = 6, which matches the 6 pairs listed.",
+    keywords: [
+      "A × B = {(a, b) : a ∈ A, b ∈ B}",
+      "list all 3 × 2 = 6 ordered pairs",
+      "n(A × B) = n(A) × n(B) = 6",
+    ],
   },
   {
     id: "q-c11-maths-03-x1",
@@ -878,6 +912,25 @@ export const C11_QUESTIONS: Question[] = [
       "Rationalise the final surd to (√6 + √2)/4 — leaving it as (√3 + 1)/(2√2) is usually accepted, but the rationalised form is the model answer.",
   },
   {
+    id: "q-c11-maths-03-x2",
+    subjectId: "c11-maths",
+    chapterId: "c11-maths-03",
+    classLevel: 11,
+    text: "If sin x = 3/5 and x lies in the second quadrant, find the values of sin 2x, cos 2x and tan 2x.",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer:
+      "Since sin x = 3/5 and x is in the second quadrant, cos x is negative: cos x = −4/5 (using sin²x + cos²x = 1).\n\nsin 2x = 2 sin x cos x = 2 × (3/5) × (−4/5) = −24/25.\n\ncos 2x = 1 − 2sin²x = 1 − 2(9/25) = 1 − 18/25 = 7/25.\n\ntan 2x = sin 2x / cos 2x = (−24/25) / (7/25) = −24/7.",
+    keywords: [
+      "x in QII ⇒ cos x = −4/5",
+      "sin 2x = 2 sinx cosx = −24/25; cos 2x = 1 − 2sin²x = 7/25",
+      "tan 2x = sin2x/cos2x = −24/7",
+    ],
+    examinerTip:
+      "Fix the sign of cos x from the quadrant first — using +4/5 by mistake flips the sign of every multiple-angle answer that follows.",
+  },
+  {
     id: "q-c11-maths-04-x1",
     subjectId: "c11-maths",
     chapterId: "c11-maths-04",
@@ -897,6 +950,23 @@ export const C11_QUESTIONS: Question[] = [
       "Always check the quadrant from the signs of a and b before quoting the argument — tan θ = √3 alone also fits 240°, which would be wrong here.",
   },
   {
+    id: "q-c11-maths-04-x2",
+    subjectId: "c11-maths",
+    chapterId: "c11-maths-04",
+    classLevel: 11,
+    text: "Solve the quadratic equation x² + 2x + 5 = 0.",
+    marks: 2,
+    type: "sa",
+    source: "important",
+    answer:
+      "Using the quadratic formula x = [−b ± √(b² − 4ac)] / 2a with a = 1, b = 2, c = 5:\n\nDiscriminant = b² − 4ac = 4 − 20 = −16 < 0, so the roots are complex.\n\nx = [−2 ± √(−16)] / 2 = [−2 ± 4i] / 2 = −1 ± 2i.",
+    keywords: [
+      "discriminant = 4 − 20 = −16 < 0 ⇒ complex roots",
+      "x = [−2 ± √(−16)] / 2",
+      "x = −1 ± 2i",
+    ],
+  },
+  {
     id: "q-c11-maths-05-x1",
     subjectId: "c11-maths",
     chapterId: "c11-maths-05",
@@ -912,6 +982,25 @@ export const C11_QUESTIONS: Question[] = [
       "divide by 2: x < 6",
       "solution set = (−∞, 6)",
     ],
+  },
+  {
+    id: "q-c11-maths-05-x2",
+    subjectId: "c11-maths",
+    chapterId: "c11-maths-05",
+    classLevel: 11,
+    text: "Solve the system of inequalities 3x − 7 > 2(x − 6) and 6 − x > 11 − 2x, and write the combined solution set.",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer:
+      "First inequality: 3x − 7 > 2(x − 6) = 2x − 12 ⇒ 3x − 2x > −12 + 7 ⇒ x > −5.\n\nSecond inequality: 6 − x > 11 − 2x ⇒ 2x − x > 11 − 6 ⇒ x > 5.\n\nBoth conditions must hold simultaneously, and x > 5 is the stronger restriction (it already satisfies x > −5), so the combined solution set is (5, ∞).",
+    keywords: [
+      "first: 3x − 7 > 2x − 12 ⇒ x > −5",
+      "second: 6 − x > 11 − 2x ⇒ x > 5",
+      "combined (intersection): x > 5, i.e. (5, ∞)",
+    ],
+    examinerTip:
+      "Solve each inequality separately first, then take the intersection of the two solution sets — do not try to combine them in one line.",
   },
   {
     id: "q-c11-maths-06-x1",
@@ -933,6 +1022,23 @@ export const C11_QUESTIONS: Question[] = [
       "When a question says 'a specific item is always included', reduce it to choosing the rest from what remains, then arrange — don't recompute C(5,3) and try to filter afterward.",
   },
   {
+    id: "q-c11-maths-06-x2",
+    subjectId: "c11-maths",
+    chapterId: "c11-maths-06",
+    classLevel: 11,
+    text: "How many words, with or without meaning, can be formed using all the letters of the word EQUATION, using each letter exactly once?",
+    marks: 2,
+    type: "sa",
+    source: "important",
+    answer:
+      "The word EQUATION has 8 letters: E, Q, U, A, T, I, O, N — all distinct.\n\nThe number of arrangements of 8 distinct letters, taken all at a time, is 8! = 40320.",
+    keywords: [
+      "EQUATION has 8 letters, all distinct",
+      "arrangements of n distinct objects = n!",
+      "8! = 40320",
+    ],
+  },
+  {
     id: "q-c11-maths-07-x1",
     subjectId: "c11-maths",
     chapterId: "c11-maths-07",
@@ -952,6 +1058,23 @@ export const C11_QUESTIONS: Question[] = [
       "The 4th term means r = 3, not r = 4 — a very common off-by-one slip in binomial expansion questions.",
   },
   {
+    id: "q-c11-maths-07-x2",
+    subjectId: "c11-maths",
+    chapterId: "c11-maths-07",
+    classLevel: 11,
+    text: "Find the coefficient of x⁵ in the expansion of (x + 3)⁸.",
+    marks: 2,
+    type: "sa",
+    source: "important",
+    answer:
+      "General term: T(r+1) = C(8, r) x^(8−r) 3^r.\n\nFor the term in x⁵, set 8 − r = 5 ⇒ r = 3.\n\nCoefficient = C(8, 3) × 3³ = 56 × 27 = 1512.",
+    keywords: [
+      "T(r+1) = C(8,r) x^(8−r) 3^r",
+      "x⁵ term ⇒ 8 − r = 5 ⇒ r = 3",
+      "coefficient = C(8,3) × 3³ = 1512",
+    ],
+  },
+  {
     id: "q-c11-maths-08-x1",
     subjectId: "c11-maths",
     chapterId: "c11-maths-08",
@@ -966,6 +1089,23 @@ export const C11_QUESTIONS: Question[] = [
       "a = 2, d = 3, n = 20",
       "S_n = (n/2)[2a + (n − 1)d]",
       "S₂₀ = 10 × 61 = 610",
+    ],
+  },
+  {
+    id: "q-c11-maths-08-x2",
+    subjectId: "c11-maths",
+    chapterId: "c11-maths-08",
+    classLevel: 11,
+    text: "Find the sum of the first 10 terms of the geometric progression 2, 6, 18, 54, …",
+    marks: 2,
+    type: "sa",
+    source: "important",
+    answer:
+      "First term a = 2, common ratio r = 3, n = 10.\n\nS_n = a(rⁿ − 1)/(r − 1).\n\nS₁₀ = 2(3¹⁰ − 1)/(3 − 1) = 2(59049 − 1)/2 = 59049 − 1 = 59048.",
+    keywords: [
+      "a = 2, r = 3, n = 10",
+      "S_n = a(rⁿ − 1)/(r − 1)",
+      "S₁₀ = 2(3¹⁰ − 1)/2 = 59048",
     ],
   },
   {
@@ -986,6 +1126,23 @@ export const C11_QUESTIONS: Question[] = [
     ],
   },
   {
+    id: "q-c11-maths-09-x2",
+    subjectId: "c11-maths",
+    chapterId: "c11-maths-09",
+    classLevel: 11,
+    text: "Find the distance of the point (3, −5) from the line 3x − 4y − 26 = 0.",
+    marks: 2,
+    type: "sa",
+    source: "important",
+    answer:
+      "Distance of a point (x₁, y₁) from the line Ax + By + C = 0 is d = |Ax₁ + By₁ + C| / √(A² + B²).\n\nHere A = 3, B = −4, C = −26, (x₁, y₁) = (3, −5):\n\nd = |3(3) − 4(−5) − 26| / √(9 + 16) = |9 + 20 − 26| / 5 = |3| / 5 = 3/5.",
+    keywords: [
+      "d = |Ax₁ + By₁ + C| / √(A² + B²)",
+      "numerator = |9 + 20 − 26| = 3",
+      "d = 3/5",
+    ],
+  },
+  {
     id: "q-c11-maths-10-x1",
     subjectId: "c11-maths",
     chapterId: "c11-maths-10",
@@ -1003,6 +1160,25 @@ export const C11_QUESTIONS: Question[] = [
     ],
   },
   {
+    id: "q-c11-maths-10-x2",
+    subjectId: "c11-maths",
+    chapterId: "c11-maths-10",
+    classLevel: 11,
+    text: "Find the coordinates of the vertices and the foci of the ellipse x²/25 + y²/9 = 1.",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer:
+      "Comparing with x²/a² + y²/b² = 1: a² = 25 so a = 5, and b² = 9 so b = 3. Since a > b, the major axis lies along the x-axis.\n\nVertices are at (±a, 0) = (±5, 0).\n\nc² = a² − b² = 25 − 9 = 16, so c = 4. Foci are at (±c, 0) = (±4, 0).",
+    keywords: [
+      "a² = 25, b² = 9, a > b ⇒ major axis along x-axis",
+      "vertices (±a, 0) = (±5, 0)",
+      "c² = a² − b² = 16 ⇒ foci (±4, 0)",
+    ],
+    examinerTip:
+      "Check whether a² or b² is larger before deciding whether the major axis is along the x-axis or the y-axis — plugging into the wrong formula flips every coordinate.",
+  },
+  {
     id: "q-c11-maths-11-x1",
     subjectId: "c11-maths",
     chapterId: "c11-maths-11",
@@ -1017,6 +1193,23 @@ export const C11_QUESTIONS: Question[] = [
       "PQ = √[(x₂−x₁)² + (y₂−y₁)² + (z₂−z₁)²]",
       "= √[25 + 16 + 4] = √45",
       "= 3√5",
+    ],
+  },
+  {
+    id: "q-c11-maths-11-x2",
+    subjectId: "c11-maths",
+    chapterId: "c11-maths-11",
+    classLevel: 11,
+    text: "Find the coordinates of the point which divides the line segment joining (1, −2, 3) and (3, 4, −5) internally in the ratio 2 : 3.",
+    marks: 2,
+    type: "sa",
+    source: "important",
+    answer:
+      "Section formula: for a point dividing (x₁,y₁,z₁) and (x₂,y₂,z₂) internally in the ratio m:n, the coordinates are [(mx₂+nx₁)/(m+n), (my₂+ny₁)/(m+n), (mz₂+nz₁)/(m+n)].\n\nWith m = 2, n = 3:\nx = (2×3 + 3×1)/5 = 9/5.\ny = (2×4 + 3×(−2))/5 = 2/5.\nz = (2×(−5) + 3×3)/5 = −1/5.\n\nThe required point is (9/5, 2/5, −1/5).",
+    keywords: [
+      "section formula: [(mx₂+nx₁)/(m+n), (my₂+ny₁)/(m+n), (mz₂+nz₁)/(m+n)]",
+      "m = 2, n = 3",
+      "point = (9/5, 2/5, −1/5)",
     ],
   },
   {
@@ -1039,6 +1232,23 @@ export const C11_QUESTIONS: Question[] = [
       "State that direct substitution gives the 0/0 indeterminate form first — that observation is what justifies factorising, and it is marked.",
   },
   {
+    id: "q-c11-maths-12-x2",
+    subjectId: "c11-maths",
+    chapterId: "c11-maths-12",
+    classLevel: 11,
+    text: "Find the derivative of f(x) = x² from first principles.",
+    marks: 2,
+    type: "sa",
+    source: "important",
+    answer:
+      "By definition, f′(x) = lim (h → 0) [f(x + h) − f(x)] / h.\n\nf′(x) = lim (h → 0) [(x + h)² − x²] / h = lim (h → 0) [2xh + h²] / h = lim (h → 0) (2x + h) = 2x.",
+    keywords: [
+      "f′(x) = lim (h→0) [f(x+h) − f(x)] / h",
+      "(x+h)² − x² = 2xh + h²",
+      "f′(x) = lim (h→0) (2x + h) = 2x",
+    ],
+  },
+  {
     id: "q-c11-maths-13-x1",
     subjectId: "c11-maths",
     chapterId: "c11-maths-13",
@@ -1056,6 +1266,23 @@ export const C11_QUESTIONS: Question[] = [
     ],
   },
   {
+    id: "q-c11-maths-13-x2",
+    subjectId: "c11-maths",
+    chapterId: "c11-maths-13",
+    classLevel: 11,
+    text: "Find the variance and standard deviation of the first 10 natural numbers.",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer:
+      "For the first n natural numbers, the variance is given by the standard result Var = (n² − 1)/12.\n\nFor n = 10: Var = (10² − 1)/12 = 99/12 = 8.25.\n\nStandard deviation = √Var = √8.25 ≈ 2.87.",
+    keywords: [
+      "variance of first n natural numbers = (n² − 1)/12",
+      "n = 10 ⇒ Var = 99/12 = 8.25",
+      "SD = √8.25 ≈ 2.87",
+    ],
+  },
+  {
     id: "q-c11-maths-14-x1",
     subjectId: "c11-maths",
     chapterId: "c11-maths-14",
@@ -1070,6 +1297,23 @@ export const C11_QUESTIONS: Question[] = [
       "n(S) = 6",
       "even numbers {2,4,6} ⇒ P = 1/2",
       "numbers > 4 are {5,6} ⇒ P = 1/3",
+    ],
+  },
+  {
+    id: "q-c11-maths-14-x2",
+    subjectId: "c11-maths",
+    chapterId: "c11-maths-14",
+    classLevel: 11,
+    text: "A card is drawn from a well-shuffled deck of 52 playing cards. Find the probability that it is (i) a king, (ii) a red card.",
+    marks: 2,
+    type: "sa",
+    source: "important",
+    answer:
+      "Total number of cards, n(S) = 52.\n\n(i) There are 4 kings in the deck, so P(king) = 4/52 = 1/13.\n\n(ii) There are 26 red cards (13 hearts + 13 diamonds), so P(red) = 26/52 = 1/2.",
+    keywords: [
+      "n(S) = 52",
+      "4 kings ⇒ P(king) = 4/52 = 1/13",
+      "26 red cards ⇒ P(red) = 26/52 = 1/2",
     ],
   },
 
