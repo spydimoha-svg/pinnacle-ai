@@ -140,6 +140,16 @@ export async function POST(req: Request): Promise<Response> {
   if (!isSameOrigin(req)) {
     return new Response("Forbidden", { status: 403 });
   }
+  // IP-throttle before the bearer token ever reaches Supabase's Auth API —
+  // otherwise a same-origin flood of garbage tokens forces an unthrottled
+  // flood of getUser() calls against the shared free-tier Auth quota.
+  if (
+    supabaseUrl &&
+    supabaseServiceKey &&
+    (await isRateLimited(`ip:${clientIp(req)}`))
+  ) {
+    return new Response("Too many requests", { status: 429 });
+  }
   const userId = await verifiedUserId(req);
   if (userId === null) {
     return new Response("Unauthorized", { status: 401 });

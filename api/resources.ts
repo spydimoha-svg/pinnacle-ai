@@ -44,6 +44,15 @@ type VerifiedAdmin = { id: string; schoolId: string };
 // school_id lives in app_metadata (not user_metadata) for the same reason
 // role does: only the service-role key can set it, so an admin can never
 // grant themselves another school's scope by editing their own profile.
+// x-forwarded-for's first hop is client-supplied and trivially spoofed.
+// x-vercel-forwarded-for (falling back to x-real-ip) is set by Vercel's own
+// edge and stays correct even behind an extra proxy in front of Vercel:
+// https://vercel.com/docs/headers/request-headers#x-vercel-forwarded-for
+function clientIp(req: Request): string {
+  const ip = req.headers.get("x-vercel-forwarded-for") || req.headers.get("x-real-ip");
+  return ip?.split(",")[0]?.trim() || "unknown";
+}
+
 async function verifiedAdmin(req: Request): Promise<VerifiedAdmin | null> {
   if (!url || !serviceKey) return null;
   const auth = req.headers.get("authorization") ?? "";
@@ -102,6 +111,12 @@ export async function GET(req: Request): Promise<Response> {
   if (!url || !serviceKey) {
     return new Response("Cloud sync is not configured", { status: 503 });
   }
+  // IP-throttle before the bearer token ever reaches Supabase's Auth API —
+  // otherwise a same-origin flood of garbage tokens forces an unthrottled
+  // flood of getUser() calls against the shared free-tier Auth quota.
+  if (await isRateLimited(`ip:${clientIp(req)}`)) {
+    return new Response("Too many requests", { status: 429 });
+  }
   const adminAuth = await verifiedAdmin(req);
   if (!adminAuth) return new Response("Unauthorized", { status: 401 });
   if (await isRateLimited(`user:${adminAuth.id}`)) {
@@ -126,6 +141,12 @@ export async function POST(req: Request): Promise<Response> {
   }
   if (!url || !serviceKey) {
     return new Response("Cloud sync is not configured", { status: 503 });
+  }
+  // IP-throttle before the bearer token ever reaches Supabase's Auth API —
+  // otherwise a same-origin flood of garbage tokens forces an unthrottled
+  // flood of getUser() calls against the shared free-tier Auth quota.
+  if (await isRateLimited(`ip:${clientIp(req)}`)) {
+    return new Response("Too many requests", { status: 429 });
   }
   const adminAuth = await verifiedAdmin(req);
   if (!adminAuth) return new Response("Unauthorized", { status: 401 });
@@ -192,6 +213,12 @@ export async function DELETE(req: Request): Promise<Response> {
   }
   if (!url || !serviceKey) {
     return new Response("Cloud sync is not configured", { status: 503 });
+  }
+  // IP-throttle before the bearer token ever reaches Supabase's Auth API —
+  // otherwise a same-origin flood of garbage tokens forces an unthrottled
+  // flood of getUser() calls against the shared free-tier Auth quota.
+  if (await isRateLimited(`ip:${clientIp(req)}`)) {
+    return new Response("Too many requests", { status: 429 });
   }
   const adminAuth = await verifiedAdmin(req);
   if (!adminAuth) return new Response("Unauthorized", { status: 401 });
