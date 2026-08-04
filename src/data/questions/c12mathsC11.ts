@@ -69,6 +69,39 @@ export const C12_MATHS_C11_QUESTIONS: Question[] = [
     examinerTip:
       "The marking scheme awards reflexive, symmetric and transitive as three separate marks — prove each and write the conclusion line for each; transitivity must be argued by parity, not by checking one example.",
   },
+  {
+    id: "q-c12-maths-01-2",
+    subjectId: "c12-maths",
+    chapterId: "c12-maths-01",
+    classLevel: 12,
+    text:
+      "Let R be a relation on the set N of natural numbers defined by R = {(a, b) : a divides b}. Then R is:\n(A) reflexive and symmetric\n(B) transitive and symmetric\n(C) reflexive, transitive but not symmetric\n(D) an equivalence relation",
+    marks: 1,
+    type: "mcq",
+    source: "exemplar",
+    answer: [
+      "Correct option: (C) reflexive, transitive but not symmetric.",
+      "",
+      "Reflexive: For every a ∈ N, a divides a. So (a, a) ∈ R for all a. Hence R is reflexive.",
+      "",
+      "Symmetric: Take a = 2, b = 4. Here 2 divides 4, so (2, 4) ∈ R. But 4 does not divide 2, so (4, 2) ∉ R.",
+      "Hence R is NOT symmetric.",
+      "",
+      "Transitive: Let (a, b) ∈ R and (b, c) ∈ R, i.e. a divides b and b divides c.",
+      "Then b = ka and c = mb for some natural numbers k, m, so c = mka, i.e. a divides c.",
+      "Hence (a, c) ∈ R, so R is transitive.",
+      "",
+      "Conclusion: R is reflexive and transitive but not symmetric, so it is not an equivalence relation.",
+    ].join("\n"),
+    keywords: [
+      "a divides a for every a — reflexive",
+      "counterexample 2 divides 4 but 4 does not divide 2 — not symmetric",
+      "a | b and b | c ⇒ a | c — transitive",
+      "reflexive, transitive but not symmetric",
+    ],
+    examinerTip:
+      "A single numerical counterexample is enough to disprove symmetry — do not attempt a general algebraic 'proof' that it fails; showing 2 divides 4 but not the reverse is sufficient and is exactly what the marking scheme expects.",
+  },
 
   // --------------------------------- Ch 2 · Inverse Trigonometric Functions
   {
@@ -108,6 +141,43 @@ export const C12_MATHS_C11_QUESTIONS: Question[] = [
     ],
     examinerTip:
       "cos⁻¹ of a negative number lies in (π/2, π] but sin⁻¹ of a negative number is NEGATIVE — writing sin⁻¹(−1/2) = 7π/6 or 11π/6 is outside the branch and scores zero however neat the arithmetic.",
+  },
+  {
+    id: "q-c12-maths-02-2",
+    subjectId: "c12-maths",
+    chapterId: "c12-maths-02",
+    classLevel: 12,
+    text: "Prove that tan⁻¹(1/2) + tan⁻¹(1/3) = π/4.",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer: [
+      "Let x = 1/2 and y = 1/3.",
+      "",
+      "Step 1 — Check the condition for the addition formula:",
+      "xy = (1/2)(1/3) = 1/6 < 1, so the formula tan⁻¹x + tan⁻¹y = tan⁻¹[(x + y)/(1 − xy)] applies directly.",
+      "",
+      "Step 2 — Substitute:",
+      "tan⁻¹(1/2) + tan⁻¹(1/3) = tan⁻¹ [ (1/2 + 1/3) / (1 − (1/2)(1/3)) ]",
+      "",
+      "Step 3 — Simplify the numerator and denominator:",
+      "Numerator: 1/2 + 1/3 = 5/6",
+      "Denominator: 1 − 1/6 = 5/6",
+      "So the expression inside becomes (5/6) / (5/6) = 1.",
+      "",
+      "Step 4 — Evaluate:",
+      "tan⁻¹(1/2) + tan⁻¹(1/3) = tan⁻¹(1) = π/4",
+      "",
+      "Conclusion: tan⁻¹(1/2) + tan⁻¹(1/3) = π/4, as required. (Hence proved.)",
+    ].join("\n"),
+    keywords: [
+      "tan⁻¹x + tan⁻¹y = tan⁻¹[(x + y)/(1 − xy)] valid since xy = 1/6 < 1",
+      "numerator 1/2 + 1/3 = 5/6",
+      "denominator 1 − 1/6 = 5/6",
+      "tan⁻¹(1) = π/4",
+    ],
+    examinerTip:
+      "State the condition xy < 1 before applying the addition formula — the marking scheme gives a mark for checking it, since the formula needs a −π correction term whenever xy > 1.",
   },
 
   // ------------------------------------------------------------ Ch 3 · Matrices
@@ -151,6 +221,40 @@ export const C12_MATHS_C11_QUESTIONS: Question[] = [
     ],
     examinerTip:
       "State explicitly that P′ = P and Q′ = −Q — the marking scheme gives a mark for the verification, not just for the two matrices; forgetting the ½ factor is the other routine loss.",
+  },
+  {
+    id: "q-c12-maths-03-2",
+    subjectId: "c12-maths",
+    chapterId: "c12-maths-03",
+    classLevel: 12,
+    text:
+      "If A is a square matrix such that A² = A, then (I + A)³ − 7A is equal to:\n(A) A\n(B) I − A\n(C) I\n(D) 3A",
+    marks: 1,
+    type: "mcq",
+    source: "exemplar",
+    answer: [
+      "Correct option: (C) I.",
+      "",
+      "Step 1 — Expand (I + A)³ using the binomial expansion (I and A commute since A·I = I·A = A):",
+      "(I + A)³ = I³ + 3I²A + 3IA² + A³ = I + 3A + 3A² + A³",
+      "",
+      "Step 2 — Use the given condition A² = A repeatedly:",
+      "A³ = A²·A = A·A = A² = A",
+      "So (I + A)³ = I + 3A + 3A + A = I + 7A",
+      "",
+      "Step 3 — Subtract 7A:",
+      "(I + A)³ − 7A = I + 7A − 7A = I",
+      "",
+      "Conclusion: (I + A)³ − 7A = I.",
+    ].join("\n"),
+    keywords: [
+      "(I + A)³ = I + 3A + 3A² + A³",
+      "A² = A ⇒ A³ = A",
+      "(I + A)³ = I + 7A",
+      "(I + A)³ − 7A = I",
+    ],
+    examinerTip:
+      "Treat A as an idempotent matrix (A² = A) and keep reducing every higher power of A back down to A itself — trying to expand (I + A)³ without using A² = A first makes the algebra unmanageable.",
   },
 
   // -------------------------------------------------------- Ch 4 · Determinants
@@ -206,6 +310,32 @@ export const C12_MATHS_C11_QUESTIONS: Question[] = [
     examinerTip:
       "Writing |A| ≠ 0 and the sentence 'hence the system is consistent and has a unique solution' is itself a marked step; and adj A is the TRANSPOSE of the cofactor matrix — students who skip the transpose get three wrong values with perfect working.",
   },
+  {
+    id: "q-c12-maths-04-2",
+    subjectId: "c12-maths",
+    chapterId: "c12-maths-04",
+    classLevel: 12,
+    text: "If A is a square matrix of order 3 and |A| = 5, find |adj A|.",
+    marks: 2,
+    type: "vsa",
+    source: "important",
+    answer: [
+      "Step 1 — Quote the standard result for a square matrix of order n:",
+      "|adj A| = |A|^(n − 1)",
+      "",
+      "Step 2 — Substitute n = 3 and |A| = 5:",
+      "|adj A| = |A|^(3 − 1) = |A|² = 5² = 25",
+      "",
+      "Conclusion: |adj A| = 25.",
+    ].join("\n"),
+    keywords: [
+      "|adj A| = |A|^(n − 1)",
+      "n = 3 for a 3×3 matrix",
+      "|adj A| = 5² = 25",
+    ],
+    examinerTip:
+      "The exponent is (n − 1), not n — for a 3×3 matrix that means squaring |A|, not cubing it; using |A|³ = 125 is the standard slip here.",
+  },
 
   // ------------------------------------- Ch 5 · Continuity and Differentiability
   {
@@ -249,6 +379,44 @@ export const C12_MATHS_C11_QUESTIONS: Question[] = [
     ],
     examinerTip:
       "Write the three quantities LHL, RHL and f(0) as separate labelled lines before equating them — students who jump straight to 'k = −1' lose the method marks even with the right answer.",
+  },
+  {
+    id: "q-c12-maths-05-2",
+    subjectId: "c12-maths",
+    chapterId: "c12-maths-05",
+    classLevel: 12,
+    text: "If y = xˣ, find dy/dx.",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer: [
+      "Given y = xˣ. Since the base and the exponent both contain x, take logarithms of both sides before differentiating.",
+      "",
+      "Step 1 — Take log on both sides:",
+      "log y = log(xˣ) = x log x           (using log(aᵇ) = b log a)",
+      "",
+      "Step 2 — Differentiate both sides with respect to x (implicit differentiation on the left, product rule on the right):",
+      "(1/y)(dy/dx) = (d/dx)(x) · log x + x · (d/dx)(log x)",
+      "(1/y)(dy/dx) = 1 · log x + x · (1/x)",
+      "(1/y)(dy/dx) = log x + 1",
+      "",
+      "Step 3 — Solve for dy/dx by multiplying both sides by y:",
+      "dy/dx = y (log x + 1)",
+      "",
+      "Step 4 — Substitute back y = xˣ:",
+      "dy/dx = xˣ (1 + log x)",
+      "",
+      "Conclusion: dy/dx = xˣ (1 + log x).",
+    ].join("\n"),
+    keywords: [
+      "log y = x log x",
+      "implicit differentiation of log y",
+      "product rule on x log x",
+      "dy/dx = y(log x + 1)",
+      "dy/dx = xˣ(1 + log x)",
+    ],
+    examinerTip:
+      "This is exactly why logarithmic differentiation exists — the power rule d(xⁿ)/dx = nxⁿ⁻¹ does NOT apply when the exponent is also x; taking log first is the compulsory first step, not a shortcut.",
   },
 
   // ------------------------------------------- Ch 6 · Application of Derivatives
@@ -307,6 +475,44 @@ export const C12_MATHS_C11_QUESTIONS: Question[] = [
     examinerTip:
       "Light admitted means AREA, and the semicircular part contributes only the arc πx to the perimeter (not 2πx) — and you must justify the maximum with d²A/dx² < 0; simply solving dA/dx = 0 costs the justification mark.",
   },
+  {
+    id: "q-c12-maths-06-2",
+    subjectId: "c12-maths",
+    chapterId: "c12-maths-06",
+    classLevel: 12,
+    text:
+      "Find the intervals in which the function f(x) = 2x³ − 15x² + 36x + 1 is (a) strictly increasing (b) strictly decreasing.",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer: [
+      "Step 1 — Find f′(x):",
+      "f′(x) = 6x² − 30x + 36 = 6(x² − 5x + 6) = 6(x − 2)(x − 3)",
+      "",
+      "Step 2 — Find the critical points (f′(x) = 0):",
+      "6(x − 2)(x − 3) = 0 ⇒ x = 2, x = 3",
+      "These divide the real line into three intervals: (−∞, 2), (2, 3), (3, ∞).",
+      "",
+      "Step 3 — Sign of f′(x) on each interval (sign of (x − 2)(x − 3)):",
+      "On (−∞, 2): take x = 0 ⇒ (0 − 2)(0 − 3) = (−2)(−3) = 6 > 0 ⇒ f′(x) > 0",
+      "On (2, 3): take x = 2.5 ⇒ (0.5)(−0.5) = −0.25 < 0 ⇒ f′(x) < 0",
+      "On (3, ∞): take x = 4 ⇒ (2)(1) = 2 > 0 ⇒ f′(x) > 0",
+      "",
+      "Step 4 — Conclude using the sign of f′(x):",
+      "f is strictly increasing where f′(x) > 0, and strictly decreasing where f′(x) < 0.",
+      "",
+      "Conclusion: f is strictly increasing on (−∞, 2) ∪ (3, ∞), and strictly decreasing on (2, 3).",
+    ].join("\n"),
+    keywords: [
+      "f′(x) = 6(x − 2)(x − 3)",
+      "critical points x = 2 and x = 3",
+      "sign of f′(x) tested in each interval",
+      "increasing on (−∞, 2) ∪ (3, ∞)",
+      "decreasing on (2, 3)",
+    ],
+    examinerTip:
+      "State the sign of f′(x) on every interval with a test point shown, not just the final intervals — the sign analysis itself carries marks, and the boundary points 2 and 3 belong to neither open interval.",
+  },
 
   // ------------------------------------------------------------ Ch 7 · Integrals
   {
@@ -346,6 +552,43 @@ export const C12_MATHS_C11_QUESTIONS: Question[] = [
     ],
     examinerTip:
       "Quote the property by name before using it and label the two integrals (1) and (2) — the mark is for recognising the a − x property; trying to integrate √(sin x) directly is unsolvable and wastes the whole question.",
+  },
+  {
+    id: "q-c12-maths-07-2",
+    subjectId: "c12-maths",
+    chapterId: "c12-maths-07",
+    classLevel: 12,
+    text: "Evaluate: ∫ x log x dx",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer: [
+      "Let I = ∫ x log x dx. Use integration BY PARTS: ∫ u v dx = u ∫v dx − ∫[ (du/dx) ∫v dx ] dx.",
+      "",
+      "Step 1 — Choose u and dv using ILATE (Inverse, Logarithmic before Algebraic):",
+      "Take u = log x (logarithmic, differentiate) and dv = x dx (algebraic, integrate).",
+      "So du = (1/x) dx and v = ∫x dx = x²/2.",
+      "",
+      "Step 2 — Apply the by-parts formula:",
+      "I = (log x)(x²/2) − ∫ (x²/2) · (1/x) dx",
+      "I = (x² log x)/2 − ∫ (x/2) dx",
+      "",
+      "Step 3 — Integrate the remaining term:",
+      "∫ (x/2) dx = x²/4",
+      "",
+      "Step 4 — Combine, adding the constant of integration:",
+      "I = (x² log x)/2 − x²/4 + C",
+      "",
+      "Conclusion: ∫ x log x dx = (x² log x)/2 − x²/4 + C.",
+    ].join("\n"),
+    keywords: [
+      "integration by parts ∫u v dx = u∫v dx − ∫(du/dx)(∫v dx) dx",
+      "ILATE: take u = log x, dv = x dx",
+      "v = x²/2, du = dx/x",
+      "(x² log x)/2 − x²/4 + C",
+    ],
+    examinerTip:
+      "By ILATE the logarithmic factor is always taken as u (differentiated), never as dv — choosing it the other way round leaves ∫log x dx to be found, which is a harder sub-problem the marking scheme does not expect here.",
   },
 
   // ------------------------------------------- Ch 8 · Application of Integrals
@@ -394,6 +637,45 @@ export const C12_MATHS_C11_QUESTIONS: Question[] = [
     ],
     examinerTip:
       "The rough sketch and the symmetry statement 'area = 4 × first-quadrant area' each carry a mark — and always end with 'square units'; a bare number loses the final mark.",
+  },
+  {
+    id: "q-c12-maths-08-2",
+    subjectId: "c12-maths",
+    chapterId: "c12-maths-08",
+    classLevel: 12,
+    text: "Find the area of the region bounded by the curve y = x² and the line y = 4.",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer: [
+      "Step 1 — Find the points of intersection:",
+      "Put y = x² equal to y = 4: x² = 4 ⇒ x = ±2.",
+      "So the curve and the line meet at (−2, 4) and (2, 4).",
+      "(Sketch: an upward parabola y = x² cut off by the horizontal line y = 4, symmetric about the y-axis.)",
+      "",
+      "Step 2 — Use symmetry:",
+      "The region is symmetric about the y-axis, so required area = 2 × (area from x = 0 to x = 2).",
+      "",
+      "Step 3 — Set up the integral with respect to x (line above, curve below):",
+      "Area = 2 ∫₀² (4 − x²) dx",
+      "",
+      "Step 4 — Integrate:",
+      "2 ∫₀² (4 − x²) dx = 2 [4x − x³/3]₀²",
+      "  = 2 [ (8 − 8/3) − 0 ]",
+      "  = 2 × (24/3 − 8/3)",
+      "  = 2 × (16/3)",
+      "  = 32/3",
+      "",
+      "Conclusion: The area of the region bounded by y = x² and y = 4 is 32/3 square units.",
+    ].join("\n"),
+    keywords: [
+      "points of intersection x = ±2",
+      "symmetry about the y-axis, area = 2 × first-quadrant part",
+      "area = 2 ∫₀² (4 − x²) dx",
+      "32/3 square units",
+    ],
+    examinerTip:
+      "Integrate (top curve − bottom curve) = (4 − x²), not x² alone — forgetting which curve is on top gives a negative or wrong area; always finish with 'square units'.",
   },
 
   // ------------------------------------------------- Ch 9 · Differential Equations
@@ -505,6 +787,43 @@ export const C12_MATHS_C11_QUESTIONS: Question[] = [
     examinerTip:
       "Divide by the modulus of the vector you are projecting ON (here b→), not a→ — and the projection asked here is a SCALAR, so do not attach î, ĵ, k̂ to the answer.",
   },
+  {
+    id: "q-c12-maths-10-2",
+    subjectId: "c12-maths",
+    chapterId: "c12-maths-10",
+    classLevel: 12,
+    text:
+      "Find |a→ × b→| if a→ = î − 7ĵ + 7k̂ and b→ = 3î − 2ĵ + 2k̂.",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer: [
+      "Step 1 — Set up the cross product as a determinant:",
+      "a→ × b→ = | î  ĵ  k̂ ; 1  −7  7 ; 3  −2  2 |",
+      "",
+      "Step 2 — Expand along the first row:",
+      "î-component: (−7)(2) − (7)(−2) = −14 + 14 = 0",
+      "ĵ-component: −[(1)(2) − (7)(3)] = −[2 − 21] = 19",
+      "k̂-component: (1)(−2) − (−7)(3) = −2 + 21 = 19",
+      "So a→ × b→ = 0î + 19ĵ + 19k̂",
+      "",
+      "Step 3 — Find the magnitude:",
+      "|a→ × b→| = √(0² + 19² + 19²) = √(361 + 361) = √722",
+      "",
+      "Step 4 — Simplify the surd:",
+      "√722 = √(361 × 2) = 19√2",
+      "",
+      "Conclusion: |a→ × b→| = 19√2.",
+    ].join("\n"),
+    keywords: [
+      "a→ × b→ as a 3×3 determinant",
+      "a→ × b→ = 0î + 19ĵ + 19k̂",
+      "|a→ × b→| = √722",
+      "19√2",
+    ],
+    examinerTip:
+      "The ĵ-component of a cross product always carries a minus sign in the expansion — dropping it is the single most common slip, and it silently flips the final sign of that component.",
+  },
 
   // ----------------------------------------- Ch 11 · Three Dimensional Geometry
   {
@@ -557,6 +876,40 @@ export const C12_MATHS_C11_QUESTIONS: Question[] = [
     examinerTip:
       "The modulus signs in the numerator are compulsory — a negative distance is an automatic mark loss; and the sign of the ĵ-component of the cross product (it carries a minus in the expansion) is the single most common slip here.",
   },
+  {
+    id: "q-c12-maths-11-2",
+    subjectId: "c12-maths",
+    chapterId: "c12-maths-11",
+    classLevel: 12,
+    text:
+      "Find the vector and the cartesian equations of the line that passes through the point (−2, 4, −5) and is parallel to the line with direction ratios (3, 5, 6).",
+    marks: 2,
+    type: "vsa",
+    source: "important",
+    answer: [
+      "Step 1 — Identify the given point and direction ratios:",
+      "The line passes through A(−2, 4, −5), so a→ = −2î + 4ĵ − 5k̂.",
+      "It is parallel to a line with direction ratios (3, 5, 6), so b→ = 3î + 5ĵ + 6k̂.",
+      "",
+      "Step 2 — Write the vector equation:",
+      "r→ = a→ + λ b→ ⇒ r→ = (−2î + 4ĵ − 5k̂) + λ(3î + 5ĵ + 6k̂), where λ is a scalar.",
+      "",
+      "Step 3 — Convert to cartesian form using (x − x₁)/a = (y − y₁)/b = (z − z₁)/c:",
+      "With (x₁, y₁, z₁) = (−2, 4, −5) and direction ratios (a, b, c) = (3, 5, 6):",
+      "(x + 2)/3 = (y − 4)/5 = (z + 5)/6",
+      "",
+      "Conclusion: Vector equation: r→ = (−2î + 4ĵ − 5k̂) + λ(3î + 5ĵ + 6k̂).",
+      "Cartesian equation: (x + 2)/3 = (y − 4)/5 = (z + 5)/6.",
+    ].join("\n"),
+    keywords: [
+      "r→ = a→ + λb→",
+      "a→ = −2î + 4ĵ − 5k̂, b→ = 3î + 5ĵ + 6k̂",
+      "(x − x₁)/a = (y − y₁)/b = (z − z₁)/c",
+      "(x + 2)/3 = (y − 4)/5 = (z + 5)/6",
+    ],
+    examinerTip:
+      "The cartesian form uses (x − x₁), so a point coordinate of −2 turns into '+2' in the equation — sign errors here are the most common loss; only lines are in the rationalised syllabus, so do not bring in plane equations.",
+  },
 
   // --------------------------------------------------- Ch 12 · Linear Programming
   {
@@ -604,6 +957,50 @@ export const C12_MATHS_C11_QUESTIONS: Question[] = [
     ],
     examinerTip:
       "When two corner points give the same optimal Z, the answer is the WHOLE segment joining them — naming just one point loses the final mark; and the corner-point table must be shown, since the graph alone earns no evaluation marks.",
+  },
+  {
+    id: "q-c12-maths-12-2",
+    subjectId: "c12-maths",
+    chapterId: "c12-maths-12",
+    classLevel: 12,
+    text:
+      "Solve the following linear programming problem graphically:\nMinimise Z = −3x + 4y\nsubject to the constraints: x + 2y ≤ 8, 3x + 2y ≤ 12, x ≥ 0, y ≥ 0.",
+    marks: 5,
+    type: "la",
+    source: "important",
+    answer: [
+      "Step 1 — Convert the constraints to equations and plot:",
+      "x + 2y = 8 passes through (8, 0) and (0, 4).",
+      "3x + 2y = 12 passes through (4, 0) and (0, 6).",
+      "Shade x + 2y ≤ 8 and 3x + 2y ≤ 12 (both sides containing the origin) together with x ≥ 0, y ≥ 0 (first quadrant).",
+      "",
+      "Step 2 — Find the corner points of the feasible region:",
+      "• Origin: O(0, 0)",
+      "• 3x + 2y = 12 with y = 0     ⇒ A(4, 0)",
+      "• x + 2y = 8 and 3x + 2y = 12 solved together:",
+      "  Subtracting, (3x + 2y) − (x + 2y) = 12 − 8 ⇒ 2x = 4 ⇒ x = 2, then y = 3     ⇒ B(2, 3)",
+      "• x + 2y = 8 with x = 0       ⇒ C(0, 4)",
+      "The feasible region O(0, 0), A(4, 0), B(2, 3), C(0, 4) is BOUNDED.",
+      "",
+      "Step 3 — Corner-point table (evaluate Z = −3x + 4y):",
+      "  O(0, 0) : Z = −3(0) + 4(0) = 0",
+      "  A(4, 0) : Z = −3(4) + 4(0) = −12   ← minimum",
+      "  B(2, 3) : Z = −3(2) + 4(3) = −6 + 12 = 6",
+      "  C(0, 4) : Z = −3(0) + 4(4) = 16",
+      "",
+      "Step 4 — Interpret:",
+      "Since the feasible region is bounded, the minimum value of Z over the region is the least value in the corner-point table.",
+      "",
+      "Conclusion: The minimum value of Z is −12, attained at the point A(4, 0).",
+    ].join("\n"),
+    keywords: [
+      "corner points (0, 0), (4, 0), (2, 3), (0, 4)",
+      "bounded feasible region",
+      "corner point table",
+      "minimum Z = −12 at (4, 0)",
+    ],
+    examinerTip:
+      "For a bounded feasible region the corner-point theorem guarantees the optimum is at a vertex without any further check — that extra check (comparing against an open half-plane) is only needed when the region is unbounded.",
   },
 
   // -------------------------------------------------------- Ch 13 · Probability
@@ -654,6 +1051,43 @@ export const C12_MATHS_C11_QUESTIONS: Question[] = [
     ],
     examinerTip:
       "Define E₁, E₂ and A in words before substituting — the marking scheme gives a mark for it; and the question asks for P(hosteller | A grade), not P(A grade | hosteller), so students who answer 0.3 have inverted the conditioning.",
+  },
+  {
+    id: "q-c12-maths-13-2",
+    subjectId: "c12-maths",
+    chapterId: "c12-maths-13",
+    classLevel: 12,
+    text:
+      "A bag contains 5 red and 4 black balls. Two balls are drawn from the bag one after another without replacement. Find the probability that both balls drawn are red.",
+    marks: 2,
+    type: "vsa",
+    source: "important",
+    answer: [
+      "Step 1 — Define the events:",
+      "Let E : the first ball drawn is red, F : the second ball drawn is red.",
+      "Required probability = P(E ∩ F) = P(E) · P(F | E)     (multiplication theorem)",
+      "",
+      "Step 2 — Probability that the first ball is red:",
+      "Total balls = 5 + 4 = 9.",
+      "P(E) = 5/9",
+      "",
+      "Step 3 — Probability that the second ball is red, GIVEN the first was red:",
+      "Since the first (red) ball is not replaced, the bag now has 8 balls left, of which 4 are red.",
+      "P(F | E) = 4/8 = 1/2",
+      "",
+      "Step 4 — Apply the multiplication theorem:",
+      "P(both red) = P(E) · P(F | E) = (5/9) × (1/2) = 5/18",
+      "",
+      "Conclusion: The probability that both balls drawn are red is 5/18.",
+    ].join("\n"),
+    keywords: [
+      "multiplication theorem P(E ∩ F) = P(E)·P(F|E)",
+      "P(E) = 5/9",
+      "without replacement ⇒ P(F|E) = 4/8 = 1/2",
+      "5/18",
+    ],
+    examinerTip:
+      "'Without replacement' means the second draw's sample space has shrunk to 8 balls with only 4 red left — using 5/9 again for the second draw (as if with replacement) is the standard error here.",
   },
 
   // ==========================================================================
