@@ -253,6 +253,20 @@ export function dry(): number {
   ok(read.mastered === true, "the verdict is read");
   ok(!/@@/.test(read.clean), "control tags are stripped before display");
 
+  // "not mastered" contains the substring "master" — must not be read as mastered.
+  ok(
+    readTags("Not quite.\n@@VERDICT: not mastered").mastered === false,
+    '"not mastered" must resolve to mastered:false, not true'
+  );
+  ok(
+    readTags("Have another go.\n@@VERDICT: not-yet").mastered === false,
+    '"not-yet" must resolve to mastered:false'
+  );
+  ok(
+    readTags("Spot on.\n@@VERDICT: mastered").mastered === true,
+    '"mastered" must still resolve to mastered:true'
+  );
+
   console.log("Engine checks (no tokens spent)\n");
   if (problems.length) {
     for (const p of problems) console.log(`  FAIL  ${p}`);

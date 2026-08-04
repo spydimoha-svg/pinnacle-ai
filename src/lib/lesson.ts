@@ -183,7 +183,9 @@ export function readTags(reply: string, phase?: LessonPhase): Verdict {
       if (/question|doubt|clarif/.test(value)) {
         out.isDoubt = true;
       } else {
-        out.mastered = /master|correct|right|yes|pass/.test(value);
+        const negated = /\b(not|no|never)\b|n't/.test(value);
+        const positive = /\b(master(?:ed)?|correct|right|yes|pass(?:ed)?)\b/.test(value);
+        out.mastered = positive && !negated;
       }
       out.markedBy = "model";
     }
