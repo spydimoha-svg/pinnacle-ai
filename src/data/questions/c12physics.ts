@@ -281,6 +281,38 @@ Conclusion: the axial field of a circular loop is μ₀IR²/[2(R²+x²)^{3/2}], 
       "The symmetry sentence — 'the perpendicular components of diametrically opposite elements cancel' — is a marked step; a derivation that silently integrates only the axial component loses it. Also state that dl ⊥ r so sinθ = 1.",
   },
 
+  {
+    id: "q-c12-physics-04-2",
+    subjectId: "c12-physics",
+    chapterId: "c12-physics-04",
+    classLevel: 12,
+    text: "Two long straight parallel conductors carry currents of 5 A and 8 A in the same direction. They are separated by a distance of 4 cm. Calculate the force per unit length between the two conductors, and state whether it is attractive or repulsive. (μ₀ = 4π × 10⁻⁷ T m A⁻¹)",
+    marks: 2,
+    type: "vsa",
+    source: "important",
+    answer: `Formula:  F/l = μ₀ I₁ I₂ / (2π d)
+
+Substitution:
+F/l = (4π × 10⁻⁷ × 5 × 8) / (2π × 0.04)
+F/l = (4 × 10⁻⁷ × 40) / (2 × 0.04)     [π cancels]
+F/l = (1.6 × 10⁻⁵) / (0.08)
+
+Result:
+F/l = 2 × 10⁻⁴ N m⁻¹
+
+Since the currents are in the SAME direction, the force is ATTRACTIVE.
+
+Conclusion: the two wires attract each other with a force of 2 × 10⁻⁴ N per metre of length.`,
+    keywords: [
+      "F/l = μ₀I₁I₂/(2πd)",
+      "π cancels between μ₀ and 2π",
+      "F/l = 2 × 10⁻⁴ N/m",
+      "same direction currents ⇒ attractive",
+    ],
+    examinerTip:
+      "State the direction rule explicitly — like currents (same direction) attract, unlike currents repel. This one line is a separate mark from the numerical value.",
+  },
+
   // ==========================================================================
   // Ch 5 — Magnetism and Matter
   // ==========================================================================
@@ -319,6 +351,31 @@ Conclusion: the sign and magnitude of χ separates the three classes — χ nega
     ],
     examinerTip:
       "Write the sign of χ, not just 'low' or 'high' — the sign is the mark. And answer the field question in the direction asked (strong → weak for diamagnetic); saying only 'repelled' is half an answer.",
+  },
+
+  {
+    id: "q-c12-physics-05-2",
+    subjectId: "c12-physics",
+    chapterId: "c12-physics-05",
+    classLevel: 12,
+    text: "A short bar magnet is placed in a uniform external magnetic field of 0.16 T, with its axis making an angle of 30° with the field. It experiences a torque of 0.032 N m. Calculate the magnetic moment of the magnet.",
+    marks: 2,
+    type: "vsa",
+    source: "important",
+    answer: `Formula:  τ = M B sinθ  ⇒  M = τ / (B sinθ)
+
+Substitution:
+M = 0.032 / (0.16 × sin30°)
+M = 0.032 / (0.16 × 0.5)
+M = 0.032 / 0.08
+
+Result:
+M = 0.4 J T⁻¹  (A m²)
+
+Conclusion: the magnetic moment of the bar magnet is 0.4 J T⁻¹.`,
+    keywords: ["τ = M B sinθ", "M = τ/(B sinθ)", "M = 0.4 J/T"],
+    examinerTip:
+      "Use sinθ, not cosθ — torque on a dipole is τ = M × B, whose magnitude involves sin of the angle between the dipole axis and the field, a common mix-up with the potential energy formula U = −MB cosθ.",
   },
 
   // ==========================================================================
@@ -366,6 +423,31 @@ Conclusion: the self-inductance of a long air-cored solenoid is L = μ₀N²A/l 
     ],
     examinerTip:
       "Use the total flux LINKAGE Nφ, not the flux φ through one turn — forgetting the factor N is the single commonest error and it costs the answer mark (you get N instead of N²).",
+  },
+
+  {
+    id: "q-c12-physics-06-2",
+    subjectId: "c12-physics",
+    chapterId: "c12-physics-06",
+    classLevel: 12,
+    text: "A circular coil of 100 turns and area 0.01 m² is placed with its plane perpendicular to a magnetic field. The field is increased steadily from 0.2 T to 0.8 T in 0.1 s. Calculate the emf induced in the coil.",
+    marks: 2,
+    type: "vsa",
+    source: "important",
+    answer: `Formula:  ε = N (dΦ/dt) = N A (dB/dt)
+
+Substitution:
+dB = 0.8 − 0.2 = 0.6 T,  dt = 0.1 s
+ε = 100 × 0.01 × (0.6 / 0.1)
+ε = 100 × 0.01 × 6
+
+Result:
+ε = 6 V
+
+Conclusion: an emf of 6 V is induced in the coil while the field is changing.`,
+    keywords: ["ε = N dΦ/dt", "Φ = BA (field ⊥ plane)", "dB/dt = 6 T/s", "ε = 6 V"],
+    examinerTip:
+      "The area A is constant here — only B changes, so dΦ/dt = A(dB/dt). If instead the coil were being rotated or resized, the product rule for Φ = BA cosθ would be needed.",
   },
 
   // ==========================================================================
@@ -431,6 +513,31 @@ Conclusion: Z = √(R² + (X_L − X_C)²), φ = tan⁻¹[(X_L − X_C)/R]; at �
       "The phasor diagram itself carries a mark — draw it and label V_R, V_L, V_C and I. In part (c) students substitute 80 instead of 80 × 10⁻⁶ F; convert μF to farad before touching the square root.",
   },
 
+  {
+    id: "q-c12-physics-07-2",
+    subjectId: "c12-physics",
+    chapterId: "c12-physics-07",
+    classLevel: 12,
+    text: "A step-up transformer has 200 turns on its primary coil and 4000 turns on its secondary coil. If the primary is connected to a 220 V AC mains supply, calculate the voltage across the secondary (assume an ideal transformer).",
+    marks: 2,
+    type: "vsa",
+    source: "important",
+    answer: `Formula:  V_s / V_p = N_s / N_p
+
+Substitution:
+V_s = V_p × (N_s / N_p)
+V_s = 220 × (4000 / 200)
+V_s = 220 × 20
+
+Result:
+V_s = 4400 V
+
+Conclusion: the secondary voltage is 4400 V, stepped up because N_s > N_p, consistent with an ideal transformer where power input equals power output.`,
+    keywords: ["V_s/V_p = N_s/N_p", "step-up ⇒ N_s > N_p", "V_s = 4400 V"],
+    examinerTip:
+      "Turns ratio gives the voltage ratio directly for an IDEAL transformer only — real transformers have copper and iron losses, which is why part (b) style questions often ask you to state that assumption.",
+  },
+
   // ==========================================================================
   // Ch 8 — Electromagnetic Waves
   // ==========================================================================
@@ -457,6 +564,30 @@ where Φ_E is the electric flux between the plates. It is exactly equal to the c
     ],
     examinerTip:
       "Do not mix it up with Faraday's law (dΦ_B/dt gives induced emf, not displacement current). Displacement current comes from the changing ELECTRIC flux and carries the constant ε₀, not μ₀.",
+  },
+
+  {
+    id: "q-c12-physics-08-2",
+    subjectId: "c12-physics",
+    chapterId: "c12-physics-08",
+    classLevel: 12,
+    text: "A microwave oven operates at a frequency of 2450 MHz. Calculate the wavelength of the microwaves it produces. (c = 3 × 10⁸ m s⁻¹)",
+    marks: 2,
+    type: "vsa",
+    source: "important",
+    answer: `Formula:  c = f λ  ⇒  λ = c/f
+
+Substitution:
+λ = (3 × 10⁸ m s⁻¹) / (2450 × 10⁶ Hz)
+λ = (3 × 10⁸) / (2.45 × 10⁹)
+
+Result:
+λ = 0.1224 m ≈ 12.2 cm
+
+Conclusion: the wavelength of the microwaves is about 12.2 cm, which lies in the microwave region of the electromagnetic spectrum (between radio waves and infrared).`,
+    keywords: ["c = fλ", "λ = c/f", "λ ≈ 12.2 cm", "microwave region of EM spectrum"],
+    examinerTip:
+      "Convert MHz to Hz before dividing (×10⁶), and keep c and f in the same unit system — mixing cm and m mid-calculation is the commonest slip here.",
   },
 
   // ==========================================================================
@@ -528,6 +659,35 @@ Conclusion: the focal length is about +18.2 cm; the positive sign confirms the l
       "In part (b) the marks are won or lost on the SIGN of R₂. For a double convex lens R₁ = +20 cm and R₂ = −20 cm; writing both as +20 gives 1/f = 0 and an infinite focal length. Also state the assumptions in (a) — they are separately marked.",
   },
 
+  {
+    id: "q-c12-physics-09-2",
+    subjectId: "c12-physics",
+    chapterId: "c12-physics-09",
+    classLevel: 12,
+    text: "The refractive index of glass with respect to air is 1.5. Calculate the critical angle for a ray of light travelling from glass to air.",
+    marks: 2,
+    type: "vsa",
+    source: "important",
+    answer: `Formula:  sin C = 1/n   (n = refractive index of glass w.r.t. air)
+
+Substitution:
+sin C = 1/1.5 = 0.667
+
+Result:
+C = sin⁻¹(0.667)
+C ≈ 41.8°
+
+Conclusion: for angles of incidence in glass greater than about 41.8°, light travelling towards the rarer medium (air) undergoes total internal reflection instead of refracting out.`,
+    keywords: [
+      "sin C = 1/n",
+      "n = 1.5 ⇒ sin C = 0.667",
+      "C ≈ 41.8°",
+      "total internal reflection beyond C",
+    ],
+    examinerTip:
+      "Use n = refractive index of the DENSER medium (glass) with respect to the rarer one (air) in sin C = 1/n — using the reciprocal by mistake gives sin C > 1, which is impossible and is a common self-check to catch the error.",
+  },
+
   // ==========================================================================
   // Ch 10 — Wave Optics
   // ==========================================================================
@@ -577,6 +737,42 @@ Conclusion: the wavelength used is 600 nm, and on immersing the apparatus in wat
       "x₄ is the distance of the FOURTH fringe from the centre, so divide by 4 — students who use β = 1.2 cm directly get four times the wavelength. Convert mm and cm to metres before substituting, and quote λ in nm as well.",
   },
 
+  {
+    id: "q-c12-physics-10-2",
+    subjectId: "c12-physics",
+    chapterId: "c12-physics-10",
+    classLevel: 12,
+    text: "Unpolarised light of intensity I₀ is incident on a polaroid. The transmitted light then falls on a second polaroid (analyser) whose pass axis makes an angle of 60° with that of the first. Find the intensity of light emerging from the analyser, in terms of I₀.",
+    marks: 2,
+    type: "vsa",
+    source: "important",
+    answer: `STEP 1 — First polaroid (unpolarised light)
+Unpolarised light passing through a polaroid is reduced to half its intensity, regardless of the orientation of the pass axis:
+I₁ = I₀/2
+
+STEP 2 — Second polaroid (Malus's law)
+The light emerging from the first polaroid is now plane polarised, so Malus's law applies at the analyser:
+I₂ = I₁ cos²θ,  θ = 60°
+
+Substitution:
+I₂ = (I₀/2) × cos²60°
+I₂ = (I₀/2) × (1/2)²
+I₂ = (I₀/2) × (1/4)
+
+Result:
+I₂ = I₀/8
+
+Conclusion: the intensity of light emerging from the analyser is I₀/8.`,
+    keywords: [
+      "unpolarised light through first polaroid ⇒ I₁ = I₀/2",
+      "Malus's law I₂ = I₁ cos²θ",
+      "cos²60° = 1/4",
+      "I₂ = I₀/8",
+    ],
+    examinerTip:
+      "The halving rule (I₀/2) applies ONLY at the first polaroid, where the incident light is unpolarised. Malus's law (cos²θ) applies only from the second polaroid onwards, where the incident light is already polarised — mixing these two steps up is the standard error.",
+  },
+
   // ==========================================================================
   // Ch 11 — Dual Nature of Radiation and Matter
   // ==========================================================================
@@ -621,6 +817,40 @@ Conclusion: the maximum kinetic energy of the photoelectrons is 0.35 eV and the 
     ],
     examinerTip:
       "The explanation mark is for saying that intensity raises the NUMBER of photons but never the energy hν of a single photon, and that one electron absorbs only one photon. In (b), if K_max is in eV then V₀ is numerically the same in volts — do not divide by 1.6 × 10⁻¹⁹ again.",
+  },
+
+  {
+    id: "q-c12-physics-11-2",
+    subjectId: "c12-physics",
+    chapterId: "c12-physics-11",
+    classLevel: 12,
+    text: "An electron, initially at rest, is accelerated through a potential difference of 100 V. Calculate the de Broglie wavelength associated with it. (h = 6.63 × 10⁻³⁴ J s, m_e = 9.1 × 10⁻³¹ kg, e = 1.6 × 10⁻¹⁹ C)",
+    marks: 2,
+    type: "vsa",
+    source: "important",
+    answer: `The kinetic energy gained equals the work done by the accelerating field: (1/2)mv² = eV, so the momentum is
+p = mv = √(2 m e V)
+
+Formula:  λ = h/p = h / √(2 m e V)
+
+Substitution:
+2 m e V = 2 × (9.1 × 10⁻³¹)(1.6 × 10⁻¹⁹)(100) = 2.912 × 10⁻⁴⁷
+√(2.912 × 10⁻⁴⁷) = 5.40 × 10⁻²⁴ kg m s⁻¹
+
+λ = (6.63 × 10⁻³⁴) / (5.40 × 10⁻²⁴)
+
+Result:
+λ ≈ 1.23 × 10⁻¹⁰ m = 1.23 Å
+
+Conclusion: the de Broglie wavelength of the electron is about 1.23 Å — comparable to the spacing between atoms in a crystal, which is why electron beams of this energy show diffraction from a crystal lattice.`,
+    keywords: [
+      "eV = (1/2)mv² ⇒ p = √(2meV)",
+      "λ = h/p",
+      "λ ≈ 1.23 × 10⁻¹⁰ m = 1.23 Å",
+      "comparable to interatomic spacing",
+    ],
+    examinerTip:
+      "Students often forget to take the square root of 2meV before dividing into h, getting an answer three orders of magnitude off. Keep every quantity in SI units throughout — do not switch to eV mid-calculation.",
   },
 
   // ==========================================================================
@@ -683,6 +913,37 @@ Conclusion: r_n = n²h²ε₀/(πme²), i.e. r_n ∝ n²; the radius of the firs
       "Write the force-balance equation and the quantisation condition as two clearly numbered equations before eliminating v — the marking scheme awards those two steps separately. Quoting r_n ∝ n² without the derivation scores nothing.",
   },
 
+  {
+    id: "q-c12-physics-12-2",
+    subjectId: "c12-physics",
+    chapterId: "c12-physics-12",
+    classLevel: 12,
+    text: "Using the Rydberg formula, calculate the wavelength of the first line of the Balmer series (transition from n = 3 to n = 2) in the hydrogen spectrum. (R = 1.097 × 10⁷ m⁻¹)",
+    marks: 2,
+    type: "vsa",
+    source: "important",
+    answer: `Formula:  1/λ = R ( 1/n_f² − 1/n_i² ),  n_f = 2, n_i = 3
+
+Substitution:
+1/λ = R ( 1/2² − 1/3² ) = R ( 1/4 − 1/9 ) = R (5/36)
+1/λ = (1.097 × 10⁷)(0.1389)
+1/λ = 1.524 × 10⁶ m⁻¹
+
+Result:
+λ = 1 / (1.524 × 10⁶)
+λ = 6.56 × 10⁻⁷ m = 656 nm
+
+Conclusion: the first line of the Balmer series (Hα) has a wavelength of about 656 nm, in the red region of the visible spectrum.`,
+    keywords: [
+      "1/λ = R(1/n_f² − 1/n_i²)",
+      "Balmer series ⇒ n_f = 2",
+      "5/36 factor for n_i = 3",
+      "λ ≈ 656 nm (Hα, red)",
+    ],
+    examinerTip:
+      "For the Balmer series n_f is always 2 (the electron falls TO the n=2 level); confusing n_f and n_i flips the sign inside the bracket and gives a negative, meaningless wavelength.",
+  },
+
   // ==========================================================================
   // Ch 13 — Nuclei
   // ==========================================================================
@@ -736,6 +997,41 @@ Conclusion: the binding energy of ⁸O¹⁶ is 127.6 MeV (≈ 7.98 MeV per nucle
       "Do not round Δm early — 0.137005 u carries the answer, and rounding to 0.14 u gives 130 MeV and loses the accuracy mark. Also note that because ATOMIC masses are given, the electron masses cancel; do not subtract them separately.",
   },
 
+  {
+    id: "q-c12-physics-13-2",
+    subjectId: "c12-physics",
+    chapterId: "c12-physics-13",
+    classLevel: 12,
+    text: "The half-life of a radioactive substance is 30 days. Calculate (a) its decay constant, and (b) the time taken for its activity to fall to one-fourth of its initial value.",
+    marks: 2,
+    type: "vsa",
+    source: "important",
+    answer: `(a) DECAY CONSTANT
+Formula:  λ = 0.693 / T½
+
+Substitution:  λ = 0.693 / 30
+Result:  λ = 0.0231 day⁻¹
+
+(b) TIME FOR ACTIVITY TO FALL TO 1/4
+Activity A = A₀ e^(−λt), and A/A₀ = (1/2)^n where n is the number of half-lives elapsed.
+A/A₀ = 1/4 = (1/2)²  ⇒  n = 2 half-lives
+
+Substitution:  t = n × T½ = 2 × 30
+
+Result:  t = 60 days
+
+Conclusion: the decay constant is 0.0231 per day, and the activity falls to a quarter of its initial value after 60 days — two half-lives.`,
+    keywords: [
+      "λ = 0.693/T½",
+      "λ = 0.0231 day⁻¹",
+      "A/A₀ = (1/2)ⁿ",
+      "1/4 = (1/2)² ⇒ 2 half-lives",
+      "t = 60 days",
+    ],
+    examinerTip:
+      "For simple fractions like 1/2, 1/4, 1/8 it is faster and safer to count half-lives directly than to solve e^(−λt) = 1/4 for t — both give 60 days, but the half-life route avoids a logarithm and an arithmetic slip.",
+  },
+
   // ==========================================================================
   // Ch 14 — Semiconductor Electronics
   // ==========================================================================
@@ -787,5 +1083,26 @@ Conclusion: in a full-wave rectifier each diode conducts for one half cycle and 
     ],
     examinerTip:
       "The output waveform must show pulses in BOTH half cycles with no gaps — drawing the half-wave output (gaps in alternate halves) is the commonest error. And the key sentence for full marks is that the current through R_L flows in the SAME direction in both half cycles.",
+  },
+  {
+    id: "q-c12-physics-14-2",
+    subjectId: "c12-physics",
+    chapterId: "c12-physics-14",
+    classLevel: 12,
+    text: "Which of the following statements about a Zener diode is correct?\n(a) It is always operated in the forward-biased region.\n(b) It is a special-purpose diode used as a voltage regulator, operated in the reverse breakdown region.\n(c) It generates an AC voltage from a DC input.\n(d) It has an I-V characteristic identical to an ordinary p-n junction diode.",
+    marks: 1,
+    type: "mcq",
+    source: "important",
+    answer: `(b) It is a special-purpose diode used as a voltage regulator, operated in the reverse breakdown region.
+
+Reason: a Zener diode is heavily doped so that it has a sharp, well-defined reverse breakdown voltage (the Zener voltage V_Z). Once reverse biased beyond V_Z, the voltage across it stays almost constant even as the current through it changes considerably — this is exactly the property exploited to hold a load voltage steady, i.e. voltage regulation.`,
+    keywords: [
+      "heavily doped ⇒ sharp reverse breakdown at V_Z",
+      "operated in reverse breakdown region",
+      "voltage across it stays nearly constant",
+      "used as a voltage regulator",
+    ],
+    examinerTip:
+      "The one word that decides this question is 'reverse' — a Zener diode is deliberately operated in reverse breakdown, unlike an ordinary diode which is damaged by reaching that region.",
   },
 ];
