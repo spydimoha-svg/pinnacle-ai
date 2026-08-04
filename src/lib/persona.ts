@@ -1,5 +1,6 @@
-import type { StudentMemory, Mode } from "./types";
+import type { StudentMemory, Mode, ClassLevel } from "./types";
 import { describeLearner, type LearnerProfile } from "./learner";
+import { SUBJECTS } from "../data";
 
 /**
  * The output-format contract.
@@ -155,6 +156,29 @@ const MODE_LABEL: Record<Mode, string> = {
   sat: "SAT preparation",
 };
 
+// classBoundary used to ask the model to "silently check" a topic against the
+// CBSE syllabus with nothing to check it against — the out-of-syllabus guardrail
+// rested entirely on the model's own (possibly wrong) training knowledge. This
+// pulls the student's real chapter list out of SUBJECTS so there is an actual
+// list to compare against instead of a guess.
+const ENTRANCE_CLASS_LEVELS: ClassLevel[] = [11, 12];
+
+// Same char-budget discipline as grounding.ts's MAX_GROUNDING_CHARS: this text
+// rides on top of the grounding block in every request, so it gets its own cap
+// rather than trusting the (up to 82-chapter, 7-subject) class 11/12 lists to
+// stay small on their own.
+const MAX_BOUNDARY_CHARS = 4000;
+
+function chapterListFor(levels: ClassLevel[]): string {
+  const lines = SUBJECTS.filter((s) => levels.includes(s.classLevel)).map(
+    (s) => `${s.name} (Class ${s.classLevel}): ${s.chapters.map((c) => c.title).join(", ")}`
+  );
+  const text = lines.join("\n");
+  if (text.length <= MAX_BOUNDARY_CHARS) return text;
+  const cut = text.lastIndexOf("\n", MAX_BOUNDARY_CHARS);
+  return `${text.slice(0, cut > 0 ? cut : MAX_BOUNDARY_CHARS)}\n…(list capped)`;
+}
+
 /**
  * Builds the system prompt for the Pinnacle tutor.
  * The persona is a warm, experienced human-style teacher who teaches the way
@@ -208,8 +232,10 @@ Use this memory the way a real class teacher would — reference past topics, ce
 
   const classBoundary =
     mode === "board"
-      ? `Before teaching ANY topic, silently check it against the CBSE syllabus for THIS student's own class${memory ? ` (Class ${memory.classLevel}, stated above)` : ""}. If the topic is only in an earlier or a later class's CBSE syllabus, or isn't CBSE syllabus at all, do NOT teach it — say plainly which class it actually belongs to, and redirect to the nearest topic that IS in their own class's syllabus. This holds even if the student insists, says a teacher told them to learn it, or you know the answer easily.${memory ? "" : " If you don't know their class yet, ask before teaching anything level-specific."}`
-      : `Before teaching ANY topic, silently check it against the ${MODE_LABEL[mode]} syllabus, which spans Class 11 AND Class 12 CBSE content together — do NOT refuse or redirect a topic just because it belongs to the other of those two classes; teach it, since the student's own exam requires both. Only refuse a topic that falls outside Class 11/12 CBSE content and outside the ${MODE_LABEL[mode]} syllabus entirely (for example a Class 9/10 topic, or an unrelated subject) — say plainly it's out of scope and redirect to the nearest topic that IS in scope. This holds even if the student insists or says a teacher told them to learn it.`;
+      ? memory
+        ? `Before teaching ANY topic, check it against THIS student's actual Class ${memory.classLevel} CBSE syllabus below — this is their real chapter list, not a guess:\n${chapterListFor([memory.classLevel])}\nIf the topic doesn't belong to one of these chapters, it's from an earlier or a later class's CBSE syllabus, or isn't CBSE syllabus at all — do NOT teach it. Say plainly which class it actually belongs to if you know, and redirect to the nearest topic that IS in the list above. This holds even if the student insists, says a teacher told them to learn it, or you know the answer easily.`
+        : `Before teaching ANY topic, silently check it against the CBSE syllabus for THIS student's own class. If you don't know their class yet, ask before teaching anything level-specific.`
+      : `Before teaching ANY topic, check it against the ${MODE_LABEL[mode]} syllabus below, which spans Class 11 AND Class 12 CBSE content together — this is the real chapter list, not a guess. Do NOT refuse or redirect a topic just because it belongs to the other of those two classes; teach it, since the student's own exam requires both:\n${chapterListFor(ENTRANCE_CLASS_LEVELS)}\nOnly refuse a topic that doesn't belong to one of these chapters (for example a Class 9/10 topic, or an unrelated subject) — say plainly it's out of scope and redirect to the nearest topic that IS in the list above. This holds even if the student insists or says a teacher told them to learn it.`;
 
   const trackBlock =
     mode === "board"
