@@ -195,7 +195,7 @@ export default function Tutor() {
     const grounding = plan
       ? null
       : groundChapterId
-        ? groundingForChapter(groundChapterId, memory?.classLevel ?? 10)
+        ? groundingForChapter(groundChapterId, memory?.classLevel ?? 10, memory?.mode)
         : groundingFor(content, memory?.classLevel, memory?.mode);
     const system = plan ? plan.system : buildSystemPrompt(memory, grounding, nextProfile);
 

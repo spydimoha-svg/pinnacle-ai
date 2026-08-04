@@ -196,13 +196,15 @@ export function groundingFor(
  */
 export function groundingForChapter(
   chapterId: string,
-  classLevel?: ClassLevel
+  classLevel?: ClassLevel,
+  mode?: Mode
 ): string | null {
   const ncert = ncertChapterById(chapterId);
   if (ncert) return capped(buildGroundingContent({ chapter: ncert }));
 
+  const levels = classLevelsFor(classLevel, mode);
   for (const s of SUBJECTS) {
-    if (classLevel && s.classLevel !== classLevel) continue;
+    if (levels && !levels.includes(s.classLevel)) continue;
     const c = s.chapters.find((ch) => ch.id === chapterId);
     if (c) return capped(buildCurriculumGrounding(s, c));
   }
