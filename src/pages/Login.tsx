@@ -187,7 +187,10 @@ export default function Login() {
             <h1 className="font-display text-2xl font-bold text-cream mb-4">
               Confirm your email
             </h1>
-            <p className="text-dim text-sm mb-6">
+            {/* text-muted, not text-dim: this is the instruction the student needs
+                to actually finish signing up, not secondary chrome — text-dim reads
+                at under 4:1 on the card surface. */}
+            <p className="text-muted text-sm mb-6">
               We've sent a confirmation link to{" "}
               <span className="text-cream">{confirmEmail}</span>. Click it to activate cloud
               sync for this account, then sign in.

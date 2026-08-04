@@ -509,7 +509,10 @@ html.pa-lock {
   font-size: 10px;
   letter-spacing: 0.24em;
   text-transform: uppercase;
-  color: var(--pa-fainter);
+  /* Real content, not chrome — --pa-fainter reads at ~2.5:1 on --pa-bg,
+     well under WCAG AA. --pa-faint is the same tier the rest of the page's
+     eyebrows already use. */
+  color: var(--pa-faint);
 }
 .pa-marquee {
   position: relative;
@@ -911,9 +914,11 @@ html.pa-lock {
   font-size: 10px;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--pa-fainter);
+  /* These are real nav links (About, Method, Pricing), not a caption —
+     --pa-fainter reads at ~2.5:1 on --pa-bg, well under WCAG AA. */
+  color: var(--pa-faint);
 }
-.pa-footer a { color: var(--pa-fainter); }
+.pa-footer a { color: var(--pa-faint); }
 .pa-footer a:hover { color: var(--pa-grey); }
 
 /* ————— scroll reveal ————— */
