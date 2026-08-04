@@ -4,11 +4,12 @@
 // The only thing allowed to touch `school_resources` — the anon key has NO
 // grant on this table at all (see supabase/schema.sql). Uses the Supabase
 // service_role key, which bypasses RLS, so this function is the sole gate,
-// and the gate it enforces is app_metadata.role === "admin": a school
-// admin's materials are meant to be visible to every logged-in student, but
-// only an admin may write them, and app_metadata can only be set with the
-// service-role key — never by the signed-in user themselves. Same pattern
-// as Protected.tsx's admin route check.
+// and the gate it enforces is app_metadata.role === "admin" scoped to
+// app_metadata.school_id: a school admin's materials are meant to be
+// visible to every logged-in student of that school, but only an admin of
+// that same school may read or write them, and app_metadata can only be set
+// with the service-role key — never by the signed-in user themselves. Same
+// pattern as Protected.tsx's admin route check.
 import { createClient } from "@supabase/supabase-js";
 
 const url = process.env.VITE_SUPABASE_URL;
@@ -38,7 +39,12 @@ function isSameOrigin(req: Request): boolean {
   );
 }
 
-async function verifiedAdminId(req: Request): Promise<string | null> {
+type VerifiedAdmin = { id: string; schoolId: string };
+
+// school_id lives in app_metadata (not user_metadata) for the same reason
+// role does: only the service-role key can set it, so an admin can never
+// grant themselves another school's scope by editing their own profile.
+async function verifiedAdmin(req: Request): Promise<VerifiedAdmin | null> {
   if (!url || !serviceKey) return null;
   const auth = req.headers.get("authorization") ?? "";
   const token = auth.startsWith("Bearer ") ? auth.slice(7).trim() : "";
@@ -47,7 +53,9 @@ async function verifiedAdminId(req: Request): Promise<string | null> {
   const { data, error } = await admin.auth.getUser(token);
   if (error || !data.user) return null;
   if (data.user.app_metadata?.role !== "admin") return null;
-  return data.user.id;
+  const schoolId = data.user.app_metadata?.school_id;
+  if (typeof schoolId !== "string" || !schoolId) return null;
+  return { id: data.user.id, schoolId };
 }
 
 // Same shared-Postgres rate limit as api/state.ts and api/master-login.ts —
@@ -94,14 +102,17 @@ export async function GET(req: Request): Promise<Response> {
   if (!url || !serviceKey) {
     return new Response("Cloud sync is not configured", { status: 503 });
   }
-  const adminId = await verifiedAdminId(req);
-  if (!adminId) return new Response("Unauthorized", { status: 401 });
-  if (await isRateLimited(`user:${adminId}`)) {
+  const adminAuth = await verifiedAdmin(req);
+  if (!adminAuth) return new Response("Unauthorized", { status: 401 });
+  if (await isRateLimited(`user:${adminAuth.id}`)) {
     return new Response("Too many requests", { status: 429 });
   }
 
   const admin = createClient(url, serviceKey);
-  const { data, error } = await admin.from("school_resources").select("data");
+  const { data, error } = await admin
+    .from("school_resources")
+    .select("data")
+    .eq("school_id", adminAuth.schoolId);
   if (error) {
     console.error("resources GET failed:", error.message);
     return new Response("Sync failed", { status: 500 });
@@ -116,9 +127,9 @@ export async function POST(req: Request): Promise<Response> {
   if (!url || !serviceKey) {
     return new Response("Cloud sync is not configured", { status: 503 });
   }
-  const adminId = await verifiedAdminId(req);
-  if (!adminId) return new Response("Unauthorized", { status: 401 });
-  if (await isRateLimited(`user:${adminId}`)) {
+  const adminAuth = await verifiedAdmin(req);
+  if (!adminAuth) return new Response("Unauthorized", { status: 401 });
+  if (await isRateLimited(`user:${adminAuth.id}`)) {
     return new Response("Too many requests", { status: 429 });
   }
 
@@ -158,10 +169,12 @@ export async function POST(req: Request): Promise<Response> {
   ) {
     return new Response("Invalid resources shape", { status: 400 });
   }
+  // The caller's own school always wins over any schoolId in the body, so an
+  // admin can never write into another school's rows by supplying its id.
   const rows = items.map((r) => ({
     id: r.id as string,
-    school_id: typeof r.schoolId === "string" ? r.schoolId : null,
-    data: r,
+    school_id: adminAuth.schoolId,
+    data: { ...r, schoolId: adminAuth.schoolId },
   }));
 
   const admin = createClient(url, serviceKey);
@@ -180,9 +193,9 @@ export async function DELETE(req: Request): Promise<Response> {
   if (!url || !serviceKey) {
     return new Response("Cloud sync is not configured", { status: 503 });
   }
-  const adminId = await verifiedAdminId(req);
-  if (!adminId) return new Response("Unauthorized", { status: 401 });
-  if (await isRateLimited(`user:${adminId}`)) {
+  const adminAuth = await verifiedAdmin(req);
+  if (!adminAuth) return new Response("Unauthorized", { status: 401 });
+  if (await isRateLimited(`user:${adminAuth.id}`)) {
     return new Response("Too many requests", { status: 429 });
   }
 
@@ -190,7 +203,11 @@ export async function DELETE(req: Request): Promise<Response> {
   if (!id) return new Response("Missing id", { status: 400 });
 
   const admin = createClient(url, serviceKey);
-  const { error } = await admin.from("school_resources").delete().eq("id", id);
+  const { error } = await admin
+    .from("school_resources")
+    .delete()
+    .eq("id", id)
+    .eq("school_id", adminAuth.schoolId);
   if (error) {
     console.error("resources DELETE failed:", error.message);
     return new Response("Sync failed", { status: 500 });
