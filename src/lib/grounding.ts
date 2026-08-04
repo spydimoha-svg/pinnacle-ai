@@ -8,7 +8,14 @@
 // nothing matches, we return null and the persona's honesty rule kicks in.
 import type { ClassLevel, Chapter, Subject, Mode } from "./types";
 import { SUBJECTS, questionsFor } from "../data";
-import { findNcertForQuery, buildGroundingContent, ncertChapterById } from "../data/ncert";
+import { findNcertForQuery, buildGroundingContent, ncertChapterById, NCERT } from "../data/ncert";
+
+// findNcertForQuery falls back to searching the FULL NCERT set when its class
+// filter leaves an empty pool (see its "scope = pool.length ? pool : NCERT").
+// NCERT only holds Class 9-10 chapters, so a Class 11/12 or entrance-track
+// student's query would otherwise silently match a wrong-class chapter. Only
+// call it for a class it actually has content for.
+const NCERT_CLASS_LEVELS = new Set(NCERT.map((c) => c.classLevel));
 
 const STOP = new Set([
   "the", "a", "an", "of", "to", "me", "my", "is", "in", "on", "and", "for",
@@ -153,6 +160,7 @@ export function factualAnswer(
   message: string,
   classLevel?: ClassLevel
 ): string | null {
+  if (classLevel !== undefined && !NCERT_CLASS_LEVELS.has(classLevel)) return null;
   const ncert = findNcertForQuery(message, classLevel);
   if (!ncert?.missingExercise) return null;
   // findNcertForQuery falls back to matching a bare "N.N" (e.g. a student's own
@@ -178,7 +186,10 @@ export function groundingFor(
 ): string | null {
   const levels = classLevelsFor(classLevel, mode);
   const ncert = levels
-    ? (levels.map((lvl) => findNcertForQuery(message, lvl)).find(Boolean) ?? null)
+    ? (levels
+        .filter((lvl) => NCERT_CLASS_LEVELS.has(lvl))
+        .map((lvl) => findNcertForQuery(message, lvl))
+        .find(Boolean) ?? null)
     : findNcertForQuery(message, classLevel);
   if (ncert) return capped(buildGroundingContent(ncert));
 
