@@ -287,6 +287,11 @@ ${FORMAT_REMINDER}`
           } catch {
             /* leave undecided; the engine treats that as not yet */
           }
+          // The second-pass call awaits independently of the main stream, so a
+          // "New session" that lands while it is in flight must drop this
+          // verdict too — otherwise it lands in the cleared chat and advances
+          // the lesson that no longer exists.
+          if (genRef.current !== myGen) return;
         }
       }
       let shown = verdict.clean;
