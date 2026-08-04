@@ -138,8 +138,24 @@ export async function POST(req: Request): Promise<Response> {
     return new Response("Invalid resources shape", { status: 400 });
   }
 
-  const items = body.resources as { id?: unknown; schoolId?: unknown }[];
-  if (items.some((r) => typeof r.id !== "string" || !r.id)) {
+  const items = body.resources as {
+    id?: unknown;
+    schoolId?: unknown;
+    url?: unknown;
+  }[];
+  const hasValidScheme = (value: unknown): boolean => {
+    if (typeof value !== "string") return true;
+    try {
+      return ["http:", "https:"].includes(new URL(value).protocol);
+    } catch {
+      return false;
+    }
+  };
+  if (
+    items.some(
+      (r) => typeof r.id !== "string" || !r.id || !hasValidScheme(r.url)
+    )
+  ) {
     return new Response("Invalid resources shape", { status: 400 });
   }
   const rows = items.map((r) => ({
