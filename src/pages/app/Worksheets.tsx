@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import {
+  AlertTriangle,
   ArrowLeft,
   CheckCircle2,
   ChevronRight,
@@ -131,7 +132,10 @@ export default function Worksheets() {
   const [chapterIds, setChapterIds] = useState<string[]>([]);
   const [marksMix, setMarksMix] = useState<number[]>([]);
   const [count, setCount] = useState<number>(10);
-  const [genNote, setGenNote] = useState<string | null>(null);
+  // A generation failure and a benign "we relaxed your filters" notice used to
+  // render identically — a student had no way to tell "try again" from "fine,
+  // carry on". kind picks the colour and icon.
+  const [genNote, setGenNote] = useState<{ text: string; kind: "info" | "error" } | null>(null);
   const [aiBusy, setAiBusy] = useState(false);
 
   // Which worksheet is open for attempting
@@ -182,9 +186,10 @@ export default function Worksheets() {
       }
     }
     if (pool.length === 0) {
-      setGenNote(
-        "No questions in the bank match that selection yet. Try different chapters or clear the marks mix."
-      );
+      setGenNote({
+        text: "No questions in the bank match that selection yet. Try different chapters or clear the marks mix.",
+        kind: "error",
+      });
       return;
     }
 
@@ -215,13 +220,12 @@ export default function Worksheets() {
       completed: false,
     };
     addWorksheet(ws);
-    setGenNote(
-      relaxed
-        ? "The marks mix was too narrow, so we relaxed it to fill the worksheet."
-        : picked.length < count
-          ? `Only ${picked.length} matching questions exist in the bank right now, so the worksheet is shorter than requested.`
-          : null
-    );
+    const note = relaxed
+      ? "The marks mix was too narrow, so we relaxed it to fill the worksheet."
+      : picked.length < count
+        ? `Only ${picked.length} matching questions exist in the bank right now, so the worksheet is shorter than requested.`
+        : null;
+    setGenNote(note ? { text: note, kind: "info" } : null);
     setOpenId(ws.id);
   }
 
@@ -256,7 +260,10 @@ export default function Worksheets() {
       );
       const parsed = parseWorksheetJson(raw);
       if (!parsed.length) {
-        setGenNote("The AI could not produce a clean set this time — try again in a moment.");
+        setGenNote({
+          text: "The AI could not produce a clean set this time — try again in a moment.",
+          kind: "error",
+        });
         return;
       }
       parsed.sort((a, b) => clampMarks(b.marks) - clampMarks(a.marks));
@@ -294,7 +301,7 @@ export default function Worksheets() {
       addWorksheet(ws);
       setOpenId(ws.id);
     } catch {
-      setGenNote("Generation failed — the tutor brain may be busy. Try again.");
+      setGenNote({ text: "Generation failed — the tutor brain may be busy. Try again.", kind: "error" });
     } finally {
       setAiBusy(false);
     }
@@ -362,9 +369,15 @@ export default function Worksheets() {
         </div>
 
         {genNote && (
-          <div className="card-inset flex items-start gap-2.5 text-sm text-muted">
-            <Info size={16} className="text-sky shrink-0 mt-0.5" />
-            {genNote}
+          <div
+            className={`card-inset flex items-start gap-2.5 text-sm ${genNote.kind === "error" ? "!border-coral/40 text-coral" : "text-muted"}`}
+          >
+            {genNote.kind === "error" ? (
+              <AlertTriangle size={16} className="text-coral shrink-0 mt-0.5" />
+            ) : (
+              <Info size={16} className="text-sky shrink-0 mt-0.5" />
+            )}
+            {genNote.text}
           </div>
         )}
 
@@ -516,8 +529,11 @@ export default function Worksheets() {
             <span className="text-xs text-dim">Pick a subject to start.</span>
           )}
           {genNote && (
-            <span className="text-xs text-sky inline-flex items-center gap-1.5">
-              <Info size={13} /> {genNote}
+            <span
+              className={`text-xs inline-flex items-center gap-1.5 ${genNote.kind === "error" ? "text-coral" : "text-sky"}`}
+            >
+              {genNote.kind === "error" ? <AlertTriangle size={13} /> : <Info size={13} />}{" "}
+              {genNote.text}
             </span>
           )}
         </div>
