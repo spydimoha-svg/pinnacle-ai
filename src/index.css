@@ -277,20 +277,23 @@
   .tutor-plot figcaption { @apply text-xs text-muted mt-1 text-center; }
   .tutor-plot figcaption .katex { font-size: 1em; }
 
-  /* Tutor-drawn geometry (labeled triangles etc.) */
+  /* Tutor-drawn geometry (labeled triangles etc.) and circuit diagrams share
+     the same label classes, so both need styling or a circuit's component
+     labels fall back to the SVG default (black, serif) and vanish against
+     the dark video stage. */
   .tutor-geom svg { max-width: 340px; }
   .tutor-geom .geom-angle {
     fill: var(--color-sky);
     font-family: var(--font-body);
     font-size: 11.5px;
   }
-  .tutor-geom .geom-vertex {
+  .tutor-geom .geom-vertex, .tutor-circuit .geom-vertex {
     fill: var(--color-cream);
     font-family: var(--font-body);
     font-size: 13px;
     font-weight: 600;
   }
-  .tutor-geom .geom-side {
+  .tutor-geom .geom-side, .tutor-circuit .geom-side {
     fill: var(--color-gold-bright);
     font-family: var(--font-body);
     font-size: 12.5px;
