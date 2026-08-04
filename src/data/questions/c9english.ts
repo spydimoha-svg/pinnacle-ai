@@ -28,6 +28,26 @@ Through this contrast, Isaac Asimov criticises a completely mechanised, individu
       "The answer must state the criticism of mechanised schooling directly — merely summarising what Margie read in the book earns only partial credit.",
   },
   {
+    id: "q-c9-english-01-2",
+    subjectId: "c9-english",
+    chapterId: "c9-english-01",
+    classLevel: 9,
+    text: "Describe the mechanical teachers in Margie's world. Why was Margie unhappy with hers?",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer: `In Margie's time, each child is taught at home by a mechanical teacher — a large, dull black machine with a screen on which lessons appear, that tests the child after every lesson and instantly grades the work. The county inspector adjusts these teachers to suit each child's own pace and ability, so Margie's teacher is a permanent fixture that simply appears in the same part of her room every day, unlike Tommy's, which is taken away for a month to be adjusted.
+
+Margie is unhappy because her geography sector has been going too fast for her, especially in the questions about where Holland is, and her marks keep getting worse and worse, so her mother eventually calls in the county inspector to fix it. She dislikes the machine's cold, impersonal testing and secretly hates school as a fixed, boring routine, which is exactly why the old book about a schoolhouse full of children and a human teacher fascinates her so much.`,
+    keywords: [
+      "mechanical teacher tests after every lesson",
+      "county inspector adjusts the pace of the machine",
+      "Margie's geography sector slipping, especially Holland",
+      "mother calls the county inspector",
+      "Margie's dislike of the impersonal, fixed routine",
+    ],
+  },
+  {
     id: "q-c9-english-02-1",
     subjectId: "c9-english",
     chapterId: "c9-english-02",
@@ -48,6 +68,26 @@ With rigorous practice and determination, she gained admission to the Royal Acad
     ],
   },
   {
+    id: "q-c9-english-02-2",
+    subjectId: "c9-english",
+    chapterId: "c9-english-02",
+    classLevel: 9,
+    text: "How does Evelyn Glennie's attitude towards her deafness set an example for others?",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer: `Evelyn Glennie never allowed herself to be treated as disabled or to think of her deafness as something that limited her. She insisted on competing for a place at the Royal Academy of Music on the same terms as hearing candidates, refusing any special consideration, and won over a panel that was initially unconvinced a deaf person could be a top musician.
+
+Rather than seeing her condition as a loss, she treated it as something that made her listen more closely and with her whole body, becoming more sensitive to sound than most hearing people. Her success — touring the world, giving around a hundred concerts a year, and even teaching other deaf children like Sophie — shows that a positive attitude and refusal to be defined by a disability can turn a limitation into a distinctive strength.`,
+    keywords: [
+      "refuses special treatment; competes on equal terms",
+      "Royal Academy of Music admission",
+      "deafness sharpens rather than limits her sensitivity to sound",
+      "around a hundred concerts a year",
+      "teaches other deaf children, e.g. Sophie",
+    ],
+  },
+  {
     id: "q-c9-english-03-1",
     subjectId: "c9-english",
     chapterId: "c9-english-03",
@@ -65,6 +105,26 @@ The turning point comes when her grandmother goes away and Kezia, frightened by 
       "grandmother's absence and the nightmare",
       "father comforts Kezia",
       "fear gives way to love",
+    ],
+  },
+  {
+    id: "q-c9-english-03-2",
+    subjectId: "c9-english",
+    chapterId: "c9-english-03",
+    classLevel: 9,
+    text: "What kind of person was Kezia's mother, and how did she treat Kezia?",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer: `Kezia's mother is shown as a rather cold, distant figure who is more concerned with keeping her husband comfortable than with understanding her daughter. She constantly warns Kezia not to disturb her father, insists on strict discipline, such as making Kezia eat everything on her plate including disliked fat, and readily blames Kezia when things go wrong, as when she is scolded for spilling the paint on her father's study table.
+
+When Kezia has her nightmare about the bird Bogey, it is her mother who is away from home, and this absence is actually what allows Kezia's father to comfort her instead, revealing the emotional distance between mother and daughter. Katherine Mansfield uses the mother's strictness to sharpen the contrast with the unexpected warmth Kezia eventually finds in her father.`,
+    keywords: [
+      "mother enforces strict discipline",
+      "constantly tells Kezia not to disturb her father",
+      "blames Kezia for the paint incident",
+      "mother's absence lets the father comfort Kezia",
+      "emotional distance between Kezia and her mother",
     ],
   },
   {
@@ -91,6 +151,26 @@ His beauty of mind went beyond science: deeply troubled by the destructive power
       "Marks are for connecting his scientific achievement with his moral choices — listing only the science, or only the pacifism, without linking them loses marks.",
   },
   {
+    id: "q-c9-english-04-2",
+    subjectId: "c9-english",
+    chapterId: "c9-english-04",
+    classLevel: 9,
+    text: "Why did Einstein dislike his school in Munich, and how was his experience at Aarau different?",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer: `At the Luitpold Gymnasium in Munich, Einstein hated the rigid, almost military style of teaching, where students were drilled to obey and memorise facts rather than to think for themselves; he found this atmosphere so stifling that a doctor's certificate citing nervous exhaustion was used to let him leave the school before finishing, and he happily gave up his German citizenship at sixteen.
+
+At the cantonal school in Aarau, Switzerland, by contrast, he found a far more liberal, open atmosphere that encouraged independent thinking and let his curiosity about mathematics and physics flourish. It was this freedom, so different from the discipline-first schooling in Munich, that let the young Einstein begin thinking creatively about the problems that would later lead to his theory of relativity.`,
+    keywords: [
+      "Luitpold Gymnasium: rigid, army-like discipline",
+      "doctor's certificate to leave school early",
+      "gives up German citizenship at sixteen",
+      "Aarau's liberal, open schooling",
+      "freedom at Aarau nurtures independent scientific thought",
+    ],
+  },
+  {
     id: "q-c9-english-05-1",
     subjectId: "c9-english",
     chapterId: "c9-english-05",
@@ -111,6 +191,26 @@ The irony is that the very vanity the doctor is almost ashamed of — the oiling
     ],
   },
   {
+    id: "q-c9-english-05-2",
+    subjectId: "c9-english",
+    chapterId: "c9-english-05",
+    classLevel: 9,
+    text: "Why does the author say the story of the snake and the mirror could be explained in more than one way?",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer: `Vaikom Muhammad Basheer tells the incident as something the doctor narrator himself experienced and half-believes to be a miracle — the snake climbing over his sleeping body without biting him and instead licking the oil off the pillow. Yet the author closes the story by admitting that events like this can be looked at in two ways: as something wondrous and providential, or as something that has a perfectly ordinary, rational explanation.
+
+The rational explanation is that snakes are not naturally aggressive unless threatened or provoked, and this particular snake was simply drawn to the smell of the coconut oil rather than to the man himself, gliding over him only because he lay still and posed no threat. By presenting both possibilities, the story leaves it to the reader to decide whether to read the escape as a miracle or as ordinary snake behaviour combined with a stroke of luck.`,
+    keywords: [
+      "narrator half-believes it was providential",
+      "snake not naturally aggressive unless provoked",
+      "snake attracted by the smell of coconut oil",
+      "doctor's stillness meant no threat was posed",
+      "story allows both a miraculous and a rational reading",
+    ],
+  },
+  {
     id: "q-c9-english-06-1",
     subjectId: "c9-english",
     chapterId: "c9-english-06",
@@ -128,6 +228,26 @@ This harmony was disturbed only once, when a new teacher objected to a Hindu Bra
       "teacher's discriminatory seating incident",
       "Ramanadha Sastry's father rebukes the teacher",
       "communal harmony as a childhood lesson",
+    ],
+  },
+  {
+    id: "q-c9-english-06-2",
+    subjectId: "c9-english",
+    chapterId: "c9-english-06",
+    classLevel: 9,
+    text: "What role did Kalam's father play in shaping his character and values, according to the chapter 'My Childhood'?",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer: `Kalam's father, Jainulabdeen, was not formally well-educated and had no great wealth, but he possessed immense wisdom, generosity and a broad, tolerant view of religion — he refused to buy new items for their Ramzan celebrations if it meant borrowing money, and he often discussed spiritual matters with the temple priest and the local church priest alike, believing all faiths deserved equal respect.
+
+He passed on to young Kalam the values of honesty, self-respect, discipline and hard work, discouraging materialism, and teaching him through his own conduct rather than lectures — for instance, insisting the family live within its means despite Kalam's mother's occasional pleas for a little extravagance at festival time. This grounding gave Kalam the inner strength and humility that stayed with him throughout his later life as a scientist.`,
+    keywords: [
+      "father Jainulabdeen: modest means, great wisdom",
+      "refuses to borrow money even for festivals",
+      "respects all religions equally; friend of the temple priest",
+      "teaches honesty, discipline and self-respect by example",
+      "shapes Kalam's humility and inner strength",
     ],
   },
   {
@@ -153,6 +273,26 @@ Both stories show that reaching the top demanded sacrifice — Santosh Yadav gav
     ],
   },
   {
+    id: "q-c9-english-07-2",
+    subjectId: "c9-english",
+    chapterId: "c9-english-07",
+    classLevel: 9,
+    text: "How did Santosh Yadav's family and village react to her wish to pursue mountaineering, and how did she overcome this resistance?",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer: `Santosh Yadav grew up in a conservative village where a girl's future was expected to be an early marriage rather than higher education or a career; her parents wanted her married at sixteen and were initially unwilling to pay for her schooling. Santosh resisted, telling her parents she would work part-time to pay her own fees if needed, and her firmness eventually made them agree to let her study instead of marrying.
+
+She went on to Maharani College in Jaipur, living in Kasturba Hostel, and it was there, watching the Aravalli hills, that she first fell in love with the idea of mountaineering. She saved money and enrolled at the Nehru Institute of Mountaineering in Uttarkashi without even telling her parents beforehand, and this same refusal to accept the limits others set for her carried her all the way to becoming, at barely twenty, the youngest woman in the world to climb Mount Everest.`,
+    keywords: [
+      "parents wanted her married at sixteen",
+      "she offers to pay her own fees to continue studying",
+      "Maharani College, Jaipur, Kasturba Hostel",
+      "enrols at the Nehru Institute of Mountaineering, Uttarkashi, without telling her parents",
+      "youngest woman in the world to climb Everest at twenty",
+    ],
+  },
+  {
     id: "q-c9-english-08-1",
     subjectId: "c9-english",
     chapterId: "c9-english-08",
@@ -173,6 +313,26 @@ At the Baudhnath stupa, by contrast, he finds a great calm — the huge white do
     ],
   },
   {
+    id: "q-c9-english-08-2",
+    subjectId: "c9-english",
+    chapterId: "c9-english-08",
+    classLevel: 9,
+    text: "What does Vikram Seth notice about the shops and street life of Kathmandu, and why is he refused entry at the Pashupatinath temple gate?",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer: `Vikram Seth describes Kathmandu's streets as lively and crowded, lined with antique shops and pavement stalls selling everything from postcards and Western goods to bags, clothes and ornaments, with a Tibetan market doing brisk business just outside the temple area — a mix of the sacred and the everyday commercial bustle of the city.
+
+At the gate of the Pashupatinath temple, however, a policeman stops him from entering because the shrine is open only to Hindus, and Seth, being a foreign, non-Hindu visitor, is turned away and can only view the temple's golden roof and the crowds from a distance. This small incident becomes part of his larger impression of Pashupatinath as a place of restriction and crowded intensity, quite different from the open calm he later finds at the Baudhnath stupa.`,
+    keywords: [
+      "antique shops and pavement stalls",
+      "Tibetan market outside the temple selling bags, clothes, ornaments",
+      "policeman denies him entry at Pashupatinath's gate",
+      "shrine open only to Hindus",
+      "Seth views the temple's golden roof only from a distance",
+    ],
+  },
+  {
     id: "q-c9-english-09-1",
     subjectId: "c9-english",
     chapterId: "c9-english-09",
@@ -189,6 +349,26 @@ Using his presence of mind, Gerrard manages to get to the telephone under the pr
       "Gerrard pretends to cooperate",
       "Gerrard uses the telephone to alert the police",
       "presence of mind over physical threat",
+    ],
+  },
+  {
+    id: "q-c9-english-09-2",
+    subjectId: "c9-english",
+    chapterId: "c9-english-09",
+    classLevel: 9,
+    text: "How does Gerrard convince the Intruder that he is a criminal too, and how does he finally trap him?",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer: `Instead of pleading for his life, Gerrard calmly claims that he is also a wanted criminal on the run from the police, and to make the lie convincing he shows the Intruder a packed bag kept ready for a quick escape and a disguise of false moustaches and other items, telling him he has always expected trouble to catch up with him one day. This unsettles the Intruder's confidence in his plan, since killing and impersonating a man the police may already be watching is no longer the safe idea he thought it was.
+
+Once the Intruder is thoroughly confused and off guard, Gerrard tricks him into believing the police may be right outside and persuades him to check by hiding in a dark cupboard, then quickly locks him inside. With the Intruder shouting uselessly from within, Gerrard calmly telephones the real police, who arrive and take the Intruder away, leaving Gerrard pleased at having found the plot for his next play in the very danger he had just survived.`,
+    keywords: [
+      "Gerrard claims to be a wanted criminal himself",
+      "shows a ready packed bag and a disguise",
+      "unsettles the Intruder's confidence in his plan",
+      "tricks the Intruder into hiding in a cupboard and locks him in",
+      "calls the police; Intruder is caught",
     ],
   },
   {
@@ -212,6 +392,26 @@ When a kind man finds him and offers him the very same toys, sweets and balloons
     ],
   },
   {
+    id: "q-c9-english-10-2",
+    subjectId: "c9-english",
+    chapterId: "c9-english-10",
+    classLevel: 9,
+    text: "Describe the various temptations the child encounters on his way to the fair in 'The Lost Child'.",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer: `On the way to the village fair with his parents, the child is drawn in turn to almost everything he passes: a merry-go-round he watches other children ride, a sweetmeat seller's stall of coloured burfis and jalebis, garlands of bright gulmohur flowers, a man selling balloons of many colours, and a snake charmer whose flute-music and swaying cobra fascinate him.
+
+Each time, the child stops, points, and begs his parents to buy him what he sees or let him watch, and each time they refuse or simply move ahead without waiting, too absorbed in the fair themselves to notice the effect it has on him. This repeated pattern of desire and refusal builds up through the story, so that when the child finally becomes lost, all of these once-desperate wants disappear at once, wiped out completely by his fear and need for his parents.`,
+    keywords: [
+      "the merry-go-round / roundabout",
+      "sweetmeat stall: burfis and jalebis",
+      "garlands of gulmohur flowers",
+      "the balloon seller",
+      "the snake charmer's music",
+    ],
+  },
+  {
     id: "q-c9-english-11-1",
     subjectId: "c9-english",
     chapterId: "c9-english-11",
@@ -229,6 +429,26 @@ Unable to control Toto's destructive behaviour any longer, Grandfather finally e
       "conflict with Grandmother",
       "exchanged for a Great Dane, Leo",
       "humour in Toto's incorrigible mischief",
+    ],
+  },
+  {
+    id: "q-c9-english-11-2",
+    subjectId: "c9-english",
+    chapterId: "c9-english-11",
+    classLevel: 9,
+    text: "Why did Grandfather take Toto to Saharanpur, and why did the ticket collector insist on calling Toto a dog?",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer: `Grandfather had to travel to Saharanpur to collect his pension, and he decided to take Toto along, carrying him in a large canvas bag with straw laid at the bottom for comfort, but with no opening for Toto to put his hands or face out. During the journey, while the ticket collector was checking Grandfather's ticket, Toto suddenly poked his head out of the bag and grinned at him, startling and annoying the man.
+
+The ticket collector then insisted that Toto be charged a full dog's fare, since the railway rule book had no separate entry for a monkey travelling as a passenger's companion, only for dogs — so, to fit Toto into an existing rule, he simply classified him as a dog and made Grandfather pay three rupees for him, no matter how much Grandfather argued that Toto was a monkey, not a dog.`,
+    keywords: [
+      "Grandfather travels to Saharanpur to collect his pension",
+      "Toto carried in a canvas bag with straw",
+      "Toto pokes his head out and grins at the ticket collector",
+      "no rule in the book for a monkey's fare, only for dogs",
+      "ticket collector charges three rupees, calling Toto a dog",
     ],
   },
   {
@@ -252,6 +472,26 @@ The twist comes in the story of the ghost near the tamarind tree: Iswaran claims
     ],
   },
   {
+    id: "q-c9-english-12-2",
+    subjectId: "c9-english",
+    chapterId: "c9-english-12",
+    classLevel: 9,
+    text: "What kind of a cook was Iswaran, and what special skills besides cooking and storytelling did he have?",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer: `Iswaran was far more than just a cook — he cooked, washed clothes and cleaned the house, and could conjure up a delicious meal of fresh vegetables and ingredients within the hour even in a place they had only just moved to, following the narrator's employer uncomplainingly from posting to posting as the job demanded. He was resourceful and hardworking, quietly managing an entire household on his own.
+
+In his free time he was an avid reader of popular Tamil thrillers, and it was clearly this taste that shaped the exaggerated, dramatic style of the stories he told in the evenings, complete with body gestures, facial expressions and changes in his voice to bring the characters to life. This mixture of everyday usefulness as a cook and household help, and a colourful, superstitious imagination fed by pulpy thrillers, is what made Iswaran such a memorable and entertaining companion.`,
+    keywords: [
+      "cooks, washes clothes and cleans the house",
+      "conjures up meals quickly in a new place",
+      "follows his employer uncomplainingly from posting to posting",
+      "avid reader of Tamil thrillers",
+      "uses gestures, expressions and voice to tell stories",
+    ],
+  },
+  {
     id: "q-c9-english-13-1",
     subjectId: "c9-english",
     chapterId: "c9-english-13",
@@ -269,6 +509,26 @@ That night, a burglary and murder take place, and the guru and disciple are wron
       "guru and disciple wrongly arrested",
       "execution decided by who 'fits' the stake",
       "satire on foolish rulers and blind justice",
+    ],
+  },
+  {
+    id: "q-c9-english-13-2",
+    subjectId: "c9-english",
+    chapterId: "c9-english-13",
+    classLevel: 9,
+    text: "Why did the guru and his disciple decide to leave the kingdom of fools, and why did they end up staying a night longer than planned?",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer: `As the guru and disciple travel through the kingdom, they see one absurdity after another — the king and his minister swap the roles of watchman and ruler for no clear reason, and by royal order every single item sold in the market, good or bad, costs exactly the same one coin. The guru, wise enough to sense the danger of living under such senseless, unpredictable rule, decides at once that they must leave this land before misfortune catches up with them, since a kingdom governed by whim rather than reason cannot be safe for long.
+
+The disciple, however, is tempted by the low, fixed price of the goods in the market — where the same coin buys rich food as easily as poor food — and persuades the guru to let them stay just one more day so he can eat his fill cheaply. This single night of delay is exactly what proves fatal to the guru's warning, since it is during that extra night that the burglary and murder take place that the two of them are wrongly blamed for.`,
+    keywords: [
+      "guru senses danger in the kingdom's senseless rule",
+      "single-price law for all goods, good or bad",
+      "disciple tempted to eat cheaply and delay departure",
+      "guru reluctantly agrees to stay one more night",
+      "the delay leads directly to their wrongful arrest",
     ],
   },
   {
@@ -295,6 +555,26 @@ By the time winter comes, the swallow has stayed too long out of love and duty, 
       "The ending line about God's judgement is the story's real message — omitting it and stopping at 'the statue was melted down' misses the central idea.",
   },
   {
+    id: "q-c9-english-14-2",
+    subjectId: "c9-english",
+    chapterId: "c9-english-14",
+    classLevel: 9,
+    text: "Why does the Happy Prince weep even though he is made of gold and jewels, and what does he ask the swallow to do first?",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer: `While he was alive, the Prince lived inside the walls of Sans-Souci palace, sheltered from every kind of sorrow, and so believed happiness was simply how life was. Now, as a gilded statue set high above the city on a tall column, he can finally see everything the palace walls once hid from him — the poverty, sickness and grief of ordinary people living in the streets below — and though his heart is only lead, the sight of so much suffering makes him weep.
+
+He first asks the swallow to carry the ruby from the hilt of his sword to a poor seamstress whose small son lies ill with fever, since the family is too poor to afford a doctor or fruit for the sick child, and the seamstress herself is exhausted from embroidering a gown for one of the Queen's maids of honour. This first act of generosity, done reluctantly by the swallow at first, sets the pattern for everything that follows in the story.`,
+    keywords: [
+      "sheltered, sorrow-free life inside Sans-Souci as a living prince",
+      "as a statue, now sees the city's real suffering",
+      "leaden heart still feels grief and weeps",
+      "first sends the ruby to the poor seamstress and her sick son",
+      "the swallow's reluctant first errand",
+    ],
+  },
+  {
     id: "q-c9-english-15-1",
     subjectId: "c9-english",
     chapterId: "c9-english-15",
@@ -312,6 +592,26 @@ On a night of fierce wind and rain, Behrman secretly climbs out with a lantern a
       "Behrman paints a leaf on the wall in the storm",
       "leaf appears to survive, restoring Johnsy's will to live",
       "Behrman dies of pneumonia; his masterpiece revealed",
+    ],
+  },
+  {
+    id: "q-c9-english-15-2",
+    subjectId: "c9-english",
+    chapterId: "c9-english-15",
+    classLevel: 9,
+    text: "Describe Sue's efforts as a friend and as an artist to help Johnsy through her illness in 'The Last Leaf'.",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer: `Sue, who shares a small studio apartment with Johnsy in Greenwich Village, is both a devoted friend and a working artist trying to earn a living through her illustrations while her friend's health worsens with pneumonia. She calls in a doctor, worries constantly over Johnsy's strange fixation on the ivy leaves outside their window, and tries hard, without success, to talk her out of the morbid belief that she will die when the last leaf falls.
+
+Even while managing her own fear and grief, Sue keeps working at her drawings to pay the bills and continues nursing Johnsy attentively, giving her broth, plumping her pillows and staying at her bedside — practical, exhausting care rather than any dramatic gesture. It is this quiet, unglamorous devotion, alongside Behrman's secret act, that keeps Johnsy alive long enough for her will to live to return.`,
+    keywords: [
+      "Sue and Johnsy share a studio in Greenwich Village",
+      "Sue calls in a doctor to treat Johnsy",
+      "tries to talk Johnsy out of the leaf superstition",
+      "keeps working on illustrations to earn money",
+      "quiet, practical nursing alongside Behrman's sacrifice",
     ],
   },
   {
@@ -335,6 +635,26 @@ Weeks later, Charlie is found alive, badly burned but alive, near the ruined hou
     ],
   },
   {
+    id: "q-c9-english-16-2",
+    subjectId: "c9-english",
+    chapterId: "c9-english-16",
+    classLevel: 9,
+    text: "How did the author's classmates, who she had never felt close to, respond to the news of the fire?",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer: `When the author's classmates at school learn that her house has burned down while she was away at her swim meet, they respond with a warmth and generosity she had never expected from people she had not felt particularly close to before. They send her cards and small gifts, and organise a collection of money for her family to help them cope with the sudden loss of their home and belongings.
+
+This unexpected show of care from ordinary classmates affects the author far more than she anticipated, becoming one of the clearest lessons of the whole experience — that kindness can come from people you barely know, and that this kind of human support does more to help a person through loss than any amount of insurance money or rebuilt walls ever could.`,
+    keywords: [
+      "author away at a swim meet when the fire happens",
+      "classmates she wasn't close to reach out",
+      "cards, gifts and a collection of money",
+      "unexpected kindness surprises the author",
+      "human support matters more than material loss",
+    ],
+  },
+  {
     id: "q-c9-english-17-1",
     subjectId: "c9-english",
     chapterId: "c9-english-17",
@@ -352,6 +672,26 @@ Unknown to Lushkoff, it is Sergei's cook, Olga, who quietly finishes the wood-ch
       "Olga secretly re-chops the wood out of pity",
       "Lushkoff reforms, finds work, returns to thank Sergei",
       "dignity of labour versus charity",
+    ],
+  },
+  {
+    id: "q-c9-english-17-2",
+    subjectId: "c9-english",
+    chapterId: "c9-english-17",
+    classLevel: 9,
+    text: "What lie did Lushkoff first tell Sergei, and how did Sergei catch him out?",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer: `Lushkoff approaches Sergei on the street with a well-rehearsed sob story, claiming that he was once a village schoolteacher who lost his position through a conspiracy of his colleagues, and that he is now destitute and begging only out of desperate necessity, hoping this respectable-sounding history will move Sergei to give him money.
+
+Sergei is not fooled, however, because he recognises Lushkoff as the very same man who had told him a completely different story just two days earlier — that time claiming to be a former university student expelled for his views. Confronting him with this contradiction, Sergei points out that he now claims to be a teacher, catching Lushkoff clearly lying, and instead of simply giving him money, decides to test his willingness to work by offering him the job of chopping wood.`,
+    keywords: [
+      "Lushkoff's story: former village schoolteacher dismissed by intrigue",
+      "Sergei recalls a different story told two days before",
+      "earlier claim: expelled university student",
+      "Sergei exposes the contradiction",
+      "offers wood-chopping work instead of money",
     ],
   },
 ];
