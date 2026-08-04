@@ -163,6 +163,19 @@
   .chip-sky {
     @apply inline-flex items-center gap-1.5 whitespace-nowrap rounded-full border border-sky/30 bg-sky/10 px-3 py-1 text-xs text-sky;
   }
+  /* Chips double as filter/reply buttons (Papers, Worksheets, Tutor quick
+     replies). At py-1 they're a 26px badge height — fine to read, too small
+     for a thumb. Stretch tap height on touch devices only; a mouse doesn't
+     need it and the badge look stays put everywhere chips are read-only. */
+  @media (pointer: coarse) {
+    button.chip,
+    button.chip-gold,
+    button.chip-mint,
+    button.chip-coral,
+    button.chip-sky {
+      @apply min-h-10 py-2;
+    }
+  }
 
   /* Forms */
   .input {
