@@ -231,6 +231,39 @@ export async function POST(req: Request): Promise<Response> {
     data: { ...r, schoolId: adminAuth.schoolId },
   }));
 
+  // A single admin (compromised or malicious) could otherwise upsert forever
+  // and exhaust the shared 500MB free-tier Postgres that every student's
+  // student_state also lives in. Checked against what the school's row set
+  // would become *after* this batch — ids already owned by this school and
+  // reused here are replaced, not double-counted.
+  const MAX_SCHOOL_ROWS = 200;
+  const MAX_SCHOOL_BYTES = 5_000_000;
+  const encoder = new TextEncoder();
+  const { data: schoolRows, error: schoolRowsError } = await admin
+    .from("school_resources")
+    .select("id, data")
+    .eq("school_id", adminAuth.schoolId);
+  if (schoolRowsError) {
+    console.error("resources POST cap check failed:", schoolRowsError.message);
+    return new Response("Sync failed", { status: 500 });
+  }
+  const incomingIds = new Set(ids);
+  const keptExisting = (schoolRows ?? []).filter((r) => !incomingIds.has(r.id));
+  const keptBytes = keptExisting.reduce(
+    (sum, r) => sum + encoder.encode(JSON.stringify(r.data)).length,
+    0
+  );
+  const incomingBytes = rows.reduce(
+    (sum, r) => sum + encoder.encode(JSON.stringify(r.data)).length,
+    0
+  );
+  if (
+    keptExisting.length + rows.length > MAX_SCHOOL_ROWS ||
+    keptBytes + incomingBytes > MAX_SCHOOL_BYTES
+  ) {
+    return new Response("School resource storage limit reached", { status: 403 });
+  }
+
   const { error } = await admin.from("school_resources").upsert(rows);
   if (error) {
     console.error("resources POST failed:", error.message);
