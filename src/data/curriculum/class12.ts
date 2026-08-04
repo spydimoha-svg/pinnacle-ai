@@ -958,4 +958,132 @@ export const CLASS_12_SUBJECTS: Subject[] = [
       },
     ],
   },
+
+  // ==========================================================================
+  // ECONOMICS (Part A: Introductory Macroeconomics, Part B: Indian Economic
+  // Development — code 030. Verified against the official CBSE Class 12
+  // Economics 2025-26 syllabus: 8 units, Part A = 40 marks, Part B = 40 marks.
+  // "Introductory Microeconomics" is not part of this paper.)
+  // ==========================================================================
+  {
+    id: "c12-economics",
+    name: "Economics",
+    classLevel: 12,
+    icon: "TrendingUp",
+    color: "gold",
+    chapters: [
+      {
+        id: "c12-economics-01",
+        number: 1,
+        title: "National Income and Related Aggregates",
+        weightage: "≈10 marks",
+        keyTopics: [
+          "Basic concepts: consumption/capital/final/intermediate goods, stocks and flows",
+          "Circular flow of income; value added, expenditure and income methods",
+          "GNP, NNP, GDP and NDP at market price and factor cost",
+          "Real vs nominal GDP, GDP deflator, GDP and welfare",
+        ],
+        boardNotes:
+          "Numericals computing GNP/NNP/GDP/NDP by the value-added, expenditure or income method carry most of this unit's marks; correctly including or excluding items like depreciation and net factor income from abroad is where students most often lose them.",
+      },
+      {
+        id: "c12-economics-02",
+        number: 2,
+        title: "Money and Banking",
+        weightage: "≈6 marks",
+        keyTopics: [
+          "Meaning and functions of money; supply of money",
+          "Money creation by the commercial banking system",
+          "Central bank functions (RBI): bank of issue, government's bank, banker's bank",
+          "Credit control: Bank Rate, CRR, SLR, Repo/Reverse Repo, open market operations",
+        ],
+        boardNotes:
+          "The money-creation (deposit multiplier) numerical and RBI's quantitative credit-control tools are the recurring questions; mixing up CRR with SLR, or Repo with Reverse Repo, is the standard way marks are lost here.",
+      },
+      {
+        id: "c12-economics-03",
+        number: 3,
+        title: "Determination of Income and Employment",
+        weightage: "≈12 marks",
+        keyTopics: [
+          "Aggregate demand and its components",
+          "Propensity to consume and to save (average and marginal)",
+          "Short-run equilibrium output and the investment multiplier",
+          "Excess and deficient demand; fiscal and monetary correctives",
+        ],
+        boardNotes:
+          "The highest-weighted chapter in Part A — the investment-multiplier numerical (change in income from a change in investment via MPC) and deriving short-run equilibrium output are near-certain; the fiscal/monetary measures to correct excess or deficient demand are the standard follow-up theory question.",
+      },
+      {
+        id: "c12-economics-04",
+        number: 4,
+        title: "Government Budget and the Economy",
+        weightage: "≈6 marks",
+        keyTopics: [
+          "Meaning, objectives and components of the government budget",
+          "Revenue vs capital receipts; revenue vs capital expenditure",
+          "Balanced, surplus and deficit budgets",
+          "Measures of government deficit and their significance",
+        ],
+        boardNotes:
+          "Classifying a given budget item as a revenue or capital receipt/expenditure is the reliable short answer; explaining fiscal deficit, how it is financed and what a rising fiscal deficit signals is the standard higher-mark question.",
+      },
+      {
+        id: "c12-economics-05",
+        number: 5,
+        title: "Balance of Payments",
+        weightage: "≈6 marks",
+        keyTopics: [
+          "Balance of payments account: meaning and components",
+          "Surplus and deficit in the balance of payments",
+          "Fixed, flexible and managed floating exchange rates",
+          "Determination of exchange rate in a free market",
+        ],
+        boardNotes:
+          "Classifying a given transaction under the current or capital account is the common short answer; the merits and demerits of fixed versus flexible exchange rate systems is the standard higher-mark comparison.",
+      },
+      {
+        id: "c12-economics-06",
+        number: 6,
+        title: "Development Experience (1947-90) and Economic Reforms since 1991",
+        weightage: "≈12 marks",
+        keyTopics: [
+          "State of the Indian economy on the eve of independence",
+          "Goals of the five year plans; agriculture, industry and foreign-trade policy, 1950-91",
+          "Need for and features of the 1991 economic reforms (LPG policy)",
+          "Concepts of demonetisation and GST",
+        ],
+        boardNotes:
+          "This chapter now folds the pre-1991 development experience together with the 1991 reforms — expect a question linking a specific pre-1991 problem (e.g. the licence-permit system) to the reform that addressed it, with demonetisation and GST as the newer additions to know.",
+      },
+      {
+        id: "c12-economics-07",
+        number: 7,
+        title: "Current Challenges facing Indian Economy",
+        weightage: "≈20 marks",
+        keyTopics: [
+          "Human capital formation and the growth of India's education sector",
+          "Rural development: credit and marketing, cooperatives, agricultural diversification, organic farming",
+          "Employment: workforce participation, formal vs informal sectors, problems and policies",
+          "Sustainable economic development and its effects on resources and the environment",
+        ],
+        boardNotes:
+          "The single highest-weighted chapter in the whole paper, spanning four distinct topics — human capital, rural development, employment and sustainable development — so a long answer can be drawn from any one of the four rather than one dominant theme.",
+      },
+      {
+        id: "c12-economics-08",
+        number: 8,
+        title: "Development Experience of India: A Comparison with Neighbours",
+        weightage: "≈8 marks",
+        keyTopics: [
+          "Development strategies of India, Pakistan and China",
+          "Comparative indicators: economic growth and population",
+          "Sectoral development across the three economies",
+          "Other Human Development Indicators",
+        ],
+        boardNotes:
+          "Comparing India, Pakistan and China on a named indicator (e.g. GDP growth rate or an HDI-related measure) is the standard question — the usual mark loss is leaving out the third country rather than getting the comparison itself wrong.",
+      },
+    ],
+  },
 ];
