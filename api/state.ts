@@ -70,6 +70,12 @@ async function verifiedUserId(req: Request): Promise<string | null> {
 const RATE_LIMIT_WINDOW_MS = 60_000;
 const RATE_LIMIT_MAX = 20;
 
+// Per-user throttling alone can't stop many trial accounts from together
+// filling the one shared 500MB free-tier Postgres project. This caps total
+// state requests across all users/IPs in the same window, same global-cap
+// pattern as GLOBAL_RATE_LIMIT_MAX in api/chat.ts and api/master-login.ts.
+const GLOBAL_RATE_LIMIT_MAX = 300;
+
 // In-memory fallback only, for when the RPC call itself errors (e.g. a
 // transient Postgres blip) — same pattern as api/chat.ts and
 // api/master-login.ts. Failing open here would hand an attacker an
@@ -77,7 +83,7 @@ const RATE_LIMIT_MAX = 20;
 // strain.
 const fallbackTimestamps = new Map<string, number[]>();
 
-function isRateLimitedInMemory(key: string): boolean {
+function isRateLimitedInMemory(key: string, max: number): boolean {
   const now = Date.now();
   for (const [k, timestamps] of fallbackTimestamps) {
     if (now - timestamps[timestamps.length - 1] >= RATE_LIMIT_WINDOW_MS) {
@@ -89,19 +95,19 @@ function isRateLimitedInMemory(key: string): boolean {
   );
   recent.push(now);
   fallbackTimestamps.set(key, recent);
-  return recent.length > RATE_LIMIT_MAX;
+  return recent.length > max;
 }
 
-async function isRateLimited(key: string): Promise<boolean> {
+async function isRateLimited(key: string, max: number = RATE_LIMIT_MAX): Promise<boolean> {
   const admin = createClient(url!, serviceKey!);
   const { data, error } = await admin.rpc("rate_limit_hit", {
     p_key: `state:${key}`,
     p_window_ms: RATE_LIMIT_WINDOW_MS,
-    p_max: RATE_LIMIT_MAX,
+    p_max: max,
   });
   if (error) {
     console.error("rate_limit_hit error:", error.message);
-    return isRateLimitedInMemory(key);
+    return isRateLimitedInMemory(key, max);
   }
   return data === true;
 }
@@ -122,6 +128,9 @@ export async function GET(req: Request): Promise<Response> {
   const userId = await verifiedUserId(req);
   if (!userId) return new Response("Unauthorized", { status: 401 });
   if (await isRateLimited(`user:${userId}`)) {
+    return new Response("Too many requests", { status: 429 });
+  }
+  if (await isRateLimited("global", GLOBAL_RATE_LIMIT_MAX)) {
     return new Response("Too many requests", { status: 429 });
   }
 
@@ -154,6 +163,9 @@ export async function POST(req: Request): Promise<Response> {
   const userId = await verifiedUserId(req);
   if (!userId) return new Response("Unauthorized", { status: 401 });
   if (await isRateLimited(`user:${userId}`)) {
+    return new Response("Too many requests", { status: 429 });
+  }
+  if (await isRateLimited("global", GLOBAL_RATE_LIMIT_MAX)) {
     return new Response("Too many requests", { status: 429 });
   }
 

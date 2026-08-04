@@ -73,9 +73,16 @@ async function verifiedAdmin(req: Request): Promise<VerifiedAdmin | null> {
 const RATE_LIMIT_WINDOW_MS = 60_000;
 const RATE_LIMIT_MAX = 20;
 
+// Per-admin throttling alone can't stop many trial accounts from together
+// filling the one shared 500MB free-tier Postgres project. This caps total
+// resource requests across all admins/IPs in the same window, same
+// global-cap pattern as GLOBAL_RATE_LIMIT_MAX in api/chat.ts and
+// api/master-login.ts.
+const GLOBAL_RATE_LIMIT_MAX = 300;
+
 const fallbackTimestamps = new Map<string, number[]>();
 
-function isRateLimitedInMemory(key: string): boolean {
+function isRateLimitedInMemory(key: string, max: number): boolean {
   const now = Date.now();
   for (const [k, timestamps] of fallbackTimestamps) {
     if (now - timestamps[timestamps.length - 1] >= RATE_LIMIT_WINDOW_MS) {
@@ -87,19 +94,19 @@ function isRateLimitedInMemory(key: string): boolean {
   );
   recent.push(now);
   fallbackTimestamps.set(key, recent);
-  return recent.length > RATE_LIMIT_MAX;
+  return recent.length > max;
 }
 
-async function isRateLimited(key: string): Promise<boolean> {
+async function isRateLimited(key: string, max: number = RATE_LIMIT_MAX): Promise<boolean> {
   const admin = createClient(url!, serviceKey!);
   const { data, error } = await admin.rpc("rate_limit_hit", {
     p_key: `resources:${key}`,
     p_window_ms: RATE_LIMIT_WINDOW_MS,
-    p_max: RATE_LIMIT_MAX,
+    p_max: max,
   });
   if (error) {
     console.error("rate_limit_hit error:", error.message);
-    return isRateLimitedInMemory(key);
+    return isRateLimitedInMemory(key, max);
   }
   return data === true;
 }
@@ -120,6 +127,9 @@ export async function GET(req: Request): Promise<Response> {
   const adminAuth = await verifiedAdmin(req);
   if (!adminAuth) return new Response("Unauthorized", { status: 401 });
   if (await isRateLimited(`user:${adminAuth.id}`)) {
+    return new Response("Too many requests", { status: 429 });
+  }
+  if (await isRateLimited("global", GLOBAL_RATE_LIMIT_MAX)) {
     return new Response("Too many requests", { status: 429 });
   }
 
@@ -151,6 +161,9 @@ export async function POST(req: Request): Promise<Response> {
   const adminAuth = await verifiedAdmin(req);
   if (!adminAuth) return new Response("Unauthorized", { status: 401 });
   if (await isRateLimited(`user:${adminAuth.id}`)) {
+    return new Response("Too many requests", { status: 429 });
+  }
+  if (await isRateLimited("global", GLOBAL_RATE_LIMIT_MAX)) {
     return new Response("Too many requests", { status: 429 });
   }
 
@@ -223,6 +236,9 @@ export async function DELETE(req: Request): Promise<Response> {
   const adminAuth = await verifiedAdmin(req);
   if (!adminAuth) return new Response("Unauthorized", { status: 401 });
   if (await isRateLimited(`user:${adminAuth.id}`)) {
+    return new Response("Too many requests", { status: 429 });
+  }
+  if (await isRateLimited("global", GLOBAL_RATE_LIMIT_MAX)) {
     return new Response("Too many requests", { status: 429 });
   }
 
