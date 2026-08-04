@@ -48,8 +48,12 @@ function scoreChapter(q: string, subject: Subject, chapter: Chapter): number {
   // score>=4 grounding threshold on its own.
   const words = q.split(/[^a-z0-9]+/).filter((w) => w.length > 3 && !STOP.has(w));
   for (const w of words) if (hasWord(title, w)) score += 1;
+  // Chapter-number alone is not an identifying signal: it hits every subject's
+  // chapter N in the pool, so it may only add to a score another signal (title
+  // word, subject name, keyTopic) has already started — never carry a bare
+  // "chapter 5" over the grounding threshold by itself.
   const chNo = q.match(/\bchapter\s*(\d+)\b/);
-  if (chNo && parseInt(chNo[1], 10) === chapter.number) score += 4;
+  if (chNo && score > 0 && parseInt(chNo[1], 10) === chapter.number) score += 4;
   return score;
 }
 
