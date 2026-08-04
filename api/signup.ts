@@ -147,9 +147,14 @@ export async function POST(req: Request): Promise<Response> {
         schoolId: typeof body.schoolId === "string" ? body.schoolId : null,
       },
     });
-    // Fails open (confirmed: true) on any cloud error — same as the old
-    // linkTrialCloudProfile — so a flaky connection never blocks the local
-    // trial account.
+    // Still fails open (confirmed: true) on any other cloud error — same as
+    // the old linkTrialCloudProfile — so a flaky connection never blocks the
+    // local trial account. But "email already registered" isn't a flaky
+    // error: reporting success here would hand the caller a local session
+    // displaying a real student's email while never actually linking it.
+    if (error?.code === "email_exists") {
+      return Response.json({ confirmed: false, reason: "taken" });
+    }
     if (error) return Response.json({ confirmed: true });
     return Response.json({ confirmed: Boolean(updated.user?.email_confirmed_at) });
   } catch {
