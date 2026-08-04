@@ -774,6 +774,40 @@ If fertilisation DOES occur, the corpus luteum persists, progesterone remains hi
     examinerTip:
       "Every hormone must carry its SOURCE (FSH and LH — anterior pituitary; progesterone — corpus luteum), because the key splits hormone and source into separate marks. Also write 'LH surge' by name for ovulation.",
   },
+  {
+    id: "q-c12-biology-02-2",
+    subjectId: "c12-biology",
+    chapterId: "c12-biology-02",
+    classLevel: 12,
+    text: "Describe the process of spermatogenesis in humans. What roles do LH, FSH and testosterone play in it?",
+    marks: 5,
+    type: "la",
+    source: "important",
+    answer: `Spermatogenesis is the process by which a spermatogonium (2n) forms a mature male gamete (sperm). It occurs inside the SEMINIFEROUS TUBULES of the testes and begins at puberty due to a significant rise in the secretion of GnRH (gonadotropin releasing hormone).
+
+Steps:
+1. SPERMATOGONIA (2n), present on the inside wall of the seminiferous tubules, multiply by MITOSIS and increase in number.
+2. Some spermatogonia periodically undergo changes and grow into PRIMARY SPERMATOCYTES (2n).
+3. Each primary spermatocyte completes the first meiotic division (MEIOSIS I, reductional division) to form two equal, haploid SECONDARY SPERMATOCYTES (n).
+4. The secondary spermatocytes undergo the second meiotic division (MEIOSIS II) to produce four equal haploid SPERMATIDS (n).
+5. The spermatids are transformed into spermatozoa by the process called SPERMIOGENESIS. The sperm heads then become embedded in the Sertoli cells, and are finally released from the seminiferous tubule by a process called SPERMIATION.
+
+Hormonal control:
+- At puberty, a marked increase in GnRH from the hypothalamus acts on the anterior pituitary, which secretes two gonadotropins — LH and FSH.
+- LH acts on the LEYDIG CELLS and stimulates them to synthesise and secrete ANDROGENS (testosterone); testosterone in turn stimulates the process of spermatogenesis.
+- FSH acts on the SERTOLI CELLS and stimulates the secretion of factors that help in the process of spermiogenesis (conversion of spermatids into sperm).
+
+Conclusion: spermatogenesis is controlled by an axis running from the hypothalamus (GnRH) to the anterior pituitary (LH, FSH) to the testis, with LH acting through Leydig cells and FSH acting through Sertoli cells.`,
+    keywords: [
+      "spermatogonia (2n) multiply by mitosis",
+      "primary spermatocyte → meiosis I → two secondary spermatocytes",
+      "meiosis II → four haploid spermatids",
+      "spermiogenesis — spermatids transform into spermatozoa",
+      "LH → Leydig cells → testosterone; FSH → Sertoli cells",
+    ],
+    examinerTip:
+      "The hormone-to-cell pairing is what the key checks — LH acts on Leydig cells, FSH acts on Sertoli cells; swapping the two is the most common error, along with forgetting which meiotic division gives which cell.",
+  },
 
   // ---------------------------------- 03 Reproductive Health
   {
@@ -802,6 +836,29 @@ Conclusion: ZIFT transfers a zygote/early embryo already formed outside the body
     ],
     examinerTip:
       "Expanding the abbreviation alone earns half — you must state what is actually transferred (zygote vs unfertilised ovum) and the '8 blastomeres' cut-off that separates ZIFT from IUT.",
+  },
+  {
+    id: "q-c12-biology-03-2",
+    subjectId: "c12-biology",
+    chapterId: "c12-biology-03",
+    classLevel: 12,
+    text: "What is amniocentesis? Why has this technique been legally banned in India for foetal sex determination?",
+    marks: 2,
+    type: "sa",
+    source: "important",
+    answer: `Amniocentesis: a foetal sex determination technique based on the pattern of chromosomes (karyotyping) present in cells of the amniotic fluid that surrounds a developing embryo. It can also be used, for legitimate medical purposes, to detect chromosomal abnormalities and certain metabolic disorders of the foetus.
+
+Why it has been banned for sex determination:
+Amniocentesis began to be MISUSED to determine the sex of the foetus before birth, with the intention of aborting it if it was found to be female — a practice called FEMALE FOETICIDE. This misuse is a major factor behind the declining sex ratio (fewer females per thousand males) in several parts of the country. To prevent this misuse, the Government of India has LEGALLY BANNED the use of amniocentesis for foetal sex determination (under the Pre-natal Diagnostic Techniques, PNDT, Act), while it remains permitted for detecting genetic/chromosomal disorders.`,
+    keywords: [
+      "amniocentesis — karyotyping of foetal cells in amniotic fluid",
+      "legitimate use — detects chromosomal and metabolic disorders",
+      "misused for sex determination, leading to female foeticide",
+      "declining sex ratio",
+      "legally banned for sex determination under the PNDT Act",
+    ],
+    examinerTip:
+      "State clearly that the technique itself is NOT banned outright, only its use for sex determination — its use to detect genetic disorders is still legitimate and permitted.",
   },
 
   // ---------------------------------- 04 Principles of Inheritance and Variation
@@ -999,6 +1056,35 @@ Two factors that disturb Hardy–Weinberg equilibrium (any two of five):
     ],
     examinerTip:
       "The universal slip is counting only the homozygotes — every Aa individual contributes ONE A and ONE a to the allele pool, and forgetting that wrecks p and q.",
+  },
+  {
+    id: "q-c12-biology-06-2",
+    subjectId: "c12-biology",
+    chapterId: "c12-biology-06",
+    classLevel: 12,
+    text: "Differentiate between homologous and analogous organs, giving two examples of each. What does each indicate about evolution?",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer: `HOMOLOGOUS ORGANS:
+Organs that have the SAME basic structure and origin but are modified to perform DIFFERENT functions in different organisms. They arise because the organisms concerned SHARE A COMMON ANCESTOR, and the process by which they arise is called DIVERGENT EVOLUTION.
+Examples: the forelimbs of humans (grasping), forelimbs of a horse (running/walking), the wings of birds/bats (flying) and the flippers of whales (swimming) all have the same basic pentadactyl bone pattern (humerus, radius-ulna, carpals, metacarpals, phalanges) though their outer form and function differ. Similarly, the thorns of Bougainvillea and the tendrils of Cucurbita are both modified axillary buds, though one is a defence structure and the other helps in climbing.
+
+ANALOGOUS ORGANS:
+Organs that have DIFFERENT basic structure and origin but have SIMILAR functions and superficially SIMILAR appearance, because the organisms concerned were exposed to the SAME kind of selection pressure though they do not share a recent common ancestor. This process is called CONVERGENT EVOLUTION.
+Examples: the wings of a butterfly (an insect) and the wings of a bird — both are used for flight but have entirely different structural origins. Similarly, the eye of the octopus and the eye of a mammal look similar and perform the same function but evolved independently.
+
+What each indicates about evolution:
+Homology indicates COMMON ANCESTRY (divergent evolution) — structures were inherited from a shared ancestor and then modified. Analogy indicates that unrelated organisms can independently evolve similar structures under SIMILAR ENVIRONMENTAL/SELECTION PRESSURES (convergent evolution), without sharing that ancestry.`,
+    keywords: [
+      "homologous — same basic structure/origin, different function, common ancestor",
+      "forelimbs of human, horse, bird, whale — same pentadactyl pattern",
+      "analogous — different origin, similar function, no common ancestor",
+      "wings of insect vs bird as analogous organs",
+      "homology = divergent evolution; analogy = convergent evolution",
+    ],
+    examinerTip:
+      "The examiner wants the ORIGIN-vs-FUNCTION contrast stated explicitly, not just the examples — say 'same structure, different function' for homologous and 'different structure, same function' for analogous.",
   },
 
   // ---------------------------------- 07 Human Health and Disease
@@ -1301,6 +1387,38 @@ Conclusion: since resources for growth are finite and become limiting sooner or 
     examinerTip:
       "Write (K − N)/K, not (K − N)/N — and if a graph is asked, draw BOTH curves on the same axes with K marked as a dashed asymptote, because the label K itself carries a mark.",
   },
+  {
+    id: "q-c12-biology-11-2",
+    subjectId: "c12-biology",
+    chapterId: "c12-biology-11",
+    classLevel: 12,
+    text: "Explain, with one example each, the following population interactions: (a) mutualism, (b) parasitism, (c) predation, (d) competition.",
+    marks: 4,
+    type: "case",
+    source: "important",
+    answer: `(a) MUTUALISM: an interaction that gives BENEFIT to both interacting species.
+Example: lichens represent an intimate mutualistic relationship between a fungus and a photosynthesising alga/cyanobacterium. Another example is the mutualism between plants and their pollinators — orchids show a bewildering variety of floral patterns to attract the right pollinator insect and ensure guaranteed pollination.
+
+(b) PARASITISM: an interaction in which one species (the parasite) benefits and lives in or on the body of another species (the host), which is HARMED.
+Example: the broomrape Cuscuta (a plant parasite) is found growing on hedge plants and derives nutrition from the host. Many human diseases are also caused by endoparasites, e.g. the malarial parasite Plasmodium living inside the human host.
+
+(c) PREDATION: an interaction in which a predator KILLS AND CONSUMES its prey for energy and nutrients, transferring energy fixed by the prey to a higher trophic level.
+Example: a tiger preying on a deer. Predators also help keep prey populations under control and can help maintain species diversity in a community by reducing the intensity of competition among competing prey species (e.g. the starfish Pisaster as a keystone predator in intertidal communities).
+
+(d) COMPETITION: an interaction in which the fitness of one species is significantly LOWER in the presence of another species, because both species require and struggle for the SAME limited resource.
+Example: in the Galapagos Islands, one species of barnacle Balanus was found to exclude another species Chthamalus from the substrate. Interspecific competition can also occur between closely related as well as entirely unrelated species — for example flamingoes and fish compete for the same zooplankton food in some shallow lakes.
+
+Conclusion: mutualism (+/+) and predation/parasitism (+/−) and competition (−/−) together show that populations rarely exist in isolation and their sizes are shaped by these interactions with other species.`,
+    keywords: [
+      "mutualism — both benefit; lichens, orchid–pollinator",
+      "parasitism — parasite benefits, host harmed; Cuscuta, Plasmodium",
+      "predation — predator kills and consumes prey; transfers energy up trophic levels",
+      "predators can maintain species diversity by reducing competition",
+      "competition — struggle for the same limited resource; Balanus excludes Chthamalus",
+    ],
+    examinerTip:
+      "State the +/− benefit sign for each interaction (mutualism +/+, predation and parasitism +/−, competition −/−) — the marking scheme rewards this notation as much as the named example.",
+  },
 
   // ---------------------------------- 12 Ecosystem
   {
@@ -1326,6 +1444,38 @@ The pyramid of energy is based on the RATE of energy flow (energy per unit area 
     ],
     examinerTip:
       "The word 'turnover' (or 'rate of reproduction') is what unlocks the biomass mark, and 'rate of energy flow' plus the 10 % law is what unlocks the energy mark — a general answer about 'more fish than plants' gets nothing.",
+  },
+  {
+    id: "q-c12-biology-12-2",
+    subjectId: "c12-biology",
+    chapterId: "c12-biology-12",
+    classLevel: 12,
+    text: "Describe the important steps involved in the process of decomposition in an ecosystem.",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer: `Decomposition is the process by which complex organic matter (detritus) present in dead plant and animal remains is broken down into inorganic substances such as carbon dioxide, water and nutrients. It is carried out mainly by bacteria and fungi, called DECOMPOSERS or saprotrophs, and occurs through the following steps:
+
+1. FRAGMENTATION: detritivores (e.g. earthworms) break detritus into smaller particles, increasing the surface area available for microbial action.
+
+2. LEACHING: water-soluble inorganic nutrients percolate down through the soil and get precipitated as unavailable salts.
+
+3. CATABOLISM: bacterial and fungal enzymes degrade detritus into simpler inorganic substances by extracellular enzymatic breakdown.
+
+4. HUMIFICATION: leads to the accumulation of a dark-coloured, amorphous substance called HUMUS, which is highly resistant to microbial action and undergoes decomposition at an extremely slow rate. Being colloidal, humus serves as a reservoir of nutrients.
+
+5. MINERALISATION: some microbes further degrade humus and release inorganic nutrients (such as nitrogen, phosphorus) by the process of mineralisation.
+
+Factors affecting the rate of decomposition: decomposition is largely an OXYGEN-REQUIRING (aerobic) process. Its rate is controlled by the chemical composition of the detritus and by climatic factors — decomposition is faster when the detritus is rich in nitrogen and sugars, and it is slower when the detritus is rich in lignin and chitin. Warm and moist environments favour decomposition, whereas low temperature and anaerobic conditions inhibit it, leading to build-up of detritus.`,
+    keywords: [
+      "decomposers (bacteria, fungi) break down detritus into inorganic substances",
+      "fragmentation by detritivores increases surface area",
+      "leaching — water-soluble nutrients percolate into the soil",
+      "catabolism by microbial enzymes",
+      "humification forms humus (resistant); mineralisation releases inorganic nutrients",
+    ],
+    examinerTip:
+      "The five steps must appear in the correct order (fragmentation → leaching → catabolism → humification → mineralisation) — writing them out of sequence, or omitting humification/mineralisation as distinct steps, is where marks are lost.",
   },
 
   // ---------------------------------- 13 Biodiversity and Conservation
