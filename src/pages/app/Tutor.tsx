@@ -243,6 +243,12 @@ ${GROUNDING_REMINDER}`;
     } catch (err) {
       if ((err as Error)?.name === "AbortError" || controller.signal.aborted) {
         cancelled = true;
+      } else if (/returned 401|returned 403/.test((err as Error)?.message ?? "")) {
+        // An expired or missing session, not a dropped connection — telling
+        // the student "my full brain isn't reachable" here just sends them
+        // chasing a network problem that doesn't exist.
+        full = "I can't reach your account right now — please sign in again.";
+        cancelled = true;
       } else {
         // A dropped connection mid-turn — with or without partial text
         // already streamed — is not the student getting it wrong, and a
