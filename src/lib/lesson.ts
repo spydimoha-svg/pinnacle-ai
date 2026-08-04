@@ -231,7 +231,12 @@ export function resolveVerdict(
   // here for the mechanical grader to mark — marking it would score a
   // clarifying question against the answer key it has nothing to do with.
   if (fromModel.isDoubt) return fromModel;
-  if (DOUBT_RE.test(studentAnswer.trim()) || /\bhint\b/i.test(studentAnswer)) {
+  // A nervous but real attempt ("is it -3?", "would the answer be 5?") still
+  // matches DOUBT_RE's question shape, but it carries a value the grader can
+  // actually check — only a message with no attempted value at all (no digit
+  // to grade) is a pure doubt with nothing to mark.
+  const hasAttemptedValue = /\d/.test(studentAnswer);
+  if ((DOUBT_RE.test(studentAnswer.trim()) && !hasAttemptedValue) || /\bhint\b/i.test(studentAnswer)) {
     return { ...fromModel, isDoubt: true, mastered: undefined };
   }
   if (!concept?.check.q || !concept.check.answer) return fromModel;
