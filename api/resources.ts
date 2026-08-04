@@ -298,14 +298,21 @@ export async function DELETE(req: Request): Promise<Response> {
   if (!id) return new Response("Missing id", { status: 400 });
 
   const admin = createClient(url, serviceKey);
-  const { error } = await admin
+  // .select() on the delete makes it return the rows it actually matched —
+  // without it a delete scoped to the wrong school silently matches zero
+  // rows and still reports 204, hiding that the id belongs to someone else.
+  const { data, error } = await admin
     .from("school_resources")
     .delete()
     .eq("id", id)
-    .eq("school_id", adminAuth.schoolId);
+    .eq("school_id", adminAuth.schoolId)
+    .select("id");
   if (error) {
     console.error("resources DELETE failed:", error.message);
     return new Response("Sync failed", { status: 500 });
+  }
+  if (!data || data.length === 0) {
+    return new Response("Not found", { status: 404 });
   }
   return new Response(null, { status: 204 });
 }
