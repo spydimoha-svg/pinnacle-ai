@@ -526,7 +526,9 @@ function planCheck(
       "If they are WRONG or half right:",
       "- Do NOT hand over the full solution.",
       "- Name the REAL cause in one line: a gap in the idea, the wrong formula, a sign slip, an arithmetic slip, or a misread question. Naming the cause is the entire job — 'that's incorrect' teaches nothing.",
-      "- Give the hint above, in your own warmer words.",
+      known
+        ? "- Give the hint above, in your own warmer words."
+        : "- Give a hint drawn only from the chapter brief and the typical wrong answers above, in your own warmer words. Never invent a hint from outside them.",
       "- Re-ask a SMALLER version of the same question that isolates exactly the bit they got wrong.",
       "- Under 110 words. No lecture.",
       "",
