@@ -205,6 +205,24 @@ export async function POST(req: Request): Promise<Response> {
   ) {
     return new Response("Invalid resources shape", { status: 400 });
   }
+  const admin = createClient(url, serviceKey);
+
+  // upsert() alone would let an admin take over another school's row by
+  // reusing its id — check every id already in the table first, and refuse
+  // the whole batch if any of them belongs to a different school.
+  const ids = items.map((r) => r.id as string);
+  const { data: existing, error: existingError } = await admin
+    .from("school_resources")
+    .select("id, school_id")
+    .in("id", ids);
+  if (existingError) {
+    console.error("resources POST ownership check failed:", existingError.message);
+    return new Response("Sync failed", { status: 500 });
+  }
+  if ((existing ?? []).some((r) => r.school_id !== adminAuth.schoolId)) {
+    return new Response("Forbidden", { status: 403 });
+  }
+
   // The caller's own school always wins over any schoolId in the body, so an
   // admin can never write into another school's rows by supplying its id.
   const rows = items.map((r) => ({
@@ -213,7 +231,6 @@ export async function POST(req: Request): Promise<Response> {
     data: { ...r, schoolId: adminAuth.schoolId },
   }));
 
-  const admin = createClient(url, serviceKey);
   const { error } = await admin.from("school_resources").upsert(rows);
   if (error) {
     console.error("resources POST failed:", error.message);
