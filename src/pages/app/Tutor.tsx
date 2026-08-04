@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { GraduationCap, SendHorizonal, Square, Trash2 } from "lucide-react";
 import { useStore } from "../../lib/store";
-import { buildSystemPrompt, FORMAT_REMINDER, simplifyReminder } from "../../lib/persona";
+import { buildSystemPrompt, FORMAT_REMINDER, GROUNDING_REMINDER, simplifyReminder } from "../../lib/persona";
 import { factualAnswer, groundingFor, groundingForChapter } from "../../lib/grounding";
 import { generateOnce, offlineTutorReply, streamChat, toWire } from "../../lib/ai";
 import { buildMarkPrompt, gradeAnswer, readMark } from "../../lib/grade";
@@ -208,8 +208,12 @@ export default function Tutor() {
       : needsSimpler
         ? `${simplifyReminder(nextProfile.level >= 3 ? 3 : 2, nextProfile.interests, hardWordsIn(chat.filter((m) => m.role === "assistant").slice(-1)[0]?.content ?? "", [content]))}
 
-${FORMAT_REMINDER}`
-        : FORMAT_REMINDER;
+${FORMAT_REMINDER}
+
+${GROUNDING_REMINDER}`
+        : `${FORMAT_REMINDER}
+
+${GROUNDING_REMINDER}`;
     // Free chat had no ceiling at all, and the local model filled whatever it
     // was given: 424, 446 and 478-word replies to single doubts. A doubt gets
     // an answer, not an essay.

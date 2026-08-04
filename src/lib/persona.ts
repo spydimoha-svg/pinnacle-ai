@@ -68,6 +68,19 @@ export const FORMAT_REMINDER = `Reminder, and this outranks the style of every e
 4. You can draw, so never say you can't and never write "imagine a…". Never make a picture out of slashes, pipes, dashes or plus signs — text art is deleted before the student sees it, so it is wasted effort.`;
 
 /**
+ * Replayed alongside FORMAT_REMINDER after chat history in free chat (there is
+ * no equivalent lesson-phase reminder because a lesson's own plan.reminder
+ * already carries this).
+ *
+ * groundingBlock states the no-invention rule once, near the top of the
+ * system prompt — exactly where FORMAT_CONTRACT used to live before it was
+ * found to stop working once the thread held the model's own reply. Same
+ * fragility, same fix: restate it last.
+ */
+export const GROUNDING_REMINDER =
+  "Teach only from the grounded source above — do not invent a formula, a marking-scheme line or an NCERT exercise number. If nothing was retrieved for this, say plainly you're going from memory, not the loaded chapter text.";
+
+/**
  * What to send when the student has just said they did not understand.
  *
  * The lesson engine has a whole reteach phase for this. Free chat had nothing,
