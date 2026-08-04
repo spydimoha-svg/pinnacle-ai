@@ -341,10 +341,16 @@ ${FORMAT_REMINDER}`
     // remember the topic loosely so the tutor can reference it next session —
     // but any reply inside a lesson (an answer, a quick-reply chip like "Got
     // it, what's next?") is not a topic, and would otherwise pollute this with
-    // UI text or fragments like "x = -3".
-    if (content.length > 12 && memory && !plan) {
-      const topic = content.slice(0, 60);
-      updateMemory({ lastTopics: [...memory.lastTopics.slice(-4), topic] });
+    // UI text or fragments like "x = -3". A lesson session earns one entry —
+    // the chapter title, recorded when it starts — not a fresh one per chip.
+    if (memory) {
+      if (justStarted && active) {
+        const title = lessonMap(active)?.chapterTitle;
+        if (title) updateMemory({ lastTopics: [...memory.lastTopics.slice(-4), title] });
+      } else if (content.length > 12 && !plan) {
+        const topic = content.slice(0, 60);
+        updateMemory({ lastTopics: [...memory.lastTopics.slice(-4), topic] });
+      }
     }
   }
 
