@@ -14,6 +14,7 @@ export type SceneVisual =
   | { type: "3d"; scene: Scene3D }
   | { type: "plot"; source: string }
   | { type: "diagram"; source: string }
+  | { type: "circuit"; source: string }
   | null;
 
 // A lesson the LessonPlayer can actually play: a hook, timed scenes, a recap.
@@ -116,10 +117,16 @@ export function buildVideoJsonPrompt(opts: {
     '  or {"type":"plot","spec":{"shape":"right-triangle","labels":["A","C","B"],"sideLabels":["3","4","5"],"right":1}}',
     'A process or cycle as boxes and arrows (best for reactions, cycles, sequences of events):',
     '  {"type":"diagram","mermaid":"flowchart LR\\n  A[Heat] --> B[Melts] --> C[Boils]"}',
+    'A circuit diagram (best for electricity: cells, resistors, ammeters, voltmeters, switches):',
+    '  {"type":"circuit","spec":{"title":"Series circuit","components":[{"kind":"cell","label":"6V"},{"kind":"switch","label":"K"},{"kind":"ammeter"},{"kind":"resistor","label":"R1 = 5Ω"},{"kind":"resistor","label":"R2 = 10Ω"}]}}',
+    '  component kind is one of: cell, battery, resistor, bulb, switch, ammeter, voltmeter, rheostat. Give every resistor/bulb its own label.',
+    '  To show two resistors in parallel, give them the same "branch" number, e.g. {"kind":"resistor","label":"R1","branch":1}, {"kind":"resistor","label":"R2","branch":1}.',
+    '  A voltmeter is ALWAYS across a component, never in the main loop — the app moves it automatically if you get this wrong, but write it correctly: give it its own branch number.',
     "",
     "Rules for visuals:",
     "- At least THREE of the scenes must have a visual. A talking head with nothing to look at is the thing we are replacing.",
     "- A shape with sides or angles is ALWAYS type plot, never mermaid — mermaid can only draw boxes joined by arrows.",
+    "- An electric circuit is ALWAYS type circuit, never mermaid or plot — only circuit draws real cell/resistor/meter symbols.",
     "- The character should refer to what is on screen: 'look at the base', 'watch the curve cross here'.",
     "",
     "Rules:",
@@ -383,6 +390,16 @@ function coerceVisual(v: unknown): SceneVisual {
   if (type === "diagram" || o.mermaid) {
     const src = asSource(o.mermaid) || asSource(o.source) || asSource(o.spec);
     return src ? { type: "diagram", source: src } : null;
+  }
+
+  if (type === "circuit" || o.components) {
+    const spec = o.spec ?? { title: o.title, components: o.components };
+    if (typeof spec === "string") {
+      const t = asSource(spec);
+      return t.startsWith("{") && /"components"/.test(t) ? { type: "circuit", source: t } : null;
+    }
+    const source = JSON.stringify(spec);
+    return source && source !== "{}" ? { type: "circuit", source } : null;
   }
 
   if (type === "plot" || o.spec || o.fn || o.shape) {

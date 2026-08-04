@@ -42,7 +42,7 @@ type StepKind = "hook" | "scene" | "recap";
 function SceneVisualView({ visual }: { visual: SceneVisual }) {
   if (!visual) return null;
   if (visual.type === "3d") return <Stage3D scene={visual.scene} />;
-  const fence = visual.type === "plot" ? "plot" : "mermaid";
+  const fence = visual.type === "plot" ? "plot" : visual.type === "circuit" ? "circuit" : "mermaid";
   return (
     <div className="pnz-scene-figure">
       <Markdown text={["```" + fence, visual.source, "```"].join("\n")} />

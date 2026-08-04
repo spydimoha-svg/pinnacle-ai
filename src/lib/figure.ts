@@ -43,7 +43,11 @@ export interface FigureIssue {
     | "unlabelled-figure"
     | "unknown-shape"
     | "bad-function"
-    | "empty";
+    | "empty"
+    | "no-source"
+    | "ammeter-in-parallel"
+    | "voltmeter-in-series"
+    | "empty-circuit";
   /** true when the app silently fixed it; false when it is still wrong. */
   repaired: boolean;
   detail: string;
@@ -426,6 +430,145 @@ export function correctGeometry(spec: PlotSpec): Corrected {
 
   const out: PlotSpec = { ...spec, right, points: pts };
   return { spec: out, points: pts, issues };
+}
+
+/* ------------------------------------------------------------------ *
+ * Circuit diagrams (CBSE Class 10 Ch 12 "Electricity", Class 12 Ch 3
+ * "Current Electricity") — a schematic, not a geometry figure, so it gets
+ * its own spec and correction pass rather than being bent to fit PlotSpec.
+ *
+ * Resistors are drawn as the rectangle-box symbol NCERT uses (IS convention),
+ * not the American zigzag — the same "convention beats aesthetics" rule the
+ * geometry engine follows for right-angle markers.
+ * ------------------------------------------------------------------ */
+
+export type CircuitPart =
+  | "cell" | "battery" | "resistor" | "bulb" | "switch" | "ammeter" | "voltmeter" | "rheostat";
+
+const CIRCUIT_PARTS = new Set<CircuitPart>([
+  "cell", "battery", "resistor", "bulb", "switch", "ammeter", "voltmeter", "rheostat",
+]);
+
+export interface CircuitComponent {
+  kind: CircuitPart;
+  label?: string;
+  /** 0/undefined = the main series loop. A shared positive number groups components into one parallel branch. */
+  branch?: number;
+}
+
+export interface CircuitSpec {
+  title?: string;
+  components: CircuitComponent[];
+}
+
+export function normalizeCircuit(j: Record<string, unknown>): CircuitSpec {
+  const spec: CircuitSpec = { components: [] };
+  if (typeof j.title === "string") spec.title = j.title;
+  const arr = Array.isArray(j.components) ? j.components : [];
+  spec.components = arr
+    .map((c): CircuitComponent | null => {
+      if (!c || typeof c !== "object") return null;
+      const o = c as Record<string, unknown>;
+      const kind = String(o.kind || "").toLowerCase() as CircuitPart;
+      if (!CIRCUIT_PARTS.has(kind)) return null;
+      const label = typeof o.label === "string" && o.label.trim() ? o.label.trim() : undefined;
+      const branch = typeof o.branch === "number" && o.branch > 0 ? Math.round(o.branch) : undefined;
+      return { kind, label, branch };
+    })
+    .filter((c): c is CircuitComponent => c !== null);
+  return spec;
+}
+
+/** Parse a ```circuit block leniently, the same tolerance parsePlotSpec gives models. */
+export function parseCircuitSpec(raw: string): CircuitSpec | null {
+  try {
+    const j = JSON.parse(raw);
+    if (j && Array.isArray(j.components)) return normalizeCircuit(j);
+  } catch {
+    /* not clean JSON */
+  }
+  return null;
+}
+
+export interface CorrectedCircuit {
+  spec: CircuitSpec;
+  issues: FigureIssue[];
+}
+
+const isSource = (p: CircuitPart) => p === "cell" || p === "battery";
+
+/**
+ * Repair the two circuit mistakes a board examiner actually marks down:
+ * an ammeter wired into a parallel branch (it must read the main current,
+ * so it belongs in series) and a voltmeter wired into the main loop (it
+ * must read a potential difference across a component, so it belongs in
+ * its own parallel branch). A circuit with no power source at all is given
+ * one rather than drawn as a dead loop.
+ */
+export function correctCircuit(spec: CircuitSpec): CorrectedCircuit {
+  const issues: FigureIssue[] = [];
+  let parts = spec.components;
+
+  if (!parts.some((c) => isSource(c.kind))) {
+    parts = [{ kind: "cell", label: "Cell" }, ...parts];
+    issues.push({
+      code: "no-source",
+      repaired: true,
+      detail: "No cell or battery in the circuit — a closed circuit needs a source; added a default cell.",
+    });
+  }
+
+  // A source reads as the loop's supply, never as a load in a branch.
+  parts = parts.map((c) => (isSource(c.kind) && c.branch ? { ...c, branch: undefined } : c));
+
+  if (parts.some((c) => c.kind === "ammeter" && c.branch)) {
+    parts = parts.map((c) => (c.kind === "ammeter" ? { ...c, branch: undefined } : c));
+    issues.push({
+      code: "ammeter-in-parallel",
+      repaired: true,
+      detail: "An ammeter reads the circuit current and must sit in series in the main loop — moved it off the parallel branch.",
+    });
+  }
+
+  if (parts.some((c) => c.kind === "voltmeter" && !c.branch)) {
+    const maxBranch = Math.max(0, ...parts.map((c) => c.branch ?? 0));
+    parts = parts.map((c) => (c.kind === "voltmeter" && !c.branch ? { ...c, branch: maxBranch + 1 } : c));
+    issues.push({
+      code: "voltmeter-in-series",
+      repaired: true,
+      detail: "A voltmeter reads a potential difference and must be connected in parallel, not wired into the main loop — moved it to its own branch.",
+    });
+  }
+
+  if (!parts.some((c) => !isSource(c.kind))) {
+    issues.push({
+      code: "empty-circuit",
+      repaired: false,
+      detail: "Nothing but a power source — a circuit needs a load to actually do something.",
+    });
+  }
+
+  return { spec: { ...spec, components: parts }, issues };
+}
+
+/** Everything wrong with a circuit, after repairs. */
+export function auditCircuit(spec: CircuitSpec): FigureIssue[] {
+  const { spec: fixed, issues } = correctCircuit(spec);
+  const out = [...issues];
+  if (!fixed.title) out.push({ code: "no-title", repaired: false, detail: "Circuit has no title/caption." });
+  const unlabelled = fixed.components.filter((c) => !c.label && c.kind !== "switch").length;
+  if (unlabelled) {
+    out.push({
+      code: "unlabelled-figure",
+      repaired: false,
+      detail: `${unlabelled} component(s) have no label — a board diagram names every cell, resistor and meter.`,
+    });
+  }
+  return out;
+}
+
+export function isDrawableCircuit(spec: CircuitSpec): boolean {
+  return spec.components.length > 0;
 }
 
 /* ------------------------------------------------------------------ *

@@ -6,15 +6,20 @@ import { Lightbulb } from "lucide-react";
 import {
   angleAt,
   compileFn,
+  correctCircuit,
   correctGeometry,
   figureFitsProse,
   isDrawable,
+  isDrawableCircuit,
   isGeometry,
   isTextArt,
+  parseCircuitSpec,
   parsePlotSpec,
   rootsOf,
   sideLengths,
   valueTable,
+  type CircuitComponent,
+  type CircuitSpec,
   type PlotSpec,
 } from "../lib/figure";
 
@@ -506,6 +511,207 @@ function GeometryFigure({ spec, pts }: { spec: PlotSpec; pts: [number, number][]
   );
 }
 
+// --- Circuit diagrams: cell/resistor/ammeter/voltmeter drawn to the NCERT
+// symbol convention (a rectangle box for a resistor, not an American zigzag).
+// The correction pass lives in lib/figure.ts so the automated audit checks
+// the exact circuit a student would see, same as the geometry engine above.
+
+/** A component's wire footprint, in px either side of its centre. */
+function circuitHalfWidth(kind: CircuitComponent["kind"]): number {
+  switch (kind) {
+    case "battery": return 24;
+    case "cell": return 11;
+    case "rheostat": return 18;
+    case "switch": return 16;
+    default: return 13; // resistor, bulb, ammeter, voltmeter
+  }
+}
+
+/** One cell's plates: a long thin line (+) and a short thick line (–). */
+function CellPlates({ cx, y }: { cx: number; y: number }) {
+  return (
+    <g stroke="var(--color-gold)" strokeLinecap="round">
+      <line x1={cx - 3} y1={y - 11} x2={cx - 3} y2={y + 11} strokeWidth="1.6" />
+      <line x1={cx + 3} y1={y - 6} x2={cx + 3} y2={y + 6} strokeWidth="4" />
+    </g>
+  );
+}
+
+/** The symbol for one component, centred at (cx, y). Wire stubs are drawn by the caller. */
+function CircuitSymbol({ c, cx, y }: { c: CircuitComponent; cx: number; y: number }) {
+  switch (c.kind) {
+    case "cell":
+      return <CellPlates cx={cx} y={y} />;
+    case "battery":
+      return (
+        <g>
+          <CellPlates cx={cx - 8} y={y} />
+          <CellPlates cx={cx + 8} y={y} />
+        </g>
+      );
+    case "resistor":
+      return (
+        <rect
+          x={cx - 13} y={y - 8} width="26" height="16" rx="2"
+          fill="rgba(232,200,137,0.10)" stroke="var(--color-gold)" strokeWidth="1.8"
+        />
+      );
+    case "rheostat":
+      return (
+        <g>
+          <rect
+            x={cx - 15} y={y - 7} width="30" height="14" rx="2"
+            fill="rgba(232,200,137,0.10)" stroke="var(--color-gold)" strokeWidth="1.8"
+          />
+          <line x1={cx - 17} y1={y + 12} x2={cx + 17} y2={y - 12} stroke="var(--color-gold)" strokeWidth="1.8" markerEnd="url(#pnz-circuit-arrow)" />
+        </g>
+      );
+    case "bulb":
+      return (
+        <g fill="none" stroke="var(--color-gold)" strokeWidth="1.8">
+          <circle cx={cx} cy={y} r="11" fill="rgba(232,200,137,0.10)" />
+          <line x1={cx - 7.5} y1={y - 7.5} x2={cx + 7.5} y2={y + 7.5} />
+          <line x1={cx - 7.5} y1={y + 7.5} x2={cx + 7.5} y2={y - 7.5} />
+        </g>
+      );
+    case "switch":
+      return (
+        <g stroke="var(--color-gold)" strokeWidth="1.8" strokeLinecap="round">
+          <circle cx={cx - 16} cy={y} r="2.4" fill="var(--color-gold)" />
+          <circle cx={cx + 16} cy={y} r="2.4" fill="var(--color-gold)" />
+          <line x1={cx - 14} y1={y} x2={cx + 12} y2={y - 12} />
+        </g>
+      );
+    case "ammeter":
+    case "voltmeter":
+      return (
+        <g>
+          <circle cx={cx} cy={y} r="13" fill="rgba(232,200,137,0.10)" stroke="var(--color-gold)" strokeWidth="1.8" />
+          <text x={cx} y={y} textAnchor="middle" dominantBaseline="central" className="geom-vertex" fontSize="12">
+            {c.kind === "ammeter" ? "A" : "V"}
+          </text>
+        </g>
+      );
+    default:
+      return null;
+  }
+}
+
+/** Group components in their original order: a run sharing one branch number becomes one parallel slot. */
+type CircuitSlot = { kind: "single"; c: CircuitComponent } | { kind: "parallel"; items: CircuitComponent[] };
+
+function circuitSlots(parts: CircuitComponent[]): { slots: CircuitSlot[]; meters: { anchor: number; c: CircuitComponent }[] } {
+  const slots: CircuitSlot[] = [];
+  const meters: { anchor: number; c: CircuitComponent }[] = [];
+  let pending: CircuitComponent[] = [];
+  let pendingBranch: number | undefined;
+  const flush = () => {
+    if (pending.length) slots.push({ kind: "parallel", items: pending });
+    pending = [];
+    pendingBranch = undefined;
+  };
+  for (const c of parts) {
+    if (c.kind === "voltmeter") {
+      meters.push({ anchor: slots.length - 1, c });
+      continue;
+    }
+    if (c.branch) {
+      if (c.branch === pendingBranch) pending.push(c);
+      else { flush(); pending = [c]; pendingBranch = c.branch; }
+    } else {
+      flush();
+      slots.push({ kind: "single", c });
+    }
+  }
+  flush();
+  return { slots, meters };
+}
+
+function CircuitFigure({ spec }: { spec: CircuitSpec }) {
+  const { spec: fixed } = correctCircuit(spec);
+  const { slots, meters } = circuitSlots(fixed.components);
+  if (!slots.length) return null;
+
+  const W = 420, topY = 58, bottomY = 210, leftX = 44, rightX = W - 44;
+  const seg = (rightX - leftX) / slots.length;
+  const nodeX = (i: number) => leftX + seg * i;
+  const H = meters.length ? 270 : bottomY + 28;
+
+  return (
+    <figure className="tutor-plot tutor-circuit">
+      <svg viewBox={`0 0 ${W} ${H}`} role="img" aria-label={`${fixed.title ?? "Circuit diagram"}. ${fixed.components.map((c) => c.label || c.kind).join(", ")}.`}>
+        <defs>
+          <marker id="pnz-circuit-arrow" markerWidth="6" markerHeight="6" refX="4.5" refY="2.5" orient="auto">
+            <path d="M0,0 L5,2.5 L0,5 Z" fill="var(--color-gold)" />
+          </marker>
+        </defs>
+        <g fill="none" stroke="var(--color-gold)" strokeWidth="1.8">
+          <line x1={rightX} y1={topY} x2={rightX} y2={bottomY} />
+          <line x1={rightX} y1={bottomY} x2={leftX} y2={bottomY} />
+          <line x1={leftX} y1={bottomY} x2={leftX} y2={topY} />
+        </g>
+        {slots.map((slot, i) => {
+          const x0 = nodeX(i), x1 = nodeX(i + 1), cx = (x0 + x1) / 2;
+          if (slot.kind === "single") {
+            const hw = circuitHalfWidth(slot.c.kind);
+            return (
+              <g key={i}>
+                <line x1={x0} y1={topY} x2={cx - hw} y2={topY} stroke="var(--color-gold)" strokeWidth="1.8" />
+                <line x1={cx + hw} y1={topY} x2={x1} y2={topY} stroke="var(--color-gold)" strokeWidth="1.8" />
+                <CircuitSymbol c={slot.c} cx={cx} y={topY} />
+                {slot.c.label && (
+                  <text x={cx} y={topY - 20} textAnchor="middle" className="geom-side">{slot.c.label}</text>
+                )}
+              </g>
+            );
+          }
+          // Parallel slot: the wire splits into one row per branch item and rejoins.
+          const n = slot.items.length;
+          const rowGap = 22;
+          const rowY = (k: number) => topY - ((n - 1) * rowGap) / 2 + k * rowGap;
+          return (
+            <g key={i}>
+              <line x1={x0} y1={topY} x2={x0 + 10} y2={topY} stroke="var(--color-gold)" strokeWidth="1.8" />
+              <line x1={x1 - 10} y1={topY} x2={x1} y2={topY} stroke="var(--color-gold)" strokeWidth="1.8" />
+              {slot.items.map((c, k) => {
+                const hw = circuitHalfWidth(c.kind);
+                const y = rowY(k);
+                return (
+                  <g key={k}>
+                    <line x1={x0 + 10} y1={topY} x2={x0 + 10} y2={y} stroke="var(--color-gold)" strokeWidth="1.8" />
+                    <line x1={x1 - 10} y1={topY} x2={x1 - 10} y2={y} stroke="var(--color-gold)" strokeWidth="1.8" />
+                    <line x1={x0 + 10} y1={y} x2={cx - hw} y2={y} stroke="var(--color-gold)" strokeWidth="1.8" />
+                    <line x1={cx + hw} y1={y} x2={x1 - 10} y2={y} stroke="var(--color-gold)" strokeWidth="1.8" />
+                    <CircuitSymbol c={c} cx={cx} y={y} />
+                    {c.label && <text x={cx} y={y - 15} textAnchor="middle" className="geom-side">{c.label}</text>}
+                  </g>
+                );
+              })}
+            </g>
+          );
+        })}
+        {/* Voltmeters: measuring branches, dropped below the component they read across. */}
+        {meters.map(({ anchor, c }, mi) => {
+          const idx = Math.max(0, anchor);
+          const x0 = nodeX(idx), x1 = nodeX(idx + 1);
+          const dropY = bottomY + 44;
+          return (
+            <g key={`m${mi}`}>
+              <line x1={x0} y1={topY} x2={x0} y2={dropY} stroke="var(--color-gold)" strokeWidth="1.4" strokeDasharray="4 3" />
+              <line x1={x1} y1={topY} x2={x1} y2={dropY} stroke="var(--color-gold)" strokeWidth="1.4" strokeDasharray="4 3" />
+              <line x1={x0} y1={dropY} x2={(x0 + x1) / 2 - 13} y2={dropY} stroke="var(--color-gold)" strokeWidth="1.4" strokeDasharray="4 3" />
+              <line x1={(x0 + x1) / 2 + 13} y1={dropY} x2={x1} y2={dropY} stroke="var(--color-gold)" strokeWidth="1.4" strokeDasharray="4 3" />
+              <CircuitSymbol c={c} cx={(x0 + x1) / 2} y={dropY} />
+              {c.label && <text x={(x0 + x1) / 2} y={dropY + 26} textAnchor="middle" className="geom-side">{c.label}</text>}
+            </g>
+          );
+        })}
+      </svg>
+      {fixed.title && <Caption text={fixed.title} />}
+    </figure>
+  );
+}
+
 /**
  * A figure's caption, rendered through the same markdown+KaTeX pipeline as the
  * prose. A graph captioned "y = x^2 - 2x - 8" in plain text under an answer
@@ -731,15 +937,15 @@ function FunctionPlot({ spec }: { spec: PlotSpec }) {
   );
 }
 
-type Seg = { type: "prose" | "mermaid" | "plot"; content: string };
+type Seg = { type: "prose" | "mermaid" | "plot" | "circuit"; content: string };
 function segmentContent(text: string): Seg[] {
-  const re = /```(mermaid|plot)\s*\n([\s\S]*?)```/g;
+  const re = /```(mermaid|plot|circuit)\s*\n([\s\S]*?)```/g;
   const segs: Seg[] = [];
   let last = 0;
   let m: RegExpExecArray | null;
   while ((m = re.exec(text)) !== null) {
     if (m.index > last) segs.push({ type: "prose", content: text.slice(last, m.index) });
-    segs.push({ type: m[1] as "mermaid" | "plot", content: m[2].trim() });
+    segs.push({ type: m[1] as "mermaid" | "plot" | "circuit", content: m[2].trim() });
     last = re.lastIndex;
   }
   if (last < text.length) segs.push({ type: "prose", content: text.slice(last) });
@@ -767,7 +973,7 @@ function stripTextArt(text: string): string {
     /```([a-zA-Z]*)[ \t]*\n([\s\S]*?)```/g,
     (whole, lang: string, body: string) => {
       const tag = (lang || "").toLowerCase();
-      if (tag === "mermaid" || tag === "plot") return whole;
+      if (tag === "mermaid" || tag === "plot" || tag === "circuit") return whole;
       return isTextArt(body) ? ART_NOTE : whole;
     }
   );
@@ -777,7 +983,7 @@ function stripTextArt(text: string): string {
   const open = /```([a-zA-Z]*)[ \t]*\n([\s\S]*)$/.exec(out);
   if (open && open.index !== undefined) {
     const tag = (open[1] || "").toLowerCase();
-    if (tag !== "mermaid" && tag !== "plot" && isTextArt(open[2])) {
+    if (tag !== "mermaid" && tag !== "plot" && tag !== "circuit" && isTextArt(open[2])) {
       return out.slice(0, open.index) + ART_NOTE;
     }
   }
@@ -803,6 +1009,11 @@ export function Markdown({ text, streaming }: { text: string; streaming?: boolea
           return <pre key={i}><code>{s.content}</code></pre>;
         }
         if (s.type === "mermaid") return <Mermaid key={i} source={s.content} />;
+        if (s.type === "circuit") {
+          const circuit = parseCircuitSpec(s.content);
+          if (!circuit || !isDrawableCircuit(circuit)) return null;
+          return <CircuitFigure key={i} spec={circuit} />;
+        }
         const spec = parsePlotSpec(s.content);
         // Three ways a figure gets dropped instead of drawn, all of them
         // better than what they replace:
