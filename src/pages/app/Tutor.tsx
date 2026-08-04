@@ -79,6 +79,12 @@ export default function Tutor() {
   // longer matches discards its result instead of writing into a cleared chat.
   const genRef = useRef(0);
   const bottomRef = useRef<HTMLDivElement>(null);
+  // The phase whose reply is actually on screen — set from plan.phase, which
+  // is the OLD phase a reply was generated for, never the new one advance()
+  // just moved the lesson into. lesson.phase can already say "teach" for a
+  // turn that hasn't taught anything yet (grade -> teach, mastered -> next
+  // concept's teach), and the quick replies must not get ahead of that.
+  const lastPhaseShownRef = useRef<string | null>(lesson?.phase ?? null);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
@@ -312,6 +318,7 @@ ${GROUNDING_REMINDER}`;
       let shown = verdict.clean;
       if (plan?.appendAfter) shown += `\n${plan.appendAfter}`;
       pushChat({ role: "assistant", content: shown, ts: Date.now() });
+      if (plan) lastPhaseShownRef.current = plan.phase;
 
       if (active && plan && !cancelled) {
         const moved = advance(active, verdict, {
@@ -387,9 +394,20 @@ ${GROUNDING_REMINDER}`;
     setDraft("");
     clearChat();
     setLesson(null);
+    lastPhaseShownRef.current = null;
   }
 
-  const quickReplies = lesson && !busy ? (LESSON_REPLIES[lesson.phase] ?? []) : [];
+  // "teach" can be the phase the ENGINE is about to run, not one it already
+  // has — right after a placement grade, or right after a mastered/maxed-out
+  // concept advances into the next one. Until a teach reply is actually on
+  // screen, offer only a neutral way forward, never chips that presuppose
+  // something was just taught.
+  const teachPending = lesson?.phase === "teach" && lastPhaseShownRef.current !== "teach";
+  const quickReplies = lesson && !busy
+    ? teachPending
+      ? ["Got it, what's next?"]
+      : (LESSON_REPLIES[lesson.phase] ?? [])
+    : [];
   const lessonTitle = lesson ? lessonMap(lesson)?.chapterTitle : null;
 
   return (
