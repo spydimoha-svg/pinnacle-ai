@@ -11,15 +11,17 @@ const CLASS_LEVELS: ClassLevel[] = [9, 10, 11, 12];
     admin routes against — see the comment in submit() below. */
 const ADMIN_TOKEN_KEY = "pinnacle-admin-token";
 
-/** Mirrors a trial signup onto Supabase the same way store.ts's
- *  linkCloudProfile does, but — unlike that best-effort fire-and-forget
- *  version — reports back whether the email came back confirmed. Supabase
- *  queues a freshly linked email as unconfirmed until the inbox owner clicks
- *  the link, so returning false here is what stops submitTrial() from
- *  treating a typed-but-unproven email as a working cloud account: without
- *  this check, anyone could squat a real student's email and permanently
- *  block their real signup from ever linking to it. Fails open (true) on any
- *  cloud error so a flaky connection never blocks the local trial account. */
+/** Mirrors a trial signup onto Supabase via api/signup.ts, which performs the
+ *  anonymous-link server-side with the service-role key (rate-limited by IP)
+ *  instead of the browser calling supabase.auth.signInAnonymously() straight
+ *  off the public anon key. Reports back whether the email came back
+ *  confirmed. Supabase queues a freshly linked email as unconfirmed until the
+ *  inbox owner clicks the link, so returning false here is what stops
+ *  submitTrial() from treating a typed-but-unproven email as a working cloud
+ *  account: without this check, anyone could squat a real student's email and
+ *  permanently block their real signup from ever linking to it. Fails open
+ *  (true) on any cloud error so a flaky connection never blocks the local
+ *  trial account. */
 async function linkTrialCloudProfile(u: {
   name: string;
   email: string;
@@ -27,21 +29,16 @@ async function linkTrialCloudProfile(u: {
   classLevel?: ClassLevel;
   schoolId?: string;
 }): Promise<boolean> {
-  if (!cloudEnabled() || !supabase) return true;
+  if (!cloudEnabled()) return true;
   try {
-    const { data: anon } = await supabase.auth.signInAnonymously();
-    if (!anon.session) return true;
-    const { data: updated, error } = await supabase.auth.updateUser({
-      email: u.email,
-      password: u.password,
-      data: {
-        name: u.name,
-        classLevel: u.classLevel ?? null,
-        schoolId: u.schoolId ?? null,
-      },
+    const res = await fetch("/api/signup", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(u),
     });
-    if (error) return true;
-    return Boolean(updated.user?.email_confirmed_at);
+    if (!res.ok) return true;
+    const { confirmed } = await res.json();
+    return Boolean(confirmed);
   } catch {
     return true;
   }
