@@ -124,7 +124,7 @@ export async function POST(req: Request): Promise<Response> {
   const name = typeof body.name === "string" ? body.name.trim() : "";
   const email = typeof body.email === "string" ? body.email.trim().toLowerCase() : "";
   const password = typeof body.password === "string" ? body.password : "";
-  if (!name || !email || password.length < 6) {
+  if (!name || !email || password.length < 10) {
     return new Response("Invalid request", { status: 400 });
   }
 
