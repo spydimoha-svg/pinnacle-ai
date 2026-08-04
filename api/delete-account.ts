@@ -63,6 +63,12 @@ async function verifiedUserId(req: Request): Promise<string | null> {
 const RATE_LIMIT_WINDOW_MS = 60_000;
 const RATE_LIMIT_MAX = 5;
 
+// Per-user throttling alone can't stop many compromised tokens or a
+// client-side retry bug from together hammering deleteUser() at once. This
+// caps total deletes across all users/IPs in the same window, same
+// global-cap pattern as GLOBAL_RATE_LIMIT_MAX in api/state.ts.
+const GLOBAL_RATE_LIMIT_MAX = 20;
+
 const fallbackTimestamps = new Map<string, number[]>();
 
 function isRateLimitedInMemory(key: string, max: number): boolean {
@@ -104,6 +110,9 @@ export async function POST(req: Request): Promise<Response> {
   }
   const userId = await verifiedUserId(req);
   if (!userId) return new Response("Unauthorized", { status: 401 });
+  if (await isRateLimited("global", GLOBAL_RATE_LIMIT_MAX)) {
+    return new Response("Too many requests", { status: 429 });
+  }
 
   const admin = createClient(url, serviceKey);
   const { error } = await admin.auth.admin.deleteUser(userId);
