@@ -42,6 +42,12 @@ function isSameOrigin(req: Request): boolean {
 const RATE_LIMIT_WINDOW_MS = 60_000;
 const RATE_LIMIT_MAX = 10;
 
+// Per-IP alone lets a botnet spread across many IPs keep minting anonymous
+// Auth users. This caps total signups across all IPs in the same window,
+// regardless of source, guarding the shared Supabase Auth free-tier quota —
+// same global-cap pattern as GLOBAL_RATE_LIMIT_MAX in api/chat.ts.
+const GLOBAL_RATE_LIMIT_MAX = 100;
+
 // In-memory fallback only: used when Supabase isn't configured at all, so
 // there's no shared store to throttle against. Same caveat as api/chat.ts —
 // this Map doesn't survive a cold start or span concurrent instances, but the
@@ -120,6 +126,10 @@ export async function POST(req: Request): Promise<Response> {
   const password = typeof body.password === "string" ? body.password : "";
   if (!name || !email || password.length < 6) {
     return new Response("Invalid request", { status: 400 });
+  }
+
+  if (await isRateLimited("global", GLOBAL_RATE_LIMIT_MAX)) {
+    return new Response("Too many requests", { status: 429 });
   }
 
   const admin = createClient(supabaseUrl, supabaseServiceKey, {
