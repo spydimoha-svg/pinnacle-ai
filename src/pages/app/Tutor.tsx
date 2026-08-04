@@ -96,7 +96,12 @@ export default function Tutor() {
     if (!autoPrompt || autoSentRef.current) return;
     autoSentRef.current = true;
     navigate(location.pathname, { replace: true, state: null });
-    send(autoPrompt, navState?.chapterId);
+    // A lesson already mid-check on this exact chapter must not have the
+    // canned autoPrompt run through it as the student's graded answer — the
+    // chat already shows the current turn, so there is nothing to do here.
+    const resuming =
+      lesson && lesson.chapterId === navState?.chapterId && lesson.phase !== "placement";
+    if (!resuming) send(autoPrompt, navState?.chapterId);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.state]);
 
