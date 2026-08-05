@@ -447,6 +447,29 @@ Despite this ache, all the poet says aloud is "See you soon, Amma," and all she 
     examinerTip:
       "Quote the image first, then explain it — bare explanation of the similes without the actual quoted phrase loses a mark; the ironic repetition in 'smile and smile and smile' must be named as masking fear, not real happiness.",
   },
+  {
+    id: "q-c12-english-09-2",
+    subjectId: "c12-english",
+    chapterId: "c12-english-09",
+    classLevel: 12,
+    text: "How does Kamala Das use the images of young trees and playing children on the drive to the airport, and what purpose do they serve in the poem?",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer: `As the poet drives with her mother to Cochin airport, she turns away from her mother's corpse-like, ashen face and looks instead through the car window at young trees that seem to "sprint" past, and at merry children spilling out of their homes to play. These images are full of speed, growth and unthinking vitality — everything associated with youth and the fullness of life.
+
+The images serve as a deliberate contrast to the mother's dozing, ageing form beside her — the poet is not simply describing the passing scenery but momentarily distracting herself from the painful realisation she has just had, that her mother's death is now something imaginable rather than distant.
+
+By setting the sprinting trees and playing children directly against her mother's ashen face, Kamala Das dramatises the universal contrast between youth and old age, between beginnings and endings, and suggests that the poet's mind instinctively reaches for images of life to avoid confronting the thought of her mother's mortality, even though the ache returns moments later at the airport.`,
+    keywords: [
+      "young trees sprinting",
+      "merry children spilling out of their homes",
+      "contrast between youth and the mother's ageing",
+      "poet's mind deflecting from mortality",
+    ],
+    examinerTip:
+      "Name both images — the sprinting trees and the playing children — and state explicitly that they contrast with, and momentarily distract from, the mother's corpse-like face; do not describe them as mere scenery.",
+  },
 
   // ==========================================================================
   // Ch 10 — Keeping Quiet
@@ -474,6 +497,30 @@ The poem's underlying idea is that this stillness offers a chance for self-intro
     ],
     examinerTip:
       "The marks turn on one distinction: state explicitly that Neruda wants stillness, not death or idleness — an answer that reads the poem as wishing for inactivity or death loses the central point.",
+  },
+  {
+    id: "q-c12-english-10-2",
+    subjectId: "c12-english",
+    chapterId: "c12-english-10",
+    classLevel: 12,
+    text: "How does Neruda connect the proposed moment of stillness to environmental harm, and what final analogy does he use from nature to explain why stillness need not mean the end of life?",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer: `Neruda specifically imagines fishermen in the cold sea pausing and not harming whales during this moment of universal stillness, and men gathering green salt or waging war putting on clean clothes and walking with their brothers in the shade, doing nothing at all — the pause is deliberately extended to activities that damage nature and other human beings, not just to noisy, busy city life.
+
+By naming whale-hunting and war together in the same breath, Neruda suggests that human aggression, whether against nature or against each other, comes from the same restless, unreflecting activity, and that a shared pause could interrupt both kinds of harm at once, giving everyone the chance to feel a sudden strangeness and understand themselves and each other better.
+
+To reassure readers that this stillness does not mean death, Neruda turns to the earth itself as a teacher: he notes that everything on earth can seem "dead" in winter and later comes back to life, so keeping still for one moment is analogous to this natural, temporary quiet before renewal — not an ending, but a pause the whole planet already knows how to take.`,
+    keywords: [
+      "fishermen and whales",
+      "men gathering salt and war",
+      "aggression against nature and against each other",
+      "earth's apparent winter death and renewal",
+      "stillness as temporary, not an ending",
+    ],
+    examinerTip:
+      "Link the whale-hunting and war images together as two forms of the same restless harm, and close with the earth-in-winter analogy — this analogy is the specific value point that answers 'why not death'.",
   },
 
   // ==========================================================================
@@ -503,6 +550,29 @@ The poem's deeper claim is that in spite of all the pain, suffering, and lack of
     examinerTip:
       "The chapter is short and heavily quoted — name it as an excerpt from Endymion and quote at least one image from the catalogue rather than only paraphrasing 'beauty makes us happy'.",
   },
+  {
+    id: "q-c12-english-11-2",
+    subjectId: "c12-english",
+    chapterId: "c12-english-11",
+    classLevel: 12,
+    text: "According to Keats, what role does 'a thing of beauty' play in helping human beings cope with suffering and despondence?",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer: `Keats states that in spite of all the suffering we see and feel around us — the lack of noble qualities in people, the "unhealthy and o'er-darkened ways" of daily life, all despondence and gloom — a thing of beauty is always at work, quietly removing the pall, or dark cloud, from over our spirits.
+
+He describes beautiful, everyday things — the sun, the moon, trees giving shade, daffodils, clear streams, the musk-rose — as a "wreath" that binds us to the earth, keeping us attached to life and hopeful despite hardship, rather than letting us despair completely.
+
+Keats extends this idea even to the memory of the dead who were once great and good: their lives, remembered, are an "endless fountain of immortal drink" that keeps pouring hope and inspiration for those still living, showing that beauty, whether in nature or in the memory of noble lives, is what makes human suffering bearable rather than overwhelming.`,
+    keywords: [
+      "removes the pall from our dark spirits",
+      "wreath binding us to the earth",
+      "despondence, lack of noble natures",
+      "memory of the mighty dead as an endless fountain",
+    ],
+    examinerTip:
+      "State explicitly that beauty is what removes the 'pall' of suffering — the answer must name suffering and despondence directly, not just repeat that beauty is pleasant.",
+  },
 
   // ==========================================================================
   // Ch 12 — A Roadside Stand
@@ -530,6 +600,29 @@ The poem's anger is directed squarely at this economic and social injustice — 
     ],
     examinerTip:
       "Keep the answer on the money the villagers never see and the politicians' hollow promises — writing about the beauty or hardship of the countryside instead of the economic injustice misses Frost's protest entirely.",
+  },
+  {
+    id: "q-c12-english-12-2",
+    subjectId: "c12-english",
+    chapterId: "c12-english-12",
+    classLevel: 12,
+    text: "Why does Frost call the political reformers 'greedy good-doers' and 'beneficent beasts of prey', and what does this phrase reveal about the poem's tone?",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer: `Frost's phrases "greedy good-doers" and "beneficent beasts of prey" are deliberate oxymorons — good-doers who are greedy, and beasts of prey who are supposedly beneficent — used to describe the politicians and city planners who claim to be helping the rural poor by promising to resettle them, entertain them and modernise their lives, but who in reality profit from these poor villagers or simply exploit their hope without ever delivering.
+
+By calling them "beasts of prey," Frost suggests these reformers are, underneath the language of welfare and progress, predators feeding on the very people they claim to be uplifting — their help is self-serving rather than genuine, much like a beast that stalks and consumes its victim.
+
+The phrase reveals the poem's tone as one of bitter irony and controlled anger — Frost is not gently satirising the situation but directly accusing those in power of a kind of exploitation dressed up as charity, which is what turns the poem from a simple description of rural poverty into a sharp piece of social protest.`,
+    keywords: [
+      "greedy good-doers — oxymoron",
+      "beneficent beasts of prey",
+      "reformers as predators, not helpers",
+      "tone of bitter irony and anger",
+    ],
+    examinerTip:
+      "Identify the phrases as oxymorons first, then state plainly that they accuse the reformers of exploiting the poor under the guise of charity — this is the specific irony examiners expect named.",
   },
 
   // ==========================================================================
@@ -559,6 +652,29 @@ In the final stanza, Rich extends this contrast beyond Aunt Jennifer's life: whe
     examinerTip:
       "A feminist reading is expected — the tigers' fearlessness against the weight of Uncle's wedding band IS the answer, and closing on 'the tigers will go on prancing' after Aunt Jennifer's death is the point examiners look for.",
   },
+  {
+    id: "q-c12-english-13-2",
+    subjectId: "c12-english",
+    chapterId: "c12-english-13",
+    classLevel: 12,
+    text: "What does the poem suggest about the relationship between art and the artist's own life, with reference to Aunt Jennifer's embroidery?",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer: `Aunt Jennifer's embroidered tigers are bold, fearless and prancing with "sleek chivalric certainty," a striking contrast to her own trembling, weakened fingers and the burden of her oppressive marriage. Rich suggests that Aunt Jennifer's art becomes an outlet for everything she cannot express or live out in her real life — through her needlework she creates on the screen the fearless freedom she is denied in her marriage.
+
+The poem implies that art can exist independently of, and even outlast, the personal suffering of the artist who creates it: while Aunt Jennifer herself will die "mastered" by the ordeals of her marriage, her tigers will "go on prancing, proud and unafraid" long after she is gone, continuing to embody the courage she herself never possessed in life.
+
+In this way Rich comments on how creative expression can become a woman's only means of imagining freedom under patriarchal control, and how such art can carry meaning and power that transcend the very oppression that produced it, giving Aunt Jennifer's inner life a permanence her physical life is denied.`,
+    keywords: [
+      "art as an outlet for what life denies",
+      "tigers embody the freedom Aunt Jennifer lacks",
+      "art outlives the artist's suffering",
+      "creative expression under patriarchal control",
+    ],
+    examinerTip:
+      "Frame the answer around art outliving and compensating for the artist's own oppression, not simply as a description of a hobby — the tigers surviving Aunt Jennifer's death is the specific proof point to cite.",
+  },
 
   // ==========================================================================
   // Ch 14 — The Third Level
@@ -586,6 +702,29 @@ The final twist, however, is Sam's letter: Sam, a friend of Charley's who vanish
     ],
     examinerTip:
       "Read the third level as a psychological escape from the insecurity of modern life, not literal time travel — Sam's letter is the proof that the escape was shared and real within the story, not unique to Charley alone.",
+  },
+  {
+    id: "q-c12-english-14-2",
+    subjectId: "c12-english",
+    chapterId: "c12-english-14",
+    classLevel: 12,
+    text: "How does Charley's hobby of stamp collecting connect to the story's theme of escape, and what role does it play in the ending?",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer: `Charley mentions early on that he collects stamps, a hobby he took up seriously after the death of his father, who had left behind his own stamp collection. Charley himself calls this hobby a form of escape too, a "temporary refuge from reality," which links it directly to the story's larger theme — the third level being another, more extreme form of the same wish to escape the tension and insecurity of modern life.
+
+The stamp collection becomes central to the story's resolution: while going through his father's old stamp collection one evening, Charley discovers a first-day-cover envelope addressed to him that should not exist in the collection at all, since it is postmarked from Galesburg, Illinois, in July 1894.
+
+Inside is a letter from Sam, written after he settled in 1894, describing his happiness in the past. This discovery, found through the ordinary hobby of stamp collecting, is the story's proof that Sam really found the third level and reached 1894, turning Charley's own "escapist" hobby into the very evidence that confirms his experience was real.`,
+    keywords: [
+      "stamp collecting as a hobby, inherited from his father",
+      "called a 'temporary refuge from reality'",
+      "first-day-cover envelope found among the stamps",
+      "proof of Sam's escape to 1894",
+    ],
+    examinerTip:
+      "Name stamp collecting explicitly as Charley's own smaller 'escape' before explaining how it becomes the source of Sam's letter — the connection between the hobby and the proof is the value point, not just narrating the discovery.",
   },
 
   // ==========================================================================
@@ -615,6 +754,29 @@ The irony sharpens when, after killing ninety-nine tigers, the Maharaja's hundre
     examinerTip:
       "'How is the title ironic?' is asked repeatedly — the answer's spine is that a wooden toy tiger kills the man who slaughtered ninety-nine real ones; frame this explicitly as satire of autocratic power and vanity, not just a plot summary.",
   },
+  {
+    id: "q-c12-english-15-2",
+    subjectId: "c12-english",
+    chapterId: "c12-english-15",
+    classLevel: 12,
+    text: "How does Kalki satirise British colonial authority through the episode of the Maharaja and the visiting British officer?",
+    marks: 4,
+    type: "sa",
+    source: "important",
+    answer: `When a high-ranking British officer visits Pratibandapuram and expresses a wish to hunt a tiger, the Maharaja is thrown into panic — not out of concern for the officer's safety or sport, but because he fears the officer might kill one of "his" tigers before he himself reaches his private target of a hundred, which would ruin his chance of defying the astrologers' prophecy.
+
+To avoid this, the Maharaja secretly ensures no tigers are available for the officer to hunt, and then, to placate the powerful colonial official whose displeasure could harm his political standing, he presents the officer's wife with an extremely expensive diamond ring worth thousands of rupees, cynically buying goodwill rather than risking the officer's anger.
+
+Kalki uses this episode to satirise both the Maharaja's vanity and, sharply, the corrupt, transactional relationship between India's princely rulers and British colonial officers — real authority in the state depended not on justice or the welfare of subjects but on how well a native ruler could flatter and bribe his colonial superiors, exposing the empty, self-serving nature of power on both sides.`,
+    keywords: [
+      "British officer wants to hunt a tiger",
+      "Maharaja hides the tigers to protect his own count",
+      "diamond ring bribe to the officer's wife",
+      "satire of the ruler-coloniser relationship",
+    ],
+    examinerTip:
+      "Name the diamond-ring bribe specifically and frame it as satire of the corrupt, flattering relationship between princely rulers and British officers, not simply as the Maharaja being generous.",
+  },
 
   // ==========================================================================
   // Ch 16 — Journey to the end of the Earth
@@ -642,6 +804,30 @@ Doshi presents Antarctica as a giant "heat sink" that reflects sunlight and help
     ],
     examinerTip:
       "This is the most fact-heavy chapter in Vistas — precise names and figures (Gondwana, 650 million years, phytoplankton, Students on Ice) are exactly what earns the marks, not general description of the scenery.",
+  },
+  {
+    id: "q-c12-english-16-2",
+    subjectId: "c12-english",
+    chapterId: "c12-english-16",
+    classLevel: 12,
+    text: "What warning about human survival does Tishani Doshi draw from her visit to Antarctica, and why does she call the continent a reminder that humans are 'undoubtedly transient'?",
+    marks: 4,
+    type: "sa",
+    source: "important",
+    answer: `Doshi reflects that Antarctica is the one continent that has never had a permanent human population and has no indigenous people, making it a place where humanity's presence is entirely recent and fragile compared to the deep geological time — hundreds of millions of years — the land itself represents. Standing amid this vast, ancient landscape makes her acutely aware of how brief and "undoubtedly transient" the human species is on the planet's own timescale.
+
+She connects this directly to a warning about climate change: the continent's ice holds a delicate balance that helps regulate the earth's temperature, and human activity — carbon emissions in particular — is already visibly disturbing this balance, threatening not just Antarctica's ice but the ecosystems, like the carbon-dioxide-sensitive phytoplankton, that depend on it and that, in turn, much of ocean life depends on.
+
+Doshi's larger point, and the reason the "Students on Ice" programme takes teenagers there specifically, is that seeing this fragility firsthand should turn young people into "ambassadors for the planet," carrying home the urgency of protecting an environment whose disturbance would affect not just Antarctica but the survival of humanity itself, precisely because human presence on earth is so much shorter-lived than the planet's own history.`,
+    keywords: [
+      "Antarctica — no indigenous human population",
+      "human species undoubtedly transient",
+      "climate change threatens the ice balance",
+      "phytoplankton and ocean ecosystems at risk",
+      "ambassadors for the planet",
+    ],
+    examinerTip:
+      "The phrase 'undoubtedly transient' must be tied explicitly to the contrast between Antarctica's geological age and how briefly humans have existed — this contrast, not just a general climate warning, is what the question is testing.",
   },
 
   // ==========================================================================
@@ -673,6 +859,29 @@ In the end, Sadao helps the recovering soldier escape by boat to a nearby uninha
     examinerTip:
       "The guaranteed long answer is Sadao's conflict between patriotism and the doctor's oath — frame it as duty versus prejudice, credit Hana's part in overcoming her own revulsion, and conclude that humanity transcends war.",
   },
+  {
+    id: "q-c12-english-17-2",
+    subjectId: "c12-english",
+    chapterId: "c12-english-17",
+    classLevel: 12,
+    text: "Why does General Takima ultimately fail to send assassins to kill the American prisoner, and what does this detail contribute to the story's message?",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer: `After Sadao reports that he has been sheltering the wounded American soldier, an old general — himself awaiting a delicate operation that only Sadao can perform — privately promises to send his own men to assassinate the prisoner quietly at night, so that Sadao will not be blamed for treason but the "enemy" problem will still be removed without official trial or scandal.
+
+However, the general is old, unwell and absorbed in his own physical suffering and his dependence on Sadao's surgical skill; in the following days he becomes so preoccupied with his illness and his own self-interest that he simply forgets his promise to send the assassins, and no one ever comes for the escaped soldier.
+
+Pearl S. Buck uses this detail to reinforce the story's larger message: institutional cruelty and wartime hatred often survive only through deliberate human action, and when that action is left to ordinary human forgetfulness, self-interest or neglect, it can quietly fail to happen — suggesting that individual humanity, and even simple human failing, can undercut the machinery of hatred that war depends on.`,
+    keywords: [
+      "General Takima's promise to send assassins",
+      "general's own illness and dependence on Sadao",
+      "forgets the promise amid his own preoccupations",
+      "human neglect undercutting wartime cruelty",
+    ],
+    examinerTip:
+      "Name the general's self-interested forgetfulness specifically, not fate or luck, as the reason the assassins never come — the story credits ordinary human failing, not chance, with undoing the machinery of hatred.",
+  },
 
   // ==========================================================================
   // Ch 18 — On the Face of It
@@ -700,6 +909,29 @@ The story's theme, made explicit through Mr Lamb's words and example, is that th
     ],
     examinerTip:
       "State the theme examiners want: the actual pain of a physical impairment is far less than the sense of alienation it causes — the answer is about being an outsider and Mr Lamb's healing acceptance, not a description of the burnt face.",
+  },
+  {
+    id: "q-c12-english-18-2",
+    subjectId: "c12-english",
+    chapterId: "c12-english-18",
+    classLevel: 12,
+    text: "What does Mr Lamb's open orchard, with its gate that is never shut, symbolise in the play, and how does it contrast with Derry's instinct to hide?",
+    marks: 3,
+    type: "sa",
+    source: "important",
+    answer: `Mr Lamb keeps the gate to his orchard permanently open, unlike every other house in the village, and welcomes in whoever wishes to enter — children who come to steal his apples, bees that make honey from his flowers, even strangers passing by — treating this openness as something to be proud of rather than a vulnerability. He tells Derry that he refuses to shut people out just because a few of them might mock or take advantage of him.
+
+This open gate symbolises Mr Lamb's philosophy of acceptance and engagement with the world, in direct contrast to Derry's instinct, born of his disfigurement, to withdraw and hide from people altogether — Derry retreats into his mother's dark garden shed specifically to avoid being seen or stared at, treating isolation as his only protection.
+
+Through this contrast, Susan Hill dramatises the play's central choice between the two responses possible to being different or vulnerable: Mr Lamb's chosen openness, which invites both kindness and occasional cruelty but keeps him engaged with life, against Derry's self-protective isolation, which keeps him safe from mockery but also cuts him off from any chance of connection or joy.`,
+    keywords: [
+      "orchard gate always open, to all — children, bees, strangers",
+      "Mr Lamb's philosophy of acceptance",
+      "Derry hides in the garden shed",
+      "openness versus self-protective isolation",
+    ],
+    examinerTip:
+      "Frame the open gate as a symbol of Mr Lamb's deliberate philosophy, not just a physical detail, and set it directly against Derry's shed-hiding — the contrast between the two responses is the value point.",
   },
 
   // ==========================================================================
@@ -730,5 +962,29 @@ Both accounts show a child's growing awareness of institutionalised prejudice �
     ],
     examinerTip:
       "Two separate autobiographical accounts in one chapter — questions ask you to compare racial oppression (Zitkala-Sa) with caste oppression (Bama), so answering from only one half is the most common way marks are lost here.",
+  },
+  {
+    id: "q-c12-english-19-2",
+    subjectId: "c12-english",
+    chapterId: "c12-english-19",
+    classLevel: 12,
+    text: "In 'The Cutting of My Long Hair', how does Zitkala-Sa's resistance to having her hair cut reflect a larger clash between Native American culture and the boarding school's attempt to assimilate her?",
+    marks: 4,
+    type: "sa",
+    source: "important",
+    answer: `Zitkala-Sa explains that among her people, short, "shingled" hair was worn only by cowards or by those in mourning, while unshingled, long hair was a mark of a brave, dignified person — so when she overhears that the school authorities intend to cut her hair, she experiences it not as a simple grooming rule but as a direct assault on her identity and her people's values.
+
+Her resistance is physical and determined: she hides under a bed in a room, and when found, she struggles, resists and even bites at the hands that try to hold her still, before she is finally overpowered, tied to a chair, and has her hair shingled against her will. This is one of the few moments in the narrative where Zitkala-Sa fights back openly rather than simply enduring.
+
+The episode reflects the larger pattern of the boarding school's mission — to strip Native American children of their language, customs and appearance and remake them according to white American norms, all under the guise of "civilising" them. Zitkala-Sa's forced haircut becomes a symbol of this violent cultural erasure, and her fierce, if ultimately unsuccessful, resistance shows a child's instinctive understanding that what is being taken from her is not just hair, but her sense of who she is.`,
+    keywords: [
+      "shingled hair worn by cowards or mourners among her people",
+      "hides under the bed, struggles and resists",
+      "tied to a chair, hair cut by force",
+      "boarding school's mission of forced assimilation",
+      "haircut as cultural erasure",
+    ],
+    examinerTip:
+      "Explain the cultural meaning of shingled hair among her people before describing the struggle — without that context the resistance reads as a child's tantrum rather than the identity-defence the marking scheme expects.",
   },
 ];
