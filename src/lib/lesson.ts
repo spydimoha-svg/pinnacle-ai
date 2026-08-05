@@ -552,6 +552,7 @@ function planCheck(
     reminder: [
       "First check: is this an attempt at the answer, or a genuine doubt? A doubt gets answered directly, not graded — end that reply with @@VERDICT: question and put the check question back to them. Otherwise mark it: if wrong, name the cause, hint, re-ask smaller — do not give the answer away. Finish with the @@VERDICT line.",
       FORMAT_REMINDER,
+      GROUNDING_REMINDER,
     ].join("\n\n"),
     maxTokens: 260,
   };
@@ -619,6 +620,7 @@ function planReteach(
     reminder: [
       "Different words, different example, different angle from your last explanation. Simpler and shorter. End on one very easy question.",
       FORMAT_REMINDER,
+      GROUNDING_REMINDER,
     ].join("\n\n"),
     // Deliberately tighter than the teach budget: a re-explanation that runs
     // longer than the explanation that already failed is not a simplification.
@@ -657,6 +659,7 @@ function planRecap(
     reminder: [
       "Revision card, the trap, two questions with no answers. Under 220 words.",
       FORMAT_REMINDER,
+      GROUNDING_REMINDER,
     ].join("\n\n"),
     maxTokens: 520,
   };
