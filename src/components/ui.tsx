@@ -3,6 +3,7 @@ import { marked } from "marked";
 import DOMPurify from "dompurify";
 import markedKatex from "marked-katex-extension";
 import { Lightbulb } from "lucide-react";
+import { Ridgeline } from "./Logo";
 import {
   angleAt,
   compileFn,
@@ -27,6 +28,37 @@ import {
 // synchronously, so it also works on the live streaming draft. output:"html"
 // keeps math as styled spans that survive DOMPurify's default profile.
 marked.use(markedKatex({ throwOnError: false, output: "html", nonStandard: true }));
+
+/** Premium page hero: eyebrow, display heading, lede and actions over a soft
+ *  gold glow and the signature ridgeline — the same anatomy as the landing
+ *  page's hero, so every page that opens with one reads as the same product.
+ *  Shared here so that bar is one component to raise, not one per page. */
+export function Hero({
+  eyebrow,
+  title,
+  lede,
+  actions,
+  className = "",
+}: {
+  eyebrow: string;
+  title: ReactNode;
+  lede?: ReactNode;
+  actions?: ReactNode;
+  className?: string;
+}) {
+  return (
+    <div className={`relative overflow-hidden ${className}`}>
+      <div className="pnz-hero-glow" aria-hidden="true" />
+      <div className="eyebrow mb-4 relative">{eyebrow}</div>
+      <h1 className="relative font-display font-bold text-cream leading-[1.08] text-4xl sm:text-5xl max-w-2xl">
+        {title}
+      </h1>
+      {lede && <p className="relative text-muted max-w-xl mt-5 text-lg">{lede}</p>}
+      {actions && <div className="relative flex flex-wrap gap-3 mt-8">{actions}</div>}
+      <Ridgeline className="absolute bottom-0 left-0 w-full h-20 opacity-70 pointer-events-none" />
+    </div>
+  );
+}
 
 /** Board-paper style section header: gold mono eyebrow + display title. */
 export function SectionHead({

@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { ArrowRight, Check, Mail } from "lucide-react";
-import { Logo, Ridgeline } from "../components/Logo";
+import { Logo } from "../components/Logo";
+import { Hero } from "../components/ui";
 import { useSmoothScroll } from "../lib/smoothScroll";
 import { useReveals } from "../lib/reveal";
 
@@ -106,24 +107,33 @@ export default function Pricing() {
       </header>
 
       {/* Hero */}
-      <section className="relative max-w-6xl mx-auto px-5 pt-14 pb-16 overflow-hidden">
-        <div className="eyebrow mb-4">Plans · Per school, per student</div>
-        <h1 className="font-display font-bold text-cream leading-[1.08] text-4xl sm:text-5xl max-w-2xl">
-          Pricing that respects a{" "}
-          <span className="text-gold">student's pocket</span>.
-        </h1>
-        <p className="text-muted max-w-xl mt-5 text-lg">
-          One tuition class costs more per month than a whole year of Pinnacle.
-          Schools pay per student, students pay nothing extra — and every plan
-          includes the tutor, the library and Learn Better mode.
-        </p>
-        <Ridgeline className="absolute bottom-0 left-0 w-full h-20 opacity-70 pointer-events-none" />
+      <section className="max-w-6xl mx-auto px-5 pt-14 pb-16">
+        <Hero
+          eyebrow="Plans · Per school, per student"
+          title={
+            <>
+              Pricing that respects a{" "}
+              <span className="pnz-shimmer">student's pocket</span>.
+            </>
+          }
+          lede="One tuition class costs more per month than a whole year of Pinnacle. Schools pay per student, students pay nothing extra — and every plan includes the tutor, the library and Learn Better mode."
+          actions={
+            <>
+              <Link to="/login" className="btn-gold pnz-glow">
+                Start free trial <ArrowRight size={16} />
+              </Link>
+              <a href="#plans" className="btn-ghost">
+                See plans
+              </a>
+            </>
+          }
+        />
       </section>
 
       <div className="ridge-rule" />
 
       {/* Plans */}
-      <section className="max-w-6xl mx-auto px-5 py-16">
+      <section id="plans" className="max-w-6xl mx-auto px-5 py-16">
         <div className="grid md:grid-cols-3 gap-4 items-stretch">
           {PLANS.map((plan) => (
             <div
