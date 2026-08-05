@@ -490,6 +490,7 @@ function planTeach(
       `You are teaching ONE step: "${concept.title}". Not the chapter. Under 170 words.`,
       concept.check.q ? `End with exactly this question and nothing after it: "${concept.check.q}"` : "End with one short check question and nothing after it.",
       FORMAT_REMINDER,
+      GROUNDING_REMINDER,
     ].join("\n\n"),
     // 170 words of prose plus room for a worked example and a figure block.
     maxTokens: 340,
