@@ -146,8 +146,8 @@ export async function POST(req: Request): Promise<Response> {
     return new Response("Too many attempts", { status: 429 });
   }
 
-  const given = typeof body.passcode === "string" ? Buffer.from(body.passcode.trim().toUpperCase()) : Buffer.alloc(0);
-  const expected = Buffer.from(secret.trim().toUpperCase());
+  const given = typeof body.passcode === "string" ? Buffer.from(body.passcode.trim()) : Buffer.alloc(0);
+  const expected = Buffer.from(secret.trim());
   if (given.length !== expected.length || !timingSafeEqual(given, expected)) {
     return new Response("Invalid passcode", { status: 401 });
   }
