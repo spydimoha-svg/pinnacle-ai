@@ -217,6 +217,8 @@ export function readMark(reply: string): boolean {
   if (/^\W*wrong\b/.test(t)) return false;
   // Some models answer "correct"/"incorrect" however firmly you ask.
   if (/\bincorrect\b|\bwrong\b/.test(t)) return false;
+  // "Not correct" / "that's not right": a leading negation beats the bare word.
+  if (/\b(not|no|never)\b|n't/.test(t)) return false;
   return /\bcorrect\b|\bright\b/.test(t);
 }
 
