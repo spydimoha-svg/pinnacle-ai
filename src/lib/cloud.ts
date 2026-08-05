@@ -77,18 +77,27 @@ async function authToken(
     }
     // No usable local session — a new device, or this one had storage cleared.
     // Sign in with the student's own credentials first, so this lands back on
-    // the SAME Supabase identity (and student_state row) as before.
-    const signedIn = await supabase.auth.signInWithPassword({ email, password });
-    let session = signedIn.data.session;
+    // the SAME Supabase identity (and student_state row) as before. Proxied
+    // through /api/login (rate-limited server-side) rather than calling the
+    // Supabase Auth password sign-in directly, which would hit Supabase's
+    // raw auth endpoint unthrottled by anything this app controls.
+    const loginRes = await fetch("/api/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
+    });
+    let session: { access_token: string; refresh_token: string } | null = loginRes.ok
+      ? (await loginRes.json()).session
+      : null;
     if (!session) {
       // First time this student's data has ever synced anywhere: create the
       // identity and link these credentials to it, so the next device can
-      // find it via signInWithPassword instead of getting a fresh empty one.
+      // find it via /api/login instead of getting a fresh empty one.
       const cdKey = linkCooldownKey(userId);
       if (Date.now() < Number(localStorage.getItem(cdKey) || 0)) return null;
       if (hadStoredSession) {
         console.warn(
-          `cloud authToken: stored session for user ${userId} failed to restore and signInWithPassword did not recover it — minting a new anonymous identity, previous student_state row may be orphaned`
+          `cloud authToken: stored session for user ${userId} failed to restore and /api/login did not recover it — minting a new anonymous identity, previous student_state row may be orphaned`
         );
       }
       const anon = await supabase.auth.signInAnonymously();

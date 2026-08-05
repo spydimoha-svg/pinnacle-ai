@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Logo } from "../components/Logo";
 import { useStore } from "../lib/store";
-import { supabase, cloudEnabled } from "../lib/supabase";
+import { cloudEnabled } from "../lib/supabase";
 import type { ClassLevel } from "../lib/types";
 
 const CLASS_LEVELS: ClassLevel[] = [9, 10, 11, 12];
@@ -104,42 +104,55 @@ export default function Login() {
     e.preventDefault();
     setError("");
 
-    // Supabase configured: the password is verified server-side by Supabase
-    // Auth. A matching local profile supplies the name/id/school to display,
-    // but never the role — that field is just localStorage JSON and
-    // trivially editable in devtools. Admin access is only granted from
-    // Supabase's own app_metadata.role, which only a service-role key can
-    // set, never the signed-in user. Protected.tsx re-checks this same
-    // token against Supabase on every /admin visit, the same way it already
-    // re-checks the master token on every /master visit.
-    if (cloudEnabled() && supabase) {
+    // Supabase configured: the password is verified server-side, proxied
+    // through /api/login (rate-limited, same pattern as api/signup.ts)
+    // rather than calling the Supabase Auth password sign-in directly from
+    // the browser, which would hit Supabase's raw auth endpoint unthrottled
+    // by anything this app controls. A matching local profile supplies the
+    // name/id/school to display, but never the role — that field is just
+    // localStorage JSON and trivially editable in devtools. Admin access is
+    // only granted from Supabase's own app_metadata.role, which only a
+    // service-role key can set, never the signed-in user. Protected.tsx
+    // re-checks this same token against Supabase on every /admin visit, the
+    // same way it already re-checks the master token on every /master visit.
+    if (cloudEnabled()) {
       setBusy(true);
-      const { data, error: authError } = await supabase.auth.signInWithPassword({
-        email: email.trim(),
-        password,
+      const res = await fetch("/api/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: email.trim(), password }),
       });
+      const result = res.ok
+        ? (await res.json()) as {
+            session: { access_token: string; refresh_token: string };
+            user: {
+              id: string;
+              email: string;
+              app_metadata?: { role?: string };
+              user_metadata?: { name?: string; classLevel?: ClassLevel | null; schoolId?: string | null };
+            };
+          }
+        : null;
       setBusy(false);
       const cleanEmail = email.trim().toLowerCase();
-      const localProfile = authError
-        ? undefined
-        : useStore
+      const localProfile = result
+        ? useStore
             .getState()
             .allUsers()
-            .find((u) => u.email.toLowerCase() === cleanEmail);
+            .find((u) => u.email.toLowerCase() === cleanEmail)
+        : undefined;
       // A trial/admin-enrolled student's profile can live only in the
       // browser that created it (store.ts's extraUsers). linkCloudProfile
       // mirrors it onto the Supabase user as metadata for exactly this
       // case: Supabase Auth just confirmed the password server-side, so
       // that metadata is enough to rebuild the same profile on a device
       // that never saw the original signup.
-      const meta = data.user?.user_metadata as
-        | { name?: string; classLevel?: ClassLevel | null; schoolId?: string | null }
-        | undefined;
+      const meta = result?.user.user_metadata;
       const profile =
         localProfile ??
-        (data.user && meta?.name
+        (result && meta?.name
           ? {
-              id: data.user.id,
+              id: result.user.id,
               name: meta.name,
               email: cleanEmail,
               password,
@@ -148,13 +161,13 @@ export default function Login() {
               schoolId: meta.schoolId ?? undefined,
             }
           : undefined);
-      if (!profile || !data.user) {
+      if (!profile || !result) {
         setError("That email and password don't match any account.");
         return;
       }
-      const isAdmin = data.user.app_metadata?.role === "admin";
-      if (isAdmin && data.session) {
-        localStorage.setItem(ADMIN_TOKEN_KEY, data.session.access_token);
+      const isAdmin = result.user.app_metadata?.role === "admin";
+      if (isAdmin) {
+        localStorage.setItem(ADMIN_TOKEN_KEY, result.session.access_token);
       } else {
         localStorage.removeItem(ADMIN_TOKEN_KEY);
       }
