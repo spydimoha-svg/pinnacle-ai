@@ -12,6 +12,7 @@ import { C10_MATHS_REAL_NUMBERS } from "./c10-maths-01-real-numbers";
 import { C10_MATHS_POLYNOMIALS } from "./c10-maths-polynomials";
 import { C10_MATHS_PAIR_OF_LINEAR_EQUATIONS } from "./c10-maths-03-pair-of-linear-equations";
 import { C10_MATHS_QUADRATIC_EQUATIONS } from "./c10-maths-04-quadratic-equations";
+import { C10_MATHS_ARITHMETIC_PROGRESSIONS } from "./c10-maths-05-arithmetic-progressions";
 import { C10_MATHS_TRIGONOMETRY } from "./c10-maths-trigonometry";
 import { C10_SCIENCE_CHEMICAL_REACTIONS } from "./c10-science-01-chemical-reactions";
 import { C10_SCIENCE_ACIDS_BASES_SALTS } from "./c10-science-02-acids-bases-salts";
@@ -25,6 +26,7 @@ export const NCERT: NcertChapter[] = [
   C10_MATHS_POLYNOMIALS,
   C10_MATHS_PAIR_OF_LINEAR_EQUATIONS,
   C10_MATHS_QUADRATIC_EQUATIONS,
+  C10_MATHS_ARITHMETIC_PROGRESSIONS,
   C10_MATHS_TRIGONOMETRY,
   C10_SCIENCE_CHEMICAL_REACTIONS,
   C10_SCIENCE_ACIDS_BASES_SALTS,
