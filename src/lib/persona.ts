@@ -148,7 +148,7 @@ export function simplifyReminder(
   ].join("\n");
 }
 
-const MODE_LABEL: Record<Mode, string> = {
+export const MODE_LABEL: Record<Mode, string> = {
   board: "CBSE Board preparation",
   jee: "JEE (Main + Advanced) preparation",
   neet: "NEET-UG preparation",

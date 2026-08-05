@@ -24,7 +24,7 @@ import { conceptMapFor, roadmapDiagram, type Concept, type ConceptMap } from "..
 import { groundingForChapter, hasWord } from "./grounding";
 import { describeLearner, type LearnerProfile } from "./learner";
 import { gradeAnswer, stripScaffolding } from "./grade";
-import { FORMAT_CONTRACT, FORMAT_REMINDER, GROUNDING_REMINDER } from "./persona";
+import { FORMAT_CONTRACT, FORMAT_REMINDER, GROUNDING_REMINDER, MODE_LABEL } from "./persona";
 
 export type LessonPhase =
   | "placement"
@@ -292,6 +292,22 @@ function syllabusGuard(map: ConceptMap, memory: StudentMemory | null): string {
   return `- Never invent an NCERT exercise number, formula or marking scheme: if it was not given to you above, say plainly you don't have that exact one instead of making it up. Silently confirm this concept genuinely belongs to the Class ${map.classLevel} CBSE syllabus before teaching it; if it does not, say which class it actually belongs to and redirect instead of teaching it.${mismatch}`;
 }
 
+/**
+ * persona.ts's free-chat prompt teaches an entrance-track student differently
+ * from a board student — depth over recall, elimination and negative-marking
+ * awareness, PYQ weightage — but every phase below builds its own prompt from
+ * scratch and never sees that trackBlock. Without this, a student running a
+ * structured lesson through JEE/NEET/CUET/SAT gets pure CBSE step-marking
+ * framing regardless of which exam they are actually preparing for.
+ */
+function trackDiscipline(memory: StudentMemory | null, phase: "teach" | "check"): string {
+  const mode = memory?.mode ?? "board";
+  if (mode === "board") return "";
+  return phase === "teach"
+    ? `## Entrance-exam discipline (${MODE_LABEL[mode]})\n- Go one level deeper than NCERT here: give the concept behind the fast method, not just the fast method.\n- In one line, tie this idea to its weightage in ${MODE_LABEL[mode]} and how it tends to show up in a PYQ.`
+    : `## Entrance-exam discipline (${MODE_LABEL[mode]})\n- If the question is MCQ-style, note the elimination move that rules out the wrong options, not only the working for the right one.\n- If they got it wrong, remind them in one line what a wrong guess costs under ${MODE_LABEL[mode]}'s negative marking.`;
+}
+
 export interface TurnPlan {
   system: string;
   reminder: string;
@@ -467,6 +483,7 @@ function planTeach(
         ? `**Draw this figure, exactly as given, in its own block:**\n${concept.figure}`
         : "If a figure genuinely helps this idea, draw one with the plot/mermaid rules above. If it does not, skip it.",
       gapNote,
+      trackDiscipline(memory, "teach"),
       "",
       "Shape of this reply, in this order:",
       "1. The worked example, every step shown, no step skipped.",
@@ -541,6 +558,8 @@ function planCheck(
       "- Under 110 words. No lecture.",
       "",
       "Either way, never say 'good question' or 'great job' unless they earned it.",
+      "",
+      trackDiscipline(memory, "check"),
       "",
       syllabusGuard(map, memory),
       "",
