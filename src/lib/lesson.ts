@@ -24,7 +24,7 @@ import { conceptMapFor, roadmapDiagram, type Concept, type ConceptMap } from "..
 import { groundingForChapter, hasWord } from "./grounding";
 import { describeLearner, type LearnerProfile } from "./learner";
 import { gradeAnswer, stripScaffolding } from "./grade";
-import { FORMAT_CONTRACT, FORMAT_REMINDER } from "./persona";
+import { FORMAT_CONTRACT, FORMAT_REMINDER, GROUNDING_REMINDER } from "./persona";
 
 export type LessonPhase =
   | "placement"
