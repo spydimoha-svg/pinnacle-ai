@@ -18,6 +18,7 @@ import {
   VolumeX,
   X,
   Sparkles,
+  BookMarked,
 } from "lucide-react";
 import type { LessonVideo } from "../lib/videoScript";
 import type { NarrationLang } from "../lib/speech";
@@ -28,6 +29,16 @@ import {
   primeVoices,
   stopSpeech,
 } from "../lib/speech";
+import {
+  defaultVoiceFor,
+  loadStudio,
+  playClip,
+  releaseNarration,
+  renderNarration,
+  speakable,
+  studioSupported,
+  type PlayHandle,
+} from "../lib/voice";
 
 type StepKind = "hook" | "scene" | "recap";
 
@@ -60,6 +71,8 @@ interface Step {
   accent: string;
   emotion?: Emotion;
   visual?: SceneVisual;
+  /** NCERT chapter/section this scene teaches from, shown on screen. */
+  source?: string;
 }
 
 const ACCENTS = ["#f2dca8", "#6fa8c9", "#a58fd6", "#6fb98c", "#e2564a", "#f2dca8"];
@@ -90,10 +103,26 @@ export function LessonPlayer({
   video,
   language,
   onExit,
+  voiceId,
+  look = "studio",
 }: {
   video: LessonVideo;
   language: NarrationLang;
   onExit?: () => void;
+  /**
+   * A Kokoro voice id. Set it and the lesson is narrated by the studio engine
+   * — the natural, ElevenLabs-grade voice; leave it undefined and narration
+   * falls back to the browser's built-in speechSynthesis, which costs nothing
+   * and needs no download.
+   */
+  voiceId?: string;
+  /**
+   * "studio" puts the character on stage, front and centre.
+   * "notebook" is the clean explainer-deck layout: the figure is the whole
+   * frame, the character narrates from the corner, and the NCERT citation
+   * sits under the title. Same script, same voice — a different room.
+   */
+  look?: "studio" | "notebook";
 }) {
   const steps = useMemo<Step[]>(() => {
     const arr: Step[] = [];
@@ -114,6 +143,7 @@ export function LessonPlayer({
         formula: s.formula,
         emotion: s.emotion,
         visual: s.visual,
+        source: s.source,
         accent: ACCENTS[idx % ACCENTS.length],
       })
     );
@@ -141,10 +171,68 @@ export function LessonPlayer({
   const iRef = useRef(i);
   iRef.current = i;
 
+  // Studio narration, pre-rendered. Synthesis costs a second or two a line on
+  // a WASM device — fine once, before the lesson starts, and unbearable as a
+  // stall between every scene. So the whole script is rendered behind a
+  // progress bar and then played back with no seams.
+  const [clips, setClips] = useState<(string | null)[]>([]);
+  const [prep, setPrep] = useState<{ done: number; total: number; note: string } | null>(
+    null
+  );
+  const clipsRef = useRef<(string | null)[]>([]);
+  clipsRef.current = clips;
+  const playRef = useRef<PlayHandle | null>(null);
+
   useEffect(() => {
     primeVoices();
     return () => stopSpeech();
   }, []);
+
+  // Free the rendered audio when the player goes away, or when the voice
+  // changes and the old clips are the wrong voice.
+  useEffect(
+    () => () => {
+      playRef.current?.cancel();
+      releaseNarration(clipsRef.current);
+    },
+    []
+  );
+
+  /**
+   * Render every line before the first frame plays.
+   *
+   * Returns true if the studio voice is carrying this lesson. False means the
+   * engine could not load or the student never asked for it — either way the
+   * player falls back to the browser voice, which is always available.
+   */
+  async function prepareNarration(): Promise<boolean> {
+    if (!voiceId || !studioSupported()) return false;
+    if (clipsRef.current.length === steps.length) return true;
+
+    try {
+      setPrep({ done: 0, total: steps.length, note: "waking the narrator" });
+      await loadStudio((p) =>
+        setPrep({
+          done: 0,
+          total: steps.length,
+          note: `downloading the voice — ${p.percent}%`,
+        })
+      );
+      const lines = steps.map((st) => speakable(st.narration));
+      const rendered = await renderNarration(lines, voiceId, {
+        onLine: (done, total) =>
+          setPrep({ done, total, note: "recording the narration" }),
+      });
+      setClips(rendered);
+      setPrep(null);
+      // Every single line failing means the engine is not really working;
+      // don't limp through a silent lesson, use the browser voice.
+      return rendered.some(Boolean);
+    } catch {
+      setPrep(null);
+      return false;
+    }
+  }
 
   // The narration + auto-advance engine. Re-runs whenever the step, play state,
   // mute, or language changes; cleans up the current line on the way out.
@@ -161,30 +249,51 @@ export function LessonPlayer({
       }
     };
 
-    if (muted || !speechAvailable()) {
+    if (muted) {
       const t = window.setTimeout(advance, estimateSeconds(step.narration) * 1000);
       return () => window.clearTimeout(t);
     }
-    const handle = speak(step.narration, { lang: language, onEnd: advance });
-    return () => handle.cancel();
-  }, [i, playing, muted, language, started, steps]);
 
-  function begin() {
+    // A studio clip for this line, if one was rendered.
+    const clip = clips[i];
+    if (clip) {
+      const handle = playClip(clip, { onEnd: advance });
+      playRef.current = handle;
+      return () => handle.cancel();
+    }
+
+    if (!speechAvailable()) {
+      const t = window.setTimeout(advance, estimateSeconds(step.narration) * 1000);
+      return () => window.clearTimeout(t);
+    }
+    // speakable() strips the LaTeX and markdown a script can carry: the
+    // browser voice mumbles through "$b^2-4ac$", and a neural one pronounces
+    // "dollar b caret two" with complete conviction.
+    const handle = speak(speakable(step.narration), { lang: language, onEnd: advance });
+    return () => handle.cancel();
+  }, [i, playing, muted, language, started, steps, clips]);
+
+  async function begin() {
+    // Render first, then start. Beginning before the audio exists would play
+    // scene one in silence and scene two in a different voice.
+    await prepareNarration();
     setStarted(true);
     setI(0);
     setPlaying(true);
   }
   function togglePlay() {
-    if (!started) return begin();
+    if (!started) return void begin();
     if (atEnd && !playing) return replay();
     setPlaying((p) => !p);
   }
   function go(delta: number) {
     stopSpeech();
+    playRef.current?.cancel();
     setI((prev) => Math.min(steps.length - 1, Math.max(0, prev + delta)));
   }
   function replay() {
     stopSpeech();
+    playRef.current?.cancel();
     setStarted(true);
     setI(0);
     setPlaying(true);
@@ -202,7 +311,9 @@ export function LessonPlayer({
     <div className="space-y-3">
       {/* Stage */}
       <div
-        className="relative w-full aspect-video rounded-2xl overflow-hidden border border-line select-none"
+        className={`relative w-full aspect-video rounded-2xl overflow-hidden border border-line select-none ${
+          look === "notebook" ? "pnz-look-notebook" : ""
+        }`}
         style={{ background: "#07080b" }}
       >
         {/* animated accent wash */}
@@ -259,13 +370,13 @@ export function LessonPlayer({
         {/* The character. Standing on the stage the whole time, not a portrait
             in a corner: they arrive at the start, react to what they are
             saying, and mouth the words while the voice speaks. */}
-        <div className="pnz-toon-stage z-10">
+        <div className={`pnz-toon-stage z-10 ${look === "notebook" ? "pnz-toon-corner" : ""}`}>
           <Toon
             character={cast}
             emotion={step.emotion ?? (step.kind === "recap" ? "proud" : "explain")}
             talking={started && playing && !muted}
             entering={i === 0}
-            size={190}
+            size={look === "notebook" ? 104 : 190}
           />
           <div className="pnz-toon-name" style={{ color: step.accent }}>
             {cast.name}
@@ -303,6 +414,16 @@ export function LessonPlayer({
               >
                 {step.caption}
               </h3>
+              {/* The citation. A lesson that names its page is one a student
+                  can go and check — and the thing that separates this from a
+                  confident stranger talking. Only drawn when the script
+                  actually supplied one; it is never filled in with a guess. */}
+              {step.source && (
+                <div className="pnz-scene-source">
+                  <BookMarked size={12} />
+                  <span>{step.source}</span>
+                </div>
+              )}
               {step.visual && <SceneVisualView visual={step.visual} />}
               {step.formula && <Formula tex={step.formula} accent={step.accent} />}
               {step.recap && (
@@ -356,6 +477,39 @@ export function LessonPlayer({
           />
         </div>
 
+        {/* Narration being rendered. An 86MB download and a few seconds of
+            synthesis is a long time to stare at a dead button, so it says
+            exactly what it is doing and how far along it is. */}
+        <AnimatePresence>
+          {prep && (
+            <motion.div
+              className="absolute inset-0 z-40 flex flex-col items-center justify-center gap-4 px-8 text-center"
+              style={{ background: "rgba(6,7,11,0.86)", backdropFilter: "blur(4px)" }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+            >
+              <div className="font-mono text-[11px] uppercase tracking-[0.3em] text-gold">
+                {prep.note}
+              </div>
+              <div className="h-1 w-56 rounded-full bg-white/12 overflow-hidden">
+                <motion.div
+                  className="h-full bg-gold"
+                  animate={{
+                    width: `${prep.total ? (prep.done / prep.total) * 100 : 6}%`,
+                  }}
+                  transition={{ duration: 0.3 }}
+                />
+              </div>
+              <div className="text-xs text-muted">
+                {prep.done > 0
+                  ? `line ${prep.done} of ${prep.total}`
+                  : "first time only — the voice is cached after this"}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
         {/* poster / start overlay */}
         <AnimatePresence>
           {!started && (
@@ -378,9 +532,11 @@ export function LessonPlayer({
                 <Play size={26} fill="currentColor" />
               </div>
               <div className="text-xs text-muted">
-                {speechAvailable()
-                  ? "Narrated aloud · plays in your browser"
-                  : "Plays in your browser (no narration voice found)"}
+                {voiceId && studioSupported()
+                  ? "Studio narration · rendered on your device, nothing uploaded"
+                  : speechAvailable()
+                    ? "Narrated aloud · plays in your browser"
+                    : "Plays in your browser (no narration voice found)"}
               </div>
             </motion.button>
           )}

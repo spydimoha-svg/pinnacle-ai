@@ -196,18 +196,88 @@ export function rightAngleIndex(pts: [number, number][], tol = 0.75): number {
  * ------------------------------------------------------------------ */
 
 /**
+ * Doubles every backslash that is not already a valid JSON escape, so LaTeX
+ * inside a string survives JSON.parse. `re` decides which single-letter escapes
+ * count as real, and the two readings genuinely conflict — see PLOT_READINGS.
+ *
+ * Twin of the same helper in videoScript.ts. Kept separate rather than shared
+ * because figure.ts is imported by scripts/qa and stays dependency-free.
+ */
+function escapeFixer(s: string, re: RegExp): string {
+  return s
+    .replace(re, (_m, simple, uni, other) => {
+      if (simple) return "\\" + simple;
+      if (uni) return "\\" + uni;
+      return "\\\\" + other;
+    })
+    .replace(/\\$/, "\\\\");
+}
+
+/**
+ * The readings of a plot block, tried in order until one parses.
+ *
+ * Measured against both Groq models on 2026-08-16: every model tested puts
+ * LaTeX in the title or the labels — `"$\theta$ at A"`, `"90°"` — and a
+ * lone backslash is not a legal JSON escape, so JSON.parse threw and the figure
+ * silently degraded to the regex scrape below. That scrape recovers the shape
+ * but drops the labels with it, which is exactly the "diagram that just says
+ * angle" a student sees: a picture with nothing named on it.
+ *
+ * Reading 2 treats \t as the start of \theta; reading 3 treats it as a tab.
+ * Both are legitimate and no single rule serves both, so try each and keep
+ * whichever parses — the same conflict videoScript.ts documents at length.
+ */
+const PLOT_READINGS: Array<(s: string) => string> = [
+  (s) => s,
+  (s) => escapeFixer(s, /\\(["\\/])|\\(u[0-9a-fA-F]{4})|\\([\s\S])/g),
+  (s) => escapeFixer(s, /\\(["\\/bfnrt])|\\(u[0-9a-fA-F]{4})|\\([\s\S])/g),
+];
+
+/**
+ * Did this reading quietly eat a LaTeX command?
+ *
+ * A reading can parse and still be wrong, which is the trap: `\theta` is a
+ * legal JSON escape for a tab, so the plain reading returns `$<TAB>heta$`
+ * instead of throwing, and `\frac` becomes a form feed. No axis name, title or
+ * vertex label in a real figure contains a tab, form feed, backspace or
+ * carriage return, so finding one is proof the reading was wrong and the next
+ * one should be tried. Same test videoScript.ts applies to lesson scripts.
+ */
+function swallowedLatex(value: unknown): boolean {
+  if (typeof value === "string") return /[\t\b\f\r]/.test(value);
+  if (Array.isArray(value)) return value.some(swallowedLatex);
+  if (value && typeof value === "object") return Object.values(value).some(swallowedLatex);
+  return false;
+}
+
+/**
  * Parse a ```plot block leniently. Models often emit near-JSON with extras (a
  * JavaScript labelFunc, comments, fn as an array). We take a fast JSON path,
  * then fall back to pulling only the fields we actually draw, so a graph never
  * collapses back into a raw code dump.
  */
 export function parsePlotSpec(raw: string): PlotSpec | null {
-  try {
-    const j = JSON.parse(raw);
-    if (j && (j.fn || j.points || j.shape)) return normalizePlot(j);
-  } catch {
-    /* not clean JSON — extract the drawable fields below */
+  // Trailing commas are the other routine near-JSON mistake, and cost nothing
+  // to forgive before any of the readings run.
+  const relaxed = raw.replace(/,\s*([}\]])/g, "$1").trim();
+  let mangled: PlotSpec | null = null;
+  for (const read of PLOT_READINGS) {
+    try {
+      const j = JSON.parse(read(relaxed));
+      if (!j || !(j.fn || j.points || j.shape)) continue;
+      // A reading that parsed but ate a LaTeX command is worse than one that
+      // threw — it draws a figure labelled with control characters. Hold it as
+      // a last resort and let a cleaner reading win outright.
+      if (swallowedLatex(j)) {
+        mangled ??= normalizePlot(j);
+        continue;
+      }
+      return normalizePlot(j);
+    } catch {
+      /* try the next reading, then the field scrape below */
+    }
   }
+  if (mangled) return mangled;
   const spec: PlotSpec = {};
   const fnArr = raw.match(/"fn"\s*:\s*\[([^\]]*)\]/);
   const fnStr = raw.match(/"fn"\s*:\s*"([^"]*)"/);

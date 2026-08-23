@@ -38,10 +38,21 @@ interface Provider {
 
 // Sensible free-tier defaults. All overridable by env so you can swap a model
 // the day a provider retires one, without touching code.
+//
+// Verified against each provider's live /models list on 2026-08-16. Two of
+// these had already been retired underneath us, which is worth knowing about
+// because a retired model does not degrade — it 404s, and the provider drops
+// out of the chain silently while the tutor still appears to work on whatever
+// is left:
+//   - gemini-2.0-flash returned 404 "no longer available". Now gemini-3.6-flash.
+//   - Cerebras dropped Llama entirely (it now lists gemma-4-31b, gpt-oss-120b,
+//     zai-glm-4.7). Now gpt-oss-120b.
+// Groq's llama-3.3-70b-versatile is still live and stays — same family name as
+// the dead Cerebras entry, different provider, genuinely still there.
 const DEFAULT_MODEL: Record<string, string> = {
   groq: "llama-3.3-70b-versatile",
-  gemini: "gemini-2.0-flash",
-  cerebras: "llama-3.3-70b",
+  gemini: "gemini-3.6-flash",
+  cerebras: "gpt-oss-120b",
   openrouter: "meta-llama/llama-3.3-70b-instruct:free",
   github: "openai/gpt-4o-mini",
   ollama: "qwen2.5:3b-instruct",
@@ -116,10 +127,19 @@ export function activeProviders(): Provider[] {
   const factories: Record<string, () => Provider[] | Provider | null> = {
     // Groq contributes SEVERAL entries from one key. Its rate limit is per
     // model, so when the 70B is out of per-minute budget a different model on
-    // the same key still answers instantly. That matters because it is the only
-    // provider here with any quota left — the Gemini key is over its daily
-    // limit (429) and the Cerebras account is out of credit (402), so without
-    // this the very first 429 ends the conversation.
+    // the same key still answers instantly. That matters because it has
+    // historically been the only provider here with quota left, so without this
+    // the very first 429 ends the conversation.
+    //
+    // The reason logged for the others was "Gemini over daily limit (429),
+    // Cerebras out of credit (402)". Rechecked live on 2026-08-16:
+    //   - Gemini: the key is fine. The 429 diagnosis was wrong — the model id
+    //     had been retired (404), which is a permanent failure wearing a
+    //     temporary failure's clothes. Fixed above; gemini-3.6-flash answers.
+    //   - Cerebras: still a real 402, on a current model id. That account
+    //     needs credit before it contributes anything, so treat this provider
+    //     as absent rather than as a fallback that exists.
+    // So the chain that actually carries traffic today is Groq, then Gemini.
     groq: () => {
       const apiKey = env("GROQ_API_KEY");
       if (!apiKey) return null;

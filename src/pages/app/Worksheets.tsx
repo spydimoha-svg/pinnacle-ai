@@ -10,24 +10,24 @@ import {
   Info,
   Mountain,
   Sparkles,
+  BookOpen,
+  Library,
 } from "lucide-react";
 import type { Question, Worksheet, WorksheetItem } from "../../lib/types";
 import { useStore } from "../../lib/store";
 import { getSubject, questionsFor, subjectsForClass } from "../../data";
 import { generateOnce } from "../../lib/ai";
 import { Empty, MarkingSchemeReveal, MarksBadge, SectionHead } from "../../components/ui";
+import {
+  buildGapPrompt,
+  buildWorksheet,
+  provenanceSummary,
+  TIER_CHIP,
+  TIER_LABEL,
+  type SourcedQuestion,
+} from "../../lib/worksheet";
 
-const MARKS_OPTIONS = [1, 2, 3, 5] as const;
 const COUNT_OPTIONS = [5, 10, 15] as const;
-
-function shuffle<T>(arr: T[]): T[] {
-  const a = [...arr];
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]];
-  }
-  return a;
-}
 
 // --- AI worksheet generator: fresh questions, one per topic, weightage-first ---
 function clampMarks(m: unknown): 1 | 2 | 3 | 4 | 5 | 6 {
@@ -130,13 +130,16 @@ export default function Worksheets() {
   // Generator form
   const [subjectId, setSubjectId] = useState("");
   const [chapterIds, setChapterIds] = useState<string[]>([]);
-  const [marksMix, setMarksMix] = useState<number[]>([]);
   const [count, setCount] = useState<number>(10);
   // A generation failure and a benign "we relaxed your filters" notice used to
   // render identically — a student had no way to tell "try again" from "fine,
   // carry on". kind picks the colour and icon.
   const [genNote, setGenNote] = useState<{ text: string; kind: "info" | "error" } | null>(null);
   const [aiBusy, setAiBusy] = useState(false);
+  /** Restrict the paper to problems printed in the NCERT exercises. */
+  const [ncertOnly, setNcertOnly] = useState(false);
+  /** Let the model write the slots no real source could fill. */
+  const [fillGaps, setFillGaps] = useState(true);
 
   // Which worksheet is open for attempting
   const [openId, setOpenId] = useState<string | null>(null);
@@ -157,44 +160,95 @@ export default function Worksheets() {
     );
   }
 
-  function toggleMarks(m: number) {
-    setMarksMix((cur) =>
-      cur.includes(m) ? cur.filter((x) => x !== m) : [...cur, m]
-    );
-  }
-
-  function generate() {
+  /**
+   * Build a worksheet from the real sources, in order of authority.
+   *
+   * Printed NCERT exercises first, then Exemplar, CBSE sample papers, past
+   * papers, and the curated bank — filled against a blueprint that guarantees
+   * a spread of question types rather than whatever the shuffle turned up.
+   * Anything no real source can fill is left as a gap and, if the student asks
+   * for it, written by the model and labelled as such. It is never passed off
+   * as sourced.
+   */
+  async function generate() {
     if (!memory || !subjectId) return;
-    const marks = marksMix.length ? marksMix : undefined;
+    setGenNote(null);
 
-    const byChapters = (qs: Question[]) =>
-      chapterIds.length
-        ? qs.filter((q) => chapterIds.includes(q.chapterId))
-        : qs;
+    const built = buildWorksheet({
+      subjectId,
+      classLevel: memory.classLevel,
+      chapterIds,
+      count,
+      ncertOnly,
+    });
 
-    let pool = byChapters(
-      questionsFor({ subjectId, classLevel: memory.classLevel, marks })
-    );
-    let relaxed = false;
-    if (pool.length < count && marks) {
-      const wide = byChapters(
-        questionsFor({ subjectId, classLevel: memory.classLevel })
-      );
-      if (wide.length > pool.length) {
-        pool = wide;
-        relaxed = true;
+    let questions: SourcedQuestion[] = built.questions;
+    let gapNote = "";
+
+    // Fill the holes with the model — but only when asked, and only into the
+    // exact slots nothing real could fill.
+    if (built.gaps.length > 0 && fillGaps && !ncertOnly) {
+      setAiBusy(true);
+      try {
+        const subj = getSubject(subjectId);
+        const chs = chapterIds.length
+          ? (subj?.chapters.filter((c) => chapterIds.includes(c.id)) ?? [])
+          : (subj?.chapters ?? []);
+        const raw = await generateOnce(
+          buildGapPrompt({
+            subjectName: subj?.name ?? "",
+            classLevel: memory.classLevel,
+            chapterNames: chs.map((c) => `${c.number}. ${c.title}`).join("; "),
+            topics: [...new Set(chs.flatMap((c) => c.keyTopics))],
+            gaps: built.gaps,
+            covered: questions.map((q) => q.text.slice(0, 110)),
+          }),
+          "You are a precise CBSE examiner and question setter. Output only valid JSON, nothing else."
+        );
+        const parsed = parseWorksheetJson(raw);
+        const written: SourcedQuestion[] = parsed
+          .slice(0, built.gaps.length)
+          .map((pq, i) => ({
+            id: `gen-${Date.now()}-${i}`,
+            subjectId,
+            chapterId: chapterIds[0] ?? subjectId,
+            classLevel: memory.classLevel,
+            text: String(pq.text ?? "").trim(),
+            marks: clampMarks(pq.marks ?? built.gaps[i]?.marks),
+            type: validType(pq.type ?? built.gaps[i]?.type),
+            source: "important" as const,
+            answer: String(pq.answer ?? "").trim(),
+            keywords: Array.isArray(pq.keywords) ? pq.keywords.map(String) : [],
+            examinerTip: pq.examinerTip ? String(pq.examinerTip) : undefined,
+            provenance: {
+              tier: "generated" as const,
+              label: "Written by Pinnacle to fill a gap in the paper",
+              verbatim: false,
+            },
+          }))
+          .filter((q) => q.text.length > 8);
+        questions = [...questions, ...written];
+        if (written.length < built.gaps.length) {
+          gapNote = ` ${built.gaps.length - written.length} slot(s) stayed empty.`;
+        }
+      } catch {
+        gapNote = " The model couldn't fill the remaining slots this time.";
+      } finally {
+        setAiBusy(false);
       }
     }
-    if (pool.length === 0) {
+
+    if (questions.length === 0) {
       setGenNote({
-        text: "No questions in the bank match that selection yet. Try different chapters or clear the marks mix.",
+        text: ncertOnly
+          ? "No NCERT exercises are loaded for that selection yet. Turn off NCERT-only, or pick a chapter from the grounded list."
+          : "Nothing in the sources matches that selection yet. Try different chapters.",
         kind: "error",
       });
       return;
     }
 
-    const picked = shuffle(pool).slice(0, count);
-    const totalMarks = picked.reduce((sum, q) => sum + q.marks, 0);
+    const totalMarks = questions.reduce((sum, q) => sum + q.marks, 0);
     const subj = getSubject(subjectId);
     const topic =
       chapterIds.length === 1
@@ -203,7 +257,7 @@ export default function Worksheets() {
           "Practice")
         : (subj?.name ?? "Practice");
 
-    const items: WorksheetItem[] = picked.map((q) => ({
+    const items: WorksheetItem[] = questions.map((q) => ({
       question: q,
       revealed: false,
     }));
@@ -214,18 +268,21 @@ export default function Worksheets() {
       subjectId,
       chapterIds: chapterIds.length
         ? chapterIds
-        : [...new Set(picked.map((q) => q.chapterId))],
+        : [...new Set(questions.map((q) => q.chapterId))],
       totalMarks,
       items,
       completed: false,
     };
     addWorksheet(ws);
-    const note = relaxed
-      ? "The marks mix was too narrow, so we relaxed it to fill the worksheet."
-      : picked.length < count
-        ? `Only ${picked.length} matching questions exist in the bank right now, so the worksheet is shorter than requested.`
-        : null;
-    setGenNote(note ? { text: note, kind: "info" } : null);
+
+    const tally = { ...built.tally };
+    tally.generated = questions.filter(
+      (q) => q.provenance.tier === "generated"
+    ).length;
+    setGenNote({
+      text: `Sourced: ${provenanceSummary(tally)}.${gapNote}`,
+      kind: gapNote ? "info" : "info",
+    });
     setOpenId(ws.id);
   }
 
@@ -366,6 +423,22 @@ export default function Worksheets() {
               </span>
             )}
           </div>
+          {/* The paper's own bill of materials. */}
+          {(() => {
+            const tally = ws.items.reduce<Record<string, number>>((acc, it) => {
+              const tier = it.question.provenance?.tier;
+              if (tier) acc[tier] = (acc[tier] ?? 0) + 1;
+              return acc;
+            }, {});
+            const parts = Object.entries(tally).map(
+              ([tier, n]) => `${n} ${TIER_LABEL[tier as keyof typeof TIER_LABEL].toLowerCase()}`
+            );
+            return parts.length ? (
+              <p className="text-xs text-dim mt-2 font-mono">
+                Sources · {parts.join(" · ")}
+              </p>
+            ) : null;
+          })()}
         </div>
 
         {genNote && (
@@ -426,8 +499,10 @@ export default function Worksheets() {
           Worksheets
         </h1>
         <p className="text-muted text-sm mt-2 max-w-lg">
-          Build a board-style practice set from the question bank, attempt it in
-          your own words, then check yourself against the marking scheme.
+          Build a board-style practice set from the real sources — the printed
+          NCERT exercises first, then Exemplar, CBSE sample papers and past
+          papers — attempt it in your own words, then check yourself against
+          the marking scheme. Every question tells you where it came from.
         </p>
       </div>
 
@@ -478,26 +553,6 @@ export default function Worksheets() {
 
         <div className="grid sm:grid-cols-2 gap-5">
           <div>
-            <span className="label">
-              Marks mix{" "}
-              <span className="normal-case text-dim font-normal">
-                — empty means any
-              </span>
-            </span>
-            <div className="flex flex-wrap gap-2">
-              {MARKS_OPTIONS.map((m) => (
-                <button
-                  key={m}
-                  className={marksMix.includes(m) ? "chip-gold" : "chip"}
-                  onClick={() => toggleMarks(m)}
-                >
-                  <span className="font-mono">[{m}]</span>{" "}
-                  {m === 1 ? "mark" : "marks"}
-                </button>
-              ))}
-            </div>
-          </div>
-          <div>
             <span className="label">Questions</span>
             <div className="flex flex-wrap gap-2">
               {COUNT_OPTIONS.map((c) => (
@@ -513,9 +568,40 @@ export default function Worksheets() {
           </div>
         </div>
 
+        <div>
+          <span className="label">Where the questions come from</span>
+          <div className="flex flex-wrap gap-2">
+            <button
+              className={ncertOnly ? "chip-gold" : "chip"}
+              onClick={() => setNcertOnly((v) => !v)}
+              aria-pressed={ncertOnly}
+            >
+              <BookOpen size={13} /> NCERT exercises only
+            </button>
+            <button
+              className={fillGaps && !ncertOnly ? "chip-sky" : "chip"}
+              onClick={() => setFillGaps((v) => !v)}
+              disabled={ncertOnly}
+              aria-pressed={fillGaps && !ncertOnly}
+            >
+              <Sparkles size={13} /> Let AI fill the gaps
+            </button>
+          </div>
+          <p className="text-xs text-dim mt-2">
+            {ncertOnly
+              ? "Only problems printed in the NCERT exercises, word for word, with a link to the page in the book."
+              : "NCERT exercises first, then NCERT Exemplar, CBSE sample papers and past papers. Every question says where it came from."}
+          </p>
+        </div>
+
         <div className="flex flex-wrap items-center gap-4 pt-1">
-          <button className="btn-gold" disabled={!subjectId} onClick={generate}>
-            <FilePlus2 size={16} /> From question bank
+          <button
+            className="btn-gold"
+            disabled={!subjectId || aiBusy}
+            onClick={() => void generate()}
+          >
+            <FilePlus2 size={16} />{" "}
+            {aiBusy ? "Filling the gaps…" : "Build a sourced worksheet"}
           </button>
           <button
             className="btn-ghost"
@@ -617,6 +703,10 @@ function QuestionAttempt({
 }) {
   const q = item.question;
   const promptId = `ws-q-${q.id}`;
+  // Closed by default: an embedded PDF is a multi-megabyte download, and a
+  // worksheet that opened ten of them at once would be unusable on the mobile
+  // connections most of these students are on.
+  const [showBook, setShowBook] = useState(false);
   return (
     <div className="card">
       <div className="flex items-start justify-between gap-4 mb-3">
@@ -626,6 +716,75 @@ function QuestionAttempt({
         </p>
         <MarksBadge marks={q.marks} />
       </div>
+
+      {/* Where this question came from. A student practising the printed
+          NCERT exercise should know that is what they are doing — and a
+          question the model wrote should say so just as plainly. */}
+      {q.provenance && (
+        <div className="flex flex-wrap items-center gap-2 mb-3">
+          <span className={TIER_CHIP[q.provenance.tier]}>
+            {TIER_LABEL[q.provenance.tier]}
+          </span>
+          <span className="font-mono text-xs text-dim">
+            {q.provenance.label}
+          </span>
+          {q.provenance.verbatim && (
+            <span className="text-xs text-dim">· printed exactly as shown</span>
+          )}
+          {q.provenance.bookUrl && (
+            <button
+              type="button"
+              className="btn-ghost !px-2.5 !py-1 !text-xs"
+              onClick={() => setShowBook((v) => !v)}
+              aria-expanded={showBook}
+            >
+              <Library size={13} />{" "}
+              {showBook ? "Hide the book page" : "See it in the book"}
+            </button>
+          )}
+        </div>
+      )}
+
+      {/* The printed page itself.
+          NCERT publishes each chapter as its own PDF on ncert.nic.in, and the
+          browser's built-in viewer renders it — so the student reads the
+          question in the actual book, typeset and figured exactly as it is
+          printed, rather than taking our transcription on trust. Nothing is
+          copied or rehosted: this is the official file, served by NCERT. */}
+      {showBook && q.provenance?.bookUrl && (
+        <div className="card-inset mb-3 !p-2">
+          <iframe
+            // A URL may already carry "#page=N", and a second "#" would make
+            // the whole fragment unparseable — PDF open-parameters are joined
+            // with "&" inside ONE fragment, never chained with more hashes.
+            src={
+              q.provenance.bookUrl.includes("#")
+                ? `${q.provenance.bookUrl}&view=FitH`
+                : `${q.provenance.bookUrl}#view=FitH`
+            }
+            title={`${q.provenance.book ?? "NCERT"} — ${q.provenance.exercise ? `Exercise ${q.provenance.exercise}` : "chapter"}`}
+            className="w-full h-[26rem] rounded-md border border-line bg-white"
+            loading="lazy"
+          />
+          <div className="flex items-center justify-between gap-3 mt-2">
+            <p className="text-xs text-dim">
+              {q.provenance.bookPage
+                ? `Opens on page ${q.provenance.bookPage} — Exercise ${q.provenance.exercise}, question ${q.provenance.problemNo}.`
+                : q.provenance.exercise
+                  ? `Scroll to Exercise ${q.provenance.exercise}, question ${q.provenance.problemNo}.`
+                  : "The official NCERT chapter."}
+            </p>
+            <a
+              href={q.provenance.bookUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="text-xs text-gold hover:underline shrink-0"
+            >
+              Open on ncert.nic.in
+            </a>
+          </div>
+        </div>
+      )}
 
       <textarea
         className="input min-h-24 resize-y font-body"

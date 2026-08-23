@@ -24,11 +24,16 @@ start            open the office. destructive, it spends usage, so it is always 
 stop             close the office
 mode             value is "apply" or "propose"
 concurrency      value is a number 1 to 6, how many agents are awake at once
+writers          value is a number 1 to 6, how many of those may write code at once. each writer
+                 works in its own copy of the codebase, so they do not tread on each other
 only             value is a department key, sends every other department home
 all              reopen every department
 dept             value is a department key, closes it if open and opens it if closed
 plan             value is a department key, makes that head file a fresh round of tasks now
-order            value is { "dept": "<key>", "title": "<the job in his words>" }, hands a department a job that jumps the queue
+order            value is { "title": "<the job, in his words>" }, hands the floor a job that jumps the queue.
+                 Do NOT put a department in it. You do not have to know who owns the work and neither does he:
+                 the office reads the job and gives it to the right team itself. Only add "dept" if he named a
+                 team out loud himself, and then use exactly the one he said
 brief            Pinnacle writes a fresh briefing
 focus            value is a department key, filters his screen to that department
 none             he asked a question and wants an answer, not an action`;
@@ -69,7 +74,7 @@ WHAT AYAAN JUST SAID
 
 He may be asking you a question, giving you an instruction, or thinking out loud. Work out which. If it is an instruction, pick the one action that carries it out. If he is asking something, answer it from what you know above and take no action.
 
-If he tells you to get a department to do something specific, that is an "order": put his instruction in the title, in his words, not yours.
+If he wants something done, that is an "order": put his instruction in the title, in his words, not yours. Never ask him which team it belongs to and never say you are not sure who owns it. Working that out is the office's job, not his, and it happens the moment you file it.
 
 HOW YOU TALK
 Out loud, to one person, casually. Think podcast, not presentation. Two people
@@ -123,6 +128,7 @@ Reply with one fenced json block and nothing else:
     tools: TOOLS.read,
     maxTurns: 4,
     timeout: 90_000,
+    tokenCap: CONFIG.tokenCap.warden,
   });
 
   if (!res.ok) return { say: "I could not think that through just now. Try again in a moment.", action: "none" };

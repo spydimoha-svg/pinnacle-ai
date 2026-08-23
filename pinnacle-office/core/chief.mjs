@@ -11,13 +11,20 @@ import { state, emit, setOffice, setAgent, addTask, setTask, queued, pickAgent, 
 import { runAgent, TOOLS, isRateLimited } from "./claude.mjs";
 import { headBrief, workerBrief, chiefBrief, DOCTRINE } from "./briefs.mjs";
 import { ensureRepo, verify, commit, revertAll, revertForbidden, changedFiles, diffText } from "./guard.mjs";
+import * as trees from "./trees.mjs";
 import { screen, review } from "./warden.mjs";
 import { catalog, requestTool } from "./supply.mjs";
 import { owner } from "./talk.mjs";
-import { CONFIG } from "../config.mjs";
+import { writeClosing } from "./closing.mjs";
+import { CONFIG, PROJECT_DIR } from "../config.mjs";
 
 let inflight = 0;
-let writerBusy = false;
+// How many agents are writing code right now. Each holds its own working tree,
+// so they do not collide; this only caps how many the machine is asked to run
+// at once. A writer is also an awake agent, so the office concurrency is the
+// real ceiling and the smaller of the two always wins.
+let writers = 0;
+const writerLimit = () => Math.max(1, Math.min(state.office.writers || CONFIG.writerConcurrency, state.office.concurrency));
 let sinceBriefing = 0;
 const lastPlanned = new Map();
 // Skill files that have grown past the point anyone would read them. Rewritten
@@ -77,11 +84,12 @@ async function planDepartment(dept) {
 
   const res = await runAgent({
     prompt: headBrief({ dept, recent: recentTitles(dept.key), mode: state.office.mode }),
-    system: DOCTRINE,
+    system: DOCTRINE(),
     model: CONFIG.models.head,
     tools: TOOLS.read,
     maxTurns: CONFIG.maxTurns.head,
     timeout: CONFIG.timeout.head,
+    tokenCap: CONFIG.tokenCap.head,
     onEvent: (e) => emit("agent.step", { agent: head.id, dept: dept.key, ...e }),
   });
 
@@ -113,11 +121,24 @@ async function planDepartment(dept) {
 // What an agent is allowed to reach for. Everyone can look things up, because
 // an agent guessing at the CBSE syllabus or the DPDP Act is worse than one that
 // checks. Only Supply may inspect what is installed on the machine.
-function toolsFor(dept, isCodeWrite) {
+function toolsFor(dept, isCodeWrite, withBrowser = false) {
   const base = isCodeWrite ? [...TOOLS.write, ...TOOLS.build] : TOOLS.read;
-  const kit = [...base, ...TOOLS.research];
-  return dept.key === "supply" ? [...kit, ...TOOLS.survey] : kit;
+  // Everyone can look things up and everyone can read GitHub. An agent that
+  // cannot check how a problem was solved elsewhere reinvents it badly.
+  const kit = [...base, ...TOOLS.research, ...TOOLS.github, ...TOOLS.docs];
+  const eyes = withBrowser ? [...kit, ...TOOLS.browser] : kit;
+  return dept.key === "supply" ? [...eyes, ...TOOLS.survey] : eyes;
 }
+
+// Who gets a real browser. Only the departments that change what a student
+// actually sees, because a headless Chrome is half a gigabyte and this machine
+// had 1.9 GB free when it was measured. Eight of them at once would take it out.
+const SEES_THE_SITE = new Set(["frontend", "design", "a11y", "qa", "performance", "diagrams", "video"]);
+
+// One browser at a time, whatever the concurrency is set to. This is a memory
+// ceiling, not a preference: three concurrent headless Chromes measured 1.63 GB.
+let browsing = false;
+const browserFor = (dept) => SEES_THE_SITE.has(dept.key) && !browsing;
 
 // An agent that says it needs something does not go without and does not
 // improvise. The request is recorded once however many agents ask for it, and
@@ -145,10 +166,12 @@ function raiseRequests(needs, agent, dept) {
 
 // ----------------------------------------------------------------- execution
 
-// Only one agent may hold the codebase at a time, so if a task ever throws
-// while holding that lock the whole office stops writing code, forever, with
-// no error anywhere. The lock and the agent's desk are released in a finally
-// block precisely because an unexpected throw is the case that matters.
+// A writer holds two things it must give back however it exits: a slot in the
+// writer count, and its own working tree. If a task throws while holding either
+// one, that slot is gone until the office is restarted, and enough of those and
+// the office quietly stops writing code with no error anywhere. Both are
+// released in a finally block precisely because an unexpected throw is the case
+// that matters.
 async function executeTask(task) {
   const dept = deptByKey(task.dept);
   // A task Pinnacle named a seat for goes to that seat. She told him who had it
@@ -156,60 +179,90 @@ async function executeTask(task) {
   const named = task.assignedTo && state.agents.find((a) => a.id === task.assignedTo && a.status === "idle");
   const agent = named || bestFor(task.dept, task.risk) || pickAgent(task.dept, "manager");
   if (!agent) { setTask(task.id, { status: "queued" }); return; }
+
+  const isCodeWrite = dept.kind === "code" && state.office.mode === "apply";
+  // Claimed here, synchronously, before the first await. The loop dispatches
+  // without waiting, so a claim made after an await would let two writers past
+  // a limit of one.
+  if (isCodeWrite) writers++;
+
+  let tree = null;
   try {
-    return await runTask(task, dept, agent);
+    if (isCodeWrite) {
+      tree = await trees.acquire();
+      // Every slot was taken between the check in nextRunnable and here. Not an
+      // error: put the task back and let the next tick place it.
+      if (!tree) { setTask(task.id, { status: "queued" }); return; }
+      if (tree.parked) emit("office.parked", { files: tree.parked, detail: "your own uncommitted edits, committed before an agent started" });
+      emit("tree.open", { taskId: task.id, tree: tree.id, dept: dept.key, agent: agent.id });
+    }
+    return await runTask(task, dept, agent, tree);
   } catch (err) {
+    // A crash used to leave the agent's half finished edits sitting in the
+    // tree. The next writer found it dirty and committed it as "edits made
+    // outside the office, parked before an agent started", which is how 139
+    // commits of ungated agent code reached git wearing Ayaan's name. Now the
+    // wreckage is confined to that agent's own tree and thrown away with it.
+    if (tree) { try { await revertAll(tree.dir); } catch {} }
     setTask(task.id, { status: "failed", reason: `crashed: ${err.message}`, finished: Date.now() });
     state.office.stats.failed++;
     emit("agent.error", { dept: dept.key, agent: agent.id, what: task.title, error: String(err.stack || err).slice(0, 300) });
   } finally {
-    writerBusy = false;
+    if (tree) trees.release(tree);
+    if (isCodeWrite) writers--;
     if (state.agents.find((a) => a.id === agent.id)?.status === "working") setAgent(agent.id, { status: "idle", task: null });
   }
 }
 
 // The best available specialist, not just any free one. High risk work goes
 // to the proven; routine work spreads so the bench keeps improving.
-async function runTask(task, dept, agent) {
+async function runTask(task, dept, agent, tree = null) {
 
   const isCodeWrite = dept.kind === "code" && state.office.mode === "apply";
+  // Where this agent works. A code writer gets its own checkout so its diff is
+  // provably its own even with two other writers going at the same time.
+  // Everyone else reads the project directly, which is safe because they only
+  // read.
+  const root = tree?.dir || PROJECT_DIR;
   const startedAt = Date.now();
-  if (isCodeWrite) writerBusy = true;
 
   setAgent(agent.id, { status: "working", task: task.title });
-  setTask(task.id, { status: "running", agent: agent.id, started: Date.now() });
-  emit("task.start", { taskId: task.id, dept: dept.key, agent: agent.id, title: task.title });
+  setTask(task.id, { status: "running", agent: agent.id, tree: tree?.id || null, started: Date.now() });
+  emit("task.start", { taskId: task.id, dept: dept.key, agent: agent.id, title: task.title, tree: tree?.id || null });
 
-  // The tree must be clean before a writer starts or we cannot attribute the
-  // diff to this agent. Park whatever is already there in a commit. Never
-  // revert it: those are Ayaan's own uncommitted edits, not an agent's.
-  if (isCodeWrite) {
-    const dirty = await changedFiles();
-    if (dirty.length) {
-      const parked = await commit("wip: edits made outside the office, parked before an agent started");
-      emit("office.parked", { files: dirty.length, sha: parked.sha });
-    }
+  // Claimed before the agent starts and released the moment it stops, so only
+  // one headless Chrome is ever alive. Released in a finally because a throw
+  // here would otherwise mean nobody gets a browser again until a restart.
+  const useBrowser = browserFor(dept);
+  if (useBrowser) browsing = true;
+
+  let res;
+  try {
+    res = await runAgent({
+      prompt: workerBrief({
+        dept, agent, task, mode: state.office.mode,
+        learned: skills.read(dept.key, agent.specialty),
+        catalog: catalog(),
+      }),
+      system: DOCTRINE(),
+      model: CONFIG.models.worker,
+      tools: toolsFor(dept, isCodeWrite, useBrowser),
+      canEdit: isCodeWrite,
+      browser: useBrowser,
+      maxTurns: CONFIG.maxTurns.worker,
+      timeout: CONFIG.timeout.worker,
+      tokenCap: CONFIG.tokenCap.worker,
+      cwd: root,
+      onEvent: (e) => emit("agent.step", { agent: agent.id, dept: dept.key, ...e }),
+    });
+  } finally {
+    if (useBrowser) browsing = false;
   }
-
-  const res = await runAgent({
-    prompt: workerBrief({
-      dept, agent, task, mode: state.office.mode,
-      learned: skills.read(dept.key, agent.specialty),
-      catalog: catalog(),
-    }),
-    system: DOCTRINE,
-    model: CONFIG.models.worker,
-    tools: toolsFor(dept, isCodeWrite),
-    canEdit: isCodeWrite,
-    maxTurns: CONFIG.maxTurns.worker,
-    timeout: CONFIG.timeout.worker,
-    onEvent: (e) => emit("agent.step", { agent: agent.id, dept: dept.key, ...e }),
-  });
 
   const report = extractJson(res.result) || {};
 
   if (!res.ok) {
-    if (isCodeWrite) { await revertAll(); writerBusy = false; }
+    if (isCodeWrite) await revertAll(root);
     setAgent(agent.id, { status: "idle", task: null });
     setTask(task.id, { status: "failed", reason: res.error, finished: Date.now() });
     state.office.stats.failed++;
@@ -219,10 +272,14 @@ async function runTask(task, dept, agent) {
 
   // Gate the change.
   if (isCodeWrite) {
-    const smuggled = await revertForbidden();
+    const smuggled = await revertForbidden(root);
     if (smuggled.length) emit("guard.blocked", { agent: agent.id, files: smuggled });
 
-    const touched = await changedFiles();
+    // changedFiles() hands back { code, file } entries, not paths. The scope
+    // check below read a path straight off one of those, threw, and the entire
+    // change was deleted as "crashed: f.startsWith is not a function". That one
+    // line is 133 of this office's 147 failed tasks.
+    const touched = (await changedFiles(root)).map((c) => c.file);
     if (touched.length) {
       // Pinnacle's pattern screen runs first because it costs nothing. What it
       // blocks never reaches a build, a review, or the project.
@@ -239,27 +296,25 @@ async function runTask(task, dept, agent) {
       }
       setTask(task.id, { drift: report.drift || "", outOfScope });
 
-      const patch = await diffText();
+      const patch = await diffText(26_000, root);
       const { blocked, flags } = screen(patch);
       if (blocked.length) {
-        await revertAll();
+        await revertAll(root);
         const reason = "Pinnacle refused on sight: " + blocked.map((b) => b.why).join(", ");
         finishBlocked(task, agent, dept, reason, "high");
-        writerBusy = false;
         return;
       }
 
-      emit("gate.start", { taskId: task.id, files: touched.length });
-      const check = await verify((step) => emit("gate.step", { taskId: task.id, step }));
+      emit("gate.start", { taskId: task.id, files: touched.length, tree: tree?.id || null });
+      const check = await verify((step) => emit("gate.step", { taskId: task.id, step }), root);
       if (!check.ok) {
-        const lost = await revertAll();
+        const lost = await revertAll(root);
         state.office.stats.reverted++;
         state.office.stats.failed++;
         setAgent(agent.id, { status: "idle", task: null });
         setTask(task.id, { status: "reverted", reason: `${check.step} failed`, detail: check.detail, finished: Date.now() });
         record(agent.id, { outcome: "reverted", ms: Date.now() - startedAt, turns: res.turns });
         emit("task.reverted", { taskId: task.id, dept: dept.key, agent: agent.id, title: task.title, step: check.step, detail: check.detail, files: lost.length });
-        writerBusy = false;
         return;
       }
       // It compiles. Now Pinnacle reads it and rules on it.
@@ -268,20 +323,36 @@ async function runTask(task, dept, agent) {
         const ruling = await review({ task: { ...task, summary: report.summary, verified: report.verified, drift: report.drift || "", outOfScope }, agent, dept, patch, flags, onEvent: (e) => emit("agent.step", { agent: "PINNACLE", dept: dept.key, ...e }) });
         setTask(task.id, { ruling });
         if (ruling.verdict === "refuse") {
-          await revertAll();
+          await revertAll(root);
           finishBlocked(task, agent, dept, ruling.reason, ruling.risk);
-          writerBusy = false;
           return;
         }
         emit("warden.pass", { taskId: task.id, dept: dept.key, title: task.title, risk: ruling.risk, reason: ruling.reason, degraded: ruling.degraded });
       }
 
       if (CONFIG.autoCommit) {
-        const c = await commit(`${task.dept}: ${task.title}\n\nBy ${agent.id} (${agent.specialty}). Task ${task.id}.\nCleared by Pinnacle.`);
-        setTask(task.id, { sha: c.sha });
+        const message = `${task.dept}: ${task.title}\n\nBy ${agent.id} (${agent.specialty}). Task ${task.id}.\nCleared by Pinnacle.`;
+        // The one moment a writer touches the shared repo, and the only part of
+        // a code task that is serialised. Milliseconds, against an eight minute
+        // task, which is why several writers really do run in parallel.
+        const landed = tree ? await trees.land(tree, message) : await commit(message);
+        if (!landed.ok) {
+          // Two agents changed the same lines while both were working. Neither
+          // is at fault and neither may silently win, so this one's work is
+          // thrown away and the job goes back on the board to be redone against
+          // the code that did land. Same outcome as failing the build, for the
+          // same reason: the office only keeps changes it can account for.
+          await revertAll(root);
+          state.office.stats.reverted++;
+          setAgent(agent.id, { status: "idle", task: null });
+          setTask(task.id, { status: "queued", agent: null, tree: null, reason: landed.reason, collided: landed.files || [], started: null });
+          record(agent.id, { outcome: "reverted", ms: Date.now() - startedAt, turns: res.turns });
+          emit("tree.collision", { taskId: task.id, dept: dept.key, agent: agent.id, title: task.title, reason: landed.reason, files: (landed.files || []).slice(0, 6) });
+          return;
+        }
+        setTask(task.id, { sha: landed.sha });
       }
     }
-    writerBusy = false;
   }
 
   // Analysis departments deliver documents, not diffs. Pinnacle reads those
@@ -329,11 +400,14 @@ async function runTask(task, dept, agent) {
     minutes: Math.round((Date.now() - startedAt) / 6000) / 10,
     score,
     cost: res.cost,
+    // What this task actually cost, banked so the caps in config can be set
+    // from real numbers instead of the estimate they start at.
+    tokens: res.tokens,
     finished: Date.now(),
   });
   state.office.stats.completed++;
   sinceBriefing++;
-  emit("task.done", { taskId: task.id, dept: dept.key, agent: agent.id, title: task.title, summary: report.summary || "", changed: (report.changed || []).length });
+  emit("task.done", { taskId: task.id, dept: dept.key, agent: agent.id, title: task.title, summary: report.summary || "", changed: (report.changed || []).length, tokens: res.tokens?.billable || 0 });
   // The specialist reports to the CEO in their own words.
   if (report.note) emit("staff.report", { taskId: task.id, dept: dept.key, agent: agent.id, who: agent.title, note: report.note, ruling: state.tasks.find((t) => t.id === task.id)?.ruling?.verdict || "" });
 }
@@ -378,11 +452,14 @@ async function writeBriefing() {
       uptime: `${Math.floor(uptimeMs / 3600_000)}h ${Math.floor((uptimeMs % 3600_000) / 60_000)}m`,
       owner: owner(),
     }),
-    system: DOCTRINE,
+    // The one agent that writes full English. This briefing is read by Ayaan,
+    // and short is not the goal when a person is the reader.
+    system: DOCTRINE({ terse: false }),
     model: CONFIG.models.chief,
     tools: TOOLS.read,
     maxTurns: 8,
     timeout: 5 * 60_000,
+    tokenCap: CONFIG.tokenCap.head,
   });
   if (!res.ok) return;
 
@@ -468,7 +545,10 @@ function nextRunnable() {
   for (const task of ready) {
     const dept = deptByKey(task.dept);
     const isCodeWrite = dept.kind === "code" && state.office.mode === "apply";
-    if (isCodeWrite && writerBusy) continue;
+    // Writers are capped, not serialised. When every tree is taken this skips
+    // past the code work to whatever advisory or research job is behind it,
+    // which is why the floor keeps moving instead of idling behind a build.
+    if (isCodeWrite && writers >= writerLimit()) continue;
     if (!pickAgent(task.dept, "worker") && !pickAgent(task.dept, "manager")) continue;
     return task;
   }
@@ -497,7 +577,7 @@ export async function startOffice() {
   if (repo.created) emit("office.repo", { detail: "Created a git repo for this project so every agent change is revertable" });
 
   setOffice({ running: true, startedAt: state.office.startedAt || Date.now() });
-  emit("office.start", { mode: state.office.mode, concurrency: state.office.concurrency });
+  emit("office.start", { mode: state.office.mode, concurrency: state.office.concurrency, writers: writerLimit() });
 
   while (state.office.running) {
     if (Date.now() < state.office.cooldownUntil) { await sleep(5000); continue; }
@@ -516,7 +596,10 @@ export async function startOffice() {
       continue;
     }
 
-    if (inflight >= state.office.concurrency) { await sleep(1000); continue; }
+    // Every desk is full. Nothing to decide until one frees up, and a shorter
+    // look costs nothing: this is a check against numbers already in memory, it
+    // spends no tokens and makes no request.
+    if (inflight >= state.office.concurrency) { await sleep(400); continue; }
 
     const task = nextRunnable();
     if (task) {
@@ -541,9 +624,20 @@ export async function startOffice() {
   flush();
 }
 
+// Shutting the floor also writes up the day. He asked for this: the briefing he
+// had was a skim, and he wanted to actually understand what happened, how the
+// machine works and how his rule book got used.
+//
+// Not awaited. Closing the office must be instant and must never depend on a
+// model answering, so the flag flips now and the write up follows a moment
+// later. Agents mid task are still finishing while it runs, and that is fine:
+// it reports what has landed, and anything landing after appears tomorrow.
 export function stopOffice() {
   setOffice({ running: false });
   flush();
+  writeClosing()
+    .then((out) => emit("closing.done", { file: out.file, text: out.body, say: out.spoken, ...out.counts }))
+    .catch((err) => emit("office.fault", { detail: `The day's write up failed: ${err.message}. Nothing else is affected.` }));
 }
 
 // One supervised round: a head plans, one specialist executes, then stop.

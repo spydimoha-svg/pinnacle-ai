@@ -1,0 +1,7 @@
+# school admin onboarding
+
+What the ux specialists in this seat have learned working on Pinnacle AI.
+- The EXAMS array on Landing.tsx line 40 is a hardcoded marketing list with no link to src/data/entrance.ts — nobody wired the landing page claims to the actual content registry, so they can silently drift apart. Any future audit of landing claims should grep the display list against ENTRANCE_EXAMS ids directly, since there is no shared source of truth to check against automatically.
+- generateOnce(prompt, system, signal?, reminder?, maxTokens?) in src/lib/ai.ts already has the AbortSignal parameter built in — Videos.tsx calls it as generateOnce(prompt, VIDEO_SYSTEM, undefined, undefined, maxTokens), so wiring a cancel button is just adding an abortRef and passing controller.signal in that third slot, not a new capability.
+- Tutor.tsx:98 clears location.state with navigate(location.pathname, { replace: true, state: null }) right after reading it, specifically so a back-navigation or remount doesn't re-fire the same autoPrompt send. Papers.tsx's replacement must not skip this or rely on Papers.tsx to clear it — it's Tutor's job and already handled generically for any caller.
+- send(prompt, chapterId?) takes chapterId as optional (Tutor.tsx:99, :94's type annotation has both fields optional), so Papers.tsx can pass state: { autoPrompt: q.text } alone without inventing a chapterId for a bank question — no schema change needed on the Tutor side.

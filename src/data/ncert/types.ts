@@ -19,6 +19,13 @@ export interface NcertProblem {
   answer?: string;
   /** Optional worked NCERT-method solution, when we want a locked reference. */
   solution?: string;
+  /**
+   * Page in the chapter PDF where this problem is printed, 1-based.
+   *
+   * Optional: an unknown page is left unset rather than guessed, because a
+   * link that opens the wrong page is worse than one that opens the chapter.
+   */
+  page?: number;
 }
 
 /** One numbered exercise, e.g. "Exercise 2.2". */
@@ -27,6 +34,8 @@ export interface NcertExercise {
   exercise: string;
   /** Optional shared instruction line printed above the problems. */
   instruction?: string;
+  /** Page the exercise begins on, used when a problem has no page of its own. */
+  page?: number;
   problems: NcertProblem[];
 }
 

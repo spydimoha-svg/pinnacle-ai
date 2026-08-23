@@ -19,6 +19,7 @@ import {
   valueTable,
   type PlotSpec,
 } from "../../src/lib/figure";
+import { checkModel, parseModelSpec } from "../../src/lib/figure3d";
 
 interface Case {
   name: string;
@@ -162,6 +163,154 @@ const CASES: Case[] = [
   },
 ];
 
+
+/* ------------------------------------------------------------------ *
+ * The 3D accuracy guard
+ * ------------------------------------------------------------------ *
+ *
+ * The failure mode here is never nonsense — it is the near-miss. A model
+ * asked for a concave lens draws a convex one; asked for ammonia it draws the
+ * flat trigonal molecule. Both look authoritative, both are labelled, and both
+ * teach the opposite of the truth to a student who cannot tell. Each case
+ * below is one of those swaps, written down so it cannot come back quietly.
+ */
+interface ModelCase {
+  name: string;
+  block: string;
+  /** The words the tutor wrote around the figure. */
+  prose: string;
+  /** null = the figure should be dropped entirely. */
+  expect: ((scene: Record<string, unknown>) => string | null) | null;
+}
+
+const MODEL_CASES: ModelCase[] = [
+  {
+    name: "a convex spec under concave prose is corrected to concave",
+    block: '{"kind":"lens","variant":"convex"}',
+    prose: "A concave lens always spreads the rays out, so the image is virtual.",
+    expect: (s) => (s.variant === "concave" ? null : `variant stayed ${String(s.variant)}`),
+  },
+  {
+    name: "'diverging lens' counts as concave even without the word",
+    block: '{"kind":"lens","variant":"convex"}',
+    prose: "Here is a diverging lens. Parallel rays leave it spreading apart.",
+    expect: (s) => (s.variant === "concave" ? null : `variant stayed ${String(s.variant)}`),
+  },
+  {
+    name: "a lens drawn under mirror prose becomes a mirror",
+    block: '{"kind":"lens","variant":"concave"}',
+    prose: "A concave mirror reflects the parallel rays back through its focus.",
+    expect: (s) => (s.kind === "mirror" ? null : `kind stayed ${String(s.kind)}`),
+  },
+  {
+    name: "a lens with no variant and no word either way is refused, not guessed",
+    block: '{"kind":"lens"}',
+    prose: "Light bends when it passes from air into glass.",
+    expect: null,
+  },
+  {
+    name: "prose comparing both lenses leaves an explicit variant alone",
+    block: '{"kind":"lens","variant":"convex"}',
+    prose: "A convex lens converges light while a concave lens diverges it.",
+    expect: (s) => (s.variant === "convex" ? null : `variant became ${String(s.variant)}`),
+  },
+  {
+    name: "ammonia prose overrides a water spec",
+    block: '{"kind":"molecule","species":"H2O"}',
+    prose: "Ammonia, NH3, has a lone pair on the nitrogen, so the shape is pyramidal.",
+    expect: (s) => (s.species === "NH3" ? null : `species stayed ${String(s.species)}`),
+  },
+  {
+    name: "a molecule with no species and no name in the prose is refused",
+    block: '{"kind":"molecule"}',
+    prose: "Bond angles depend on how many lone pairs the central atom carries.",
+    expect: null,
+  },
+  {
+    name: "an atom takes its shells from the element being taught",
+    block: '{"kind":"atom","a":3}',
+    prose: "Sodium has eleven electrons, so its configuration is 2, 8, 1.",
+    expect: (s) => (s.a === 11 ? null : `atomic number stayed ${String(s.a)}`),
+  },
+  {
+    name: "an atomic number is not squeezed into scene units",
+    block: '{"kind":"atom","a":17}',
+    prose: "Chlorine has seventeen electrons.",
+    expect: (s) => (s.a === 17 ? null : `atomic number became ${String(s.a)}`),
+  },
+  {
+    name: "a cone under prose about the water cycle is dropped",
+    block: '{"kind":"cone","a":1.4,"b":2.2}',
+    prose: "Evaporation, condensation and precipitation repeat in a cycle.",
+    expect: null,
+  },
+  {
+    name: "a cone under prose about a cone is kept",
+    block: '{"kind":"cone","a":1.4,"b":2.2,"dims":{"r":"7 cm"}}',
+    prose: "The curved surface area of a cone uses the slant height, not the height.",
+    expect: (s) => (s.kind === "cone" ? null : `kind became ${String(s.kind)}`),
+  },
+  {
+    name: "'concave-mirror' as a bare kind resolves to kind + variant",
+    block: '{"kind":"concave-mirror"}',
+    prose: "A concave mirror is used in a torch reflector.",
+    expect: (s) =>
+      s.kind === "mirror" && s.variant === "concave"
+        ? null
+        : `got ${String(s.kind)}/${String(s.variant)}`,
+  },
+  {
+    name: "an unknown object is refused rather than approximated",
+    block: '{"kind":"dodecahedron"}',
+    prose: "A dodecahedron has twelve faces.",
+    expect: null,
+  },
+  {
+    name: "dimension labels survive onto the figure",
+    block: '{"kind":"cylinder","a":1,"b":2,"dims":{"r":"7 cm","h":"24 cm"}}',
+    prose: "This cylinder has radius 7 cm and height 24 cm.",
+    expect: (s) => {
+      const d = s.dims as Record<string, string> | undefined;
+      return d?.r === "7 cm" && d?.h === "24 cm" ? null : `dims came through as ${JSON.stringify(d)}`;
+    },
+  },
+];
+
+function runModelCases(): { failed: number; total: number } {
+  let failed = 0;
+  console.log("\n3D figure accuracy guard\n");
+  for (const c of MODEL_CASES) {
+    const parsed = parseModelSpec(c.block);
+    const checked = parsed ? checkModel(parsed, c.prose) : null;
+    const scene = checked?.scene as unknown as Record<string, unknown> | undefined;
+
+    if (c.expect === null) {
+      if (scene) {
+        console.log(`  FAIL  ${c.name}\n        expected the figure to be dropped, got ${JSON.stringify(scene)}`);
+        failed++;
+      } else {
+        console.log(`  ok    ${c.name}`);
+      }
+      continue;
+    }
+
+    if (!scene) {
+      console.log(`  FAIL  ${c.name}\n        the figure was dropped, but it should have been drawn`);
+      failed++;
+      continue;
+    }
+    const problem = c.expect(scene);
+    if (problem) {
+      console.log(`  FAIL  ${c.name}\n${problem}`);
+      failed++;
+    } else {
+      console.log(`  ok    ${c.name}`);
+    }
+  }
+  console.log(`\n${MODEL_CASES.length - failed}/${MODEL_CASES.length} passed`);
+  return { failed, total: MODEL_CASES.length };
+}
+
 export function main(): number {
   let failed = 0;
   console.log("Figure engine checks\n");
@@ -181,5 +330,6 @@ export function main(): number {
     }
   }
   console.log(`\n${CASES.length - failed}/${CASES.length} passed`);
-  return failed;
+  const models = runModelCases();
+  return failed + models.failed;
 }

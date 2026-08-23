@@ -1,0 +1,8 @@
+# daily study loop
+
+What the ux specialists in this seat have learned working on Pinnacle AI.
+- generateOnce() and streamChat() in lib/ai.ts already accept an AbortSignal parameter — the plumbing for cancellation exists end to end, generateAI() just never passes one. Wiring a cancel button is a one-line change to that call, not new infrastructure.
+- ui.tsx already exports a Spinner component (border-t-gold animate-spin) that Worksheets.tsx doesn't import or use anywhere — the AI-busy button falls back to a static text label with no animation at all.
+- Whether a trial account is 'cloud' or 'local-only' isn't decided at signup time in a way Login.tsx can read back later — linkTrialCloudProfile() in Login.tsx best-effort mirrors every trial signup to Supabase (fails open, returns true on any error), so a student who signed up while Supabase was flaky ends up with a local-only account and no visible sign that reset-by-email won't work for them.
+- recordProgress (used by both the manual dropdown and Tutor.tsx's lesson completion) and assessChapter (used by Planner's quick-check buttons) are two separate store actions that both write ChapterProgress with independent masteryAwarded logic — a fix to one does not touch the other, so Planner's quick-check 'Solid' button is a separate, later problem, not this one.
+- Dashboard's 'Chapters mastered' stat and Subjects.tsx's per-chapter mastered badges read progress.status === 'mastered' directly, with no score or confidence check at all — so the manual dropdown fakes those two UI surfaces the instant it's clicked, before Planner's score-based buildPlan even enters the picture.

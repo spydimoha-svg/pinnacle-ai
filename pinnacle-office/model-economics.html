@@ -1,0 +1,642 @@
+<title>Pinnacle Model Economics</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap">
+
+<style>
+  /* Pinnacle commits to one visual world — near-black ground, gold accent —
+     the same system src/index.css defines for the product. Single theme by
+     choice, so every colour is painted explicitly and the page holds on any
+     host ground. */
+  :root {
+    --ink: #050505;
+    --surface: #101010;
+    --raise: #17171a;
+    --line: #26262a;
+    --gold: #e8c889;
+    --gold-bright: #f2dca8;
+    --gold-deep: #c79e4f;
+    --cream: #f0ede6;
+    --muted: #b3b3b3;
+    --dim: #6e6e6e;
+    --mint: #6fb98c;
+    --coral: #e2564a;
+    --sky: #6fa8c9;
+
+    --display: "Hanken Grotesk", ui-sans-serif, system-ui, sans-serif;
+    --mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", monospace;
+
+    --measure: 68ch;
+    --pad: clamp(1.25rem, 4vw, 3rem);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--ink);
+    color: var(--cream);
+    font-family: var(--display);
+    font-size: 16.5px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: var(--pad);
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;
+  }
+
+  /* ---- masthead ---- */
+  .mast { display: flex; flex-direction: column; gap: 1rem; }
+
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--gold-deep);
+  }
+
+  h1 {
+    font-size: clamp(2rem, 5vw, 3.1rem);
+    line-height: 1.05;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin: 0;
+    text-wrap: balance;
+    color: var(--cream);
+  }
+
+  .lede {
+    margin: 0;
+    max-width: var(--measure);
+    color: var(--muted);
+    font-size: 1.08rem;
+  }
+
+  /* ---- the three numbers that decide everything ---- */
+  .verdict {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .verdict > div {
+    background: var(--surface);
+    padding: 1.4rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .verdict .k {
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--dim);
+  }
+
+  .verdict .v {
+    font-family: var(--mono);
+    font-size: 1.85rem;
+    font-weight: 700;
+    color: var(--gold);
+    font-variant-numeric: tabular-nums;
+    line-height: 1.1;
+  }
+
+  .verdict .n { font-size: 0.86rem; color: var(--muted); }
+
+  /* ---- sections ---- */
+  section { display: flex; flex-direction: column; gap: 1.1rem; }
+
+  h2 {
+    font-size: clamp(1.3rem, 2.6vw, 1.7rem);
+    font-weight: 700;
+    letter-spacing: -0.015em;
+    margin: 0;
+    color: var(--cream);
+    text-wrap: balance;
+  }
+
+  h2 .rule {
+    display: block;
+    width: 42px;
+    height: 2px;
+    background: var(--gold-deep);
+    margin-bottom: 0.85rem;
+  }
+
+  h3 {
+    font-size: 1.02rem;
+    font-weight: 600;
+    margin: 0;
+    color: var(--gold-bright);
+  }
+
+  p { margin: 0; max-width: var(--measure); color: var(--muted); }
+  p strong { color: var(--cream); font-weight: 600; }
+  p.tight { max-width: none; }
+
+  /* ---- tables ---- */
+  .scroll { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+    min-width: 620px;
+  }
+
+  thead th {
+    text-align: left;
+    font-family: var(--mono);
+    font-size: 0.66rem;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: var(--dim);
+    font-weight: 500;
+    padding: 0.85rem 1rem;
+    background: var(--raise);
+    border-bottom: 1px solid var(--line);
+    white-space: nowrap;
+  }
+
+  tbody td {
+    padding: 0.8rem 1rem;
+    border-bottom: 1px solid var(--line);
+    color: var(--muted);
+    vertical-align: top;
+  }
+
+  tbody tr:last-child td { border-bottom: none; }
+  tbody tr.pick td { background: rgba(232, 200, 137, 0.055); }
+  tbody tr.pick td:first-child { box-shadow: inset 2px 0 0 var(--gold); }
+
+  td.num, th.num {
+    font-family: var(--mono);
+    font-variant-numeric: tabular-nums;
+    text-align: right;
+    white-space: nowrap;
+  }
+
+  td.name { color: var(--cream); font-weight: 500; white-space: nowrap; }
+  td.good { color: var(--mint); }
+  td.bad { color: var(--coral); }
+
+  .tag {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 0.63rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.2rem 0.5rem;
+    border-radius: 999px;
+    border: 1px solid currentColor;
+    white-space: nowrap;
+  }
+  .tag.pick { color: var(--gold); }
+  .tag.no { color: var(--coral); }
+  .tag.ok { color: var(--mint); }
+
+  /* ---- callout ---- */
+  .flag {
+    border: 1px solid rgba(226, 86, 74, 0.4);
+    background: rgba(226, 86, 74, 0.06);
+    border-radius: 10px;
+    padding: 1.3rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+  .flag .h {
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--coral);
+  }
+  .flag p { color: var(--cream); }
+
+  .note {
+    border-left: 2px solid var(--line);
+    padding-left: 1.1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  /* ---- stacked cards ---- */
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1rem;
+  }
+  .card {
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background: var(--surface);
+    padding: 1.3rem 1.4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+  .card .amt {
+    font-family: var(--mono);
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--gold);
+    font-variant-numeric: tabular-nums;
+  }
+  .card ul { margin: 0; padding-left: 1.1rem; color: var(--muted); font-size: 0.9rem; }
+  .card li { margin-bottom: 0.3rem; }
+
+  ul.plain { margin: 0; padding-left: 1.15rem; color: var(--muted); max-width: var(--measure); }
+  ul.plain li { margin-bottom: 0.5rem; }
+  ul.plain strong { color: var(--cream); font-weight: 600; }
+
+  code {
+    font-family: var(--mono);
+    font-size: 0.87em;
+    background: var(--raise);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 0.1em 0.38em;
+    color: var(--gold-bright);
+  }
+
+  footer {
+    border-top: 1px solid var(--line);
+    padding-top: 1.5rem;
+    color: var(--dim);
+    font-size: 0.84rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  footer a { color: var(--gold-deep); }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
+  }
+</style>
+
+<div class="wrap">
+
+  <header class="mast">
+    <div class="eyebrow">Pinnacle AI · Cost &amp; margin intel · 19 Aug 2026</div>
+    <h1>What the answers cost, and what to charge for them</h1>
+    <p class="lede">
+      Which model generates your CBSE answers, what it costs per student per month,
+      the margin that funds reinvestment and a machine you can train on — and the
+      one licensing problem in the current setup that has to be fixed before you
+      take a single rupee.
+    </p>
+  </header>
+
+  <div class="verdict">
+    <div>
+      <span class="k">Inference per student</span>
+      <span class="v">₹16</span>
+      <span class="n">per month on Gemini 2.5 Flash-Lite, at 300 tutor turns</span>
+    </div>
+    <div>
+      <span class="k">Gross margin at ₹299</span>
+      <span class="v">89%</span>
+      <span class="n">after model, hosting and payment-gateway fees</span>
+    </div>
+    <div>
+      <span class="k">Students to fund the box</span>
+      <span class="v">130</span>
+      <span class="n">for twelve months, to clear a ₹4.1L training machine</span>
+    </div>
+  </div>
+
+  <section>
+    <h2><span class="rule"></span>The one thing to fix first</h2>
+    <div class="flag">
+      <span class="h">Licensing risk — blocks launch</span>
+      <p>
+        <strong>Google's Gemini free tier explicitly excludes commercial use, and
+        trains on free-tier prompts.</strong> Pinnacle currently runs on free keys
+        (see <code>api/_llm.ts</code>). That is fine while nobody pays you. The
+        moment you charge a student or a school, the free tier is being used to
+        run a revenue-generating service — outside its terms — and your students'
+        questions are training data.
+      </p>
+      <p>
+        Groq, Cerebras and OpenRouter free tiers carry comparable restrictions.
+        Budget for a paid key before the first invoice, not after. The good news is
+        below: at these token prices it costs almost nothing.
+      </p>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="rule"></span>What one student actually costs</h2>
+    <p>
+      Modelled on Pinnacle's own request shape: roughly <strong>3,500 input
+      tokens</strong> per turn (persona, the 6,000-character grounding block, ten
+      turns of history) and <strong>~600 output</strong> against the 1,600 ceiling
+      in <code>api/_llm.ts</code>. A committed student runs about
+      <strong>300 turns a month</strong> — 15 a day, 20 days.
+      That is <strong>1.05M input and 0.18M output tokens</strong> monthly.
+    </p>
+
+    <div class="scroll">
+      <table>
+        <thead>
+          <tr>
+            <th>Model</th>
+            <th class="num">$/M in</th>
+            <th class="num">$/M out</th>
+            <th class="num">Cost / student / mo</th>
+            <th>Verdict for Pinnacle</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="name">Qwen3.7 Flash</td>
+            <td class="num">0.03</td>
+            <td class="num">0.13</td>
+            <td class="num good">₹4.8</td>
+            <td>Cheapest that can teach. Use for worksheets and bulk generation.</td>
+          </tr>
+          <tr class="pick">
+            <td class="name">Gemini 2.5 Flash-Lite</td>
+            <td class="num">0.10</td>
+            <td class="num">0.40</td>
+            <td class="num good">₹15.6</td>
+            <td><span class="tag pick">Main tutor</span> Best quality-per-rupee, 1M context, strong on Indian languages.</td>
+          </tr>
+          <tr>
+            <td class="name">DeepSeek V3.2</td>
+            <td class="num">0.14</td>
+            <td class="num">0.28</td>
+            <td class="num good">₹17.4</td>
+            <td><span class="tag ok">Fallback</span> Cheap output. Good maths reasoning; keep as second in the chain.</td>
+          </tr>
+          <tr>
+            <td class="name">Mistral Small 4</td>
+            <td class="num">0.15</td>
+            <td class="num">0.60</td>
+            <td class="num">₹23.4</td>
+            <td>Fine, but beaten on both price and quality by the two above.</td>
+          </tr>
+          <tr>
+            <td class="name">GPT-5.4</td>
+            <td class="num">2.50</td>
+            <td class="num">15.00</td>
+            <td class="num bad">₹469</td>
+            <td><span class="tag no">Not viable</span> Costs more per student than you can charge.</td>
+          </tr>
+          <tr>
+            <td class="name">Claude Sonnet 4.6</td>
+            <td class="num">3.00</td>
+            <td class="num">15.00</td>
+            <td class="num bad">₹515</td>
+            <td><span class="tag no">Not viable</span> Same problem. Reserve for authoring content offline, not serving students.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="note">
+      <h3>Two levers that cut this further</h3>
+      <p>
+        <strong>Prompt caching.</strong> Your grounding block is identical for every
+        student on the same chapter — about 1,500 of those 3,500 input tokens.
+        Cached input runs roughly 90% cheaper on Gemini, OpenAI and Anthropic, which
+        takes Flash-Lite from ₹15.6 to <strong>about ₹11</strong>. This is the single
+        highest-return change available, and it is a routing change, not a rewrite.
+      </p>
+      <p>
+        <strong>Batch API, 50% off.</strong> Applies to anything not waiting on a
+        student: worksheet generation, video scripts, the OSM first-pass marking
+        when a teacher queues a whole class overnight. Not for live tutoring.
+      </p>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="rule"></span>The stack to run</h2>
+    <p class="tight">
+      Route by job, not by loyalty to one vendor — which is what
+      <code>api/_llm.ts</code> already does. Keep the chain, change the keys.
+    </p>
+    <div class="cards">
+      <div class="card">
+        <h3>Live tutoring</h3>
+        <div class="amt">Gemini 2.5 Flash-Lite</div>
+        <ul>
+          <li>Paid key, not free tier</li>
+          <li>Prompt caching on the grounding block</li>
+          <li>DeepSeek V3.2 as the fallback hop</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Worksheets &amp; video scripts</h3>
+        <div class="amt">Qwen3.7 Flash</div>
+        <ul>
+          <li>Batch API where nothing is waiting</li>
+          <li>Cheapest per token that still holds JSON</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>OSM answer marking</h3>
+        <div class="amt">Gemini 2.5 Flash-Lite</div>
+        <ul>
+          <li>Structured JSON, low temperature</li>
+          <li>~₹0.02 per answer marked</li>
+          <li>Teacher still awards every mark</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Narration</h3>
+        <div class="amt">₹0 — Kokoro</div>
+        <ul>
+          <li>Runs in the student's browser</li>
+          <li>No API, no per-character billing</li>
+          <li>Already wired into the video studio</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="rule"></span>What to charge, and what you keep</h2>
+    <p>
+      The market reference: Physics Wallah sells batches at
+      <strong>₹2,000–5,000 one-time</strong>, and its Vi bundle runs
+      <strong>₹375 per 28 days</strong>. Byju's is gone — insolvent, delisted —
+      which is why the mid-market is open. Price under PW's bundle and you are the
+      obvious second subscription a serious student holds.
+    </p>
+
+    <div class="scroll">
+      <table>
+        <thead>
+          <tr>
+            <th>Plan</th>
+            <th class="num">Price / mo</th>
+            <th class="num">Model</th>
+            <th class="num">Gateway</th>
+            <th class="num">Infra</th>
+            <th class="num">Gross margin</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="name">Starter</td>
+            <td class="num">₹149</td>
+            <td class="num">₹15.6</td>
+            <td class="num">₹3.5</td>
+            <td class="num">₹7.9</td>
+            <td class="num good">82%</td>
+          </tr>
+          <tr class="pick">
+            <td class="name">Standard <span class="tag pick">lead</span></td>
+            <td class="num">₹299</td>
+            <td class="num">₹15.6</td>
+            <td class="num">₹7.1</td>
+            <td class="num">₹7.9</td>
+            <td class="num good">89%</td>
+          </tr>
+          <tr>
+            <td class="name">Annual</td>
+            <td class="num">₹2,999/yr</td>
+            <td class="num">₹187/yr</td>
+            <td class="num">₹71/yr</td>
+            <td class="num">₹95/yr</td>
+            <td class="num good">88%</td>
+          </tr>
+          <tr>
+            <td class="name">School licence, 200+ seats</td>
+            <td class="num">₹99</td>
+            <td class="num">₹15.6</td>
+            <td class="num">₹2.3</td>
+            <td class="num">₹4.0</td>
+            <td class="num good">78%</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>
+      Infra assumes Supabase Pro ($25) and Vercel Pro ($20) amortised over 500
+      paying students; gateway is Razorpay at 2% plus 18% GST on the fee. Both
+      shrink per-head as you grow, so margin <em>improves</em> with scale.
+    </p>
+
+    <div class="note">
+      <h3>The margin you actually need</h3>
+      <p>
+        <strong>Target 70% gross and you are safe; you will clear 85%.</strong>
+        Tokens are not your cost problem and will not become one. The two things
+        that will eat this margin are the ones not in the table: acquiring each
+        student, and answering the ones who write in. Hold customer acquisition
+        under <strong>₹450 a head</strong> — roughly one and a half months of a
+        Standard plan — and every student is profitable inside the first quarter.
+      </p>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="rule"></span>Reinvestment, and the machine</h2>
+    <p>
+      You said the profit splits two ways: back into the next business, and into
+      hardware you can build models on. Here is what each side needs.
+    </p>
+
+    <div class="scroll">
+      <table>
+        <thead>
+          <tr>
+            <th>Option</th>
+            <th class="num">VRAM / memory</th>
+            <th class="num">Bandwidth</th>
+            <th class="num">Street price</th>
+            <th>What it lets you do</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="pick">
+            <td class="name">RTX 5090 build</td>
+            <td class="num">32 GB GDDR7</td>
+            <td class="num">1,792 GB/s</td>
+            <td class="num">≈ ₹4.5L</td>
+            <td>
+              <span class="tag pick">Recommended</span>
+              Fine-tune up to ~30B comfortably. 4× faster on anything that fits.
+              This is the right first machine — Pinnacle's own models are small.
+            </td>
+          </tr>
+          <tr>
+            <td class="name">NVIDIA DGX Spark</td>
+            <td class="num">128 GB unified</td>
+            <td class="num">273 GB/s</td>
+            <td class="num">≈ ₹4.1L</td>
+            <td>
+              Loads 70B–200B models, but decodes far slower. Buy this only when
+              capacity genuinely beats speed.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>
+      At the Standard plan you keep about <strong>₹266 gross per student per
+      month</strong>. A ₹4.5L machine is therefore <strong>1,700 student-months</strong>
+      — <strong>140 paying students for a year</strong>, or 280 for six months.
+      That is a realistic first-year target for one school district, and it means
+      the hardware is funded by the product rather than by savings.
+    </p>
+
+    <ul class="plain">
+      <li>
+        <strong>Split the profit 60/30/10.</strong> 60% into the next business,
+        30% held for the machine until it is bought outright, 10% as a buffer for
+        the quarter a model provider changes its prices on you.
+      </li>
+      <li>
+        <strong>Do not buy the box early.</strong> Until you have a dataset only
+        you own — and marked answer scripts from the OSM console are exactly that —
+        a rented GPU hour is cheaper than an owned one that idles.
+      </li>
+      <li>
+        <strong>Your moat is the corpus, not the model.</strong> Verbatim NCERT,
+        real marking schemes, and teacher-corrected scripts are the asset. Any
+        model can be swapped; that data cannot be bought.
+      </li>
+    </ul>
+  </section>
+
+  <footer>
+    <div>
+      Token prices are list rates as published in August 2026 and move often —
+      re-check before committing. Rupee figures use ≈ ₹88 to the dollar and are
+      rounded. Usage assumptions are stated above so you can re-run them against
+      your own analytics once real students are on the product.
+    </div>
+    <div>
+      Sources:
+      <a href="https://modelgrep.com/pricing">LLM pricing comparison, Aug 2026</a> ·
+      <a href="https://www.cloudzero.com/blog/llm-api-pricing-comparison/">CloudZero API pricing</a> ·
+      <a href="https://tokenmix.ai/blog/gemini-api-free-tier-limits">Gemini free-tier limits</a> ·
+      <a href="https://collegeoption.in/physics-wallah-fees-structure-2026-complete-online-offline-price-breakdown/">Physics Wallah fees 2026</a> ·
+      <a href="https://codersera.com/blog/dgx-spark-vs-rtx-5090-local-llm-2026/">DGX Spark vs RTX 5090</a>
+    </div>
+  </footer>
+
+</div>

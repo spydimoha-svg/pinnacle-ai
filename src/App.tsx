@@ -34,6 +34,11 @@ const Profile = lazy(() => import("./pages/app/Profile"));
 const AdminDashboard = lazy(() => import("./pages/admin/AdminDashboard"));
 const AdminMaterials = lazy(() => import("./pages/admin/Materials"));
 const AdminStudents = lazy(() => import("./pages/admin/Students"));
+const AdminEvaluate = lazy(() => import("./pages/admin/Evaluate"));
+const AppJourney = lazy(() => import("./pages/app/Journey"));
+const AppTrial = lazy(() => import("./pages/app/Trial"));
+const YourJourney = lazy(() => import("./pages/app/YourJourney"));
+const Worlds = lazy(() => import("./pages/app/Worlds"));
 
 const MasterDashboard = lazy(() => import("./pages/master/MasterDashboard"));
 const MasterSchools = lazy(() => import("./pages/master/Schools"));
@@ -79,10 +84,17 @@ export default function App() {
             </Protected>
           }
         >
-          <Route index element={<Dashboard />} />
+          {/* YOUR JOURNEY replaces the dashboard: one mission, not nine
+              cards. The old page is kept at /app/dashboard so nothing is
+              lost while the new one settles. */}
+          <Route index element={<YourJourney />} />
+          <Route path="dashboard" element={<Dashboard />} />
           <Route path="planner" element={<Planner />} />
           <Route path="tutor" element={<Tutor />} />
-          <Route path="subjects" element={<Subjects />} />
+          <Route path="journey/:chapterId" element={<AppJourney />} />
+          <Route path="trial/:chapterId" element={<AppTrial />} />
+          <Route path="subjects" element={<Worlds />} />
+          <Route path="subjects/list" element={<Subjects />} />
           <Route path="chapter/:chapterId" element={<Chapter />} />
           <Route path="worksheets" element={<Worksheets />} />
           <Route path="papers" element={<Papers />} />
@@ -104,6 +116,7 @@ export default function App() {
           <Route index element={<AdminDashboard />} />
           <Route path="materials" element={<AdminMaterials />} />
           <Route path="students" element={<AdminStudents />} />
+          <Route path="evaluate" element={<AdminEvaluate />} />
         </Route>
 
         <Route

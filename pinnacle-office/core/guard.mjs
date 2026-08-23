@@ -3,11 +3,18 @@
 // Sequence for every code task: snapshot -> agent edits -> forbidden paths
 // reverted -> typecheck -> build -> commit, or the whole change is thrown away.
 // This is why 1000 autonomous agents cannot wreck the project.
+//
+// Every function here takes the directory it is to work in, defaulting to the
+// project itself. That parameter is what lets several writers be gated at the
+// same time: each one runs this whole sequence inside its own git worktree (see
+// trees.mjs), so the diff, the typecheck, the build and the review all belong
+// to exactly one agent even when three of them are working at once.
 
 import { spawn } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
 import { PROJECT_DIR, CONFIG } from "../config.mjs";
+import { lendEnv } from "./trees.mjs";
 
 // npm and npx are .cmd shims on Windows and need a shell. git is a real exe
 // and must NOT get one: with shell:true its args are concatenated unescaped,
@@ -19,24 +26,32 @@ const needsShell = (cmd) => process.platform === "win32" && /^(npm|npx|yarn|pnpm
 // running the rollback, and then commits the deletion. Learned the hard way.
 const SCOPE = ["--", ".", ":(exclude)pinnacle-office"];
 
-function run(cmd, args, timeout = 300_000) {
+// `out` is stdout alone and `all` is both streams. Which one a caller wants is
+// not a detail: a build failure is only legible with stderr in it, while
+// anything that parses git output one line per file must never see stderr. On
+// Windows git warns about LF endings on stderr on almost every command, and
+// folded together those warnings parse as filenames. That reached `git status
+// --porcelain` here, where a warning became a file to revert.
+function run(cmd, args, timeout = 300_000, cwd = PROJECT_DIR) {
   return new Promise((resolve) => {
     const child = spawn(cmd, args, {
-      cwd: PROJECT_DIR,
+      cwd,
       shell: needsShell(cmd),
       windowsHide: true,
       env: { ...process.env, NODE_NO_WARNINGS: "1" },
     });
     let out = "";
+    let err = "";
     const timer = setTimeout(() => child.kill("SIGKILL"), timeout);
     child.stdout.on("data", (c) => (out += c));
-    child.stderr.on("data", (c) => (out += c));
-    child.on("close", (code) => { clearTimeout(timer); resolve({ code, out }); });
-    child.on("error", (e) => { clearTimeout(timer); resolve({ code: 1, out: e.message }); });
+    child.stderr.on("data", (c) => (err += c));
+    child.on("close", (code) => { clearTimeout(timer); resolve({ code, out, err, all: out + err }); });
+    child.on("error", (e) => { clearTimeout(timer); resolve({ code: 1, out: "", err: e.message, all: e.message }); });
   });
 }
 
-const git = (...args) => run("git", args, 120_000);
+const gitIn = (dir, ...args) => run("git", args, 120_000, dir);
+const git = (...args) => gitIn(PROJECT_DIR, ...args);
 
 // The project sits inside a repo rooted at C:\ with no commits, which means
 // there is no usable history here. Give the project its own repo so every
@@ -62,8 +77,8 @@ export async function ensureRepo() {
   return { created: true };
 }
 
-export async function changedFiles() {
-  const { out } = await git("status", "--porcelain", ...SCOPE);
+export async function changedFiles(dir = PROJECT_DIR) {
+  const { out } = await gitIn(dir, "status", "--porcelain", ...SCOPE);
   return out
     .split("\n")
     .map((l) => l.trim())
@@ -82,13 +97,13 @@ const isForbidden = (file) => CONFIG.forbidden.some((f) => file.replace(/\\/g, "
 // announced it had been thrown away. The next task then committed the survivor
 // as "your own uncommitted edits" and every task after that failed the gate on
 // somebody else's code. It now retries the lock, then tells the truth.
-export async function revertAll() {
-  const changes = await changedFiles();
-  await git("checkout", ...SCOPE);
+export async function revertAll(dir = PROJECT_DIR) {
+  const changes = await changedFiles(dir);
+  await gitIn(dir, "checkout", ...SCOPE);
   const gone = [];
   const survived = [];
   for (const c of changes) {
-    const target = path.join(PROJECT_DIR, c.file);
+    const target = path.join(dir, c.file);
     if (c.code === "??") {
       try { fs.rmSync(target, { recursive: true, force: true, maxRetries: 5, retryDelay: 200 }); } catch {}
       if (fs.existsSync(target)) { survived.push(c.file); continue; }
@@ -99,31 +114,41 @@ export async function revertAll() {
 }
 
 // Undo only the files an agent had no business touching, keep the rest.
-export async function revertForbidden() {
-  const changes = await changedFiles();
+export async function revertForbidden(dir = PROJECT_DIR) {
+  const changes = await changedFiles(dir);
   const bad = changes.filter((c) => isForbidden(c.file));
   for (const c of bad) {
-    if (c.code === "??") { try { fs.rmSync(path.join(PROJECT_DIR, c.file), { force: true, recursive: true }); } catch {} }
-    else await git("checkout", "--", c.file);
+    if (c.code === "??") { try { fs.rmSync(path.join(dir, c.file), { force: true, recursive: true }); } catch {} }
+    else await gitIn(dir, "checkout", "--", c.file);
   }
   return bad.map((c) => c.file);
 }
 
 // Typecheck then build. First failure wins and its tail is handed back to the
 // agent's manager as the reason for rejection.
-export async function verify(onStep = () => {}) {
-  for (const step of CONFIG.gate) {
-    onStep(step.name);
-    const { code, out } = await run(step.cmd, step.args, 420_000);
-    if (code !== 0) return { ok: false, step: step.name, detail: out.split("\n").filter(Boolean).slice(-14).join("\n") };
+// The build reads .env, so gating inside a worktree without it would not be
+// gating the same code the project builds. It is lent for the length of the
+// build and taken back straight after. Safe by sequencing, not by trust: the
+// agent's process has already exited by the time this runs, and it was denied
+// .env at the permission layer while it was alive.
+export async function verify(onStep = () => {}, dir = PROJECT_DIR) {
+  const takeBack = dir === PROJECT_DIR ? () => {} : lendEnv(dir);
+  try {
+    for (const step of CONFIG.gate) {
+      onStep(step.name);
+      const { code, all } = await run(step.cmd, step.args, 420_000, dir);
+      if (code !== 0) return { ok: false, step: step.name, detail: all.split("\n").filter(Boolean).slice(-14).join("\n") };
+    }
+    return { ok: true };
+  } finally {
+    takeBack();
   }
-  return { ok: true };
 }
 
-export async function commit(message) {
-  await git("add", "-A", ...SCOPE);
-  const res = await git("commit", "-m", message);
-  const head = await git("rev-parse", "--short", "HEAD");
+export async function commit(message, dir = PROJECT_DIR) {
+  await gitIn(dir, "add", "-A", ...SCOPE);
+  const res = await gitIn(dir, "commit", "-m", message);
+  const head = await gitIn(dir, "rev-parse", "--short", "HEAD");
   return { ok: res.code === 0, sha: head.out.trim() };
 }
 
@@ -144,15 +169,15 @@ export async function diffStat() {
 // reads the same string, so both approved code neither of them had seen, and
 // the office committed it saying "Cleared by Pinnacle". A new folder is the
 // ordinary shape of new work in this tree, so this was not an edge case.
-export async function diffText(limit = 26_000) {
-  const { out } = await git("diff", ...SCOPE);
+export async function diffText(limit = 26_000, dir = PROJECT_DIR) {
+  const { out } = await gitIn(dir, "diff", ...SCOPE);
   let patch = out;
 
-  for (const c of await changedFiles()) {
+  for (const c of await changedFiles(dir)) {
     if (c.code !== "??") continue;
-    for (const file of expand(c.file)) {
+    for (const file of expand(c.file, dir)) {
       try {
-        patch += `\n--- NEW FILE ${file} ---\n${fs.readFileSync(path.join(PROJECT_DIR, file), "utf8")}\n`;
+        patch += `\n--- NEW FILE ${file} ---\n${fs.readFileSync(path.join(dir, file), "utf8")}\n`;
       } catch (err) {
         // Never let an unreadable file vanish. Say so in the patch itself so
         // the reviewer is told to look rather than shown nothing.
@@ -164,13 +189,13 @@ export async function diffText(limit = 26_000) {
 }
 
 // One porcelain entry can be a whole tree. Walk it into real files.
-function expand(rel) {
-  const abs = path.join(PROJECT_DIR, rel);
+function expand(rel, dir = PROJECT_DIR) {
+  const abs = path.join(dir, rel);
   try {
     if (!fs.statSync(abs).isDirectory()) return [rel];
     return fs.readdirSync(abs, { recursive: true, withFileTypes: true })
       .filter((e) => e.isFile())
-      .map((e) => path.relative(PROJECT_DIR, path.join(e.parentPath ?? e.path, e.name)).replace(/\\/g, "/"));
+      .map((e) => path.relative(dir, path.join(e.parentPath ?? e.path, e.name)).replace(/\\/g, "/"));
   } catch {
     return [rel];
   }

@@ -1,0 +1,590 @@
+[
+  {
+    "id": "Rmsbhs2ch",
+    "what": "Working Bash approval for node scripts/*.mjs (or a delete capability)",
+    "why": "To actually execute a verification script against the real chapter data instead of reasoning through the regex by hand, and to clean up temp files created during verification.",
+    "depts": [
+      "tutor"
+    ],
+    "firstAsked": 1785656506337,
+    "asks": 1,
+    "status": "open",
+    "agent": "TUTOR-W001"
+  },
+  {
+    "id": "Rmsbi5x4g",
+    "what": "Temporary permission to run `npm install linkinator --save-dev` and then `node` against it (or equivalent) instead of only npm run build / npx tsc / node script",
+    "why": "To actually execute a live smoke check against the 8 URLs and prove the JSON output and exit-code behavior firsthand, rather than relying on the package's own docs, which is as far as my current Bash allowlist lets me go",
+    "depts": [
+      "supply"
+    ],
+    "firstAsked": 1785657152752,
+    "asks": 1,
+    "status": "open",
+    "agent": "SUPPLY-W004"
+  },
+  {
+    "id": "Rmsbk649v",
+    "what": "A direct email/call to the API Setu / DigiLocker partner team (contact route referenced at apisetu.gov.in), or a human-readable copy of the Partners-SOP.pdf and",
+    "why": "To get an authoritative eligibility answer (does an unincorporated/solo developer qualify as a 'Requester Partner') and an actual turnaround SLA and audit cost figure — none of that is in scrapable web content, only in PDFs that failed to parse or in direct correspondence with the DigiLocker team.",
+    "depts": [
+      "supply"
+    ],
+    "firstAsked": 1785660521251,
+    "asks": 1,
+    "status": "open",
+    "agent": "SUPPLY-W014"
+  },
+  {
+    "id": "Rmsbkbdtm",
+    "what": "An actual send-capable email channel (or a person authorized to send one) to reach apisetu.support@digitalindia.gov.in asking two things directly: (1) does an u",
+    "why": "This is the only remaining way to get an authoritative answer — the governing PDFs (NeGD onboarding guidelines, DLA Rules and Procedure) that would contain it don't render as text through any read-only tool this seat has, and no public page states it in scrapable form",
+    "depts": [
+      "supply"
+    ],
+    "firstAsked": 1785660766906,
+    "asks": 1,
+    "status": "open",
+    "agent": "SUPPLY-W018"
+  },
+  {
+    "id": "Rmsbkbdtp",
+    "what": "A PDF-to-text tool with OCR/layout support (e.g. a local pdftotext/pdfplumber run, or an MCP PDF-reading tool) rather than WebFetch's HTML-to-markdown summarize",
+    "why": "To actually get readable text out of the NeGD and DLA PDFs already downloaded to disk during this task, instead of hitting the same 'binary content, no readable text' wall WebFetch hits on government PDFs",
+    "depts": [
+      "supply"
+    ],
+    "firstAsked": 1785660766909,
+    "asks": 1,
+    "status": "answered",
+    "agent": "SUPPLY-W018",
+    "summary": "readdoc <file>: PDF and text to plain text with page numbers. Local, free, reads only. Already installed, no command needed.",
+    "install": "",
+    "safety": "One pure-python library (pypdf, no dependencies) in its own venv outside the repo. No network, no environment access, no subprocess, no writing.",
+    "answered": 1785843036218
+  },
+  {
+    "id": "Rmsbkkqsn",
+    "what": "A Bash permission that actually allows `node scripts/*` to run without a hanging approval prompt",
+    "why": "To execute scripts/qa/api-access.mjs myself and report the real, observed exit code and status against the live site instead of a code-review-only verification.",
+    "depts": [
+      "qa"
+    ],
+    "firstAsked": 1785661203623,
+    "asks": 1,
+    "status": "open",
+    "agent": "QA-W001"
+  },
+  {
+    "id": "Rmsbkv8rx",
+    "what": "A shell permission that actually allows node script execution (or a running local server to curl against)",
+    "why": "To run the literal 100+ rapid POST curl loop the task's DONE MEANS asks for, rather than relying on static code review.",
+    "depts": [
+      "security"
+    ],
+    "firstAsked": 1785661693485,
+    "asks": 1,
+    "status": "open",
+    "agent": "SECURITY-W009"
+  },
+  {
+    "id": "Rmsbl0bam",
+    "what": "a way to delete or an allowed cleanup command in Bash",
+    "why": "to remove scripts/_verify_strip_bold.mjs, a temporary verification script I could not delete because rm was denied and node scripts/* required approval that never resolved",
+    "depts": [
+      "tutor"
+    ],
+    "firstAsked": 1785661930030,
+    "asks": 1,
+    "status": "open",
+    "agent": "TUTOR-W008"
+  },
+  {
+    "id": "Rmsbl2l5h",
+    "what": "The actual NeGD Guidelines-for-Onboarding PDF (655KB) and DLA RulesandProcedure.pdf (1.1MB) saved to a location this seat can read, or a tool that can fetch-and",
+    "why": "Without the files on disk there is nothing for any OCR tool, however well-vetted, to actually run against — this is the real blocker, not the tool choice.",
+    "depts": [
+      "supply"
+    ],
+    "firstAsked": 1785662036117,
+    "asks": 1,
+    "status": "open",
+    "agent": "SUPPLY-W004"
+  },
+  {
+    "id": "Rmsbl2l5j",
+    "what": "npm install permission (this echoes SUPPLY-W004's own still-open request Rmsbi5x4g in requests.json)",
+    "why": "To actually run `npm install tesseract.js pdf-to-png-converter` and execute a live OCR pass against the real PDFs instead of vetting the tools by documentation alone.",
+    "depts": [
+      "supply"
+    ],
+    "firstAsked": 1785662036119,
+    "asks": 1,
+    "status": "open",
+    "agent": "SUPPLY-W004"
+  },
+  {
+    "id": "Rmsbl5dhm",
+    "what": "A PDF-to-text extraction tool (e.g. a pdftotext/poppler binary, or an MCP tool that can OCR/parse PDF text) reachable from this seat",
+    "why": "Would let Supply or Content verify exact exercise numbering and verbatim problem text directly from the official NCERT PDF instead of relying on unreliable third-party aggregator sites, closing the gap this brief leaves open.",
+    "depts": [
+      "supply"
+    ],
+    "firstAsked": 1785662166154,
+    "asks": 1,
+    "status": "answered",
+    "agent": "SUPPLY-W001",
+    "summary": "readdoc <file>: PDF and text to plain text with page numbers. Local, free, reads only. Already installed, no command needed.",
+    "install": "",
+    "safety": "One pure-python library (pypdf, no dependencies) in its own venv outside the repo. No network, no environment access, no subprocess, no writing.",
+    "answered": 1785843036224
+  },
+  {
+    "id": "Rmsbl5gcd",
+    "what": "Either a fetch-and-save capability (curl, or Write permission scoped to a shared drop location) or a human to manually place the two source PDFs on disk at a pa",
+    "why": "No OCR tool, however well-vetted, has anything to run against until the actual bytes exist in this filesystem — this is the standing blocker across at least three prior Supply requests (Rmsbl2l5h, Rmsbkbdtp, and the original from SUPPLY-W018).",
+    "depts": [
+      "supply"
+    ],
+    "firstAsked": 1785662169853,
+    "asks": 1,
+    "status": "open",
+    "agent": "SUPPLY-W007"
+  },
+  {
+    "id": "Rmsbl6izo",
+    "what": "Working Bash approval for the commands this task's brief explicitly allowlisted (npm run build, node scripts/*)",
+    "why": "Every attempt to run npm run build or a node -e snippet to compute gzip sizes was declined with 'This command requires approval' in this session, even though the task brief named npm run build as available. I fell back to reading an already-built dist/ instead of producing my own clean-state build, ",
+    "depts": [
+      "supply"
+    ],
+    "firstAsked": 1785662219940,
+    "asks": 1,
+    "status": "open",
+    "agent": "SUPPLY-W003"
+  },
+  {
+    "id": "Rmsbmfryf",
+    "what": "Vercel CLI (`vercel`) authenticated with the account/team on orgId team_8gljGtywgvW6sbZOpw28lukG, or read access to the Vercel dashboard billing page for that t",
+    "why": "To actually confirm whether prj_KcdbOixIh3sykTit4cWDKNkALMBl / team_8gljGtywgvW6sbZOpw28lukG is currently on Hobby or Pro, which is the one fact this task could not settle from the repo alone",
+    "depts": [
+      "supply"
+    ],
+    "firstAsked": 1785664331079,
+    "asks": 1,
+    "status": "open",
+    "agent": "SUPPLY-W001"
+  },
+  {
+    "id": "Rmsbmrsml",
+    "what": "A test runner (vitest, already common in Vite projects) wired into package.json",
+    "why": "So 'done means' criteria that ask for a unit test can actually be satisfied and re-run in CI, instead of every specialist verifying by typecheck/build alone.",
+    "depts": [
+      "tutor"
+    ],
+    "firstAsked": 1785664891821,
+    "asks": 1,
+    "status": "open",
+    "agent": "TUTOR-W012"
+  },
+  {
+    "id": "Rmsbmsros",
+    "what": "A working node scripts/* execution path in this sandbox, or an already-integrated test runner (vitest/jest) invoked through an allowed command",
+    "why": "To actually run the unit test I wrote and get a real pass/fail instead of a manual trace plus a type check",
+    "depts": [
+      "tutor"
+    ],
+    "firstAsked": 1785664937260,
+    "asks": 1,
+    "status": "open",
+    "agent": "TUTOR-W006"
+  },
+  {
+    "id": "Rmsbntezc",
+    "what": "A fetch mechanism (headless-browser MCP tool, or a human manually opening the site) that can either accept egazette.gov.in's non-standard TLS certificate or isn",
+    "why": "Without one, no future agent using only WebFetch/WebSearch will be able to independently read Rule 10 straight from a primary Government of India source either — this isn't a one-off failure I hit by bad luck, it's a systematic block on every GoI domain I could find that actually hosts the text",
+    "depts": [
+      "supply"
+    ],
+    "firstAsked": 1785666647064,
+    "asks": 1,
+    "status": "open",
+    "agent": "SUPPLY-W019"
+  },
+  {
+    "id": "Rmsbnvgyd",
+    "what": "Bash approval for `npx tsc` / direct tsc invocation actually granted in-session",
+    "why": "To empirically run `tsc --allowJs --checkJs --noEmit` against chief.mjs/guard.mjs and confirm the exact TS2339 output this memo predicts from docs, rather than relying on documented behavior alone.",
+    "depts": [
+      "supply"
+    ],
+    "firstAsked": 1785666742933,
+    "asks": 1,
+    "status": "open",
+    "agent": "SUPPLY-W021"
+  },
+  {
+    "id": "Rmsbo295u",
+    "what": "An interactive Claude Code session (not a Supply subagent) to actually run npx tsc --allowJs --checkJs --noEmit against chief.mjs/guard.mjs, since subagent Bash",
+    "why": "To get the real TS2339 diagnostic output SUPPLY-21 needs, rather than relying on documented TypeScript behavior alone",
+    "depts": [
+      "supply"
+    ],
+    "firstAsked": 1785667059426,
+    "asks": 1,
+    "status": "open",
+    "agent": "SUPPLY-W007"
+  },
+  {
+    "id": "Rmsbo4tk7",
+    "what": "An actual interactive Bash approval (a human or a session running in an auto-approve permission mode) to execute npx tsc --allowJs --checkJs --noEmit",
+    "why": "To capture the real TS2339 diagnostic list for SUPPLY-21 instead of relying on documented TypeScript behavior; the tool itself is already present, only execution permission is missing.",
+    "depts": [
+      "supply"
+    ],
+    "firstAsked": 1785667179175,
+    "asks": 1,
+    "status": "open",
+    "agent": "SUPPLY-W008"
+  },
+  {
+    "id": "Rmsdtqgqb",
+    "what": "poppler-utils (pdftoppm) or an OCR-capable PDF reader available to this environment",
+    "why": "Several official CBSE circulars (e.g. 49_Circular_2026.pdf on the three-language scheme) are scanned/image PDFs with no embedded text layer — WebFetch and Read both fail on them, so their exact wording currently can't be verified by any agent in this office.",
+    "depts": [
+      "supply"
+    ],
+    "firstAsked": 1785797519411,
+    "asks": 1,
+    "status": "answered",
+    "agent": "SUPPLY-W010",
+    "summary": "readdoc <file>: PDF and text to plain text with page numbers. Local, free, reads only. Already installed, no command needed.",
+    "install": "",
+    "safety": "One pure-python library (pypdf, no dependencies) in its own venv outside the repo. No network, no environment access, no subprocess, no writing.",
+    "answered": 1785843036230
+  },
+  {
+    "id": "Rmsdtqgqh",
+    "what": "The new NCERT 'Kaveri: Textbook of English for Grade 9' chapter/story list",
+    "why": "The 2026-27 Class 9 English curriculum PDF names Kaveri as the sole prescribed textbook (replacing Beehive + Moments) but does not itself list the chapters — Content needs the actual NCERT Kaveri table of contents (from ncert.nic.in) to rewrite src/data/curriculum/class9.ts's English section, which ",
+    "depts": [
+      "supply"
+    ],
+    "firstAsked": 1785797519417,
+    "asks": 1,
+    "status": "open",
+    "agent": "SUPPLY-W010"
+  },
+  {
+    "id": "Rmsdvt97o",
+    "what": "A fetch path that can validate or bypass egazette.gov.in's non-standard TLS certificate (e.g. a properly configured curl/requests call with the correct CA bundl",
+    "why": "Would let Supply or Legal get the real primary-source PDF text instead of relying on private mirror sites for statutory language",
+    "depts": [
+      "supply"
+    ],
+    "firstAsked": 1785801008868,
+    "asks": 1,
+    "status": "open",
+    "agent": "SUPPLY-W021"
+  },
+  {
+    "id": "Rmsdwqs2k",
+    "what": "npm audit added to this seat's allowed Bash commands (or a standing exception for read-only npm audit/npm audit --json)",
+    "why": "lets Supply actually run the scan and report real findings instead of only confirming the command exists on paper",
+    "depts": [
+      "supply"
+    ],
+    "firstAsked": 1785802572956,
+    "asks": 1,
+    "status": "open",
+    "agent": "SUPPLY-W014"
+  },
+  {
+    "id": "Rmsdyyfc0",
+    "what": "Read access to the actual cloud.cerebras.ai account/dashboard tied to the CEREBRAS_API_KEY currently in Vercel's env",
+    "why": "To confirm directly whether that key's org is 'Team' (explains the 402) or 'Personal' (would mean something else broke), instead of inferring it from Cerebras' generic docs",
+    "depts": [
+      "supply"
+    ],
+    "firstAsked": 1785806288928,
+    "asks": 1,
+    "status": "open",
+    "agent": "SUPPLY-W022"
+  },
+  {
+    "id": "Rmsdz80om",
+    "what": "A fetch-and-save capability (curl in the Bash allowlist, or a Write permission scoped to a shared drop location) reachable from a Supply seat",
+    "why": "It's the single remaining blocker across all five related requests — without it, Read's confirmed native PDF support has nothing on disk to run against, regardless of how good the OCR/extraction story is.",
+    "depts": [
+      "supply"
+    ],
+    "firstAsked": 1785806736502,
+    "asks": 1,
+    "status": "open",
+    "agent": "SUPPLY-W003"
+  },
+  {
+    "id": "Rmsdz9431",
+    "what": "A human with the actual cloud.cerebras.ai account login (email/password or SSO) for the org that owns the key currently in Vercel's CEREBRAS_API_KEY",
+    "why": "To open Cloud Console > Settings (shows Organization type: Personal or Team) and Cloud Console > Billing (shows subscription/credit status), the only two places this is visible, since no API or CLI reports it",
+    "depts": [
+      "supply"
+    ],
+    "firstAsked": 1785806787565,
+    "asks": 1,
+    "status": "open",
+    "agent": "SUPPLY-W005"
+  },
+  {
+    "id": "Rmsdznbjw",
+    "what": "A fetch mechanism with actual network-level control (raw Node/curl execution, or a headless browser via mcp__chrome-devtools) available to the Supply seat, not ",
+    "why": "The one known technical fix for egazette.gov.in's broken TLS chain (supply the missing Let's Encrypt YR2 intermediate cert) requires setting a custom CA option on the HTTPS client. WebFetch is a hosted service with no such option exposed, so this seat can diagnose the problem repeatedly but never ap",
+    "depts": [
+      "supply"
+    ],
+    "firstAsked": 1785807450428,
+    "asks": 1,
+    "status": "open",
+    "agent": "SUPPLY-W009"
+  },
+  {
+    "id": "Rmsdzteab",
+    "what": "A committed pinnacle-office/.claude/settings.json (or equivalent) that pre-approves node scripts/* execution office-wide, or confirmation that this specific fix",
+    "why": "Without it, the correct, free, zero-install tool for the egazette.gov.in TLS fix (Node's built-in https/tls ca option) can be named and documented but never actually executed by this or any future Supply subagent — the same blocker already logged against node scripts/*, npx tsc, and npm install in t",
+    "depts": [
+      "supply"
+    ],
+    "firstAsked": 1785807733907,
+    "asks": 1,
+    "status": "open",
+    "agent": "SUPPLY-W013"
+  },
+  {
+    "id": "Rmsdzu97y",
+    "what": "poppler-utils (pdftoppm) or equivalent local PDF text extraction",
+    "why": "Would let Read parse NCERT PDFs directly instead of relying on WebSearch's indexed titles as a proxy, which is a real but weaker form of primary verification.",
+    "depts": [
+      "supply"
+    ],
+    "firstAsked": 1785807773998,
+    "asks": 1,
+    "status": "answered",
+    "agent": "SUPPLY-W011",
+    "summary": "readdoc <file>: PDF and text to plain text with page numbers. Local, free, reads only. Already installed, no command needed.",
+    "install": "",
+    "safety": "One pure-python library (pypdf, no dependencies) in its own venv outside the repo. No network, no environment access, no subprocess, no writing.",
+    "answered": 1785843036234
+  },
+  {
+    "id": "Rmse7nh5z",
+    "what": "An OCR-capable PDF reader, or poppler-utils (pdftoppm) installed so the Read tool's PDF page-rendering works",
+    "why": "ncert.nic.in's official Kaveri PDF and its individual chapter files are scanned images, not text, so no amount of re-fetching gets the actual table of contents without OCR",
+    "depts": [
+      "supply"
+    ],
+    "firstAsked": 1785820894631,
+    "asks": 1,
+    "status": "answered",
+    "agent": "SUPPLY-W019",
+    "summary": "readdoc <file>: PDF and text to plain text with page numbers. Local, free, reads only. Already installed, no command needed.",
+    "install": "",
+    "safety": "One pure-python library (pypdf, no dependencies) in its own venv outside the repo. No network, no environment access, no subprocess, no writing.",
+    "answered": 1785843036238
+  },
+  {
+    "id": "Rmse7txa6",
+    "what": "poppler-utils (pdftoppm) or an OCR-capable tool",
+    "why": "iebe1ps.pdf and iebe101.pdf are scanned page images, not text — without OCR nobody in this seat can read NCERT's own printed contents page directly, only triangulate secondary sources",
+    "depts": [
+      "supply"
+    ],
+    "firstAsked": 1785821195454,
+    "asks": 1,
+    "status": "answered",
+    "agent": "SUPPLY-W001",
+    "summary": "readdoc <file>: PDF and text to plain text with page numbers. Local, free, reads only. Already installed, no command needed.",
+    "install": "",
+    "safety": "One pure-python library (pypdf, no dependencies) in its own venv outside the repo. No network, no environment access, no subprocess, no writing.",
+    "answered": 1785843036243
+  },
+  {
+    "id": "Rmsekl58d",
+    "what": "Working Bash approval for node execution in this session",
+    "why": "To actually run scripts/qa/login-contrast.mjs and report a real pass/fail instead of a hand-traced one.",
+    "depts": [
+      "qa"
+    ],
+    "firstAsked": 1785842620861,
+    "asks": 1,
+    "status": "open",
+    "agent": "QA-W004"
+  },
+  {
+    "id": "Rmseodkt4",
+    "what": "a Bash permission grant that actually lets Test Lab run 'node scripts/*' without a live approval click, matching what the brief says is already allowed",
+    "why": "without it I can write tests but never watch them pass or fail, which defeats the point of a QA department",
+    "depts": [
+      "qa"
+    ],
+    "firstAsked": 1785848986264,
+    "asks": 1,
+    "status": "open",
+    "agent": "QA-W006"
+  },
+  {
+    "id": "Rmseoen3p",
+    "what": "A decision from Ayaan on how Supply's own research tasks (fetching a primary-source PDF for its own verification work, not for a code change) get executed, give",
+    "why": "Without it, every future Supply request for fetch-and-save capability will keep landing on the same structural wall this memo just found, however good the underlying Node technique is",
+    "depts": [
+      "supply"
+    ],
+    "firstAsked": 1785849035893,
+    "asks": 1,
+    "status": "open",
+    "agent": "SUPPLY-W013"
+  },
+  {
+    "id": "Rmseoh4x4",
+    "what": "npm install execution capability for devDependencies (currently barred to Supply by design)",
+    "why": "To actually run `npm install -D vitest` and prove the install completes cleanly rather than relying on the registry listing alone; installing itself is explicitly Ayaan's call per Supply's guardrails, so this is not a blocker, just the reason the fix isn't applied yet.",
+    "depts": [
+      "supply"
+    ],
+    "firstAsked": 1785849152296,
+    "asks": 1,
+    "status": "open",
+    "agent": "SUPPLY-W022"
+  },
+  {
+    "id": "Rmsepf07r",
+    "what": "A one-time Bash approval to run a single disposable Node command (or a script under scripts/) that does an HTTPS GET to https://egazette.gov.in supplying exactl",
+    "why": "This is the actual fix. It needs zero new dependencies and trusts nothing beyond one Let's Encrypt-published cert that already terminates at the long-established ISRG Root X1, but it requires running Node with a custom `ca` option, which neither WebFetch (hosted, no CA override) nor the currently-ap",
+    "depts": [
+      "supply"
+    ],
+    "firstAsked": 1785850732504,
+    "asks": 1,
+    "status": "open",
+    "agent": "SUPPLY-W020"
+  },
+  {
+    "id": "Rmseqa4zd",
+    "what": "A narrow, human-reviewed, exact-match Bash grant for one disposable script under scripts/ (not a blanket node scripts:* widening) for this specific egazette.gov",
+    "why": "Supply's own tool set (TOOLS.survey) deliberately excludes any Node-execution verb, per core/claude.mjs's toolsFor(); only someone who can edit that file, outside Supply's scope, can open a reviewed exception without weakening the guard for every other department",
+    "depts": [
+      "supply"
+    ],
+    "firstAsked": 1785852185017,
+    "asks": 1,
+    "status": "open",
+    "agent": "SUPPLY-W014"
+  },
+  {
+    "id": "Rmserfub2",
+    "what": "working `node scripts/*` execution in Bash without a stuck approval prompt",
+    "why": "Test Lab's whole job is running scripts/qa/*.mjs and reporting real pass/fail output; without it I can only prove test logic by hand-tracing, not by running it",
+    "depts": [
+      "qa"
+    ],
+    "firstAsked": 1785854130734,
+    "asks": 1,
+    "status": "open",
+    "agent": "QA-W009"
+  },
+  {
+    "id": "Rmsetino3",
+    "what": "Write access to pinnacle-office/supply/catalog.md",
+    "why": "Supply's own survey toolset has no Edit/Write on its own department file, so a prior 'already fixed' claim about this exact issue never actually landed -- someone with Write needs to apply the collapse directly",
+    "depts": [
+      "supply"
+    ],
+    "firstAsked": 1785857621331,
+    "asks": 2,
+    "status": "open",
+    "agent": "SUPPLY-W012"
+  },
+  {
+    "id": "Rmsey0891",
+    "what": "Working Bash approval for node scripts/qa/* in this session",
+    "why": "To actually execute the new test (and any test) and report a real pass/fail instead of a hand-traced one",
+    "depts": [
+      "qa"
+    ],
+    "firstAsked": 1785865159621,
+    "asks": 1,
+    "status": "open",
+    "agent": "QA-W013"
+  },
+  {
+    "id": "Rmsey30mx",
+    "what": "A logged-in Mistral La Plateforme account (or someone who has one) to read admin.mistral.ai/plateforme/limits and the account's actual terms page",
+    "why": "Mistral's own docs pages for tier terms 404 or redirect to a consumer-only pricing page, so the 'evaluation not production' restriction and the exact rate-limit numbers are only confirmable from a logged-in dashboard, which Supply doesn't have access to.",
+    "depts": [
+      "supply"
+    ],
+    "firstAsked": 1785865289721,
+    "asks": 1,
+    "status": "open",
+    "agent": "SUPPLY-W015"
+  },
+  {
+    "id": "Rmsey39wi",
+    "what": "Confirmation of which provider keys are actually live in production right now (Groq/Gemini/Cerebras/OpenRouter/GitHub)",
+    "why": "The capacity ceiling I modeled assumes Groq is the only working leg per the code's own comments — if that's stale, the real peak-hour capacity is different and the report's headline number changes",
+    "depts": [
+      "finance"
+    ],
+    "firstAsked": 1785865301730,
+    "asks": 1,
+    "status": "open",
+    "agent": "FINANCE-W005"
+  },
+  {
+    "id": "Rmsey39wn",
+    "what": "Current Vercel plan tier (Hobby vs Pro)",
+    "why": "To know whether the ToS-breach risk I flagged is already resolved or still open before any school is actually billed",
+    "depts": [
+      "finance"
+    ],
+    "firstAsked": 1785865301735,
+    "asks": 1,
+    "status": "open",
+    "agent": "FINANCE-W005"
+  },
+  {
+    "id": "Rmseya9so",
+    "what": "A Mistral La Plateforme account with an active workspace (created and verified by a human, e.g. Ayaan)",
+    "why": "Only way to read the exact RPS/TPM/tokens-per-month ceiling at admin.mistral.ai/plateforme/limits — Mistral's own docs confirm this data has no public page and is workspace-specific, so no tool or search can substitute for it",
+    "depts": [
+      "supply"
+    ],
+    "firstAsked": 1785865628184,
+    "asks": 1,
+    "status": "open",
+    "agent": "SUPPLY-W002"
+  },
+  {
+    "id": "Rmseydi55",
+    "what": "Vercel CLI (`vercel`, npm package, Apache-2.0, currently v58.5.1) authenticated with Ayaan's own Vercel login for org team_8gljGtywgvW6sbZOpw28lukG, or five min",
+    "why": "The plan tier is account/billing metadata that only exists inside Vercel's own systems — it is not derivable from any file in this repo, and Supply's Bash allowlist (npm run build, npx tsc, node scripts/*, git diff, git status) has no path to run or authenticate the CLI even if it were installed. Th",
+    "depts": [
+      "supply"
+    ],
+    "firstAsked": 1785865778969,
+    "asks": 1,
+    "status": "open",
+    "agent": "SUPPLY-W004"
+  },
+  {
+    "id": "Rmsg4tzji",
+    "what": "A Supabase MCP server (or equivalent read-only DB query capability) connected to the production project, scoped to run SELECT queries against pg_tables, pg_poli",
+    "why": "Without it there is no way to confirm rowsecurity=true and zero anon/authenticated grants on the live tables — the entire point of this task is checking production state, and reading schema.sql alone cannot prove it was ever run there or that nothing has since granted access back.",
+    "depts": [
+      "security"
+    ],
+    "firstAsked": 1785937091886,
+    "asks": 1,
+    "status": "open",
+    "agent": "SECURITY-W020"
+  }
+]

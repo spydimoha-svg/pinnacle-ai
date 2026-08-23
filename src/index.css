@@ -377,6 +377,69 @@
     .pnz-scene-body { inset: 8% 3% 18% 26%; }
   }
 
+  /* The NCERT citation under a scene's title. The lesson names its page. */
+  .pnz-scene-source {
+    @apply text-dim;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-top: 0.6rem;
+    padding: 0.2rem 0.55rem;
+    border: 1px solid var(--color-line);
+    border-radius: 999px;
+    max-width: 100%;
+  }
+  .pnz-scene-source span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  /* The explainer-deck layout: the figure owns the frame and the teacher
+     narrates from the corner, rather than sharing the stage with it. */
+  .pnz-look-notebook .pnz-scene-body { inset: 4% 6% 16% 6%; }
+  .pnz-look-notebook .pnz-scene-figure { max-width: 460px; }
+  .pnz-look-notebook .pnz-stage3d { height: 250px; }
+  .pnz-toon-corner {
+    left: auto;
+    right: 2.5%;
+    bottom: 12%;
+    opacity: 0.95;
+  }
+  @media (max-width: 640px) {
+    .pnz-look-notebook .pnz-scene-body { inset: 6% 4% 20% 4%; }
+    .pnz-toon-corner { right: 0; bottom: 8%; }
+  }
+
+  /* A live 3D object inside a TUTOR reply — the thing the student can pick
+     up and turn while reading the explanation next to it. Taller than the
+     video-scene version, because here it is the figure, not a companion to a
+     character standing beside it. */
+  .pnz-tutor-model {
+    margin: 0.9rem 0;
+    border: 1px solid var(--color-line);
+    border-radius: 14px;
+    overflow: hidden;
+    background: rgba(0, 0, 0, 0.28);
+  }
+  .pnz-tutor-model .pnz-stage3d { height: 260px; margin-top: 0; }
+  .pnz-tutor-model-note {
+    @apply text-dim;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.45rem 0.7rem 0.6rem;
+    border-top: 1px solid var(--color-line);
+  }
+  @media (max-width: 640px) {
+    .pnz-tutor-model .pnz-stage3d { height: 210px; }
+  }
+
   /* A live 3D object inside a lesson scene. */
   .pnz-stage3d { width: 100%; height: 190px; margin-top: 0.35rem; }
   .pnz-stage3d canvas { border-radius: 12px; touch-action: none; }
@@ -392,6 +455,12 @@
     color: var(--color-gold-bright);
     white-space: nowrap;
     pointer-events: none;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.85);
+  }
+  /* Secondary labels — part names and notes, quieter than the dimensions. */
+  .pnz-3d-label-dim {
+    color: var(--color-muted);
+    font-size: 10px;
   }
 
   /* Choosing your teacher. */

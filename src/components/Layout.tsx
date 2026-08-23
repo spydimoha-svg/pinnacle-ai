@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
 import {
   LayoutDashboard,
@@ -20,8 +20,16 @@ import {
   Flame,
   Mountain,
   Compass,
+  ScanLine,
+  Globe,
 } from "lucide-react";
+import { AnimatePresence } from "motion/react";
 import { Logo } from "./Logo";
+import {
+  Overture,
+  markOvertureSeen,
+  shouldPlayOverture,
+} from "../cinema/Overture";
 import { useStore } from "../lib/store";
 import type { Role } from "../lib/types";
 
@@ -30,10 +38,10 @@ const MASTER_TOKEN_KEY = "pinnacle-master-token";
 
 const NAV: Record<Role, { to: string; label: string; icon: typeof LayoutDashboard; end?: boolean }[]> = {
   student: [
-    { to: "/app", label: "Dashboard", icon: LayoutDashboard, end: true },
-    { to: "/app/planner", label: "Plan", icon: Compass },
+    { to: "/app", label: "Journey", icon: Compass, end: true },
+    { to: "/app/planner", label: "Plan", icon: LayoutDashboard },
     { to: "/app/tutor", label: "Tutor", icon: MessageCircle },
-    { to: "/app/subjects", label: "Subjects", icon: BookOpen },
+    { to: "/app/subjects", label: "Worlds", icon: Globe },
     { to: "/app/worksheets", label: "Worksheets", icon: FileText },
     { to: "/app/papers", label: "Papers & PYQs", icon: Landmark },
     { to: "/app/library", label: "Library", icon: Library },
@@ -46,6 +54,7 @@ const NAV: Record<Role, { to: string; label: string; icon: typeof LayoutDashboar
     { to: "/admin", label: "Overview", icon: LayoutDashboard, end: true },
     { to: "/admin/materials", label: "Materials", icon: FolderUp },
     { to: "/admin/students", label: "Students", icon: Users },
+    { to: "/admin/evaluate", label: "Marking", icon: ScanLine },
   ],
   master: [
     { to: "/master", label: "Overview", icon: LayoutDashboard, end: true },
@@ -66,6 +75,17 @@ export default function Layout({ role }: { role: Role }) {
   );
   const logout = useStore((s) => s.logout);
   const items = NAV[role];
+
+  // The overture plays once per session, and only for students — a
+  // teacher opening the marking console to get through forty scripts
+  // does not want a title sequence, and would be right not to.
+  const [overture, setOverture] = useState(
+    () => role === "student" && shouldPlayOverture()
+  );
+  const endOverture = () => {
+    markOvertureSeen();
+    setOverture(false);
+  };
 
   useEffect(() => {
     const active = [...items]
@@ -89,6 +109,9 @@ export default function Layout({ role }: { role: Role }) {
 
   return (
     <div className="min-h-screen flex">
+      <AnimatePresence>
+        {overture && <Overture onDone={endOverture} />}
+      </AnimatePresence>
       <a
         href="#main-content"
         className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:rounded-md focus:bg-ink focus:px-4 focus:py-2 focus:text-cream"

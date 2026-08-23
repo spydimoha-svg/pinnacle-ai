@@ -4,6 +4,8 @@ import DOMPurify from "dompurify";
 import markedKatex from "marked-katex-extension";
 import { Lightbulb } from "lucide-react";
 import { Ridgeline } from "./Logo";
+import { Stage3D } from "./cast/Stage3D";
+import { checkModel, parseModelSpec } from "../lib/figure3d";
 import {
   angleAt,
   compileFn,
@@ -969,15 +971,16 @@ function FunctionPlot({ spec }: { spec: PlotSpec }) {
   );
 }
 
-type Seg = { type: "prose" | "mermaid" | "plot" | "circuit"; content: string };
+type SegType = "prose" | "mermaid" | "plot" | "circuit" | "model";
+type Seg = { type: SegType; content: string };
 function segmentContent(text: string): Seg[] {
-  const re = /```(mermaid|plot|circuit)\s*\n([\s\S]*?)```/g;
+  const re = /```(mermaid|plot|circuit|model)\s*\n([\s\S]*?)```/g;
   const segs: Seg[] = [];
   let last = 0;
   let m: RegExpExecArray | null;
   while ((m = re.exec(text)) !== null) {
     if (m.index > last) segs.push({ type: "prose", content: text.slice(last, m.index) });
-    segs.push({ type: m[1] as "mermaid" | "plot" | "circuit", content: m[2].trim() });
+    segs.push({ type: m[1] as SegType, content: m[2].trim() });
     last = re.lastIndex;
   }
   if (last < text.length) segs.push({ type: "prose", content: text.slice(last) });
@@ -1005,7 +1008,9 @@ function stripTextArt(text: string): string {
     /```([a-zA-Z]*)[ \t]*\n([\s\S]*?)```/g,
     (whole, lang: string, body: string) => {
       const tag = (lang || "").toLowerCase();
-      if (tag === "mermaid" || tag === "plot" || tag === "circuit") return whole;
+      if (tag === "mermaid" || tag === "plot" || tag === "circuit" || tag === "model") {
+        return whole;
+      }
       return isTextArt(body) ? ART_NOTE : whole;
     }
   );
@@ -1015,7 +1020,13 @@ function stripTextArt(text: string): string {
   const open = /```([a-zA-Z]*)[ \t]*\n([\s\S]*)$/.exec(out);
   if (open && open.index !== undefined) {
     const tag = (open[1] || "").toLowerCase();
-    if (tag !== "mermaid" && tag !== "plot" && tag !== "circuit" && isTextArt(open[2])) {
+    if (
+      tag !== "mermaid" &&
+      tag !== "plot" &&
+      tag !== "circuit" &&
+      tag !== "model" &&
+      isTextArt(open[2])
+    ) {
       return out.slice(0, open.index) + ART_NOTE;
     }
   }
@@ -1041,6 +1052,26 @@ export function Markdown({ text, streaming }: { text: string; streaming?: boolea
           return <pre key={i}><code>{s.content}</code></pre>;
         }
         if (s.type === "mermaid") return <Mermaid key={i} source={s.content} />;
+        if (s.type === "model") {
+          const parsed = parseModelSpec(s.content);
+          if (!parsed) return null;
+          // Held to the words around it: a spec that contradicts the
+          // explanation is corrected to match it, and one that has nothing to
+          // do with the explanation is dropped rather than drawn. See
+          // lib/figure3d.ts — the failure this prevents is the near-miss, not
+          // the nonsense.
+          const checked = checkModel(parsed, prose);
+          if (!checked) return null;
+          return (
+            <figure key={i} className="pnz-tutor-model">
+              <Stage3D scene={checked.scene} />
+              <figcaption className="pnz-tutor-model-note">
+                Drag to turn it.
+                {checked.corrected ? ` Adjusted so ${checked.corrected}.` : ""}
+              </figcaption>
+            </figure>
+          );
+        }
         if (s.type === "circuit") {
           const circuit = parseCircuitSpec(s.content);
           if (!circuit || !isDrawableCircuit(circuit)) return null;

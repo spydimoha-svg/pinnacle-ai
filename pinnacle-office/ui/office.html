@@ -132,6 +132,15 @@
   .pill{display:flex;align-items:center;gap:10px;background:var(--ink);color:#000;border-radius:999px;padding:6px 8px 6px 16px;font-size:12px;letter-spacing:.02em;cursor:pointer;transition:transform .18s,background .18s;white-space:nowrap}
   .pill:hover{transform:translateY(-1px)}
   .pill.stop{background:var(--accent)}
+  /* The header microphone. Quiet until it is listening, then it is the loudest
+     thing on the screen, because "is it actually hearing me" was the question
+     he could never answer. */
+  .pill.mictop{background:transparent;color:var(--ink);border:1px solid var(--line2);padding:6px 14px 6px 8px}
+  .pill.mictop span{background:transparent;color:var(--faint);font-size:13px}
+  .pill.mictop:hover{border-color:var(--dim)}
+  .pill.mictop.on{background:var(--accent);color:#000;border-color:var(--accent)}
+  .pill.mictop.on span{color:#000;animation:micpulse 1.1s infinite}
+  @keyframes micpulse{50%{opacity:.35}}
   .pill span{width:22px;height:22px;border-radius:50%;background:#000;color:var(--ink);display:grid;place-items:center;font-size:11px}
 
   /* ------------------------------------------------------------ counters */
@@ -877,7 +886,14 @@
     <div class="live"><span class="dot" id="dot"></span><span id="status">connecting</span></div>
     <div class="grow"></div>
     <div class="readout" id="readout"></div>
-    <div class="kbd">/ commands &middot; V to speak</div>
+    <div class="kbd">/ commands</div>
+    <!-- Talking to her, with none of the office attached. Works with the floor shut. -->
+    <a class="kbd" href="/talk" style="text-decoration:none" title="Just talk to Pinnacle. No office, no agents.">talk</a>
+    <!-- The microphone lives here now. The other one is 10,228 pixels down a
+         17,609 pixel page, which is twelve screens of scrolling, so in practice
+         there was no way to press it. This one is in the sticky header and is
+         on screen wherever he is. -->
+    <button class="pill mictop" id="micTop" title="Speak to Pinnacle. Or press V."><span id="micTopDot">&#9679;</span>Speak</button>
     <button class="pill" id="run"><span id="runIcon">&#9654;</span></button>
   </div>
 </header>
@@ -1533,6 +1549,13 @@ function paintFaults() {
   const worst = [...faults.values()].some((f) => f.kind === "bug") ? "bug" : "quiet";
   bar.hidden = false;
   bar.className = "faults " + worst;
+  // Sit under the header, not over it. This bar is fixed at the top of the
+  // window at z-index 95 and the header is sticky at 40, so the moment anything
+  // was wrong the bar covered the whole header and swallowed every click on it.
+  // Traced in the browser: the thing under the cursor at the Speak button was
+  // this bar's own message span. Nothing in that header worked while a fault
+  // was up, which is most of the time, because "she cannot hear you" is one.
+  bar.style.top = (document.querySelector("header")?.offsetHeight || 0) + "px";
   bar.innerHTML = [...faults.entries()].map(([id, f]) =>
     `<div class="fault"><span class="tag">${f.kind === "bug" ? "defect" : "offline"}</span><span class="msg">${esc(f.text)}</span>${f.kind === "bug" ? `<button data-dismiss="${id}">dismiss</button>` : ""}</div>`
   ).join("");
@@ -1828,7 +1851,11 @@ async function refresh() {
   // HUD readouts. Real numbers, not set dressing.
   const up = r.office.startedAt ? r.now - r.office.startedAt : 0;
   const uptime = `${Math.floor(up / 3600000)}h ${Math.floor((up % 3600000) / 60000)}m`;
-  $("readout").innerHTML = `<span>${r.office.mode.toUpperCase()}</span><i></i><span>CONC ${r.office.concurrency}</span><i></i><span>Q ${depts.reduce((n, d) => n + d.queued, 0)}</span><i></i><span>UP ${uptime}</span>`;
+  // WRITE is how many may edit code at the same time. It is shown next to CONC
+  // because the two together are the whole answer to "why is only one thing
+  // happening": awake agents, and how many of those are allowed to build.
+  const writers = Math.min(r.office.writers || 1, r.office.concurrency);
+  $("readout").innerHTML = `<span>${r.office.mode.toUpperCase()}</span><i></i><span>CONC ${r.office.concurrency}</span><i></i><span>WRITE ${writers}</span><i></i><span>Q ${depts.reduce((n, d) => n + d.queued, 0)}</span><i></i><span>UP ${uptime}</span>`;
   $("sbMode").textContent = r.office.mode + " mode";
   $("sbUp").textContent = "uptime " + uptime;
   $("sbState").textContent = cooling ? "cooling down" : r.office.running ? `${r.awake} of ${r.office.concurrency} awake` : "closed";
@@ -1932,7 +1959,7 @@ $("sceneOrder").onclick = () => {
   const key = sceneKey;
   closeScene();
   if (key === "__pinnacle") { $("askIn").focus(); return; }
-  $("askIn").value = `tell ${key} `;
+  $("askIn").value = "";   // the card already knows the team, he just says what he wants
   $("askIn").focus();
   $("askIn").setSelectionRange($("askIn").value.length, $("askIn").value.length);
 };
@@ -2014,6 +2041,7 @@ function line(ev) {
     "office.command": ["hi", ev.detail || ""],
     "briefing.start": ["hi", "Pinnacle is writing your briefing"],
     "briefing.done": ["hi", "briefing filed"],
+    "closing.done": ["hi", "the day is written up"],
     "staff.report": ["ok", `${ev.who || "staff"}: ${ev.note || ""}`],
     "ceo.said": ["hi", "you: " + (ev.text || "")],
     "pinnacle.said": ["hi", "Pinnacle: " + (ev.text || "")],
@@ -2043,6 +2071,10 @@ stream.onmessage = (e) => {
   if (ev.type === "staff.report") pushMsg({ who: ev.who, what: ev.note, dept: ev.dept, verdict: ev.ruling });
   if (ev.type === "warden.block") { pushMsg({ who: "Pinnacle", what: `I refused a change from ${ev.dept}. ${ev.reason}` }); speak(`I refused a change from ${ev.dept}.`); }
   if (ev.type === "briefing.done") speak("Your briefing is ready.");
+  // Closing the floor writes up the day in plain words. She says the short
+  // version out loud and the whole thing opens, because he asked to be told
+  // what happened rather than to go and find it.
+  if (ev.type === "closing.done") { speak(ev.say || "That is the day written up."); if (ev.file) openPaper(ev.file); }
   if (ev.type === "agent.drift") {
     const what = ev.said ? `they say: ${ev.said}` : `touched ${ev.files.length} file(s) outside ${ev.dept}: ${ev.files.join(", ")}`;
     pushMsg({ who: "Pinnacle", what: `Off task on "${ev.title}". ${what}` });
@@ -2379,7 +2411,7 @@ function askAloud(question, { listen = true } = {}) {
   speak(question);
 }
 
-const HINTS = ["what did the office get done today", "get the tutor team to fix the hint ladder", "why was that change refused", "slow down to one at a time", "brief me"];
+const HINTS = ["what did the office get done today", "the lesson player keeps crashing on question three", "why was that change refused", "slow down to one at a time", "brief me"];
 $("askHint").innerHTML = HINTS.map((h) => `<span class="chip" data-hint="${esc(h)}">${esc(h)}</span>`).join("");
 
 // ----------------------------------------------------- doing as he asks
@@ -2424,12 +2456,18 @@ async function spokenCommand(text) {
 
   // "tell frontend to fix the lesson player", "get the tutor team to ...",
   // "ask legal to look at ...". Whatever shape he says it in.
-  const order = q.match(/\b(?:tell|ask|get|have|assign|give)\s+(?:the\s+)?([a-z][a-z ]{2,24}?)(?:\s+(?:team|lot|department|people))?\s+(?:to\s+|that\s+)?(.{6,})$/);
+  const order = q.match(/\b(?:tell|ask|get|have|assign|give)\s+(?:the\s+)?([a-z][a-z0-9 ]{1,24}?)(?:\s+(?:team|lot|department|people))?\s+(?:to\s+|that\s+)?(.{6,})$/);
   if (order) {
     const dept = matchDept(order[1]);
-    if (!dept) return answerNow(`I don't have a team called ${order[1].trim()}. Say it again with the department name.`);
-    const title = text.slice(text.toLowerCase().indexOf(order[2].slice(0, 12))).trim() || order[2];
-    return fileWork(title, dept);
+    // He named a real team, so it goes to that team. He did not, so this was
+    // just how he happened to phrase it and the whole sentence gets read and
+    // routed on its meaning. It used to stop here and tell him it had no team
+    // by that name, which is the thing he has been complaining about: he says a
+    // sentence and gets asked which department it belongs to.
+    if (dept) {
+      const title = text.slice(text.toLowerCase().indexOf(order[2].slice(0, 12))).trim() || order[2];
+      return fileWork(title, dept);
+    }
   }
 
   if (/\b(brief|briefing|report)\b.*\b(me|now|write|give)\b/.test(q) || /^\s*(brief me|write a briefing|give me a report|show me the report)\b/.test(q)) {
@@ -2439,12 +2477,18 @@ async function spokenCommand(text) {
   // Anything else in the imperative is work. This is the difference between
   // "what is frontend doing", which she answers, and "frontend, fix the lesson
   // player", which she hands out: a question about the floor, or a job for it.
-  if (!ASKING.test(q) && DOING.test(q) && q.length > 9) return fileWork(text);
+  if (!ASKING.test(q) && (DOING.test(q) || BROKEN.test(q) || WANTS.test(q)) && q.length > 9) return fileWork(text);
   return false;
 }
 
 const ASKING = /^\s*(what|who|whose|when|why|how|which|where|is|are|was|were|do|does|did|have|has|can you tell|could you tell|any|tell me about)\b|\?\s*$/i;
 const DOING = /\b(fix|add|build|make|write|create|change|improve|update|remove|delete|redesign|refactor|check|test|audit|review|sort|clean|speed|secure|harden|look into|work on|start on|handle|deal with|implement|design|rewrite|sort out|get on)\b/i;
+// Half of what he says is a complaint, not an instruction, and it is the same
+// job either way. "The lesson player keeps crashing on question three" has no
+// verb from the list above, so it used to fall through to being chatted about
+// instead of being fixed by anyone.
+const BROKEN = /\b(is|are|keeps?|kept|feels?|looks?|gets?)\s+(?:\w+\s+){0,2}(wrong|broken|failing|crashing|missing|slow|laggy|janky|confusing|off|late|empty)\b|\bnot working\b|\bdoesn'?t work\b|\bwon'?t (load|open|work|save)\b/i;
+const WANTS = /\b(i want|i need|we need|we should|it should|they should|can we|could we|let'?s|please can)\b/i;
 
 // ------------------------------------------------------------- the plan
 // He gives her work and gets the plan back before he has put the microphone
@@ -2524,15 +2568,23 @@ function watchReports(r) {
 
 // Loosely match what he said to a real department, because he says "front end"
 // and "the front-end lot" and the key is "frontend".
+// A department, only when he actually named one. This used to match on any
+// substring in either direction, which is how ordinary English became an
+// instruction to a team: "get the content loading faster" was read as an order
+// to CBSE Content, and "get the video player working" matched Video because
+// "videoplayer" contains "video". The verbs that lead into this are get, have
+// and give, which people say constantly, so the loose match fired all the time.
+//
+// Exact key, or the department's own name with the spaces taken out. Nothing
+// looser, because when this returns null the sentence is simply read and routed
+// on its meaning, which is better than a confident wrong guess.
 function matchDept(said) {
   const keys = Object.keys(snap?.departments || {});
-  const flat = said.toLowerCase().replace(/[^a-z]/g, "");
-  if (!flat) return null;
-  let hit = keys.find((k) => k === flat);
-  if (!hit) hit = keys.find((k) => k.replace(/[^a-z]/g, "") === flat);
-  if (!hit) hit = keys.find((k) => flat.includes(k) || k.includes(flat));
-  if (!hit) hit = keys.find((k) => (snap.departments[k].name || "").toLowerCase().replace(/[^a-z]/g, "").includes(flat));
-  return hit || null;
+  const flat = said.toLowerCase().replace(/[^a-z0-9]/g, "");   // keep digits, a11y is a key
+  if (flat.length < 2) return null;
+  return keys.find((k) => k === flat)
+      || keys.find((k) => (snap.departments[k].name || "").toLowerCase().replace(/[^a-z0-9]/g, "") === flat)
+      || null;
 }
 
 function answerNow(line) {
@@ -2655,8 +2707,30 @@ async function carryOut(r) {
     $("askHint").innerHTML = `<span class="chip confirmChip" data-confirm="1">yes, open the office</span><span class="chip" data-hint="">no, leave it closed</span>`;
     return;
   }
-  const map = { stop: "stop", mode: "mode", concurrency: "concurrency", only: "only", all: "all", dept: "dept", plan: "plan", brief: "brief", order: "order" };
-  if (a === "focus") { focusDept = r.value; return; }
+  // A job she heard him give goes through the same door as a typed one, so it
+  // gets read, routed, given to a named seat, and shown on the board. This used
+  // to post it and throw the answer away, which meant she said "yeah, I'll get
+  // someone on that" out loud while the server refused it for having no team
+  // and nothing was ever filed. He had no way of knowing.
+  if (a === "order") {
+    const title = String(r.value?.title || (typeof r.value === "string" ? r.value : "")).trim();
+    if (!title) return;
+    return void fileWork(title, matchDept(String(r.value?.dept || "")));
+  }
+
+  // Anything whose value is meant to BE a department is only obeyed when it
+  // really is one. Unvalidated, "only" set every department to false and sent
+  // the whole office home, "plan" quietly did nothing forever, and "focus"
+  // emptied the board with no way to tell why.
+  const needsRealDept = { only: 1, dept: 1, plan: 1, focus: 1 };
+  if (needsRealDept[a]) {
+    const key = matchDept(String(r.value || ""));
+    if (!key) return void answerNow(`I couldn't tell which team you meant by "${String(r.value || "").slice(0, 24)}".`);
+    if (a === "focus") { focusDept = key; return; }
+    return void post(a, key);
+  }
+
+  const map = { stop: "stop", mode: "mode", concurrency: "concurrency", all: "all", brief: "brief" };
   if (map[a]) await post(map[a], r.value);
 }
 
@@ -2690,6 +2764,41 @@ let earTries = 0;          // consecutive immediate failures, for the backoff
 let lastHeard = "";
 let wokeAt = 0;          // when her name last landed, so one breath wakes her once
 let turnEnded = 0;       // when he last finished a sentence, so its tail is ignored
+let micDenied = false;   // the browser has refused us the microphone
+let micOnce = false;     // we have asked for the microphone at least once
+let earFailed = false;   // the last session died rather than ending normally
+let heldOpen = 0;        // sessions restarted under him during one press of V
+
+// The browser only asks him for the microphone when something actually asks for
+// it. Speech recognition on its own does not always prompt: it just fails with
+// not-allowed, which is silent, and V looks broken. This is what makes the
+// prompt appear, and it is why pressing V again after allowing it now works.
+async function ensureMic() {
+  if (!navigator.mediaDevices?.getUserMedia) return true;   // nothing to ask, let rec try
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    // Hand it straight back. Holding the device open is a known way to starve
+    // the recogniser, which is a different bug we already had once.
+    stream.getTracks().forEach((t) => t.stop());
+    micDenied = false;
+    return true;
+  } catch {
+    micDenied = true;
+    return false;
+  }
+}
+
+// He pressed V, the microphone never opened, and there is nothing to send. Put
+// everything back the way it was and say so, rather than pretending he spoke.
+function abandonVoice() {
+  listening = false;
+  $("askIn").value = "";
+  lastHeard = "";
+  $("mic").classList.remove("on");
+  $("vdock").classList.remove("hot");
+  if (!speaking) { orb.mode("idle"); orbSay("standing by"); }
+  setEar(wakeOn ? "wake" : "off");
+}
 
 // Speech recognition mangles proper nouns, and "Pinnacle" is a proper noun it
 // has never heard of. It comes back as pinnacles, pinacle, panicle, innacle,
@@ -2748,12 +2857,17 @@ if (Rec) {
   rec.onerror = (e) => {
     if (e.error === "no-speech" || e.error === "aborted") return;   // ordinary silence
     if (e.error === "not-allowed" || e.error === "service-not-allowed") {
+      // The session never opened, so whatever happens next, he did not just
+      // finish a sentence. Saying so here is what stops onend below throwing
+      // the turn away and leaving V looking like a dead key.
+      micDenied = true;
+      earFailed = true;
       wakeOn = false; want = "off"; earLive = false;
       $("wake").classList.remove("on");
       $("wake").classList.add("off");
       earSay("blocked");
-      voiceUI("Microphone blocked", "allow it in the address bar, then press wake");
-      raiseFault("mic", "quiet", "She cannot hear you: this page is not allowed the microphone. Click the padlock in the address bar, allow it, then press WAKE.");
+      voiceUI("Microphone blocked", "click the padlock in the address bar, allow the mic, then press V again");
+      raiseFault("mic", "quiet", "She cannot hear you: this page is not allowed the microphone. Click the padlock in the address bar, allow it, then press V again.");
       return;
     }
     if (e.error === "network") {
@@ -2769,7 +2883,30 @@ if (Rec) {
   // what gets the recognition service to start refusing outright.
   rec.onend = () => {
     earLive = false;
-    if (listening) { stopVoice(); return; }
+    if (listening) {
+      // A session that never opened is not him finishing a sentence. Traced in
+      // the browser, pressing V produced exactly this: onerror "not-allowed",
+      // then onend, then stopVoice, all inside one frame. The microphone opened
+      // and shut before anything could be said and V looked like a dead key.
+      if (earFailed) { earFailed = false; abandonVoice(); return; }
+      // He pressed V and has not pressed it again. A session ending underneath
+      // him is the recogniser's business, not his, so pick it straight back up
+      // and keep listening. Only a second press, or him actually saying
+      // something and then stopping, ends his turn.
+      //
+      // Bounded, because a recogniser that ends instantly and forever without
+      // ever erroring would otherwise be restarted every fifth of a second for
+      // as long as he left the page open, which is how the service starts
+      // refusing outright.
+      if (!($("askIn").value || lastHeard || "").trim()) {
+        if (++heldOpen <= 25) return setTimeout(launchEar, Math.min(1500, 180 + heldOpen * 60));
+        voiceUI("I can't hear anything", "the mic is on but nothing is reaching me. Press V to try again");
+        abandonVoice();
+        return;
+      }
+      stopVoice();
+      return;
+    }
     setTimeout(launchEar, Math.min(2000, 220 + earTries * 260));
   };
 } else {
@@ -2864,11 +3001,30 @@ function voiceLabel() {
   return `${voiceIsNeural() ? "neural" : "system"} voice · ${name}`;
 }
 
-function startVoice() {
+async function startVoice() {
   if (!rec || listening) return;
   if (speaking) hush();          // he is talking over her, so she stops
+
+  // Ask for the microphone before opening a session, and ask again on every
+  // press after a refusal. This used to give up permanently the first time the
+  // browser said no: wakeOn went false, want went to off, and V did nothing for
+  // the rest of the page with no way back except a reload.
+  if (micDenied || !micOnce) {
+    micOnce = true;
+    voiceUI("Asking for the mic", "allow it and I'll start listening");
+    if (!(await ensureMic())) {
+      voiceUI("Microphone blocked", "click the padlock in the address bar, allow the mic, then press V again");
+      raiseFault("mic", "quiet", "She cannot hear you until this page is allowed the microphone. Click the padlock in the address bar, allow it, then press V again.");
+      return;
+    }
+    // Allowed. Whatever the first refusal turned off, turn it back on.
+    wakeOn = true;
+    earFailed = false;
+  }
+
   listening = true;
   convo = true;
+  heldOpen = 0;
   lastHeard = "";
   $("askIn").value = "";
   orb.mode("listening");
@@ -2950,6 +3106,18 @@ const say = (n) => SAY[n] || String(n);
 
 const toggleVoice = () => (listening ? stopVoice() : startVoice());
 $("mic").onclick = toggleVoice;
+
+// The header microphone. Same door as the buried one and as pressing V, so
+// there is one code path and the three can never disagree about whether she is
+// listening. Its state is mirrored off the original rather than set in six
+// places, because every path that starts or stops her already touches that one.
+$("micTop").onclick = toggleVoice;
+new MutationObserver(() => {
+  const on = $("mic").classList.contains("on");
+  $("micTop").classList.toggle("on", on);
+  $("micTop").lastChild.textContent = on ? "Listening" : "Speak";
+  $("micTop").title = on ? "Press again when you're done. Or press V." : "Speak to Pinnacle. Or press V.";
+}).observe($("mic"), { attributes: true, attributeFilter: ["class"] });
 $("dupTake").onclick = takeOver;
 
 $("wake").onclick = () => {
@@ -3201,10 +3369,16 @@ function pushMsg({ boss, who, what, dept, verdict }) {
 // One text box runs the whole office. Everything the dashboard can do is a
 // command, so nothing is buried behind a menu.
 const DEPTS = () => Object.values(snap?.departments || {});
+// The last rule here used to be name.includes(w), which matches a department on
+// any fragment appearing anywhere in its name. A prefix is a deliberate
+// abbreviation, "front" for Front End; a fragment in the middle is a coincidence.
 const findDept = (word = "") => {
-  const w = word.toLowerCase().trim();
-  if (!w) return null;
-  return DEPTS().find((d) => d.key === w) || DEPTS().find((d) => d.key.startsWith(w) || d.name.toLowerCase().startsWith(w)) || DEPTS().find((d) => d.name.toLowerCase().includes(w));
+  const w = word.toLowerCase().trim().replace(/[^a-z0-9]/g, "");
+  if (w.length < 2) return null;
+  return DEPTS().find((d) => d.key === w)
+      || DEPTS().find((d) => d.name.toLowerCase().replace(/[^a-z0-9]/g, "") === w)
+      || (w.length >= 3 ? DEPTS().find((d) => d.key.startsWith(w) || d.name.toLowerCase().startsWith(w)) : null)
+      || null;
 };
 
 const COMMANDS = [
@@ -3213,13 +3387,20 @@ const COMMANDS = [
   { id: "apply mode", hint: "code departments may edit files", run: () => post("mode", "apply").then(() => "apply mode") },
   { id: "propose mode", hint: "nobody edits anything, everyone writes reports", run: () => post("mode", "propose").then(() => "propose mode") },
   { id: "speed", arg: "1 to 6", hint: "how many agents are awake at once", run: (a) => post("concurrency", a || 3).then((r) => "speed " + r.office.concurrency) },
+  { id: "writers", arg: "1 to 6", hint: "how many may write code at once. each gets its own copy of the codebase", run: (a) => post("writers", a || 3).then((r) => "writers " + Math.min(r.office.writers, r.office.concurrency)) },
   { id: "brief me", hint: "Pinnacle writes a briefing now", run: () => post("brief").then(() => "writing your briefing") },
-  { id: "tell", arg: "<department> <what you want>", hint: "give a department a job yourself, it jumps the queue", run: (a) => {
-      const [first, ...rest] = (a || "").split(/\s+/);
-      const d = findDept(first);
-      if (!d) return "which department? try: tell tutor fix the hint ladder";
-      if (!rest.length) return "tell me what you want them to do";
-      return post("order", { dept: d.key, title: rest.join(" ") }).then(() => `${d.name} has it, next up`);
+  { id: "tell", arg: "<what you want>", hint: "hand the floor a job. Name a department only if you want to pick one", run: (a) => {
+      const said = (a || "").trim();
+      if (said.length < 4) return "tell me what you want doing";
+      // Naming a team is optional now. If the first word is one, he picked it.
+      // If it is not, the whole thing is read and given to whoever owns it,
+      // rather than stopping to ask him which department it belongs to.
+      const [first, ...rest] = said.split(/\s+/);
+      const d = rest.length ? findDept(first) : null;
+      const value = d ? { dept: d.key, title: rest.join(" ") } : { title: said };
+      return post("order", value).then((r) =>
+        r.error ? r.error : r.rows ? r.rows.filter((x) => !x.proof).map((x) => `${x.deptName} has it`).join(", ") : `${d ? d.name : "the floor"} has it`
+      );
     } },
   { id: "plan", arg: "<department>", hint: "make a head file a fresh round of tasks now", run: (a) => {
       const d = findDept(a); if (!d) return "which department?";

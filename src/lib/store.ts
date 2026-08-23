@@ -21,6 +21,7 @@ import {
   saveSchoolResources,
 } from "./cloud";
 import type { LessonState } from "./lesson";
+import type { Script } from "./osm";
 import { freshProfile, type LearnerProfile } from "./learner";
 import { supabase, cloudEnabled } from "./supabase";
 
@@ -58,6 +59,12 @@ interface PinnacleState {
   worksheets: Record<string, Worksheet[]>;
   /** materials added by school admins (multi-tenant: scoped by schoolId) */
   schoolResources: Resource[];
+  /**
+   * Answer scripts being marked in the teachers-only OSM console. Scoped by
+   * schoolId the same way schoolResources is, so one school's evaluation
+   * never appears in another's console.
+   */
+  scripts: Script[];
   /** The chapter each student is currently being walked through, step by step. */
   lessons: Record<string, LessonState | null>;
   /**
@@ -109,6 +116,10 @@ interface PinnacleState {
 
   addSchoolResource: (r: Resource) => void;
   removeSchoolResource: (id: string) => void;
+
+  /** Create or overwrite an answer script in the marking console. */
+  saveScript: (s: Script) => void;
+  removeScript: (id: string) => void;
   /** Pull every school's materials from the cloud DB (cloud wins per id). */
   hydrateSchoolResources: () => Promise<void>;
 
@@ -127,6 +138,7 @@ export const useStore = create<PinnacleState>()(
       blobs: {},
       worksheets: {},
       schoolResources: [],
+      scripts: [],
       lessons: {},
       profiles: {},
 
@@ -451,6 +463,19 @@ export const useStore = create<PinnacleState>()(
         void deleteSchoolResource(id);
       },
 
+      saveScript: (script) =>
+        set((s) => {
+          const exists = s.scripts.some((x) => x.id === script.id);
+          return {
+            scripts: exists
+              ? s.scripts.map((x) => (x.id === script.id ? script : x))
+              : [script, ...s.scripts],
+          };
+        }),
+
+      removeScript: (id) =>
+        set((s) => ({ scripts: s.scripts.filter((x) => x.id !== id) })),
+
       hydrateSchoolResources: async () => {
         if (!cloudEnabled()) return;
         const cloudResources = await loadSchoolResources();
@@ -495,6 +520,12 @@ export const useStore = create<PinnacleState>()(
         blobs: s.blobs,
         worksheets: s.worksheets,
         schoolResources: s.schoolResources,
+        // Marks and remarks persist; the scanned pages do not. They are
+        // browser object URLs for files on the teacher's own machine — dead
+        // on the next reload, and inlining them as data URLs instead would
+        // put multi-megabyte images into a 5MB localStorage quota shared with
+        // every student's progress. The console re-attaches scans per session.
+        scripts: s.scripts.map((x) => ({ ...x, pages: [] as string[] })),
         lessons: s.lessons,
         profiles: s.profiles,
       }),

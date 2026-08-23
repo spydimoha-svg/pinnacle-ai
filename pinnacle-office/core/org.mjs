@@ -30,7 +30,7 @@ export const DEPARTMENTS = [
   {
     key: "backend",
     name: "Back End",
-    headcount: 70,
+    headcount: 30,
     kind: "code",
     priority: 2,
     scope: ["api/**", "scripts/**", "netlify/**"],
@@ -73,7 +73,7 @@ export const DEPARTMENTS = [
   {
     key: "content",
     name: "CBSE Content",
-    headcount: 85,
+    headcount:  12,
     kind: "code",
     priority: 1,
     scope: ["src/data/**"],
@@ -95,7 +95,7 @@ export const DEPARTMENTS = [
   {
     key: "video",
     name: "Video Generation",
-    headcount: 55,
+    headcount: 15,
     kind: "code",
     priority: 3,
     scope: ["src/lib/videoScript.ts", "src/pages/app/Videos.tsx", "src/data/videos.ts", "scripts/qa/video.mjs"],
@@ -115,7 +115,7 @@ export const DEPARTMENTS = [
   {
     key: "diagrams",
     name: "Diagram Studio",
-    headcount: 50,
+    headcount: 15,
     kind: "code",
     priority: 3,
     scope: ["src/lib/figure.ts", "src/lib/reveal.ts", "scripts/figures.mjs", "src/components/**"],
@@ -135,7 +135,7 @@ export const DEPARTMENTS = [
   {
     key: "qa",
     name: "Test Lab",
-    headcount: 70,
+    headcount: 30,
     kind: "code",
     priority: 2,
     scope: ["scripts/qa/**", "scripts/qa.mjs", "scripts/lesson.mjs", "qa-reports/**"],
@@ -155,7 +155,7 @@ export const DEPARTMENTS = [
   {
     key: "debug",
     name: "Defect Squad",
-    headcount: 60,
+    headcount: 30,
     kind: "code",
     priority: 1,
     scope: ["src/**", "api/**", "scripts/**"],
@@ -176,7 +176,7 @@ export const DEPARTMENTS = [
   {
     key: "security",
     name: "Security",
-    headcount: 60,
+    headcount: 30,
     kind: "code",
     priority: 1,
     scope: ["api/**", "src/lib/supabase.ts", "src/lib/cloud.ts", "src/components/Protected.tsx", "src/pages/Login.tsx", "src/pages/MasterAccess.tsx", "supabase/**"],
@@ -370,7 +370,7 @@ export const DEPARTMENTS = [
   {
     key: "legal",
     name: "Legal",
-    headcount: 20,
+    headcount: 10,
     kind: "report",
     priority: 4,
     scope: [],

@@ -1,0 +1,319 @@
+<title>Pinnacle Go-To-Market</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap">
+
+<style>
+  :root {
+    --ink: #050505; --deep: #0a0a0c; --surface: #101012; --raise: #17171a;
+    --line: #26262b; --line-soft: #1b1b1f;
+    --gold: #e8c889; --gold-bright: #f2dca8; --gold-deep: #c79e4f; --gold-dim: #8a6524;
+    --cream: #f0ede6; --muted: #b0aea9; --dim: #6e6e6e;
+    --mint: #6fb98c; --coral: #e2564a; --sky: #6fa8c9;
+    --display: "Hanken Grotesk", ui-sans-serif, system-ui, sans-serif;
+    --mono: "JetBrains Mono", ui-monospace, monospace;
+    --measure: 68ch; --pad: clamp(1.15rem, 4vw, 3.25rem);
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--ink); color:var(--cream); font-family:var(--display);
+         font-size:16.5px; line-height:1.66; -webkit-font-smoothing:antialiased; }
+  .wrap { max-width:1060px; margin:0 auto; padding:var(--pad); display:flex; flex-direction:column; gap:4rem; }
+
+  .mast { display:flex; flex-direction:column; gap:1.1rem; padding-bottom:2.25rem; border-bottom:1px solid var(--line); }
+  .kicker { font-family:var(--mono); font-size:0.7rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--gold-deep); }
+  h1 { margin:0; font-size:clamp(2rem,5.4vw,3.3rem); line-height:1.05; font-weight:800; letter-spacing:-0.025em; text-wrap:balance; }
+  .lede { margin:0; max-width:var(--measure); color:var(--muted); font-size:1.08rem; }
+  .lede strong { color:var(--cream); font-weight:600; }
+
+  /* phase header — numbering is real here: these run in order */
+  .phase { display:flex; align-items:baseline; gap:0.9rem; padding-bottom:0.55rem;
+           border-bottom:1px solid var(--line); margin-bottom:0.4rem; }
+  .phase .no { font-family:var(--mono); font-size:0.72rem; font-weight:700; letter-spacing:0.1em;
+               color:var(--ink); background:var(--gold-deep); padding:0.16rem 0.5rem; border-radius:3px; flex-shrink:0; }
+  .phase h2 { margin:0; font-size:clamp(1.2rem,2.5vw,1.55rem); font-weight:700; letter-spacing:-0.015em; text-wrap:balance; }
+  .phase .when { margin-left:auto; font-family:var(--mono); font-size:0.68rem; color:var(--dim); white-space:nowrap; }
+
+  section { display:flex; flex-direction:column; gap:1.1rem; }
+  h3 { margin:0; font-size:1rem; font-weight:600; color:var(--gold-bright); }
+  p { margin:0; max-width:var(--measure); color:var(--muted); }
+  p strong { color:var(--cream); font-weight:600; }
+  p.wide { max-width:none; }
+  em { color:var(--cream); font-style:italic; }
+
+  ol.steps { margin:0; padding-left:0; list-style:none; counter-reset:s;
+             display:flex; flex-direction:column; gap:0.85rem; max-width:var(--measure); }
+  ol.steps li { counter-increment:s; position:relative; padding-left:2.1rem; color:var(--muted); }
+  ol.steps li::before {
+    content: counter(s); position:absolute; left:0; top:0.15rem;
+    font-family:var(--mono); font-size:0.7rem; color:var(--gold);
+    border:1px solid var(--gold-dim); border-radius:4px; width:1.45rem; height:1.45rem;
+    display:flex; align-items:center; justify-content:center;
+  }
+  ol.steps strong { color:var(--cream); font-weight:600; }
+
+  ul.plain { margin:0; padding-left:1.15rem; color:var(--muted); max-width:var(--measure); }
+  ul.plain li { margin-bottom:0.5rem; }
+  ul.plain strong { color:var(--cream); font-weight:600; }
+
+  .scroll { overflow-x:auto; border:1px solid var(--line); border-radius:10px; }
+  table { width:100%; border-collapse:collapse; font-size:0.885rem; min-width:600px; }
+  thead th { text-align:left; font-family:var(--mono); font-size:0.64rem; letter-spacing:0.13em;
+             text-transform:uppercase; color:var(--dim); font-weight:500; padding:0.8rem 1rem;
+             background:var(--raise); border-bottom:1px solid var(--line); white-space:nowrap; }
+  tbody td { padding:0.78rem 1rem; border-bottom:1px solid var(--line-soft); color:var(--muted); vertical-align:top; }
+  tbody tr:last-child td { border-bottom:none; }
+  td.name { color:var(--cream); font-weight:500; }
+  td.mono, th.mono { font-family:var(--mono); font-variant-numeric:tabular-nums; white-space:nowrap; text-align:right; }
+  td.good { color:var(--mint); }
+  td.bad { color:var(--coral); }
+
+  .win { border:1px solid rgba(111,185,140,0.35); background:rgba(111,185,140,0.05); border-radius:10px;
+         padding:1.25rem 1.45rem; display:flex; flex-direction:column; gap:0.6rem; }
+  .win .h { font-family:var(--mono); font-size:0.66rem; letter-spacing:0.14em; text-transform:uppercase; color:var(--mint); }
+  .win p { color:var(--cream); }
+
+  .flag { border:1px solid rgba(226,86,74,0.38); background:rgba(226,86,74,0.055); border-radius:10px;
+          padding:1.25rem 1.45rem; display:flex; flex-direction:column; gap:0.6rem; }
+  .flag .h { font-family:var(--mono); font-size:0.66rem; letter-spacing:0.14em; text-transform:uppercase; color:var(--coral); }
+  .flag p { color:var(--cream); }
+
+  .note { border-left:2px solid var(--gold-dim); padding-left:1.15rem; display:flex; flex-direction:column; gap:0.5rem; }
+
+  .script { background:var(--deep); border:1px solid var(--line); border-radius:10px;
+            padding:1.15rem 1.3rem; font-size:0.9rem; color:var(--muted); display:flex; flex-direction:column; gap:0.7rem; }
+  .script .who { font-family:var(--mono); font-size:0.63rem; letter-spacing:0.13em; text-transform:uppercase; color:var(--gold-deep); }
+  .script q { color:var(--cream); font-style:italic; }
+
+  footer { border-top:1px solid var(--line); padding-top:1.6rem; color:var(--dim); font-size:0.85rem;
+           display:flex; flex-direction:column; gap:0.6rem; }
+  footer a { color:var(--gold-deep); }
+
+  @media (prefers-reduced-motion: reduce) { * { animation:none !important; transition:none !important; } }
+</style>
+
+<div class="wrap">
+
+  <header class="mast">
+    <div class="kicker">Marketing playbook · 90-day sequence · 19 Aug 2026</div>
+    <h1>How to sell Pinnacle</h1>
+    <p class="lede">
+      A step-by-step launch sequence built around one advantage most edtech founders
+      do not have: <strong>you built a tool teachers want before you built the thing
+      students pay for.</strong> That inverts the entire acquisition problem, and this
+      playbook is organised around exploiting it.
+    </p>
+  </header>
+
+  <div class="win">
+    <span class="h">The wedge — everything below depends on this</span>
+    <p>
+      Every consumer edtech in India is fighting for the same parent's attention with
+      the same paid ads, and losing money doing it. <strong>You have a second door:
+      the on-screen marking console.</strong> A CBSE teacher marks 40 scripts a term
+      and hates every hour of it. Give that away free, forever, to any teacher who
+      wants it.
+    </p>
+    <p>
+      One principal saying yes puts Pinnacle in front of <strong>200–2,000 students
+      at effectively zero acquisition cost</strong>, with the school's own credibility
+      attached. That is the only channel in Indian edtech whose economics actually
+      work, and it is the one nobody else can copy quickly because they did not build
+      the teacher tool.
+    </p>
+  </div>
+
+  <!-- 0 -->
+  <section>
+    <div class="phase"><span class="no">00</span><h2>Fix what blocks the sale</h2><span class="when">Week 0 · before any outreach</span></div>
+    <div class="flag">
+      <span class="h">Do not market until these three are done</span>
+      <p>
+        <strong>1. Move off free LLM tiers.</strong> Gemini's free tier bars commercial
+        use and trains on your prompts. The day you take money you are in breach, and
+        a school's IT head <em>will</em> ask where student data goes.
+      </p>
+      <p>
+        <strong>2. Write a privacy policy that names minors.</strong> You are handling
+        data from children under 18. Schools ask for this in the first meeting; not
+        having it ends the meeting.
+      </p>
+      <p>
+        <strong>3. File the trademark.</strong> Not because someone will steal the name
+        this month, but because a school procurement form asks for it and because
+        filing is cheap now and expensive later.
+      </p>
+    </div>
+    <h3>Write the one sentence first</h3>
+    <p>
+      Before any asset, settle the positioning. Not a tagline — a claim you can defend
+      in a staffroom. Something in the shape of:
+    </p>
+    <div class="script">
+      <span class="who">Positioning</span>
+      <q>Pinnacle marks your class's answer scripts in a third of the time, and teaches
+      the students who got them wrong — grounded in the actual NCERT text and the real
+      marking scheme, so it never invents an exercise number.</q>
+    </div>
+    <p>
+      Note what that sentence does: it leads with the <em>teacher's</em> pain, and the
+      student product arrives as a consequence. Every asset you make should follow that
+      order.
+    </p>
+  </section>
+
+  <!-- 1 -->
+  <section>
+    <div class="phase"><span class="no">01</span><h2>Ten students before one rupee of ads</h2><span class="when">Weeks 1–3</span></div>
+    <p>
+      Proof first. You need evidence a stranger will believe, and you cannot buy that.
+    </p>
+    <ol class="steps">
+      <li><strong>Recruit 10 students by hand.</strong> Your school, your neighbourhood, relatives' children. Free. In exchange they agree to be studied.</li>
+      <li><strong>Record a real before-and-after.</strong> A diagnostic score at the start, the same paper six weeks later. This single number is your most valuable marketing asset for the next two years.</li>
+      <li><strong>Sit and watch three of them use it.</strong> Not a survey — watch. Every place they hesitate is a place a school demo will fail.</li>
+      <li><strong>Get two teachers marking with the OSM console.</strong> Time them against marking by hand. "Cut marking time from 4 hours to 90 minutes" is the line that opens school doors.</li>
+      <li><strong>Collect three quotes with full names and schools attached.</strong> Anonymous testimonials convince nobody in this market.</li>
+    </ol>
+    <div class="note">
+      <p>
+        <strong>Gate:</strong> do not move to Phase 02 until you can state one honest
+        outcome number and one honest time-saved number. If six weeks produced neither,
+        the product is not ready and marketing will only make that fact travel faster.
+      </p>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section>
+    <div class="phase"><span class="no">02</span><h2>The school channel</h2><span class="when">Weeks 3–10 · the main engine</span></div>
+    <p>
+      This is where the business is won. Target <strong>CBSE-affiliated private schools
+      with 500–2,000 students in tier-2 and tier-3 cities</strong> — big enough to have
+      a budget, small enough that the principal decides alone and you are not stuck in
+      a procurement committee for nine months.
+    </p>
+    <ol class="steps">
+      <li><strong>Build a list of 50 schools.</strong> The CBSE affiliation directory is public. Record the principal's name and the head of science or maths.</li>
+      <li><strong>Lead with the teacher tool, never the subscription.</strong> The first email offers free marking software for their staff. Nothing else. No pricing, no student plans.</li>
+      <li><strong>Ask for 20 minutes with two teachers, not the principal.</strong> Teachers are easier to reach, and a teacher who loves it will sell the principal for you — internally, which is worth more than anything you can say.</li>
+      <li><strong>Demo by marking their own paper.</strong> Bring nothing generic. Ask for a real answer script beforehand and mark it live. This is the whole pitch.</li>
+      <li><strong>Leave the teachers using it for a full term.</strong> Free. Do not sell yet. You are buying proof and habit.</li>
+      <li><strong>Return with usage data.</strong> "Your staff marked 340 scripts and saved an estimated 96 hours." Now propose student licences at the bulk rate.</li>
+      <li><strong>Price per student, per year, invoiced to the school.</strong> Parents paying individually is a collections problem; a school paying once is a customer.</li>
+    </ol>
+    <div class="script">
+      <span class="who">First email · keep it this short</span>
+      <q>Dear [Name] — I've built a marking tool for CBSE teachers that cuts script
+      marking to about a third of the time, and I'm giving it to a few schools free
+      this term to see how it holds up in real use. Could I show two of your maths or
+      science teachers, for twenty minutes, at whatever time suits them? No cost and
+      nothing to install. — Ayaan, Pinnacle AI</q>
+    </div>
+    <p class="wide">
+      Expect roughly <strong>5 replies from 50 emails, 2 demos, 1 school</strong>. That
+      is a normal, healthy funnel. One school in ten weeks is not a slow start — it is
+      a repeatable motion, and the second one is much faster than the first.
+    </p>
+  </section>
+
+  <!-- 3 -->
+  <section>
+    <div class="phase"><span class="no">03</span><h2>The content engine</h2><span class="when">Weeks 4 onward · runs forever</span></div>
+    <p>
+      Word-of-mouth is the only edtech acquisition channel in India whose cost is
+      <em>falling</em>, and content-led acquisition runs roughly 68% cheaper than paid.
+      You have an unfair advantage here that is worth stating plainly:
+      <strong>your product manufactures your marketing.</strong> The video studio
+      generates narrated, NCERT-grounded lessons with 3D figures. That is the content.
+    </p>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>Channel</th><th>What to post</th><th class="mono">Cadence</th><th>Why it works here</th></tr></thead>
+        <tbody>
+          <tr><td class="name">YouTube (long)</td><td>Full chapter walkthroughs, generated by the studio, lightly edited</td><td class="mono">2 / week</td><td>Ranks for "class 10 [chapter] explained" — highest-intent search in the market.</td></tr>
+          <tr><td class="name">YouTube Shorts / Reels</td><td>One misconception per clip: "Why your answer was right and still lost 2 marks"</td><td class="mono">5 / week</td><td>Marking-scheme insight is content nobody else has. It comes straight from your question bank.</td></tr>
+          <tr><td class="name">WhatsApp</td><td>Per-school broadcast: worksheet before a test, solutions after</td><td class="mono">2 / week</td><td>The only channel Indian students and parents genuinely read. Runs per school, not per student.</td></tr>
+          <tr><td class="name">Instagram</td><td>3D figures — the labelled molecule, the ray diagram, the solid</td><td class="mono">3 / week</td><td>Visually distinctive. Nobody else's edtech looks like this.</td></tr>
+          <tr><td class="name">Teacher email list</td><td>Marking-scheme notes, blueprint changes, free worksheets</td><td class="mono">1 / week</td><td>Education email open rates run near 28% — the highest of any sector.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note">
+      <h3>The one rule for content</h3>
+      <p>
+        Every piece teaches something complete on its own. No "download the app to see
+        the answer." That tactic buys one click and burns the trust that makes the
+        channel work at all. The product is the follow-on, never the paywall.
+      </p>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section>
+    <div class="phase"><span class="no">04</span><h2>Paid — only after organic works</h2><span class="when">Month 3+, conditional</span></div>
+    <p>
+      Do not open an ad account until organic is converting. Paid amplifies a working
+      message; it cannot find one for you, and finding one with paid is how edtech
+      companies burn their runway.
+    </p>
+    <ul class="plain">
+      <li><strong>Start at ₹500/day, one channel, one message.</strong> Meta, retargeting people who watched a full YouTube lesson. Warmest possible audience.</li>
+      <li><strong>Advertise the free thing, not the paid thing.</strong> The worksheet generator or a chapter video. Sell the subscription later, in-product.</li>
+      <li><strong>Hard ceiling: ₹450 CAC.</strong> That is roughly 1.5 months of a Standard plan. Above it, stop the campaign the same week — do not "give it time".</li>
+      <li><strong>Never pay for keywords the coaching giants own.</strong> "JEE preparation" is a money fire. "Class 10 marking scheme" is not.</li>
+    </ul>
+  </section>
+
+  <!-- 5 -->
+  <section>
+    <div class="phase"><span class="no">05</span><h2>Make students bring students</h2><span class="when">Month 3 onward</span></div>
+    <ol class="steps">
+      <li><strong>Give a free month for a friend who stays 30 days.</strong> Reward retention, not signups, or you will buy a pile of dead accounts.</li>
+      <li><strong>Make progress worth showing.</strong> The end-of-chapter summary — concepts mastered, misconceptions corrected — should be one tap to share. Students share evidence of getting better; they do not share ads.</li>
+      <li><strong>Recruit 10 teachers as paid ambassadors.</strong> A small per-school commission. A teacher recommending you is worth more than any influencer in this market.</li>
+      <li><strong>Ask at the moment of success only.</strong> Prompt for a referral right after a student clears a trial they previously failed — never on a schedule.</li>
+    </ol>
+  </section>
+
+  <!-- metrics -->
+  <section>
+    <div class="phase"><span class="no">06</span><h2>What to measure</h2><span class="when">Weekly, from week 1</span></div>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>Metric</th><th class="mono">Target</th><th>Kill signal</th></tr></thead>
+        <tbody>
+          <tr><td class="name">CAC</td><td class="mono good">&lt; ₹450</td><td class="bad">Above it two weeks running → cut the channel</td></tr>
+          <tr><td class="name">Week-4 retention</td><td class="mono good">&gt; 40%</td><td class="bad">Below 25% → stop marketing, fix the product</td></tr>
+          <tr><td class="name">Schools in pilot</td><td class="mono good">3 by week 10</td><td class="bad">0 by week 12 → the demo is wrong, not the market</td></tr>
+          <tr><td class="name">Pilot → paid conversion</td><td class="mono good">&gt; 1 in 3</td><td class="bad">Below that → you are pricing or proving wrong</td></tr>
+          <tr><td class="name">Organic share of signups</td><td class="mono good">&gt; 60%</td><td class="bad">Below 30% → you are renting growth, not building it</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note">
+      <p>
+        <strong>The one number that decides everything:</strong> week-4 retention. At
+        85–89% gross margin, a retained student is enormously profitable and almost any
+        CAC is recoverable. If students leave in month one, no marketing spend will ever
+        work, and every rupee spent before fixing it is wasted twice — once on the ad,
+        once on the reputation.
+      </p>
+    </div>
+  </section>
+
+  <footer>
+    <div>
+      Sequence assumes one founder working part-time and near-zero budget. Costs and
+      margins referenced here come from the model-economics brief; re-check the CAC
+      ceiling against your own numbers once real students are paying.
+    </div>
+    <div>
+      Sources:
+      <a href="https://startupfeed.in/india-7-biggest-edtech-business-models-revealed-2026/">Indian edtech business models 2026</a> ·
+      <a href="https://www.saashero.net/strategy/edtech-marketing-strategies-2026/">EdTech marketing strategies 2026</a> ·
+      <a href="https://upgrowth.in/edtech-marketing-strategy-framework/">EdTech marketing framework</a> ·
+      <a href="https://empire325marketing.com/statistics/education-marketing-statistics">Education marketing statistics</a>
+    </div>
+  </footer>
+
+</div>

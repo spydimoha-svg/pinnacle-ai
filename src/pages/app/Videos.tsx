@@ -12,6 +12,12 @@ import {
   type LessonVideo,
 } from "../../lib/videoScript";
 import type { ClassLevel, VideoRec } from "../../lib/types";
+import {
+  defaultVoiceFor,
+  studioSupported,
+  voicesFor,
+  STUDIO_DOWNLOAD_MB,
+} from "../../lib/voice";
 import { CAST, characterById } from "../../data/cast";
 import { Toon } from "../../components/cast/Toon";
 
@@ -58,6 +64,24 @@ export default function Videos() {
   const [showScript, setShowScript] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [statusIdx, setStatusIdx] = useState(0);
+
+  // Narration engine. `null` means the browser's own speechSynthesis: free,
+  // instant, offline, and robotic. A voice id switches on Kokoro, which sounds
+  // like the narrators students actually watch — at the cost of a one-time
+  // model download, so it is opt-in and says its size up front.
+  const [voiceId, setVoiceId] = useState<string | null>(null);
+  const [look, setLook] = useState<"studio" | "notebook">("studio");
+  const canStudio = studioSupported();
+
+  // A voice belongs to a language. Switching to Hindi while an English-only
+  // voice is selected would narrate Devanagari with an American accent, so the
+  // selection moves with the language rather than silently mismatching.
+  useEffect(() => {
+    if (!voiceId) return;
+    if (!voicesFor(language).some((v) => v.id === voiceId)) {
+      setVoiceId(defaultVoiceFor(language));
+    }
+  }, [language, voiceId]);
 
   useEffect(() => {
     if (!busy) return;
@@ -250,6 +274,56 @@ export default function Videos() {
             </div>
           </div>
 
+          <div className="grid sm:grid-cols-2 gap-4">
+            <div>
+              <label className="label" htmlFor="vs-voice">
+                Narrator
+              </label>
+              <select
+                id="vs-voice"
+                className="input"
+                value={voiceId ?? ""}
+                disabled={!canStudio}
+                onChange={(e) => setVoiceId(e.target.value || null)}
+              >
+                <option value="">
+                  Device voice — instant, no download
+                </option>
+                {voicesFor(language).map((v) => (
+                  <option key={v.id} value={v.id}>
+                    {v.label} — {v.blurb}
+                  </option>
+                ))}
+              </select>
+              <p className="text-xs text-dim mt-1">
+                {!canStudio
+                  ? "This browser can't run the studio voice, so the device voice is used."
+                  : voiceId
+                    ? `Studio voice. First lesson downloads the ~${STUDIO_DOWNLOAD_MB} MB model once, then it's cached and offline.`
+                    : "Your device's built-in voice. Free and instant, but flat."}
+              </p>
+            </div>
+            <div>
+              <label className="label" htmlFor="vs-look">
+                Look
+              </label>
+              <select
+                id="vs-look"
+                className="input"
+                value={look}
+                onChange={(e) => setLook(e.target.value as "studio" | "notebook")}
+              >
+                <option value="studio">Studio — character on stage</option>
+                <option value="notebook">Explainer deck — figure fills the frame</option>
+              </select>
+              <p className="text-xs text-dim mt-1">
+                {look === "notebook"
+                  ? "Clean narrated deck: the diagram is the whole frame, with the NCERT source cited under the title."
+                  : "Your character teaches to camera, with the figure beside them."}
+              </p>
+            </div>
+          </div>
+
           <div className="flex flex-wrap items-center gap-4">
             <button
               className="btn-gold"
@@ -297,6 +371,8 @@ export default function Videos() {
                 key={lesson.title + lesson.scenes.length}
                 video={lesson}
                 language={createdLang}
+                voiceId={voiceId ?? undefined}
+                look={look}
               />
 
               {showScript && (
@@ -329,9 +405,11 @@ export default function Videos() {
           )}
 
           <p className="text-xs text-dim">
-            Built and narrated in your browser — no key, no upload. Uses your
-            device's voices for narration; if you hear silence, your browser has
-            no voice installed and the lesson still plays with subtitles.
+            Built and narrated entirely in your browser — no key, no account,
+            nothing uploaded. The studio voice runs on your own device once its
+            model is cached; the device voice needs no download at all. If you
+            hear silence, your browser has no voice installed, and the lesson
+            still plays with subtitles.
           </p>
         </div>
       </div>

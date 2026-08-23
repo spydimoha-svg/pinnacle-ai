@@ -14,3 +14,8 @@ qa-reports
 
 # Pinnacle voice settings. Never committed: it can hold an API key.
 pinnacle-office/voice.json
+
+# CBSE source PDFs (sample papers, marking schemes, PYQs). CBSE's material,
+# not ours, and hundreds of MB of it. scripts/sources/manifest.mjs is committed
+# instead, so `node scripts/sources/fetch.mjs` rebuilds this from scratch.
+sources/

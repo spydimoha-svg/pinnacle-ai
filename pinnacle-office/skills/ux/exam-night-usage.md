@@ -1,0 +1,8 @@
+# exam night usage
+
+What the ux specialists in this seat have learned working on Pinnacle AI.
+- There is no contact channel anywhere else in src/ besides this one mailto link — a grep for wa.me, whatsapp, tel:, team@pinnacle across the whole src tree returns only Pricing.tsx and one unrelated regex in learner.ts (keyword matching for student small talk, not a contact link). So this page is the single point of failure for parent-initiated contact, not just a local weak spot.
+- The email address itself is never rendered as visible text anywhere on the page — it only exists inside the mailto href. If the click fails silently there is nothing on screen for the parent to read and copy manually.
+- There is no error boundary anywhere above Stage3D.tsx in the whole app, including at the root in main.tsx. Today, a render-time throw in Landing, Login, or any /app, /admin, /master page unmounts the entire React tree to a blank #root div â€” the sidebar and sign-out button disappear too, since nothing catches above the Layout/Outlet boundary that doesn't exist yet.
+- There is no delete action anywhere in store.ts for chats, blobs, or worksheets — addBlob/updateBlob at store.ts:394-416 are the only two, so this would be the first delete-style mutation on user content in the whole store. Worth deciding the pattern once (e.g. filter-by-id) since chats and worksheets will likely want the same thing later.
+- The Modal + btn-danger confirm-delete pattern already exists and is used for exactly this kind of 'irreversible, are you sure' action in Schools.tsx:320-342 (master console, removing a school) — reuse it verbatim rather than inventing a new confirm UI for the Blob page.

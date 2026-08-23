@@ -228,7 +228,20 @@ ${GROUNDING_REMINDER}`;
     // Free chat had no ceiling at all, and the local model filled whatever it
     // was given: 424, 446 and 478-word replies to single doubts. A doubt gets
     // an answer, not an essay.
-    const budget = plan?.maxTokens ?? (needsSimpler ? (nextProfile.level >= 3 ? 240 : 320) : 620);
+    // Every budget in the lesson engine is calibrated at "roughly 1.6 tokens per
+    // word" — which is an ENGLISH ratio. Devanagari costs these tokenizers about
+    // three times that per word, so a 340-token cap that comfortably fits 170
+    // English words runs out around 60 Hindi words and the reply is guillotined
+    // mid-sentence. That is the "tutor stops halfway and leaves you on a ledge"
+    // failure, and it hits exactly the students least able to work around it.
+    //
+    // The student's own script is the best predictor of the reply's script, so
+    // scale the ceiling by it. This only ever raises the cap; an English turn is
+    // unchanged.
+    const devanagari = /[ऀ-ॿ]/.test(content);
+    const scale = devanagari ? 3 : 1;
+    const budget =
+      (plan?.maxTokens ?? (needsSimpler ? (nextProfile.level >= 3 ? 240 : 320) : 620)) * scale;
 
     const controller = new AbortController();
     abortRef.current = controller;

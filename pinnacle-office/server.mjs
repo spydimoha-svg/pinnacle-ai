@@ -7,14 +7,22 @@ import path from "node:path";
 import { OFFICE_DIR, REPORTS_DIR, CONFIG } from "./config.mjs";
 import { DEPARTMENTS, TOTAL_HEADCOUNT } from "./core/org.mjs";
 import { state, bus, setOffice, recentEvents, listReports, emit, setTask } from "./core/store.mjs";
-import { startOffice, stopOffice, writeBriefing, forcePlan, orderTask } from "./core/chief.mjs";
+import { startOffice, stopOffice, writeBriefing, forcePlan } from "./core/chief.mjs";
 import { ask } from "./core/talk.mjs";
 import * as skills from "./core/skills.mjs";
 import { proficiency, leaderboard, deptCard, dismiss, dismissBenched } from "./core/scorecard.mjs";
 import { openRequests, readRequests, approve, decline } from "./core/supply.mjs";
 import { publicSettings, say } from "./core/voice.mjs";
-import { assignWork, spokenPlan } from "./core/plan.mjs";
+import * as converse from "./core/converse.mjs";
+import { assignWork, spokenPlan, routerLine } from "./core/plan.mjs";
 import { mdHtml, artifactPage } from "./core/artifact.mjs";
+
+// What she says the instant he finishes asking for something, while she works
+// out whose job it is. Rotated so she does not say the same word every time.
+const ACK = ["Right, on it.", "Yep, taking that.", "Got it.", "Okay, hang on."];
+
+// What she filed in the last few minutes, so "never mind" can take it back.
+const justFiled = [];
 
 const json = (res, body, code = 200) => {
   res.writeHead(code, { "content-type": "application/json", "cache-control": "no-store" });
@@ -132,9 +140,14 @@ async function route(req, res) {
     catch { return json(res, { error: "vision.md is missing" }, 404); }
   }
 
-  // He tells her what he wants. She answers with the plan, with a real seat
-  // named against every step, before he has finished putting the microphone
-  // down. No model runs here: a model would take four seconds to do it worse.
+  // He tells her what he wants, in his own words, naming nobody. She works out
+  // which of the twenty departments owns it, names a real seat against every
+  // step, and files it.
+  //
+  // This used to match keywords instead, on the grounds that a model would take
+  // four seconds to do it worse. It did not do it worse. Measured on fourteen
+  // things he might actually say, none naming a team, keywords got two right and
+  // sent six to the Defect Squad by default. She gets twelve, and explains each.
   if (url.pathname === "/api/assign" && req.method === "POST") {
     let body = "";
     for await (const chunk of req) body += chunk;
@@ -143,7 +156,7 @@ async function route(req, res) {
     const text = String(asked.text || "").trim().slice(0, 600);
     if (text.length < 4) return json(res, { error: "there was nothing in that to hand out" }, 400);
     if (asked.dept && !DEPARTMENTS.some((d) => d.key === asked.dept)) return json(res, { error: `no department called ${asked.dept}` }, 400);
-    const plan = assignWork(text, { dept: asked.dept });
+    const plan = await assignWork(text, { dept: asked.dept });
     if (!plan) return json(res, { error: "I could not work out who that belongs to" }, 400);
     return json(res, { ...plan, say: spokenPlan(plan) });
   }
@@ -234,6 +247,101 @@ async function route(req, res) {
     return json(res, reply);
   }
 
+  // Just talking. Nothing to do with the office, and it works with the office
+  // shut, which is the whole point of it.
+  if (url.pathname === "/talk") {
+    // Open both lines the instant the page is requested, so the startup cost is
+    // paid while the HTML is still rendering rather than after he has spoken.
+    converse.warm([routerLine()]);
+    const html = fs.readFileSync(path.join(OFFICE_DIR, "ui", "talk.html"));
+    res.writeHead(200, { "content-type": "text/html; charset=utf-8" });
+    return res.end(html);
+  }
+
+  if (url.pathname === "/api/talk" && req.method === "GET") {
+    return json(res, {
+      day: converse.readDay(),
+      days: converse.days().slice(0, 30),
+      greetingDue: converse.greetingDue(),
+      ready: converse.ready(),
+      office: { running: state.office.running },
+    });
+  }
+
+  // Her reply, streamed a fragment at a time. He hears the first word about two
+  // seconds in rather than waiting nine for the whole thing, which is most of
+  // what "make her faster" actually meant.
+  if (url.pathname === "/api/talk" && req.method === "POST") {
+    let body = "";
+    for await (const chunk of req) body += chunk;
+    let said = {};
+    try { said = JSON.parse(body || "{}"); } catch { return json(res, { error: "bad json" }, 400); }
+    const text = String(said.text || "").trim().slice(0, 2000);
+    const opening = said.greeting === true;
+    if (!opening && !text) return json(res, { error: "nothing said" }, 400);
+
+    res.writeHead(200, { "content-type": "text/event-stream", "cache-control": "no-store", connection: "keep-alive" });
+    const send = (type, data) => res.write(`data: ${JSON.stringify({ type, ...data })}\n\n`);
+
+    const started = Date.now();
+    let firstAt = null;
+    const onDelta = (chunk) => { firstAt ??= Date.now() - started; send("delta", { text: chunk }); };
+
+    if (!opening) emit("ceo.said", { text, channel: "talk" });
+
+    // One place, and she works out which he is doing. He does not pick a mode
+    // and he does not name a team: if what he said is a job, it is read, given
+    // to whoever owns it, and she tells him who has it. If it is not, she just
+    // talks to him. Getting this wrong towards conversation is cheap, so it
+    // leans that way.
+    // "Never mind", right after she filed something. She takes it straight back
+    // off the board rather than making him go and find it. Only what she filed
+    // in the last few minutes, and only if it has not started yet, because
+    // cancelling something an agent is already mid way through is not undoing.
+    if (!opening && converse.callingOff(text) && justFiled.length) {
+      converse.remember("ayaan", text);
+      const dropped = justFiled.filter((f) => Date.now() - f.at < 5 * 60_000)
+        .map((f) => state.tasks.find((t) => t.id === f.id))
+        .filter((t) => t && t.status === "queued");
+      justFiled.length = 0;
+      for (const t of dropped) setTask(t.id, { status: "cancelled" });
+      const say = dropped.length
+        ? `Taken back off the board${dropped.length > 1 ? `, all ${dropped.length} of them` : ""}. Nobody started it.`
+        : "Nothing of mine left to take back, that one's already running.";
+      onDelta(say);
+      converse.remember("pinnacle", say);
+      emit("pinnacle.said", { text: say, channel: "talk", via: "cancelled" });
+      send("done", { say, via: "cancelled", ms: firstAt ?? 0 });
+      return res.end();
+    }
+
+    if (!opening && converse.looksLikeWork(text)) {
+      converse.remember("ayaan", text);
+      // Reading it and finding the right team takes about five seconds. Nobody
+      // stands there silently for five seconds after being asked to do
+      // something, so she answers the moment he stops talking and names the
+      // team when she has it. Both halves are true when she says them.
+      onDelta(ACK[Math.floor(Date.now() / 1000) % ACK.length] + " ");
+      const plan = await assignWork(text);
+      if (plan) {
+        const say = spokenPlan(plan);
+        onDelta(say);
+        converse.remember("pinnacle", say);
+        emit("pinnacle.said", { text: say, channel: "talk", via: "filed" });
+        justFiled.length = 0;
+        for (const row of plan.rows) justFiled.push({ id: row.taskId, at: Date.now() });
+        send("done", { say, via: "filed", ms: firstAt ?? 0, filed: plan.rows.map((r) => ({ dept: r.deptName, agent: r.agent, step: r.step })) });
+        return res.end();
+      }
+      // Nobody could be found for it, so it was probably just talk after all.
+    }
+
+    const out = opening ? await converse.greeting(onDelta) : await converse.reply(text, onDelta);
+    emit("pinnacle.said", { text: out.say, channel: "talk", via: out.via, ms: firstAt ?? out.ms ?? 0 });
+    send("done", { say: out.say, via: out.via, ms: firstAt ?? out.ms ?? 0, degraded: out.degraded || "" });
+    return res.end();
+  }
+
   if (url.pathname === "/api/control" && req.method === "POST") {
     let body = "";
     for await (const chunk of req) body += chunk;
@@ -260,32 +368,66 @@ async function route(req, res) {
         setOffice({ concurrency: Math.max(1, Math.min(40, Number(cmd.value) || 1)) });
         emit("office.command", { detail: `Concurrency set to ${state.office.concurrency}` });
         break;
+      // How many may be writing code at once. Each writer gets its own working
+      // tree, so this is a limit on what the machine can carry, not on whether
+      // the gate still means anything. A writer is also an awake agent, so the
+      // effective number is never more than the concurrency above.
+      case "writers": {
+        setOffice({ writers: Math.max(1, Math.min(12, Number(cmd.value) || 1)) });
+        const effective = Math.min(state.office.writers, state.office.concurrency);
+        emit("office.command", {
+          detail: effective < state.office.writers
+            ? `Writers set to ${state.office.writers}, but only ${effective} can run: that is the concurrency. Raise speed to use them all.`
+            : `Writers set to ${state.office.writers}. Each one works in its own copy of the codebase.`,
+        });
+        break;
+      }
+      // These three take a department and none of them checked they had one.
+      // Unvalidated, "only" with a value that is not a department set every
+      // single department to false and sent the entire office home while
+      // announcing it had kept one open. "dept" invented a phantom key and said
+      // "undefined reopened". "plan" added a key nothing would ever match and
+      // silently did nothing, forever. All three are one guard.
       case "dept":
-        state.office.deptEnabled[cmd.value] = !state.office.deptEnabled[cmd.value];
-        emit("office.command", { detail: `${cmd.value} ${state.office.deptEnabled[cmd.value] ? "reopened" : "closed"}` });
-        break;
       case "only":
-        for (const d of DEPARTMENTS) state.office.deptEnabled[d.key] = d.key === cmd.value;
-        emit("office.command", { detail: `Everyone sent home except ${cmd.value}` });
+      case "plan": {
+        const key = String(cmd.value || "");
+        if (!DEPARTMENTS.some((d) => d.key === key)) return json(res, { error: `no department called ${key || "(nothing)"}` }, 400);
+        if (cmd.action === "dept") {
+          state.office.deptEnabled[key] = !state.office.deptEnabled[key];
+          emit("office.command", { detail: `${key} ${state.office.deptEnabled[key] ? "reopened" : "closed"}` });
+        } else if (cmd.action === "only") {
+          for (const d of DEPARTMENTS) state.office.deptEnabled[d.key] = d.key === key;
+          emit("office.command", { detail: `Everyone sent home except ${key}` });
+        } else {
+          forcePlan(key);
+          emit("office.command", { detail: `${key} told to plan a new round now` });
+        }
         break;
+      }
       case "all":
         for (const d of DEPARTMENTS) state.office.deptEnabled[d.key] = true;
         emit("office.command", { detail: "All 20 departments open" });
-        break;
-      case "plan":
-        forcePlan(cmd.value);
-        emit("office.command", { detail: `${cmd.value} told to plan a new round now` });
         break;
       case "order": {
         // She fills this in from what he said, so it arrives malformed often
         // enough to matter. An unguarded read here threw a 500 and he saw a
         // job silently not happen.
-        const dept = cmd.value?.dept, title = String(cmd.value?.title || "").trim();
-        if (!dept || !title) return json(res, { error: "a job needs a department and a title" }, 400);
-        if (!DEPARTMENTS.some((d) => d.key === dept)) return json(res, { error: `no department called ${dept}` }, 400);
-        const t = orderTask(dept, title);
-        emit("office.command", { detail: `You gave ${cmd.value.dept} a job: ${cmd.value.title}` });
-        return json(res, { ok: true, task: t });
+        //
+        // It also used to refuse outright unless she had named a department,
+        // which is how "the assistant still requires me to tell a team"
+        // survived being fixed everywhere else: he speaks, she cannot say which
+        // of twenty teams owns it, and the job is thrown away with a 400 he
+        // never sees. A job with no team named is now read and routed, exactly
+        // like the typed one. He only ever names a team if he wants to.
+        const title = String(cmd.value?.title || (typeof cmd.value === "string" ? cmd.value : "")).trim();
+        if (!title) return json(res, { error: "a job needs something to do" }, 400);
+        const dept = cmd.value?.dept;
+        if (dept && !DEPARTMENTS.some((d) => d.key === dept)) return json(res, { error: `no department called ${dept}` }, 400);
+        const plan = await assignWork(title, { dept });
+        if (!plan) return json(res, { error: "I could not work out who that belongs to" }, 400);
+        emit("office.command", { detail: `You gave the floor a job: ${title}. ${plan.rows.map((r) => r.deptName).join(", ")}` });
+        return json(res, { ok: true, ...plan, say: spokenPlan(plan) });
       }
       case "retry": {
         const t = state.tasks.find((x) => x.id === cmd.value);

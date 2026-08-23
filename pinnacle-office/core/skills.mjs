@@ -97,6 +97,7 @@ Reply with the rewritten markdown file and nothing else. Start with the "# ${spe
     tools: TOOLS.read,
     maxTurns: 4,
     timeout: 3 * 60_000,
+    tokenCap: CONFIG.tokenCap.warden,
   });
 
   if (!res.ok || !res.result.includes("- ")) return { ok: false };

@@ -1,7 +1,7 @@
 import type { ClassLevel } from "./types";
 import type { NarrationLang } from "./speech";
 import type { Character, Emotion } from "../data/cast";
-import type { Scene3D, SceneKind } from "../components/cast/Stage3D";
+import { resolveKind, SCENE_KINDS, type Scene3D } from "../components/cast/Stage3D";
 
 /**
  * What appears on screen beside the character while they talk.
@@ -25,6 +25,16 @@ export interface LessonScene {
   /** How the character is standing/feeling while they say it. */
   emotion?: Emotion;
   visual?: SceneVisual;
+  /**
+   * Where in NCERT this scene comes from — "NCERT Science X, Ch. 10.3".
+   *
+   * Shown on screen while the scene plays. A lesson that cites its page is a
+   * lesson a student can go and check, and one they can revise from; an
+   * uncited one is a stranger telling them things. It is also the honest
+   * counterweight to a generated script: the citation is the claim, and a
+   * scene that cannot name its source says so rather than inventing one.
+   */
+  source?: string;
 }
 
 export interface LessonVideo {
@@ -84,6 +94,10 @@ export function buildVideoJsonPrompt(opts: {
     `Their running jokes — a student who watches these regularly recognises them, so land at least one: ${c.runningGags.join(" ")}`,
     opts.style ? `The student also asked for: ${opts.style}` : "",
     "",
+    "## Teach from NCERT, and say so",
+    "- Everything you teach must be the NCERT treatment of the topic: the same definitions, the same worked method, the same terminology the book uses. A student who learns your version and then opens the book must recognise it.",
+    '- Give each scene a "source" naming the NCERT chapter and section it comes from. It appears on screen, so it must be real. If you are not sure of the exact section, name the chapter only; if you are not sure of the chapter, leave "source" out entirely. Never invent a page or section number.',
+    "",
     "## How to write the lines",
     "- Write SPOKEN dialogue, not narration and not documentation. It is one person talking to one student.",
     "- Short sentences. Ordinary words. If a technical term is unavoidable, the character says the plain-English meaning in the same breath.",
@@ -101,22 +115,35 @@ export function buildVideoJsonPrompt(opts: {
     '      "say": "1-3 sentences of SPOKEN dialogue in character",',
     '      "emotion": "explain | think | excited | oops | point | proud",',
     '      "formula": "optional LaTeX WITHOUT dollar signs, e.g. b^2-4ac",',
-    '      "visual": { see below, or omit }',
+    '      "visual": { see below, or omit },',
+    '      "source": "where in NCERT this comes from, e.g. NCERT Science X, Ch. 10.3 — or omit it if you genuinely do not know"',
     "    }",
     "  ],",
     '  "recap": ["question 1", "question 2", "question 3"]',
     "}",
     "",
     "## visual — what appears beside the character. Pick the one that actually helps.",
-    'A real 3D object the student can turn (best for solids, atoms, waves, optics, space):',
-    '  {"type":"3d","kind":"cone","a":1.4,"b":2.2,"label":"r = 7 cm"}',
-    `  kind is one of: cube, cuboid, sphere, cylinder, cone, hemisphere, prism, pyramid, atom, solar, lens, wave, molecule.`,
-    "  a, b, c are sizes (roughly 0.5 to 3). For atom, a = number of electrons. For molecule, a = 2 for water, 4 for methane.",
+    'A real 3D object the student can turn. This is the strongest teaching tool here — reach for it first whenever the topic has a shape, a structure or a bench:',
+    '  {"type":"3d","kind":"cone","a":1.4,"b":2.2,"dims":{"r":"7 cm","h":"24 cm","l":"25 cm"},"label":"the tent"}',
+    "",
+    "  kind must be EXACTLY one of these. Say which one you mean — never a general word:",
+    "    Solids (mensuration): cube, cuboid, sphere, cylinder, cone, hemisphere, prism, pyramid, frustum",
+    "    Chemistry: atom, molecule, benzene, lattice",
+    "    Physics: lens, mirror, wave, incline, magnet, solar, axes",
+    "",
+    "  Naming the exact object is the most important thing you do here, because the near-misses are what wreck a diagram:",
+    '    - For kind "lens" and kind "mirror" you MUST also set "variant": "convex" or "concave". A convex lens converges light and a concave one spreads it; drawing the wrong one teaches the opposite physics. Never leave it out.',
+    '    - For kind "molecule" you MUST set "species" to the formula: "H2O", "CH4", "NH3", "CO2", "SO2", "BF3", "CCl4", "SF6", "PCl5", "H2S". The app draws each one at its true bond angle, so NH3 comes out as a pyramid at 107 degrees and BF3 comes out flat at 120. Guessing a number of arms instead gets the shape wrong.',
+    '    - For kind "atom", "a" is the ATOMIC NUMBER (a:11 is sodium, drawn 2,8,1). It is not a size.',
+    '    - For kind "incline", "a" is the angle in degrees. For kind "wave", "a" is how tight the waves are and "b" is the amplitude.',
+    "",
+    '  "dims" writes the real numbers from the question onto the parts they measure: {"r":"7 cm","h":"24 cm"}. Use the keys the shape has — r, h, l for a cone; l, b, h for a cuboid; r for a sphere; f for a lens or mirror. The app decides where each label goes, so a value can never land on the wrong edge. Always pass dims when the question gives real numbers.',
+    "",
     'A drawn graph or a labelled shape (best for functions, geometry, trigonometry):',
     '  {"type":"plot","spec":{"fn":["x^2-2x-8"],"domain":[-4,6],"title":"y = x^2 - 2x - 8"}}',
     '  or {"type":"plot","spec":{"shape":"right-triangle","labels":["A","C","B"],"sideLabels":["3","4","5"],"right":1}}',
     'A process or cycle as boxes and arrows (best for reactions, cycles, sequences of events):',
-    '  {"type":"diagram","mermaid":"flowchart LR\\n  A[Heat] --> B[Melts] --> C[Boils]"}',
+    '  {"type":"diagram","mermaid":"flowchart LR\n  A[Heat] --> B[Melts] --> C[Boils]"}',
     'A circuit diagram (best for electricity: cells, resistors, ammeters, voltmeters, switches):',
     '  {"type":"circuit","spec":{"title":"Series circuit","components":[{"kind":"cell","label":"6V"},{"kind":"switch","label":"K"},{"kind":"ammeter"},{"kind":"resistor","label":"R1 = 5Ω"},{"kind":"resistor","label":"R2 = 10Ω"}]}}',
     '  component kind is one of: cell, battery, resistor, bulb, switch, ammeter, voltmeter, rheostat. Give every resistor/bulb its own label.',
@@ -124,7 +151,9 @@ export function buildVideoJsonPrompt(opts: {
     '  A voltmeter is ALWAYS across a component, never in the main loop — the app moves it automatically if you get this wrong, but write it correctly: give it its own branch number.',
     "",
     "Rules for visuals:",
-    "- At least THREE of the scenes must have a visual. A talking head with nothing to look at is the thing we are replacing.",
+    "- EVERY scene should have a visual, and at least FOUR must. A talking head with nothing to look at is the thing we are replacing.",
+    '- Prefer type "3d" wherever the topic has a shape, a structure, a bench or a field. A student who can turn the object learns it; a student reading the word does not.',
+    "- If you are not certain which exact object a topic needs, choose a different visual type rather than guessing between two similar ones. A wrong diagram is worse than no diagram.",
     "- A shape with sides or angles is ALWAYS type plot, never mermaid — mermaid can only draw boxes joined by arrows.",
     "- An electric circuit is ALWAYS type circuit, never mermaid or plot — only circuit draws real cell/resistor/meter symbols.",
     "- The character should refer to what is on screen: 'look at the base', 'watch the curve cross here'.",
@@ -341,10 +370,10 @@ function cleanFormula(v: unknown): string | undefined {
 }
 
 const EMOTIONS: Emotion[] = ["explain", "think", "excited", "oops", "point", "proud"];
-const KINDS_3D: SceneKind[] = [
-  "cube", "cuboid", "sphere", "cylinder", "cone", "hemisphere", "prism", "pyramid",
-  "atom", "solar", "lens", "wave", "molecule",
-];
+// One list, imported from the renderer. It used to be duplicated here and had
+// drifted three kinds behind, so every scene calling for one of the newer
+// objects was silently dropped as unknown.
+const KINDS_3D: string[] = SCENE_KINDS;
 
 function coerceEmotion(v: unknown): Emotion | undefined {
   const s = asString(v).toLowerCase() as Emotion;
@@ -364,25 +393,60 @@ function coerceVisual(v: unknown): SceneVisual {
   const o = v as Record<string, unknown>;
   const type = asString(o.type).toLowerCase();
 
-  if (type === "3d" || KINDS_3D.includes(asString(o.kind) as SceneKind)) {
-    const kind = asString(o.kind).toLowerCase() as SceneKind;
-    if (!KINDS_3D.includes(kind)) return null;
+  if (type === "3d" || KINDS_3D.includes(asString(o.kind).toLowerCase())) {
+    // resolveKind, not a bare list check: it accepts the disambiguated names a
+    // script should be writing ("concave-mirror") and returns the variant that
+    // goes with them, so the naming can never be lost between the script and
+    // the renderer. Anything it cannot identify is dropped rather than drawn
+    // as the nearest lookalike.
+    const resolved = resolveKind(asString(o.kind));
+    if (!resolved) return null;
+
     // Scene units, not real-world ones. A model reading "a cone of radius 7 cm"
     // sends a:7 and puts the object through the camera; a:0 makes it vanish.
-    // Zoom is disabled on the controls, so the student cannot recover either —
-    // the clamp is the only thing between them and an unusable frame.
     const num = (x: unknown) =>
       typeof x === "number" && Number.isFinite(x) && x > 0
         ? Math.max(0.3, Math.min(3, x))
         : undefined;
+
+    // The atom's `a` is an ATOMIC NUMBER, not a size, so it must not be
+    // squeezed into the 0.3-3 scene-unit range that suits a cone's radius —
+    // that clamp turned every element into hydrogen.
+    const atomicNumber = (x: unknown) =>
+      typeof x === "number" && Number.isFinite(x) && x >= 1
+        ? Math.max(1, Math.min(20, Math.round(x)))
+        : undefined;
+
+    const variant = ((): "convex" | "concave" | undefined => {
+      const v = asString(o.variant).toLowerCase();
+      if (v === "convex" || v === "concave") return v;
+      return resolved.variant;
+    })();
+
+    // Real quantities the lesson names ("r = 7 cm"), keyed by the part they
+    // measure. Strings only — the renderer decides where each key belongs.
+    const dims = ((): Record<string, string> | undefined => {
+      const raw = o.dims;
+      if (!raw || typeof raw !== "object") return undefined;
+      const out: Record<string, string> = {};
+      for (const [k, val] of Object.entries(raw as Record<string, unknown>)) {
+        const text = asString(val);
+        if (text && k.length <= 12) out[k] = text.slice(0, 24);
+      }
+      return Object.keys(out).length ? out : undefined;
+    })();
+
     return {
       type: "3d",
       scene: {
-        kind,
-        a: num(o.a),
+        kind: resolved.kind,
+        species: asString(o.species).toUpperCase().replace(/[^A-Z0-9]/g, "") || undefined,
+        variant,
+        a: resolved.kind === "atom" ? atomicNumber(o.a) : num(o.a),
         b: num(o.b),
         c: num(o.c),
         label: asString(o.label) || undefined,
+        dims,
       },
     };
   }
@@ -437,6 +501,7 @@ function coerceScene(v: unknown): LessonScene | null {
     formula: cleanFormula(o.formula ?? o.latex ?? o.math),
     emotion: coerceEmotion(o.emotion ?? o.mood ?? o.pose),
     visual: coerceVisual(o.visual ?? o.scene3d ?? o.graphic),
+    source: asString(o.source ?? o.ncert ?? o.reference).slice(0, 90) || undefined,
   };
 }
 

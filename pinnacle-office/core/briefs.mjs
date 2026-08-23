@@ -24,7 +24,51 @@ const visionBlock = () => {
   return v ? `\nWHAT THIS COMPANY IS FOR\nThis is not background. It is how you decide whether what you are about to do is worth doing at all.\n\n${v}\n` : "";
 };
 
-export const DOCTRINE = `You are a specialist inside Pinnacle Office, the autonomous engineering organisation that builds and improves Pinnacle AI: a CBSE tutoring web app for Indian school students in classes 9 to 12.
+// The rule book, read fresh on every single agent start. Ayaan edits rules.md
+// and the next agent to draw breath is bound by it, with no restart. It goes at
+// the TOP of the system prompt because rules one and two are absolute and a
+// model weights the opening of a prompt more heavily than the middle.
+function rules() {
+  try { return fs.readFileSync(path.join(OFFICE_DIR, "rules.md"), "utf8").trim(); }
+  catch { return "Never use Ayaan's Anthropic API key. Never use anything that costs him money."; }
+}
+
+// How to write, read fresh on every agent start exactly like the rules above.
+// Delete style.md and the office goes back to writing at full length on the
+// next task, with no restart and nothing else to change.
+//
+// Deliberately NOT applied to everything. The people who measured this style
+// publish the case against it: the rules cost roughly a thousand input tokens
+// every turn, so anything whose replies are already short pays more than it
+// saves. That is the talk channel, the router, and the closing summary, none of
+// which route through here. It is also why the briefing Ayaan reads asks for
+// terse: false below. Long agent reports are where it actually pays.
+// Html comments are stripped, not injected. Provenance, licence and the
+// argument for why this is scoped the way it is all belong in the file where
+// Ayaan will find them, and none of it belongs in a prompt a thousand agents
+// pay for on every turn.
+function style() {
+  try {
+    return fs.readFileSync(path.join(OFFICE_DIR, "style.md"), "utf8")
+      .replace(/<!--[\s\S]*?-->/g, "").trim();
+  } catch { return ""; }
+}
+
+const styleBlock = () => {
+  const s = style();
+  return s ? `\n---\n\nHOW YOU WRITE. This is not a preference and it is not optional.\n\n${s}\n` : "";
+};
+
+// A function, not a constant. It used to be a constant, which meant the rules a
+// thousand agents obeyed were whatever the file said at the moment the office
+// booted, and editing it while they worked changed nothing.
+export const DOCTRINE = ({ terse = true } = {}) => `THE RULES YOU WORK UNDER. These come before your task, before your department, and before anything you think would be better. Rules one and two are absolute.
+
+${rules()}
+${terse ? styleBlock() : ""}
+---
+
+You are a specialist inside Pinnacle Office, the autonomous engineering organisation that builds and improves Pinnacle AI: a CBSE tutoring web app for Indian school students in classes 9 to 12.
 
 HOW WE WRITE CODE HERE. This is the house rule and it outranks your instincts:
 Long code is not the solution. The shorter version that produces the same or a better result is the correct version, every time.

@@ -1,7 +1,10 @@
 import { useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import { framedChapterIds } from "../../data/journeys";
+import { ncertExemplarUrl, hasExemplar } from "../../lib/worksheet";
 import {
   ArrowLeft,
+  BookOpen,
   ChevronDown,
   ChevronRight,
   ExternalLink,
@@ -10,6 +13,7 @@ import {
   Lightbulb,
   MessageCircle,
   PlaySquare,
+  Sparkles,
 } from "lucide-react";
 import { useStore } from "../../lib/store";
 import { getChapter, questionsFor, videosForClass } from "../../data";
@@ -196,7 +200,27 @@ export default function ChapterPage() {
           <div className="card">
             <div className="eyebrow-dim mb-3">Learn this chapter</div>
             <div className="space-y-2">
-              <button type="button" onClick={teachMe} className="btn-gold w-full">
+              {/* Only offered where the film grammar is actually authored. A
+                  journey built from a derived map plays as flat narration,
+                  which undersells the format on the student's first meeting
+                  with it — so those chapters keep the tutor as the way in. */}
+              {framedChapterIds().includes(chapter.id) && (
+                <Link
+                  to={`/app/journey/${chapter.id}`}
+                  className="btn-gold w-full"
+                >
+                  <Sparkles size={16} strokeWidth={1.8} /> Enter the journey
+                </Link>
+              )}
+              <button
+                type="button"
+                onClick={teachMe}
+                className={
+                  framedChapterIds().includes(chapter.id)
+                    ? "btn-ghost w-full"
+                    : "btn-gold w-full"
+                }
+              >
                 <MessageCircle size={16} strokeWidth={1.8} /> Teach me this
                 chapter
               </button>
@@ -206,6 +230,20 @@ export default function ChapterPage() {
               <Link to="/app/videos" className="btn-ghost w-full">
                 <PlaySquare size={16} strokeWidth={1.8} /> Best videos
               </Link>
+              {/* The Exemplar is a different book from the textbook, and it is
+                  where the harder board questions actually come from. A student
+                  who has only done the textbook exercise has done the easy half
+                  and does not know it. */}
+              {hasExemplar(subject.id) && (
+                <a
+                  href={ncertExemplarUrl(subject.id, chapter.number)}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="btn-ghost w-full"
+                >
+                  <BookOpen size={16} strokeWidth={1.8} /> NCERT Exemplar
+                </a>
+              )}
             </div>
             <p className="text-xs text-dim mt-3">
               One focused hour: teaching first, then PYQs below, then mark your

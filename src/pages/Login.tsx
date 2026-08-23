@@ -117,11 +117,64 @@ export default function Login() {
     // same way it already re-checks the master token on every /master visit.
     if (cloudEnabled()) {
       setBusy(true);
-      const res = await fetch("/api/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: email.trim(), password }),
-      });
+      // A throw here (dropped connection, DNS failure) used to skip the
+      // setBusy(false) that followed and strand the button on "Signing in…"
+      // with no error shown at all, so the fetch is caught into `res` first
+      // and every exit below runs with busy already cleared.
+      let res: Response | undefined;
+      try {
+        res = await fetch("/api/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email: email.trim(), password }),
+        });
+      } catch {
+        // Left undefined — handled as unreachable below.
+      }
+      setBusy(false);
+
+      // The per-IP and global throttles in api/login.ts fire on legitimate
+      // traffic too (a shared school NAT is one IP), so this has to read as
+      // "wait", not as a rejected password. Checked before the branch below so
+      // a throttled student never falls through to the dev store.
+      if (res?.status === 429) {
+        setError("Too many sign-in attempts. Wait a minute, then try again.");
+        return;
+      }
+
+      // Whitelist, not a blacklist: these three are the only statuses where
+      // api/login.ts actually ruled on the credentials — 200 signed in, 401
+      // rejected, 400 malformed. Everything else is the service failing and
+      // must not reach the student as "wrong password".
+      //
+      // This started as `status >= 500 || 503` and was wrong: with the local
+      // brain running, /api/login returns 404 (it only serves /api/chat), which
+      // slipped through and broke sign-in again. 403 from the origin check and
+      // 413 are the same class of mistake waiting to happen, so the rule is now
+      // "did it adjudicate?" rather than a list of failures to remember.
+      if (!res || ![200, 400, 401].includes(res.status)) {
+        // `npm run dev` serves the UI from plain vite, where /api/* proxies to
+        // scripts/ollama-dev-server.mjs — which answers POST /api/chat and
+        // nothing else — so no login function exists locally and the seeded
+        // demo accounts in src/data/schools.ts are the only way in. DEV is
+        // compile-time, so this branch is stripped from the production
+        // bundle: production must never trust the localStorage `role` this
+        // path reads, for the reason spelled out above.
+        if (import.meta.env.DEV) {
+          const local = login(email, password);
+          if (local) {
+            navigate(local.role === "admin" ? "/admin" : "/app");
+            return;
+          }
+          // In dev the local store is the whole authority, so a miss here is
+          // genuinely a wrong email/password — not the unreachable server.
+          setError("That email and password don't match any account.");
+          return;
+        }
+        setError("Can't reach the sign-in service right now. Try again in a moment.");
+        return;
+      }
+
       const result = res.ok
         ? (await res.json()) as {
             session: { access_token: string; refresh_token: string };
@@ -133,7 +186,6 @@ export default function Login() {
             };
           }
         : null;
-      setBusy(false);
       const cleanEmail = email.trim().toLowerCase();
       const localProfile = result
         ? useStore

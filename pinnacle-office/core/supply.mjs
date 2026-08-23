@@ -23,7 +23,10 @@ fs.mkdirSync(SUPPLY_DIR, { recursive: true });
 const BASE = `- Read, Grep, Glob: the whole repository.
 - WebSearch and WebFetch: look anything up. Use them rather than guessing at a syllabus, a law, an API or a version number.
 - Edit and Write: your own department's files, if you are a building department.
-- Bash, but only: npm run build, npx tsc, node scripts/*, git diff, git status.`;
+- Bash, but only: npm run build, npx tsc, node scripts/*, git diff, git status.
+- GitHub, read only, through the gh CLI: gh search repos/code/issues/prs/commits, gh repo view, gh pr view and diff, gh issue view, gh run view. Use it to see how a problem was solved somewhere else before you invent your own way. It cannot write, and gh api is refused outright.
+- readdoc <file>: turns a PDF or any text file into text you can read, with page numbers. Use it on anything he gives you rather than guessing at what a document says. It only reads.
+- A real browser, if you are in Front End, Design, Accessibility, Test Lab, Performance, Diagram Studio or Video: mcp__chrome-devtools__*. Open the page, screenshot it, read the console, run script in it. It is real hardware WebGL, so three.js and shader work can be checked rather than assumed. One agent holds it at a time.`;
 
 export function catalog() {
   let extra = "";

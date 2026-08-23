@@ -87,6 +87,52 @@ export interface Subject {
 export type QuestionType = "mcq" | "vsa" | "sa" | "la" | "case";
 export type QuestionSource = "pyq" | "sample" | "exemplar" | "important";
 
+/**
+ * Where a question came from, most authoritative first.
+ *
+ * The ordering is the point: a question printed in the NCERT exercise carries
+ * more weight than one from the Exemplar, which carries more than a past
+ * paper, which carries more than anything a model wrote. A worksheet that
+ * cannot say which of these a question is cannot be trusted as practice.
+ */
+export type SourceTier =
+  | "ncert-exercise"
+  | "ncert-exemplar"
+  | "cbse-sqp"
+  | "pyq"
+  | "bank"
+  | "generated";
+
+export interface Provenance {
+  tier: SourceTier;
+  /** One line a student can read: "NCERT Class 10 Maths · Ex 4.2, Q3". */
+  label: string;
+  book?: string;
+  exercise?: string;
+  problemNo?: string;
+  year?: number;
+  /**
+   * The official NCERT PDF for this chapter, on ncert.nic.in. Each chapter is
+   * published as its own PDF, so this link opens the actual printed page the
+   * question appears on.
+   */
+  bookUrl?: string;
+  /**
+   * The page this question is printed on, within that chapter PDF.
+   *
+   * A chapter PDF is twenty-odd pages, so a bare chapter link still leaves the
+   * student hunting for their own question. With the page number the link
+   * opens on the exact printed page, which is as close to "the photo from the
+   * book" as we can honestly get: NCERT's books are NCERT's copyright, and
+   * mirroring their page images into our product would be republishing them.
+   * Pointing at the real page on ncert.nic.in is both lawful and better —
+   * the student sees the authentic page, figures and all.
+   */
+  bookPage?: number;
+  /** True when the text is reproduced exactly as printed in the source. */
+  verbatim: boolean;
+}
+
 export interface Question {
   id: string;
   subjectId: string;
@@ -102,6 +148,8 @@ export interface Question {
   /** CBSE key words / value points the examiner looks for */
   keywords: string[];
   examinerTip?: string;
+  /** Where this question came from. Absent on older saved worksheets. */
+  provenance?: Provenance;
 }
 
 export type ResourceKind =

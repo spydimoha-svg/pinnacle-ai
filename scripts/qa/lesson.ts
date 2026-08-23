@@ -25,6 +25,7 @@ import {
 import { describeLearner, freshProfile, observeStudent, profileSummary } from "../../src/lib/learner";
 import { buildMarkPrompt, readMark } from "../../src/lib/grade";
 import { conceptMapFor } from "../../src/data/concepts";
+import { SUBJECTS } from "../../src/data/curriculum";
 import type { ClassLevel, StudentMemory } from "../../src/lib/types";
 
 const BASE = process.env.QA_BASE || "https://pinnacle-ai-two.vercel.app";
@@ -140,7 +141,17 @@ export function dry(): number {
   ok(map.leadsTo.length >= 3, "the chapter should say where it leads");
 
   // A derived chapter (no authored map) must still produce a usable lesson.
-  const derived = conceptMapFor("c10-maths-04");
+  //
+  // The chapter is FOUND, not named. This test used to hard-code
+  // "c10-maths-04" as its example of an unauthored chapter, and then quietly
+  // began failing the day quadratic equations was hand-authored — the test
+  // rotting because the product improved. Searching for a genuinely derived
+  // chapter means authoring the next map can never break this again.
+  const derivedId = SUBJECTS.flatMap((s) => s.chapters)
+    .map((c) => c.id)
+    .find((id) => conceptMapFor(id)?.authored === false);
+  ok(derivedId !== undefined, "there should be at least one derived chapter to test");
+  const derived = derivedId ? conceptMapFor(derivedId) : null;
   ok(derived !== null, "a chapter with no authored map must still derive one");
   ok(!derived?.authored, "a derived map must be honest that it is derived");
   ok((derived?.concepts.length ?? 0) > 0, "a derived map must still have steps");

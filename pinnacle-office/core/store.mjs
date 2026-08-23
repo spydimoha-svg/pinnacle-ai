@@ -46,6 +46,9 @@ const defaultOffice = () => ({
   running: false,
   mode: CONFIG.mode,
   concurrency: CONFIG.concurrency,
+  // How many of those awake agents may be writing code at once. Each holds its
+  // own working tree, so this is a limit on the machine, not on correctness.
+  writers: CONFIG.writerConcurrency,
   startedAt: null,
   cooldownUntil: 0,
   deptEnabled: Object.fromEntries(DEPARTMENTS.map((d) => [d.key, true])),
@@ -62,6 +65,7 @@ export const state = {
     // office stayed on whatever it was told once, months ago. He can still change
     // it while it runs; a restart puts it back to what the config says.
     concurrency: CONFIG.concurrency,
+    writers: CONFIG.writerConcurrency,
   },
   agents: readJson("agents.json", null) || buildRoster(),
   tasks: readJson("tasks.json", []),

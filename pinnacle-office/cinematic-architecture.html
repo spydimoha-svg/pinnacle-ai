@@ -1,0 +1,733 @@
+<title>Pinnacle Cinematic Architecture</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap">
+
+<style>
+  /* Pinnacle commits to one visual world — the near-black ground and gold of
+     src/index.css. Single theme by choice, every colour painted explicitly, so
+     the page holds on any host ground. */
+  :root {
+    --ink: #050505;
+    --deep: #0a0a0c;
+    --surface: #101012;
+    --raise: #17171a;
+    --line: #26262b;
+    --line-soft: #1b1b1f;
+    --gold: #e8c889;
+    --gold-bright: #f2dca8;
+    --gold-deep: #c79e4f;
+    --gold-dim: #8a6524;
+    --cream: #f0ede6;
+    --muted: #b0aea9;
+    --dim: #6e6e6e;
+    --mint: #6fb98c;
+    --coral: #e2564a;
+    --sky: #6fa8c9;
+    --violet: #a58fd6;
+
+    --display: "Hanken Grotesk", ui-sans-serif, system-ui, sans-serif;
+    --mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", monospace;
+    --measure: 70ch;
+    --pad: clamp(1.15rem, 4vw, 3.25rem);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--ink);
+    color: var(--cream);
+    font-family: var(--display);
+    font-size: 16.5px;
+    line-height: 1.66;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: var(--pad);
+    display: flex;
+    flex-direction: column;
+    gap: 4.5rem;
+  }
+
+  /* ---------- masthead ---------- */
+  .mast {
+    display: flex;
+    flex-direction: column;
+    gap: 1.15rem;
+    padding-bottom: 2.5rem;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .kicker {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold-deep);
+  }
+
+  h1 {
+    margin: 0;
+    font-size: clamp(2.1rem, 5.6vw, 3.5rem);
+    line-height: 1.04;
+    font-weight: 800;
+    letter-spacing: -0.025em;
+    text-wrap: balance;
+  }
+
+  .lede { margin: 0; max-width: var(--measure); color: var(--muted); font-size: 1.09rem; }
+  .lede strong { color: var(--cream); font-weight: 600; }
+
+  /* ---------- the slate: a slug line, the way a scene is labelled ---------- */
+  .slate {
+    display: flex;
+    align-items: baseline;
+    gap: 0.9rem;
+    padding-bottom: 0.55rem;
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 0.35rem;
+  }
+
+  .slate .no {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: var(--ink);
+    background: var(--gold-deep);
+    padding: 0.16rem 0.44rem;
+    border-radius: 3px;
+    flex-shrink: 0;
+  }
+
+  .slate h2 {
+    margin: 0;
+    font-size: clamp(1.22rem, 2.5vw, 1.55rem);
+    font-weight: 700;
+    letter-spacing: -0.015em;
+    text-wrap: balance;
+  }
+
+  section { display: flex; flex-direction: column; gap: 1.15rem; }
+
+  h3 {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--gold-bright);
+    letter-spacing: -0.005em;
+  }
+
+  p { margin: 0; max-width: var(--measure); color: var(--muted); }
+  p strong { color: var(--cream); font-weight: 600; }
+  p.wide { max-width: none; }
+
+  em { color: var(--cream); font-style: italic; }
+
+  ul.plain { margin: 0; padding-left: 1.15rem; color: var(--muted); max-width: var(--measure); }
+  ul.plain li { margin-bottom: 0.52rem; }
+  ul.plain strong { color: var(--cream); font-weight: 600; }
+
+  code {
+    font-family: var(--mono);
+    font-size: 0.86em;
+    background: var(--raise);
+    border: 1px solid var(--line-soft);
+    border-radius: 4px;
+    padding: 0.1em 0.36em;
+    color: var(--gold-bright);
+    white-space: nowrap;
+  }
+
+  /* ---------- pipeline / flow ---------- */
+  .flow {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    gap: 0.5rem;
+    padding: 1.2rem;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background: var(--deep);
+  }
+  .flow .step {
+    flex: 1 1 auto;
+    min-width: 96px;
+    padding: 0.7rem 0.8rem;
+    border-radius: 7px;
+    background: var(--surface);
+    border: 1px solid var(--line-soft);
+    display: flex;
+    flex-direction: column;
+    gap: 0.22rem;
+  }
+  .flow .step .t {
+    font-family: var(--mono);
+    font-size: 0.66rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+  .flow .step .d { font-size: 0.8rem; color: var(--dim); line-height: 1.4; }
+
+  /* ---------- code block ---------- */
+  pre {
+    margin: 0;
+    padding: 1.15rem 1.3rem;
+    background: var(--deep);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    overflow-x: auto;
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    line-height: 1.65;
+    color: var(--muted);
+  }
+  pre b { color: var(--gold); font-weight: 500; }
+  pre i { color: var(--dim); font-style: normal; }
+  pre em { color: var(--mint); font-style: normal; }
+
+  /* ---------- tables ---------- */
+  .scroll { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.885rem; min-width: 640px; }
+  thead th {
+    text-align: left;
+    font-family: var(--mono);
+    font-size: 0.64rem;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: var(--dim);
+    font-weight: 500;
+    padding: 0.8rem 1rem;
+    background: var(--raise);
+    border-bottom: 1px solid var(--line);
+    white-space: nowrap;
+  }
+  tbody td { padding: 0.78rem 1rem; border-bottom: 1px solid var(--line-soft); color: var(--muted); vertical-align: top; }
+  tbody tr:last-child td { border-bottom: none; }
+  td.name { color: var(--cream); font-weight: 500; }
+  td.mono, th.mono { font-family: var(--mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+  .tag {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 0.61rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.18rem 0.46rem;
+    border-radius: 999px;
+    border: 1px solid currentColor;
+    white-space: nowrap;
+  }
+  .tag.keep { color: var(--mint); }
+  .tag.cut { color: var(--coral); }
+  .tag.redo { color: var(--sky); }
+  .tag.new { color: var(--violet); }
+
+  /* ---------- callouts ---------- */
+  .flag {
+    border: 1px solid rgba(226, 86, 74, 0.38);
+    background: rgba(226, 86, 74, 0.055);
+    border-radius: 10px;
+    padding: 1.25rem 1.45rem;
+    display: flex; flex-direction: column; gap: 0.6rem;
+  }
+  .flag .h {
+    font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--coral);
+  }
+  .flag p { color: var(--cream); }
+
+  .win {
+    border: 1px solid rgba(111, 185, 140, 0.35);
+    background: rgba(111, 185, 140, 0.05);
+    border-radius: 10px;
+    padding: 1.25rem 1.45rem;
+    display: flex; flex-direction: column; gap: 0.6rem;
+  }
+  .win .h {
+    font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--mint);
+  }
+  .win p { color: var(--cream); }
+
+  .note { border-left: 2px solid var(--gold-dim); padding-left: 1.15rem; display: flex; flex-direction: column; gap: 0.5rem; }
+
+  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(235px, 1fr)); gap: 1rem; }
+  .card {
+    border: 1px solid var(--line); border-radius: 10px; background: var(--surface);
+    padding: 1.2rem 1.3rem; display: flex; flex-direction: column; gap: 0.55rem;
+  }
+  .card p { font-size: 0.885rem; }
+  .card .lbl {
+    font-family: var(--mono); font-size: 0.64rem; letter-spacing: 0.13em;
+    text-transform: uppercase; color: var(--gold-deep);
+  }
+
+  footer {
+    border-top: 1px solid var(--line); padding-top: 1.6rem;
+    color: var(--dim); font-size: 0.85rem;
+    display: flex; flex-direction: column; gap: 0.6rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+</style>
+
+<div class="wrap">
+
+  <header class="mast">
+    <div class="kicker">Architecture proposal · awaiting validation · 19 Aug 2026</div>
+    <h1>Pinnacle Cinematic Architecture</h1>
+    <p class="lede">
+      The sixteen-part proposal the specification asks for, written against the
+      codebase as it actually stands today. <strong>No destructive changes have been
+      made</strong> — §39 asks for validation first, and this is that request.
+      The headline finding: Pinnacle already has the cinematic language and most of
+      the narrative intelligence. Both stop at the login screen.
+    </p>
+  </header>
+
+  <div class="win">
+    <span class="h">The central finding</span>
+    <p>
+      <strong>You are not starting from zero — you are closer than the spec assumes.</strong>
+      <code>src/pages/Landing.tsx</code> is already a six-chapter WebGL descent with three
+      shader scenes. <code>src/lib/lesson.ts</code> is already a deterministic director:
+      it decides pacing phase by phase and explicitly refuses to let the model
+      choose when to move on. <code>src/data/concepts/types.ts</code> already carries
+      <code>Prereq.probe</code> and <code>leadsTo</code> — which <em>are</em> the flashback
+      (§11) and foreshadowing (§12) systems, sitting in the data model unused by the UI.
+    </p>
+    <p>
+      So the work is not inventing these systems. It is <strong>carrying the cinematic
+      language across the login boundary</strong> and surfacing intelligence that is
+      already computed and currently rendered as cards.
+    </p>
+  </div>
+
+  <!-- 1 -->
+  <section>
+    <div class="slate"><span class="no">01</span><h2>Product architecture</h2></div>
+    <p>
+      Four layers, strictly separated so the cinema never becomes load-bearing for
+      the teaching. This is the constraint that makes §31 (accessibility) achievable
+      rather than aspirational: <strong>every layer below the Stage is fully functional
+      with the Stage switched off.</strong>
+    </p>
+    <div class="flow">
+      <div class="step"><span class="t">Stage</span><span class="d">WebGL worlds, motion, sound. Entirely optional.</span></div>
+      <div class="step"><span class="t">Director</span><span class="d">Deterministic. Chooses scene, pacing, branch.</span></div>
+      <div class="step"><span class="t">Intelligence</span><span class="d">Learner profile, mastery, memory, grading.</span></div>
+      <div class="step"><span class="t">Ground truth</span><span class="d">NCERT, concept graph, question bank.</span></div>
+    </div>
+    <p>
+      The single most important architectural decision in this document:
+      <strong>the Director is code, not a model call.</strong> §9 describes the AI
+      choosing scene, pacing, camera, difficulty and branch. Implemented as an LLM
+      call per beat, that is roughly nine extra calls per scene — unaffordable on the
+      token budget, and unreliable on the small free models the app falls back to.
+      <code>lesson.ts</code> already proves the alternative works. The model writes
+      <em>prose</em>; the app decides <em>structure</em>.
+    </p>
+  </section>
+
+  <!-- 2 -->
+  <section>
+    <div class="slate"><span class="no">02</span><h2>UX architecture</h2></div>
+    <p>
+      The spec's spatial model replaces the current sidebar-and-cards shell for the
+      student role only. Admin and Master consoles stay utilitarian — a teacher marking
+      forty scripts wants density, not atmosphere, and the OSM console shipped last
+      week is correct as it is.
+    </p>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>Today</th><th>Becomes</th><th>Route</th><th>What changes</th></tr></thead>
+        <tbody>
+          <tr><td class="name">Dashboard</td><td class="name">Your Journey</td><td class="mono">/journey</td><td>Contextual reveal: one current mission, not nine cards.</td></tr>
+          <tr><td class="name">Subjects</td><td class="name">World select</td><td class="mono">/world</td><td>Spatial chooser; each subject its own visual world.</td></tr>
+          <tr><td class="name">Chapter</td><td class="name">Journey</td><td class="mono">/world/:subject/:journey</td><td>Narrative title, concept spine as a path.</td></tr>
+          <tr><td class="name">Tutor (chat)</td><td class="name">Scene</td><td class="mono">/world/:subject/:journey/:scene</td><td>Stage is primary; dialogue is one affordance among several.</td></tr>
+          <tr><td class="name">—</td><td class="name">Knowledge universe</td><td class="mono">/universe</td><td>New. The concept graph, explorable.</td></tr>
+          <tr><td class="name">Papers / Worksheets</td><td class="name">Trials</td><td class="mono">/trial/:id</td><td>Deliberately un-cinematic. See §03.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section>
+    <div class="slate"><span class="no">03</span><h2>Cinematic interaction model</h2></div>
+    <p>
+      A <strong>Scene</strong> is the atomic unit. It is a typed object, not a page, and
+      it composes from beats. The nine-scene arc in §7 of the spec is a <em>template</em>
+      over these beats, not a hard sequence — the Director assembles the arc per student.
+    </p>
+    <pre><b>Beat</b> = <i>setup</i> | <i>reveal</i> | <i>predict</i> | <i>experiment</i>
+     | <i>respond</i> | <i>formalise</i> | <i>check</i> | <i>diagnose</i> | <i>transition</i>
+
+<b>Scene</b> {
+  conceptId    <i>// anchors to the existing concept graph</i>
+  beats        <i>// ordered, but skippable per learner</i>
+  stage        <i>// which world + which interactive object</i>
+  exitCriteria <i>// what proves this scene landed</i>
+}</pre>
+    <p>
+      Three interaction laws, each falsifiable in review:
+    </p>
+    <ul class="plain">
+      <li><strong>The student moves first where possible.</strong> A <em>predict</em> beat precedes every <em>reveal</em> beat. This is what makes the student the protagonist (§2) structurally rather than tonally.</li>
+      <li><strong>The interface carries part of the explanation.</strong> If a reply can be a manipulable object or a diagram, it must not be a paragraph (§20).</li>
+      <li><strong>Exam mode inverts everything.</strong> §22 is not a compromise — it is a designed contrast. The absence of cinema is what makes a Trial feel like a trial.</li>
+    </ul>
+  </section>
+
+  <!-- 4 -->
+  <section>
+    <div class="slate"><span class="no">04</span><h2>AI architecture</h2></div>
+    <p>
+      Preserve the existing chain and add one layer. <code>api/_llm.ts</code> already
+      satisfies §34 completely — six interchangeable providers, priority-ordered, with
+      automatic failover and no vendor lock-in. Nothing about model agnosticism needs
+      building; it is done.
+    </p>
+    <pre>Student action
+   ↓
+<b>Director</b>            <i>deterministic — src/lib/director.ts (new)</i>
+   ↓ selects beat + branch from learner profile & mastery
+<b>Beat prompt builder</b>  <i>one small job per call, as lesson.ts does today</i>
+   ↓
+<b>_llm.ts chain</b>       <i>Gemini → DeepSeek → Groq → local</i>
+   ↓
+<b>Response shaper</b>     <i>prose | figure spec | 3D scene | check question</i>
+   ↓
+<b>Stage</b> renders; <b>grade.ts</b> marks; <b>Director</b> chooses the next beat</pre>
+    <p>
+      Grading stays mechanical wherever it can be. <code>grade.ts</code> settles numeric
+      and keyword answers exactly, for free, identically on every model — and that
+      determinism is precisely what §17's "misconception detected" needs. You cannot
+      diagnose a root cause from a model that is guessing whether the answer was right.
+    </p>
+  </section>
+
+  <!-- 5 -->
+  <section>
+    <div class="slate"><span class="no">05</span><h2>Knowledge architecture</h2></div>
+    <p>
+      The graph exists. <code>Concept</code> already has <code>needs</code>,
+      <code>mistakes</code>, <code>figure</code>, <code>check</code> and <code>marks</code>;
+      <code>Prereq</code> already has a <code>probe</code> question with a stored answer.
+      §13's knowledge universe is a <em>rendering</em> of data the app already computes.
+    </p>
+    <div class="cards">
+      <div class="card">
+        <span class="lbl">Flashback · §11</span>
+        <p>Already possible. <code>concept.needs</code> → <code>prereq.probe</code> gives a real question with a stored answer. The UI has never shown it.</p>
+      </div>
+      <div class="card">
+        <span class="lbl">Foreshadowing · §12</span>
+        <p><code>leadsTo</code> is in the type and largely unpopulated. Needs content authoring, not engineering.</p>
+      </div>
+      <div class="card">
+        <span class="lbl">Node decay · §28</span>
+        <p><code>mastery.ts</code> already models spaced-repetition decay with per-status staleness. Drives the fading node directly.</p>
+      </div>
+      <div class="card">
+        <span class="lbl">Graph render</span>
+        <p><code>cytoscape</code> is already a dependency and already in the bundle. Use it for the 2D universe; do not build a 3D graph.</p>
+      </div>
+    </div>
+    <div class="flag">
+      <span class="h">The real constraint — read this twice</span>
+      <p>
+        There are <strong>274 curriculum chapters, 8 authored concept maps, and 13 verbatim
+        NCERT chapters.</strong> Everything else derives its map from chapter key-topics, and
+        derived maps carry <code>authored: false</code> — no stored check answers, no worked
+        examples. A cinematic scene needs authored ground truth to be worth watching.
+      </p>
+      <p>
+        <strong>This is a content problem wearing an engineering problem's clothes, and it
+        is the single largest risk to the vision.</strong> The architecture below is
+        deliverable in weeks. Covering the syllabus at this quality is a multi-year
+        authoring programme. Plan the product around depth in a few journeys, not
+        breadth across all of them.
+      </p>
+    </div>
+  </section>
+
+  <!-- 6 -->
+  <section>
+    <div class="slate"><span class="no">06</span><h2>Student-memory architecture</h2></div>
+    <p>
+      Three stores exist and are well-shaped. One is missing.
+    </p>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>Store</th><th>Holds</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td class="name">LearnerProfile</td><td>Modality preferences, pitch level, interests, recurring habits</td><td><span class="tag keep">Preserve</span> Exactly what §10 branching needs.</td></tr>
+          <tr><td class="name">StudentMemory</td><td>Class, mode, streak, altitude, per-chapter progress</td><td><span class="tag keep">Preserve</span></td></tr>
+          <tr><td class="name">LessonState</td><td>Phase, concept index, gaps, retries, reteaches</td><td><span class="tag redo">Extend</span> → SceneState</td></tr>
+          <tr><td class="name">StudentStory</td><td>Timestamped narrative beats: discoveries, misconceptions, breakthroughs</td><td><span class="tag new">New</span> The raw material for §24 and flashbacks.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note">
+      <p>
+        <strong>Storage warning.</strong> The Zustand store persists to
+        <code>localStorage</code> under a shared ~5 MB quota. A per-beat story log will
+        exceed it within a term. <code>StudentStory</code> must be capped and rolled to
+        Supabase, with only a recent window kept locally — the same discipline already
+        applied to the OSM console's scanned pages.
+      </p>
+    </div>
+  </section>
+
+  <!-- 7 -->
+  <section>
+    <div class="slate"><span class="no">07</span><h2>Frontend architecture</h2></div>
+    <p>
+      <strong>Stay on React + Vite + React Router. Do not migrate to Next.js.</strong>
+      §32 asks for the simplest architecture capable of the experience, and §34 warns
+      against fashion. Pinnacle is an authenticated SPA with no SEO surface behind the
+      login and no server-rendering requirement; a framework migration would consume
+      the entire budget for zero user-visible gain. The landing page — the one public
+      surface — already performs well as a static build.
+    </p>
+    <p>The one structural change that matters:</p>
+    <pre><b>&lt;App&gt;</b>
+  <b>&lt;WorldCanvas /&gt;</b>   <i>ONE WebGL context, mounted once, never unmounted</i>
+  <b>&lt;DirectorProvider&gt;</b>
+    <b>&lt;Routes /&gt;</b>       <i>DOM chrome only — text, controls, dialogue</i>
+  <b>&lt;/DirectorProvider&gt;</b></pre>
+    <p>
+      Scene changes swap uniforms and camera targets on the persistent canvas; they do
+      not mount and unmount renderers. Browsers cap live WebGL contexts at roughly
+      8–16, and a router that creates a context per scene will silently lose the
+      earliest ones — a class of bug that appears only after a student has explored
+      for a while, which is the worst time to find it.
+    </p>
+  </section>
+
+  <!-- 8 -->
+  <section>
+    <div class="slate"><span class="no">08</span><h2>Animation and rendering strategy</h2></div>
+    <p>
+      Every animation dependency the vision needs is already installed and already
+      proven on the landing page: <code>gsap</code>, <code>motion</code>,
+      <code>lenis</code>, <code>three</code>, <code>@react-three/postprocessing</code>,
+      <code>@paper-design/shaders-react</code>. <strong>Add nothing.</strong>
+    </p>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>Tier</th><th>Detected by</th><th>Renders</th><th>Story intact?</th></tr></thead>
+        <tbody>
+          <tr><td class="name">Tier 2 — Full</td><td class="mono">desktop + WebGL2</td><td>Shader worlds, postprocessing, particles, 3D objects</td><td>Yes</td></tr>
+          <tr><td class="name">Tier 1 — Lean</td><td class="mono">mobile / integrated GPU</td><td>3D objects only, no postprocessing, CSS transitions</td><td>Yes</td></tr>
+          <tr><td class="name">Tier 0 — Still</td><td class="mono">reduced-motion, no WebGL</td><td>Static figures, instant state changes, full text</td><td>Yes</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>
+      Tier 0 is <strong>not a degraded build</strong>. Under
+      <code>prefers-reduced-motion</code>, GSAP timelines collapse to their end state
+      rather than being removed — every reveal still happens, instantly. A student who
+      needs reduced motion gets the same narrative, not a worse product.
+    </p>
+    <p>
+      Motion must encode meaning (§28). The test: if an animation can be deleted
+      without the student losing information, delete it.
+    </p>
+  </section>
+
+  <!-- 9 -->
+  <section>
+    <div class="slate"><span class="no">09</span><h2>Data model</h2></div>
+    <pre><b>World</b>    { subjectId, palette, shader, ambience }
+<b>Journey</b>  { chapterId, narrativeTitle, spine: conceptId[], trial }
+<b>Scene</b>    { id, conceptId, beats: Beat[], stage: StageSpec, exitCriteria }
+<b>Beat</b>     { kind, prompt?, figure?, check?, branchOn? }
+
+<b>StageSpec</b> { world, object?: Scene3D, plot?, circuit?, camera? }
+
+<b>SceneState</b> extends LessonState {
+  sceneId, beatIndex, predictions[], branchTaken
+}
+
+<b>StoryEvent</b> { at, kind: <em>discovery|misconception|breakthrough|trial</em>,
+             conceptId, detail, sceneId }</pre>
+    <p>
+      <code>StageSpec.object</code> reuses the existing <code>Scene3D</code> type
+      unchanged — the interactive-experiment requirement in §21 is already served by
+      the labelled, geometrically accurate object library in
+      <code>components/cast/Canvas3D.tsx</code>.
+    </p>
+  </section>
+
+  <!-- 10 -->
+  <section>
+    <div class="slate"><span class="no">10</span><h2>First vertical slice</h2></div>
+    <div class="flag">
+      <span class="h">Conflict — the chosen prototype has the least ground truth</span>
+      <p>
+        §38 specifies <strong>Physics / Newton's Laws</strong>. All eight authored concept
+        maps are <strong>Mathematics</strong>; the verbatim NCERT set is Class 9–10 Maths
+        and Class 10 Science. <strong>There is no authored concept map for Newton's Laws.</strong>
+        Building the slice there means authoring that ground truth first — roughly a week
+        of content work before the first scene can be honest.
+      </p>
+      <p>
+        Two options. <strong>(a) Author it</strong> — keeps the spec's subject, costs a week
+        upfront, and Physics is undeniably the better showcase for a cinematic world.
+        <strong>(b) Slice on Class 10 Quadratic Equations</strong> — authored map, verbatim
+        exercises and worked answers all exist today, so engineering starts immediately.
+        <strong>My recommendation is (a)</strong>, because the vision is a Physics vision and
+        proving it on algebra would undersell it — but the week must be scheduled, not
+        discovered.
+      </p>
+    </div>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>Milestone</th><th>Delivers</th><th>Proves</th></tr></thead>
+        <tbody>
+          <tr><td class="name">M0 · Ground truth</td><td>Authored Newton's Laws concept map: concepts, probes, checks, mistakes, figures</td><td>Content pipeline is real</td></tr>
+          <tr><td class="name">M1 · Stage</td><td>Persistent WorldCanvas, tier detection, Mechanics world, scene transitions</td><td>It feels like a world</td></tr>
+          <tr><td class="name">M2 · Director</td><td><code>director.ts</code>, beat engine, predict-before-reveal, branch on learner profile</td><td>Two students get different films</td></tr>
+          <tr><td class="name">M3 · Diagnosis</td><td>Misconception typing, rewind, flashback to prerequisite</td><td>Mistakes become plot</td></tr>
+          <tr><td class="name">M4 · Trial</td><td>Exam mode, Debrief, Director's Cut</td><td>The arc closes</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>
+      Ten scenes, one journey, end to end. <strong>Nothing else gets touched until this
+      slice is genuinely good</strong> — §37 is right that fifty mediocre features would
+      be the failure mode here.
+    </p>
+  </section>
+
+  <!-- 11 -->
+  <section>
+    <div class="slate"><span class="no">11</span><h2>Repository structure</h2></div>
+    <pre>src/
+  cinema/            <em>new — the Stage layer, deletable without breaking learning</em>
+    WorldCanvas.tsx      <i>the single persistent context</i>
+    worlds/              <i>mechanics, matter, form, life</i>
+    beats/               <i>Predict, Reveal, Experiment, Diagnose…</i>
+    motion/              <i>gsap timelines, tier detection</i>
+    sound/               <i>optional audio language</i>
+  lib/
+    director.ts      <em>new — deterministic scene/beat selection</em>
+    story.ts         <em>new — StudentStory log</em>
+    lesson.ts        <i>preserved, becomes the Director's phase source</i>
+    learner.ts  mastery.ts  grade.ts  grounding.ts   <i>all preserved</i>
+  data/
+    journeys/        <em>new — narrative framing over existing chapters</em>
+    concepts/  ncert/  questions/  curriculum/       <i>all preserved</i>
+  pages/
+    journey/         <em>new — student surfaces</em>
+    admin/  master/  <i>preserved, stay utilitarian</i></pre>
+    <p>
+      <code>cinema/</code> is deliberately quarantined. If the whole directory were
+      deleted, the app would still teach — which is the structural expression of the
+      layering in §01.
+    </p>
+  </section>
+
+  <!-- 12 -->
+  <section>
+    <div class="slate"><span class="no">12</span><h2>Technology recommendations</h2></div>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>Need</th><th>Use</th><th>Why not the alternative</th></tr></thead>
+        <tbody>
+          <tr><td class="name">App shell</td><td class="mono">React + Vite (keep)</td><td>Next.js buys SSR you cannot use behind a login.</td></tr>
+          <tr><td class="name">3D worlds</td><td class="mono">three + R3F (installed)</td><td>WebGPU is not yet safe on the Android baseline these students carry.</td></tr>
+          <tr><td class="name">Orchestrated motion</td><td class="mono">gsap (installed)</td><td>Timelines with reversal — needed for rewind (§18).</td></tr>
+          <tr><td class="name">Component motion</td><td class="mono">motion (installed)</td><td>Already the idiom in the codebase.</td></tr>
+          <tr><td class="name">Knowledge graph</td><td class="mono">cytoscape (installed)</td><td>A 3D graph looks impressive and reads worse.</td></tr>
+          <tr><td class="name">Narration</td><td class="mono">Kokoro via CDN (shipped)</td><td>Neural voice, in-browser, no key, no per-character bill.</td></tr>
+          <tr><td class="name">Sound design</td><td class="mono">WebAudio, hand-rolled</td><td>Eight short cues do not justify a library.</td></tr>
+          <tr><td class="name">Models</td><td class="mono">_llm.ts chain (keep)</td><td>Already model-agnostic; §34 is satisfied.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="wide">
+      Net new dependencies required: <strong>zero.</strong> This matters beyond tidiness —
+      <code>pinnacle-office/rules.md</code> Rule 2 forbids new npm dependencies outright.
+    </p>
+  </section>
+
+  <!-- 13 -->
+  <section>
+    <div class="slate"><span class="no">13</span><h2>Risks and trade-offs</h2></div>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>Risk</th><th>Severity</th><th>Mitigation</th></tr></thead>
+        <tbody>
+          <tr><td class="name">Authored content cannot scale to 274 chapters</td><td>Critical</td><td>Sell depth, not coverage. Cinematic journeys for high-weightage chapters; existing tutor everywhere else.</td></tr>
+          <tr><td class="name">Cheap Android phones thermally throttle on WebGL</td><td>High</td><td>Tier system in §08. Tier 1 default on mobile; measure before enabling Tier 2.</td></tr>
+          <tr><td class="name">Director as LLM calls blows the token budget</td><td>High</td><td>Director is code. Already resolved in §01.</td></tr>
+          <tr><td class="name">Cinema slows down a student who just wants an answer</td><td>High</td><td>A permanent, one-tap "just tell me" exit on every scene. Cinematic must never mean captive.</td></tr>
+          <tr><td class="name">localStorage quota exceeded by story log</td><td>Medium</td><td>Cap locally, roll to Supabase.</td></tr>
+          <tr><td class="name">Audio blocked until a user gesture</td><td>Medium</td><td>Opening cinematic begins on an explicit "Begin" press. Design for it, do not fight it.</td></tr>
+          <tr><td class="name">Concurrent agents editing the same files</td><td>Medium</td><td>Real today — <code>Canvas3D.tsx</code> was rewritten three times mid-edit this session. Assign file ownership before M1.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 14, 15, 16 -->
+  <section>
+    <div class="slate"><span class="no">14</span><h2>Remove · Preserve · Redesign</h2></div>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>Asset</th><th>Call</th><th>Reasoning</th></tr></thead>
+        <tbody>
+          <tr><td class="name">lesson.ts phase machine</td><td><span class="tag keep">Preserve</span></td><td>It is the Director. Its refusal to let the model set pacing is the correct instinct, already implemented.</td></tr>
+          <tr><td class="name">learner.ts · mastery.ts · grade.ts</td><td><span class="tag keep">Preserve</span></td><td>Branching, decay and deterministic marking. All three are prerequisites for §10, §17, §28.</td></tr>
+          <tr><td class="name">concepts / ncert / questions</td><td><span class="tag keep">Preserve</span></td><td>The moat. Any model is replaceable; this corpus is not.</td></tr>
+          <tr><td class="name">_llm.ts provider chain</td><td><span class="tag keep">Preserve</span></td><td>§34 already satisfied in full.</td></tr>
+          <tr><td class="name">Canvas3D / Stage3D</td><td><span class="tag keep">Preserve</span></td><td>Accurate labelled interactive objects — §21, already built.</td></tr>
+          <tr><td class="name">Landing WebGL scenes</td><td><span class="tag keep">Preserve</span></td><td>The visual language to extend inward. Do not restart it.</td></tr>
+          <tr><td class="name">Admin / Master / OSM consoles</td><td><span class="tag keep">Preserve</span></td><td>Teachers need density. Cinema here would be a downgrade.</td></tr>
+          <tr><td class="name">LandingClassic.tsx</td><td><span class="tag cut">Remove</span></td><td>Dead alternative; two landings is a maintenance tax with no reader.</td></tr>
+          <tr><td class="name">Student sidebar + card grid</td><td><span class="tag cut">Remove</span></td><td>Directly contradicts §3 and §27. Retained for admin only.</td></tr>
+          <tr><td class="name">Dashboard.tsx</td><td><span class="tag redo">Redesign</span></td><td>Nine cards → one Current Mission, contextual reveal (§14, §15).</td></tr>
+          <tr><td class="name">Tutor.tsx</td><td><span class="tag redo">Redesign</span></td><td>Chat-primary → scene-primary. The single biggest change in the product (§35).</td></tr>
+          <tr><td class="name">Chapter.tsx / Subjects.tsx</td><td><span class="tag redo">Redesign</span></td><td>Become Journey and World select.</td></tr>
+          <tr><td class="name">LessonPlayer.tsx</td><td><span class="tag redo">Redesign</span></td><td>Closest existing thing to a Scene player. Generalise from video playback to interactive beats.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <div class="slate"><span class="no">—</span><h2>What I need from you before building</h2></div>
+    <ul class="plain">
+      <li><strong>Newton's Laws, or Quadratic Equations?</strong> §10 — this decides whether M0 is a week of content authoring or is skipped entirely.</li>
+      <li><strong>Confirm the Director stays deterministic code.</strong> §01 — this is my strongest recommendation and it reinterprets §9, so I want it explicitly agreed rather than assumed.</li>
+      <li><strong>Confirm removal of the student sidebar and LandingClassic.</strong> These are the only genuinely destructive changes proposed.</li>
+      <li><strong>Who owns which files?</strong> Another process is editing this repo concurrently; M1 will collide with it otherwise.</li>
+    </ul>
+    <p>
+      On approval I will build M0/M1 first and show you one scene running before going
+      further — the whole slice is worthless if the first thirty seconds do not feel
+      like entering a world.
+    </p>
+  </section>
+
+  <footer>
+    <div>
+      Written against the working tree at 19 Aug 2026. No files were modified in
+      producing it. Line references — <code>src/lib/lesson.ts</code>,
+      <code>src/lib/learner.ts</code>, <code>src/data/concepts/types.ts</code>,
+      <code>src/pages/Landing.tsx</code> — reflect the code as it stands today and
+      should be re-checked if the concurrent edits continue.
+    </div>
+  </footer>
+
+</div>

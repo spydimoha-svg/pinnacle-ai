@@ -12,12 +12,27 @@ import path from "node:path";
 import { OFFICE_DIR, CONFIG } from "../config.mjs";
 import { runAgent, TOOLS } from "./claude.mjs";
 
-const CHARTER = path.join(OFFICE_DIR, "charter.md");
-const charter = () => { try { return fs.readFileSync(CHARTER, "utf8"); } catch { return "Do no harm to the machine, the site, or the law."; } };
+// Both are read fresh on every ruling. rules.md comes first because rules one
+// and two are absolute: no reading of the charter can excuse spending Ayaan's
+// money, so Pinnacle should have that in mind before it weighs anything else.
+const read = (name, fallback) => {
+  try { return fs.readFileSync(path.join(OFFICE_DIR, name), "utf8"); } catch { return fallback; }
+};
+const charter = () =>
+  read("rules.md", "Never use Ayaan's Anthropic API key. Never use anything that costs him money.") +
+  "\n\n" +
+  read("charter.md", "Do no harm to the machine, the site, or the law.");
 
 // `block` refuses on sight. `flag` is handed to Pinnacle as a specific concern
 // to rule on, because context decides whether it is fine.
 const RULES = [
+  // The money. Rules one and two of rules.md, enforced mechanically rather than
+  // trusted to a model that read them. These are the only rules Ayaan called
+  // absolute, so they are the only ones checked before anything else.
+  { level: "block", why: "reaches for Ayaan's paid Anthropic key", re: /ANTHROPIC_API_KEY|ANTHROPIC_AUTH_TOKEN|ANTHROPIC_BASE_URL|api\.anthropic\.com|CLAUDE_CODE_USE_(?:BEDROCK|VERTEX)/ },
+  { level: "block", why: "routes the office through a paid cloud account", re: /bedrock-runtime|aws\.amazon\.com\/bedrock|aiplatform\.googleapis\.com/ },
+  { level: "flag", why: "calls a service that bills per request", re: /api\.openai\.com|api\.elevenlabs\.io|api\.cohere|api\.deepgram\.com|api\.assemblyai\.com|api\.replicate\.com|serpapi\.com|api\.pinecone\.io|api\.sendgrid\.com|api\.twilio\.com/ },
+  { level: "flag", why: "signs the project up to something with a bill", re: /^\+.*(api[_-]?key|apiKey|subscription|billing|checkout\.session|price_id)/mi },
   // The machine
   { level: "block", why: "spawns a process", re: /\b(child_process|execSync|spawnSync|\bexec\(|\bspawn\()/ },
   { level: "block", why: "deletes files from disk", re: /\b(rmSync|unlinkSync|rmdirSync|fs\.rm\b|rimraf)/ },
@@ -97,6 +112,7 @@ ${CONTRACT}`;
     tools: TOOLS.read,
     maxTurns: CONFIG.warden.maxTurns,
     timeout: CONFIG.warden.timeout,
+    tokenCap: CONFIG.tokenCap.warden,
     onEvent,
   });
 

@@ -1,0 +1,307 @@
+<title>Protecting Pinnacle</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap">
+
+<style>
+  :root {
+    --ink:#050505; --deep:#0a0a0c; --surface:#101012; --raise:#17171a;
+    --line:#26262b; --line-soft:#1b1b1f;
+    --gold:#e8c889; --gold-bright:#f2dca8; --gold-deep:#c79e4f; --gold-dim:#8a6524;
+    --cream:#f0ede6; --muted:#b0aea9; --dim:#6e6e6e;
+    --mint:#6fb98c; --coral:#e2564a; --sky:#6fa8c9;
+    --display:"Hanken Grotesk", ui-sans-serif, system-ui, sans-serif;
+    --mono:"JetBrains Mono", ui-monospace, monospace;
+    --measure:68ch; --pad:clamp(1.15rem,4vw,3.25rem);
+  }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--ink); color:var(--cream); font-family:var(--display);
+         font-size:16.5px; line-height:1.66; -webkit-font-smoothing:antialiased; }
+  .wrap { max-width:1040px; margin:0 auto; padding:var(--pad); display:flex; flex-direction:column; gap:4rem; }
+
+  .mast { display:flex; flex-direction:column; gap:1.1rem; padding-bottom:2.25rem; border-bottom:1px solid var(--line); }
+  .kicker { font-family:var(--mono); font-size:0.7rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--gold-deep); }
+  h1 { margin:0; font-size:clamp(2rem,5.4vw,3.3rem); line-height:1.05; font-weight:800; letter-spacing:-0.025em; text-wrap:balance; }
+  .lede { margin:0; max-width:var(--measure); color:var(--muted); font-size:1.08rem; }
+  .lede strong { color:var(--cream); font-weight:600; }
+
+  .head { display:flex; align-items:baseline; gap:0.9rem; padding-bottom:0.55rem;
+          border-bottom:1px solid var(--line); margin-bottom:0.4rem; }
+  .head .no { font-family:var(--mono); font-size:0.72rem; font-weight:700; letter-spacing:0.1em;
+              color:var(--ink); background:var(--gold-deep); padding:0.16rem 0.5rem; border-radius:3px; flex-shrink:0; }
+  .head h2 { margin:0; font-size:clamp(1.2rem,2.5vw,1.55rem); font-weight:700; letter-spacing:-0.015em; text-wrap:balance; }
+  .head .cost { margin-left:auto; font-family:var(--mono); font-size:0.68rem; color:var(--gold); white-space:nowrap; }
+
+  section { display:flex; flex-direction:column; gap:1.1rem; }
+  h3 { margin:0; font-size:1rem; font-weight:600; color:var(--gold-bright); }
+  p { margin:0; max-width:var(--measure); color:var(--muted); }
+  p strong { color:var(--cream); font-weight:600; }
+  p.wide { max-width:none; }
+  em { color:var(--cream); font-style:italic; }
+
+  ol.steps { margin:0; padding-left:0; list-style:none; counter-reset:s;
+             display:flex; flex-direction:column; gap:0.8rem; max-width:var(--measure); }
+  ol.steps li { counter-increment:s; position:relative; padding-left:2.1rem; color:var(--muted); }
+  ol.steps li::before { content:counter(s); position:absolute; left:0; top:0.15rem;
+    font-family:var(--mono); font-size:0.7rem; color:var(--gold);
+    border:1px solid var(--gold-dim); border-radius:4px; width:1.45rem; height:1.45rem;
+    display:flex; align-items:center; justify-content:center; }
+  ol.steps strong { color:var(--cream); font-weight:600; }
+
+  ul.plain { margin:0; padding-left:1.15rem; color:var(--muted); max-width:var(--measure); }
+  ul.plain li { margin-bottom:0.5rem; }
+  ul.plain strong { color:var(--cream); font-weight:600; }
+
+  .scroll { overflow-x:auto; border:1px solid var(--line); border-radius:10px; }
+  table { width:100%; border-collapse:collapse; font-size:0.885rem; min-width:620px; }
+  thead th { text-align:left; font-family:var(--mono); font-size:0.64rem; letter-spacing:0.13em;
+             text-transform:uppercase; color:var(--dim); font-weight:500; padding:0.8rem 1rem;
+             background:var(--raise); border-bottom:1px solid var(--line); white-space:nowrap; }
+  tbody td { padding:0.78rem 1rem; border-bottom:1px solid var(--line-soft); color:var(--muted); vertical-align:top; }
+  tbody tr:last-child td { border-bottom:none; }
+  td.name { color:var(--cream); font-weight:500; }
+  td.mono, th.mono { font-family:var(--mono); font-variant-numeric:tabular-nums; white-space:nowrap; text-align:right; }
+  td.good { color:var(--mint); }
+  td.bad { color:var(--coral); }
+  tbody tr.first td { background:rgba(232,200,137,0.055); }
+  tbody tr.first td:first-child { box-shadow:inset 2px 0 0 var(--gold); }
+
+  .flag { border:1px solid rgba(226,86,74,0.38); background:rgba(226,86,74,0.055); border-radius:10px;
+          padding:1.25rem 1.45rem; display:flex; flex-direction:column; gap:0.6rem; }
+  .flag .h { font-family:var(--mono); font-size:0.66rem; letter-spacing:0.14em; text-transform:uppercase; color:var(--coral); }
+  .flag p { color:var(--cream); }
+
+  .win { border:1px solid rgba(111,185,140,0.35); background:rgba(111,185,140,0.05); border-radius:10px;
+         padding:1.25rem 1.45rem; display:flex; flex-direction:column; gap:0.6rem; }
+  .win .h { font-family:var(--mono); font-size:0.66rem; letter-spacing:0.14em; text-transform:uppercase; color:var(--mint); }
+  .win p { color:var(--cream); }
+
+  .note { border-left:2px solid var(--gold-dim); padding-left:1.15rem; display:flex; flex-direction:column; gap:0.5rem; }
+
+  .disc { border:1px solid var(--line); border-radius:10px; background:var(--deep);
+          padding:1.1rem 1.3rem; font-size:0.87rem; color:var(--dim); }
+  .disc strong { color:var(--muted); }
+
+  code { font-family:var(--mono); font-size:0.86em; background:var(--raise); border:1px solid var(--line-soft);
+         border-radius:4px; padding:0.1em 0.36em; color:var(--gold-bright); white-space:nowrap; }
+
+  footer { border-top:1px solid var(--line); padding-top:1.6rem; color:var(--dim); font-size:0.85rem;
+           display:flex; flex-direction:column; gap:0.6rem; }
+  footer a { color:var(--gold-deep); }
+
+  @media (prefers-reduced-motion: reduce) { * { animation:none !important; transition:none !important; } }
+</style>
+
+<div class="wrap">
+
+  <header class="mast">
+    <div class="kicker">Intellectual property · India · 19 Aug 2026</div>
+    <h1>Protecting Pinnacle</h1>
+    <p class="lede">
+      You asked how to patent the website. The honest answer is that
+      <strong>you almost certainly cannot patent it in India — and you should not
+      want to.</strong> Here is what the law actually allows, what it costs, what
+      order to do it in, and what genuinely protects this business instead.
+    </p>
+  </header>
+
+  <div class="flag">
+    <span class="h">Start here — Section 3(k)</span>
+    <p>
+      Under <strong>Section 3(k) of the Patents Act 1970</strong>, a
+      "computer programme per se", an algorithm, a mathematical method and a
+      business method are <strong>not inventions at all</strong> in Indian law. They
+      are not merely hard to patent — they are excluded from the definition before
+      novelty is even considered.
+    </p>
+    <p>
+      A website, an app, a UI, a tutoring workflow and a subscription model all sit
+      squarely inside that exclusion. <strong>There is no filing strategy that gets
+      around it</strong> for a product shaped like Pinnacle.
+    </p>
+  </div>
+
+  <section>
+    <div class="head"><span class="no">01</span><h2>When software <em>can</em> be patented here</h2><span class="cost">rarely worth it</span></div>
+    <p>
+      The word "per se" leaves a narrow opening. The Patent Office's
+      <strong>revised CRI Guidelines (2025)</strong> ask examiners to look for a
+      <strong>technical effect</strong>: does the software materially change how the
+      hardware performs, and does it let the machine do something it otherwise could
+      not? Accepted examples are things like a genuine improvement in processing
+      speed, network communication, memory use, or security at the system level.
+    </p>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>Claim you might want</th><th>Outcome</th><th>Why</th></tr></thead>
+        <tbody>
+          <tr><td class="name">"A cinematic AI tutoring interface"</td><td class="bad">Refused</td><td>Presentation of information + programme per se.</td></tr>
+          <tr><td class="name">"A method of grading CBSE answers with AI"</td><td class="bad">Refused</td><td>Algorithm and business/teaching method.</td></tr>
+          <tr><td class="name">"A subscription model for school licensing"</td><td class="bad">Refused</td><td>Business method, explicitly excluded.</td></tr>
+          <tr><td class="name">"A knowledge-graph data structure for curricula"</td><td class="bad">Refused</td><td>Abstract data organisation, no technical effect.</td></tr>
+          <tr><td class="name">A novel on-device inference technique that measurably cuts memory on low-end hardware</td><td class="good">Arguable</td><td>Real technical effect on the machine — but you would have to have actually invented it.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note">
+      <p>
+        <strong>Even where a claim is arguable, weigh the cost.</strong> A drafted and
+        prosecuted Indian software patent runs roughly ₹1.5–3 lakh and three to five
+        years, and publication at 18 months hands your method to every competitor
+        whether or not the patent is ever granted. For a pre-revenue product that money
+        buys about eight months of runway instead.
+      </p>
+    </div>
+    <div class="flag">
+      <span class="h">Watch out for this</span>
+      <p>
+        A number of Indian filing agencies will happily take ₹50,000+ to file a
+        "software patent" they know will be refused under 3(k), because they are paid
+        to file, not to succeed. <strong>If a service promises to patent your website,
+        that is the tell.</strong> Ask them directly, in writing, how they intend to
+        overcome Section 3(k). A real attorney will explain the technical-effect test;
+        a mill will change the subject.
+      </p>
+    </div>
+  </section>
+
+  <section>
+    <div class="head"><span class="no">02</span><h2>Copyright — you already have it</h2><span class="cost">₹500–2,000 per work</span></div>
+    <p>
+      Software is a <strong>literary work</strong> under the Copyright Act 1957.
+      Copyright exists <em>automatically</em> the moment you write the code — there is
+      nothing to file for it to exist. Registration is optional, and its value is
+      purely evidential: a certificate is far easier to put in front of a court or a
+      platform than a git history.
+    </p>
+    <ol class="steps">
+      <li><strong>File Form XIV online</strong> at <code>copyright.gov.in</code>, under Rule 70(1) of the Copyright Rules 2013.</li>
+      <li><strong>Attach the source code:</strong> the first ten and last ten pages, unredacted. If the work is under twenty pages, the whole thing. Blocked-out portions get the application objected to.</li>
+      <li><strong>Pay ₹500 per work</strong> as an individual (₹2,000 if you file as a company or LLP).</li>
+      <li><strong>Receive a Diary Number,</strong> then wait out the 30-day objection window.</li>
+      <li><strong>Certificate issues in roughly 2–8 months</strong> if nobody objects.</li>
+    </ol>
+    <h3>Register these as separate works</h3>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>Work</th><th>Type</th><th class="mono">Fee (individual)</th><th>Why it matters</th></tr></thead>
+        <tbody>
+          <tr class="first"><td class="name">Pinnacle source code</td><td>Literary</td><td class="mono">₹500</td><td>Your core asset. File this one first.</td></tr>
+          <tr class="first"><td class="name">The CBSE content corpus</td><td>Literary</td><td class="mono">₹500</td><td><strong>Your real moat.</strong> Concept maps, marking-scheme answers, examiner keywords — original authored work, and the hardest thing to copy.</td></tr>
+          <tr><td class="name">Logo and brand artwork</td><td>Artistic</td><td class="mono">₹500</td><td>Complements the trademark.</td></tr>
+          <tr><td class="name">UI screens / GUI</td><td>Artistic</td><td class="mono">₹500</td><td>Treated as a separate artistic work; needs its own application.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="wide">
+      Four works, about <strong>₹2,000 total in government fees</strong> — genuinely
+      the best value in this entire document.
+    </p>
+  </section>
+
+  <section>
+    <div class="head"><span class="no">03</span><h2>Trademark — the one that actually matters</h2><span class="cost">₹4,500 per class</span></div>
+    <p>
+      This is where your money should go first. A patent protects a method you
+      probably do not have; <strong>a trademark protects the name customers will
+      eventually search for</strong>, and it is the thing a school's procurement form
+      and any future investor will ask about.
+    </p>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>Class</th><th>Covers</th><th class="mono">Fee</th><th>Priority</th></tr></thead>
+        <tbody>
+          <tr class="first"><td class="name">Class 41</td><td>Education and training services — tutoring, coaching, course delivery</td><td class="mono">₹4,500</td><td class="good">File now</td></tr>
+          <tr class="first"><td class="name">Class 9</td><td>Downloadable software and mobile apps</td><td class="mono">₹4,500</td><td class="good">File now</td></tr>
+          <tr><td class="name">Class 42</td><td>SaaS platform, hosted software, software development</td><td class="mono">₹4,500</td><td>Add when funded</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <ol class="steps">
+      <li><strong>Search first,</strong> free, on the IP India public search. If "Pinnacle" is taken in Class 41 by an education business, you need to know before you print anything.</li>
+      <li><strong>Get a Startup India recognition certificate</strong> if you qualify — it keeps you at the ₹4,500 small-entity rate rather than ₹9,000, and unlocks fee rebates elsewhere.</li>
+      <li><strong>File TM-A online</strong> for Class 41 and Class 9. Use the word mark <em>and</em> the logo if the logo is settled.</li>
+      <li><strong>Use ™ immediately</strong> on filing. You may only use ® once registered.</li>
+      <li><strong>Wait it out:</strong> examination takes 6–12 months, then a 4-month opposition window. Uncontested registration runs 12–18 months.</li>
+    </ol>
+    <div class="note">
+      <p>
+        <strong>Do not file only Class 41.</strong> Protecting the teaching service but
+        not the software leaves an enforcement gap that cannot be fixed retroactively —
+        only by filing a fresh application in the missing class, from the back of the
+        queue. Expedited examination exists (Form TM-M, ₹20,000 for a small entity) but
+        is rarely worth it pre-revenue.
+      </p>
+    </div>
+  </section>
+
+  <section>
+    <div class="head"><span class="no">04</span><h2>Trade secret — free, and your strongest protection</h2><span class="cost">₹0</span></div>
+    <p>
+      India has no standalone trade-secret statute; protection comes through contract
+      and confidentiality. That sounds weak and is actually the most practical defence
+      you have, because <strong>the things that make Pinnacle good are exactly the
+      things you never have to publish.</strong>
+    </p>
+    <ul class="plain">
+      <li><strong>Keep the prompt architecture private.</strong> The persona contract, the lesson phase machine, the marking prompts. A patent would publish these; secrecy does not.</li>
+      <li><strong>Keep the corpus private.</strong> Authored concept maps, probes with stored answers, examiner keywords. Serve them, never ship them as a downloadable file.</li>
+      <li><strong>NDAs before demos</strong> with schools and any partner who sees the internals.</li>
+      <li><strong>Written IP assignment from every contributor</strong> — freelancer, friend, intern. Without it they own their contribution, and this is the single most common way small companies discover they do not own their own product.</li>
+      <li><strong>Never commit secrets</strong> and keep the private repo private.</li>
+    </ul>
+  </section>
+
+  <section>
+    <div class="head"><span class="no">05</span><h2>What to do, in order</h2><span class="cost">≈ ₹11,000 total</span></div>
+    <div class="scroll">
+      <table>
+        <thead><tr><th class="mono">When</th><th>Action</th><th class="mono">Cost</th><th>Why now</th></tr></thead>
+        <tbody>
+          <tr class="first"><td class="mono">This week</td><td class="name">Trademark search, Classes 41 &amp; 9</td><td class="mono">₹0</td><td>If the name is taken you need to know before marketing spends a rupee.</td></tr>
+          <tr class="first"><td class="mono">This month</td><td class="name">File TM-A in Class 41 and Class 9</td><td class="mono">₹9,000</td><td>12–18 months to register. The clock starts when you file.</td></tr>
+          <tr><td class="mono">This month</td><td class="name">Copyright: source code + content corpus</td><td class="mono">₹1,000</td><td>Cheap, evidential, and the corpus is the actual moat.</td></tr>
+          <tr><td class="mono">This month</td><td class="name">IP assignment letters from all contributors</td><td class="mono">₹0</td><td>Gets harder every month you leave it.</td></tr>
+          <tr><td class="mono">Before schools</td><td class="name">Privacy policy naming minors + NDA template</td><td class="mono">₹0</td><td>Procurement asks. No policy, no meeting.</td></tr>
+          <tr><td class="mono">Month 3</td><td class="name">Copyright: logo + UI artwork</td><td class="mono">₹1,000</td><td>Once the design has settled.</td></tr>
+          <tr><td class="mono">When funded</td><td class="name">Class 42, and a patent consult <em>only</em> if you invent something technical</td><td class="mono">varies</td><td>Not before revenue.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="win">
+      <span class="h">The thing worth internalising</span>
+      <p>
+        Your defensibility is not legal. It is the <strong>authored CBSE corpus</strong>
+        — verbatim NCERT, real marking schemes, and above all the teacher-corrected
+        answer scripts your OSM console will accumulate. A competitor can copy your UI
+        in a fortnight and your prompts in a month. They cannot copy years of marked
+        scripts from real classrooms, and no patent would have protected that anyway.
+      </p>
+      <p>
+        Spend ₹11,000 on the trademark and copyrights, skip the patent, and put the
+        ₹2 lakh you would have burned on filings into authoring more chapters.
+      </p>
+    </div>
+  </section>
+
+  <div class="disc">
+    <strong>Not legal advice.</strong> This is a researched briefing to make you a
+    well-informed client, not a substitute for an IP attorney. Fees and timelines are
+    government rates as published in 2026 and change; professional fees are extra.
+    Before filing anything, have a registered Indian trademark agent or patent attorney
+    review your specific position — the trademark search in particular is worth one
+    paid hour of an expert's time.
+  </div>
+
+  <footer>
+    <div>
+      Sources:
+      <a href="https://ipindia.gov.in/writereaddata/Portal/IPOGuidelinesManuals/1_86_1_Revised__Guidelines_for_Examination_of_Computer-related_Inventions_CRI__.pdf">IPO CRI Guidelines</a> ·
+      <a href="https://www.intepat.com/blog/cri-guidelines-2025-patent-india-3k">CRI Guidelines 2025 and Section 3(k)</a> ·
+      <a href="https://www.intepat.com/blog/trademark-registration-fees-india">Trademark fees India 2026</a> ·
+      <a href="https://prosolllaw.com/software-copyright-registration-in-india-guide-2026/">Software copyright registration 2026</a> ·
+      <a href="https://www.incorpx.io/blog/copyright-registration-software-apps-india">Copyright for software and apps</a>
+    </div>
+  </footer>
+
+</div>
