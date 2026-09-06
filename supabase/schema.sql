@@ -76,6 +76,28 @@ create table if not exists public.school_resources (
 create index if not exists school_resources_school_id_idx
   on public.school_resources (school_id);
 
+-- ---------------------------------------------------------------------------
+-- Global Curriculum Reference Books & Resources (Classes 6-12)
+-- ---------------------------------------------------------------------------
+create table if not exists public.curriculum_resources (
+  id          text primary key,
+  title       text not null,
+  kind        text not null,       -- ncert, exemplar, reference-math, reference-physics, etc.
+  class_level integer not null,    -- 6 to 12
+  subject_id  text,
+  publisher   text,
+  author      text,
+  series      text,
+  url         text,
+  description text,
+  metadata    jsonb not null default '{}'::jsonb,
+  created_at  timestamptz not null default now()
+);
+create index if not exists curriculum_resources_class_idx
+  on public.curriculum_resources (class_level);
+create index if not exists curriculum_resources_subject_idx
+  on public.curriculum_resources (subject_id);
+
 -- ===========================================================================
 -- Row Level Security
 -- ===========================================================================
@@ -87,9 +109,10 @@ create index if not exists school_resources_school_id_idx
 -- replace the permissive policies below with owner-scoped ones (an example is
 -- commented at the bottom). See README "Locking down the database".
 
-alter table public.student_state    enable row level security;
-alter table public.schools          enable row level security;
-alter table public.school_resources enable row level security;
+alter table public.student_state        enable row level security;
+alter table public.schools              enable row level security;
+alter table public.school_resources     enable row level security;
+alter table public.curriculum_resources enable row level security;
 
 -- student_state holds every student's tutor memory and chat/journal history, so
 -- the anon/authenticated roles get NO policy and NO grants at all: every direct

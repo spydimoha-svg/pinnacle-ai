@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, Check, Mail } from "lucide-react";
+import { ArrowRight, Check, Mail, ShieldAlert } from "lucide-react";
 import { Logo } from "../components/Logo";
 import { Hero } from "../components/ui";
 import { useSmoothScroll } from "../lib/smoothScroll";
@@ -210,6 +210,19 @@ export default function Pricing() {
               <p className="text-sm text-muted">{f.a}</p>
             </div>
           ))}
+        </div>
+
+        {/* Payment Policy & Refund Disclaimer */}
+        <div className="card-inset mt-8 !p-5 border border-coral/30 flex items-start gap-4">
+          <ShieldAlert size={20} className="text-coral shrink-0 mt-0.5" />
+          <div className="space-y-1">
+            <div className="font-display font-semibold text-cream text-sm">
+              Payment & Subscription Terms — Non-Refundable Policy
+            </div>
+            <p className="text-xs text-muted leading-relaxed">
+              All payments and subscriptions on Pinnacle AI are final and non-refundable once activated. Upon purchasing a plan or subscribing a school, digital access, AI tutor quota, and cloud sync services are provisioned immediately for the full duration of the billing cycle.
+            </p>
+          </div>
         </div>
       </section>
 

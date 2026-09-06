@@ -11,6 +11,7 @@ const KIND_OPTIONS: { value: ResourceKind; label: string }[] = [
   { value: "sample-paper", label: "Sample paper" },
   { value: "pyq", label: "Previous-year questions" },
   { value: "syllabus", label: "Syllabus" },
+  { value: "reference-book", label: "Reference book" },
 ];
 
 const KIND_LABEL: Record<ResourceKind, string> = {
@@ -21,6 +22,12 @@ const KIND_LABEL: Record<ResourceKind, string> = {
   syllabus: "Syllabus",
   notes: "Notes",
   school: "School material",
+  "reference-book": "Reference Book",
+  "reference-math": "Math Reference",
+  "reference-physics": "Physics Reference",
+  "reference-chemistry": "Chemistry Reference",
+  "reference-biology": "Biology Reference",
+  "reference-guide": "Study Guide",
 };
 
 const KIND_CHIP: Record<ResourceKind, string> = {
@@ -31,9 +38,15 @@ const KIND_CHIP: Record<ResourceKind, string> = {
   syllabus: "chip",
   notes: "chip-mint",
   school: "chip-gold",
+  "reference-book": "chip-gold",
+  "reference-math": "chip-gold",
+  "reference-physics": "chip-gold",
+  "reference-chemistry": "chip-gold",
+  "reference-biology": "chip-gold",
+  "reference-guide": "chip-gold",
 };
 
-const CLASS_LEVELS: ClassLevel[] = [9, 10, 11, 12];
+const CLASS_LEVELS: ClassLevel[] = [6, 7, 8, 9, 10, 11, 12];
 
 export default function Materials() {
   const currentUser = useStore((s) => s.currentUser);

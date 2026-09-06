@@ -47,10 +47,19 @@ interface Provider {
 //   - gemini-2.0-flash returned 404 "no longer available". Now gemini-3.6-flash.
 //   - Cerebras dropped Llama entirely (it now lists gemma-4-31b, gpt-oss-120b,
 //     zai-glm-4.7). Now gpt-oss-120b.
-// Groq's llama-3.3-70b-versatile is still live and stays — same family name as
-// the dead Cerebras entry, different provider, genuinely still there.
+//   - Groq has now dropped Llama entirely too. Rechecked live against Groq's
+//     own /models on 2026-08-20: llama-3.3-70b-versatile AND llama-3.1-8b-instant
+//     both 404 with "does not exist or you do not have access to it", and no
+//     llama chat model remains on the account. Since the 70B was the DEFAULT,
+//     every tutor request was spending a round-trip on a dead model before
+//     falling through — the exact failure this file's header warns about, where
+//     a retired model does not degrade, it 404s. Groq's live chat models are now
+//     openai/gpt-oss-120b, openai/gpt-oss-20b and qwen/qwen3.6-27b (the rest of
+//     its list is whisper, prompt-guard and the compound agent systems, none of
+//     which serve a plain chat completion). All three below were fetched and
+//     answered 200 before being written here.
 const DEFAULT_MODEL: Record<string, string> = {
-  groq: "llama-3.3-70b-versatile",
+  groq: "openai/gpt-oss-120b",
   gemini: "gemini-3.6-flash",
   cerebras: "gpt-oss-120b",
   openrouter: "meta-llama/llama-3.3-70b-instruct:free",
@@ -145,7 +154,7 @@ export function activeProviders(): Provider[] {
       if (!apiKey) return null;
       const primary = env("GROQ_MODEL") || DEFAULT_MODEL.groq;
       const fallbacks = (
-        env("GROQ_FALLBACK_MODELS") || "openai/gpt-oss-120b,llama-3.1-8b-instant"
+        env("GROQ_FALLBACK_MODELS") || "qwen/qwen3.6-27b,openai/gpt-oss-20b"
       )
         .split(",")
         .map((s) => s.trim())

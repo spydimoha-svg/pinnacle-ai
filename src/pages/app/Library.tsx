@@ -1,14 +1,19 @@
 import { useState } from "react";
 import {
+  Atom,
   BookMarked,
   BookOpen,
+  Calculator,
+  Dna,
   ExternalLink,
   FileClock,
   FileText,
+  LibraryBig,
   ListChecks,
   Lock,
   NotebookPen,
   School,
+  Zap,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { useStore } from "../../lib/store";
@@ -19,8 +24,38 @@ import type { ClassLevel, Resource, ResourceKind } from "../../lib/types";
 /** Kind sections in the order they appear on the shelf. */
 const KIND_SECTIONS: { kind: ResourceKind; title: string; icon: LucideIcon }[] =
   [
-    { kind: "ncert", title: "NCERT textbooks", icon: BookOpen },
-    { kind: "exemplar", title: "Exemplar", icon: BookMarked },
+    { kind: "ncert", title: "NCERT Textbooks", icon: BookOpen },
+    { kind: "exemplar", title: "NCERT Exemplar", icon: BookMarked },
+    {
+      kind: "reference-math",
+      title: "Mathematics Reference (RD Sharma, RS Aggarwal, Cengage, Arihant)",
+      icon: Calculator,
+    },
+    {
+      kind: "reference-physics",
+      title: "Physics Reference (HC Verma, SL Arora, Pradeep, Cengage, DC Pandey)",
+      icon: Zap,
+    },
+    {
+      kind: "reference-chemistry",
+      title: "Chemistry Reference (Pradeep, OP Tandon, Cengage, MS Chouhan)",
+      icon: Atom,
+    },
+    {
+      kind: "reference-biology",
+      title: "Biology Reference (Trueman's, Pradeep, MTG Fingertips, Arihant)",
+      icon: Dna,
+    },
+    {
+      kind: "reference-guide",
+      title: "Guides & Practice Banks (Arihant All-in-One, Oswaal, Xam Idea)",
+      icon: LibraryBig,
+    },
+    {
+      kind: "reference-book",
+      title: "General Reference Books",
+      icon: LibraryBig,
+    },
     {
       kind: "sample-paper",
       title: "Sample papers & marking schemes",
@@ -28,10 +63,11 @@ const KIND_SECTIONS: { kind: ResourceKind; title: string; icon: LucideIcon }[] =
     },
     { kind: "pyq", title: "Previous year papers", icon: FileClock },
     { kind: "syllabus", title: "Syllabus", icon: ListChecks },
-    { kind: "notes", title: "Notes", icon: NotebookPen },
+    { kind: "notes", title: "Notes & Competency Banks", icon: NotebookPen },
   ];
 
-const LETTERS = ["A", "B", "C", "D", "E", "F", "G", "H"];
+const LETTERS = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L"];
+const ALL_CLASSES: ClassLevel[] = [6, 7, 8, 9, 10, 11, 12];
 
 function ResourceCard({
   resource,
@@ -57,6 +93,27 @@ function ResourceCard({
         {resource.title}
       </div>
       <p className="text-xs text-muted flex-1">{resource.description}</p>
+      
+      {(resource.publisher || resource.author || resource.series) && (
+        <div className="flex flex-wrap items-center gap-1.5 mt-3">
+          {resource.publisher && (
+            <span className="chip-gold text-[10px] py-0.5 px-2 font-mono">
+              {resource.publisher}
+            </span>
+          )}
+          {resource.author && (
+            <span className="chip text-[10px] py-0.5 px-2 font-mono">
+              {resource.author}
+            </span>
+          )}
+          {resource.series && (
+            <span className="text-[10px] text-muted font-mono">
+              {resource.series}
+            </span>
+          )}
+        </div>
+      )}
+
       {meta && <div className="font-mono text-[11px] text-dim mt-2">{meta}</div>}
       {resource.url ? (
         <a
@@ -65,7 +122,7 @@ function ResourceCard({
           rel="noopener noreferrer"
           className="btn-ghost mt-4 self-start"
         >
-          <ExternalLink size={16} strokeWidth={1.8} /> Open
+          <ExternalLink size={16} strokeWidth={1.8} /> Open Reference
         </a>
       ) : (
         <div className="font-mono text-[11px] text-dim mt-4">
@@ -86,11 +143,14 @@ export default function Library() {
   );
   const schoolResources = useStore((s) => s.schoolResources);
 
-  const [subjectFilter, setSubjectFilter] = useState<string | null>(null);
-
-  const classLevel = (memory?.classLevel ??
+  const defaultClass = (memory?.classLevel ??
     currentUser?.classLevel ??
     10) as ClassLevel;
+
+  const [selectedClass, setSelectedClass] = useState<ClassLevel>(defaultClass);
+  const [subjectFilter, setSubjectFilter] = useState<string | null>(null);
+
+  const classLevel = selectedClass;
   const subjects = subjectsForClass(classLevel);
   const library = resourcesForClass(classLevel);
 
@@ -117,12 +177,35 @@ export default function Library() {
       <div>
         <div className="eyebrow mb-1">Library · Class {classLevel}</div>
         <h1 className="font-display text-3xl font-bold text-cream">
-          Everything official, one shelf
+          Everything official & reference, one shelf
         </h1>
-        <p className="text-muted text-sm mt-2 max-w-lg">
-          NCERT books, sample papers, syllabus and your school's own material —
-          the exact sources CBSE sets papers from, nothing extra.
+        <p className="text-muted text-sm mt-2 max-w-xl">
+          NCERT textbooks, Exemplars, standard reference books (RD Sharma, RS Aggarwal,
+          HC Verma, Cengage, Arihant, Pradeep, Oswaal), sample papers and syllabus — Classes 6 through 12.
         </p>
+      </div>
+
+      {/* Class Level Selector */}
+      <div>
+        <div className="eyebrow-dim mb-3">Select Class Level</div>
+        <div className="flex flex-wrap gap-2">
+          {ALL_CLASSES.map((lvl) => (
+            <button
+              key={lvl}
+              className={
+                selectedClass === lvl
+                  ? "chip-gold cursor-pointer"
+                  : "chip cursor-pointer hover:text-cream"
+              }
+              onClick={() => {
+                setSelectedClass(lvl);
+                setSubjectFilter(null);
+              }}
+            >
+              Class {lvl}
+            </button>
+          ))}
+        </div>
       </div>
 
       {/* School materials — multi-tenant, scoped to this school */}

@@ -1,9 +1,9 @@
 // Shared domain types for Pinnacle AI. Every data file and page conforms to these.
 
 export type Role = "student" | "admin" | "master";
-export type ClassLevel = 9 | 10 | 11 | 12;
-/** Study mode — CBSE board prep, or an entrance-exam track ("Learn Better"). */
-export type Mode = "board" | "jee" | "neet" | "cuet" | "sat";
+export type ClassLevel = 6 | 7 | 8 | 9 | 10 | 11 | 12;
+/** Study mode — CBSE board prep, entrance exam tracks, or international boards. */
+export type Mode = "board" | "jee" | "neet" | "cuet" | "sat" | "igcse" | "cambridge";
 
 export interface School {
   id: string;
@@ -101,7 +101,13 @@ export type SourceTier =
   | "cbse-sqp"
   | "pyq"
   | "bank"
-  | "generated";
+  | "generated"
+  | "cambridge-pastpaper"
+  | "igcse-textbook"
+  | "cengage"
+  | "hc-verma"
+  | "arihant"
+  | "rd-sharma";
 
 export interface Provenance {
   tier: SourceTier;
@@ -111,26 +117,11 @@ export interface Provenance {
   exercise?: string;
   problemNo?: string;
   year?: number;
-  /**
-   * The official NCERT PDF for this chapter, on ncert.nic.in. Each chapter is
-   * published as its own PDF, so this link opens the actual printed page the
-   * question appears on.
-   */
   bookUrl?: string;
-  /**
-   * The page this question is printed on, within that chapter PDF.
-   *
-   * A chapter PDF is twenty-odd pages, so a bare chapter link still leaves the
-   * student hunting for their own question. With the page number the link
-   * opens on the exact printed page, which is as close to "the photo from the
-   * book" as we can honestly get: NCERT's books are NCERT's copyright, and
-   * mirroring their page images into our product would be republishing them.
-   * Pointing at the real page on ncert.nic.in is both lawful and better —
-   * the student sees the authentic page, figures and all.
-   */
   bookPage?: number;
-  /** True when the text is reproduced exactly as printed in the source. */
   verbatim: boolean;
+  /** Progression Level: 1 = Core, 2 = Standard Reference, 3 = Advanced */
+  level?: 1 | 2 | 3;
 }
 
 export interface Question {
@@ -143,9 +134,9 @@ export interface Question {
   type: QuestionType;
   year?: number;
   source: QuestionSource;
-  /** Model answer written the way the CBSE marking scheme expects it */
+  /** Model answer written the way the exam marking scheme expects it */
   answer: string;
-  /** CBSE key words / value points the examiner looks for */
+  /** Key words / value points the examiner looks for */
   keywords: string[];
   examinerTip?: string;
   /** Where this question came from. Absent on older saved worksheets. */
@@ -159,7 +150,13 @@ export type ResourceKind =
   | "pyq"
   | "syllabus"
   | "notes"
-  | "school";
+  | "school"
+  | "reference-book"
+  | "reference-math"
+  | "reference-physics"
+  | "reference-chemistry"
+  | "reference-biology"
+  | "reference-guide";
 
 export interface Resource {
   id: string;
@@ -169,6 +166,18 @@ export interface Resource {
   subjectId?: string;
   url?: string;
   description: string;
+  /** Publisher e.g. "Dhanpat Rai", "Cengage Learning", "Arihant Publications", "Cambridge University Press" */
+  publisher?: string;
+  /** Primary author e.g. "R.D. Sharma", "H.C. Verma", "S.L. Arora", "David Rayner", "Tom Duncan" */
+  author?: string;
+  /** Series or edition info e.g. "Concepts of Physics", "All-in-One", "Hodder IGCSE" */
+  series?: string;
+  /** Recommended usage category or strategy */
+  category?: string;
+  /** Progression Level: 1 = Core, 2 = Standard Reference, 3 = Advanced */
+  level?: 1 | 2 | 3;
+  /** Target Board or Curriculum */
+  board?: "CBSE" | "IGCSE" | "Cambridge" | "JEE" | "NEET" | "SAT";
   /** Set when a school admin uploaded it — visible only to that school (multi-tenant). */
   schoolId?: string;
   addedBy?: string;

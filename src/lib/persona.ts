@@ -170,6 +170,8 @@ export function simplifyReminder(
 
 export const MODE_LABEL: Record<Mode, string> = {
   board: "CBSE Board preparation",
+  igcse: "IGCSE & International Board preparation",
+  cambridge: "Cambridge Assessment International Education (CAIE)",
   jee: "JEE (Main + Advanced) preparation",
   neet: "NEET-UG preparation",
   cuet: "CUET-UG preparation",

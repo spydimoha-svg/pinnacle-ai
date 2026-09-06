@@ -44,6 +44,7 @@ const MasterDashboard = lazy(() => import("./pages/master/MasterDashboard"));
 const MasterSchools = lazy(() => import("./pages/master/Schools"));
 const MasterPricing = lazy(() => import("./pages/master/PricingControl"));
 const MasterUpdates = lazy(() => import("./pages/master/Updates"));
+const NotFound = lazy(() => import("./pages/NotFound"));
 
 function Fallback() {
   return (
@@ -133,7 +134,7 @@ export default function App() {
           <Route path="updates" element={<MasterUpdates />} />
         </Route>
 
-        <Route path="*" element={<Navigate to="/" replace />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
       </Suspense>
     </>

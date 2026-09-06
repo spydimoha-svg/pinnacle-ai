@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { PortalVortex } from "../components/landing/PortalVortex";
 import { DnaHelix } from "../components/landing/DnaHelix";
 import { DepthScan } from "../components/landing/DepthScan";
+import { StudentStoryHero } from "../components/landing/StudentStoryHero";
 import { useLandingChrome } from "../components/landing/useLandingChrome";
 import { LogoMark } from "../components/Logo";
 import "./landing.css";
@@ -148,6 +149,11 @@ export default function Landing() {
             <b>Scroll</b>
             <i />
           </div>
+        </section>
+
+        {/* ————— Student's Story Hero Section ————— */}
+        <section className="px-5">
+          <StudentStoryHero />
         </section>
 
         {/* ————— 01 · About ————— */}
