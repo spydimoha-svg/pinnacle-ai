@@ -96,9 +96,14 @@ async function ask(
   attempt = 0,
   maxTokens?: number
 ): Promise<string> {
+  const origin = BASE.startsWith("http") ? new URL(BASE).origin : "http://localhost:5173";
   const res = await fetch(`${BASE}/api/chat`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+      Origin: origin,
+      Referer: `${origin}/`,
+    },
     body: JSON.stringify({ messages: messages.slice(-10), system, reminder, maxTokens }),
   });
   if (!res.ok) {
